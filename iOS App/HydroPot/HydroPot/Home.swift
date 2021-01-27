@@ -10,10 +10,18 @@ import SwiftUI
 struct Home: View {
     var body: some View {
         TabView() {
-            Text("Home Page").tabItem { Text("Home") }.tag(1)
+            HomeView().tabItem { Text("Home") }.tag(1)
             PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
             NotificationsPage().tabItem { Text("Notifications") }.tag(3)
             AccountPage().tabItem { Text("Account") }.tag(4)
+        }
+    }
+}
+
+struct HomeView: View {
+    var body: some View {
+        GroupBox(label: Text("Plant Name")) {
+            Text("Last Watered")
         }
     }
 }
