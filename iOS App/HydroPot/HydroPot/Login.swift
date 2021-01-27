@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  Login.swift
 //  HydroPot
 //
 //  Created by David Dray on 1/27/21.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct Login: View {
     var body: some View {
-        Home()
+        Text("Hello, World!")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct Login_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Login()
     }
 }

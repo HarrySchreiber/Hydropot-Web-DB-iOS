@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  PlantTypePage.swift
 //  HydroPot
 //
 //  Created by David Dray on 1/27/21.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct PlantTypePage: View {
     var body: some View {
-        Home()
+        Text("Type Page")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct PlantTypePage_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        PlantTypePage()
     }
 }
