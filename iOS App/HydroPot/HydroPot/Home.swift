@@ -11,7 +11,7 @@ struct Home: View {
     var body: some View {
         TabView() {
             Text("Home Page").tabItem { Text("Home") }.tag(1)
-            PlantTypePage().tabItem { Text("Plant Type") }.tag(2)
+            PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
             NotificationsPage().tabItem { Text("Notifications") }.tag(3)
             AccountPage().tabItem { Text("Account") }.tag(4)
         }
