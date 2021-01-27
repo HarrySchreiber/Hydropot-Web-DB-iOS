@@ -1,0 +1,627 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */; };
+		3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7625C200DE00AC8D09 /* ContentView.swift */; };
+		3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7825C200DE00AC8D09 /* Assets.xcassets */; };
+		3949FC7C25C200DE00AC8D09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7B25C200DE00AC8D09 /* Preview Assets.xcassets */; };
+		3949FC8725C200DE00AC8D09 /* HydroPotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC8625C200DE00AC8D09 /* HydroPotTests.swift */; };
+		3949FC9225C200DE00AC8D09 /* HydroPotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC9125C200DE00AC8D09 /* HydroPotUITests.swift */; };
+		3949FCB325C2025200AC8D09 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCB225C2025200AC8D09 /* Login.swift */; };
+		3949FCB825C2026D00AC8D09 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCB725C2026D00AC8D09 /* Home.swift */; };
+		3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCBC25C2028500AC8D09 /* PlantPage.swift */; };
+		3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCC125C2029F00AC8D09 /* HistoricalData.swift */; };
+		3949FCC725C202B100AC8D09 /* PlantTypePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCC625C202B100AC8D09 /* PlantTypePage.swift */; };
+		3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCCB25C202CE00AC8D09 /* PlantTypeList.swift */; };
+		3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD025C202E700AC8D09 /* AccountPage.swift */; };
+		3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */; };
+		3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */; };
+		3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDF25C2033500AC8D09 /* WaterModal.swift */; };
+		3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE425C2034300AC8D09 /* FilterModal.swift */; };
+		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3949FC8325C200DE00AC8D09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3949FC6925C200DE00AC8D09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3949FC7025C200DE00AC8D09;
+			remoteInfo = HydroPot;
+		};
+		3949FC8E25C200DE00AC8D09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3949FC6925C200DE00AC8D09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3949FC7025C200DE00AC8D09;
+			remoteInfo = HydroPot;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3949FC7125C200DE00AC8D09 /* HydroPot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotApp.swift; sourceTree = "<group>"; };
+		3949FC7625C200DE00AC8D09 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3949FC7825C200DE00AC8D09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3949FC7B25C200DE00AC8D09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3949FC7D25C200DE00AC8D09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3949FC8225C200DE00AC8D09 /* HydroPotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydroPotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3949FC8625C200DE00AC8D09 /* HydroPotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotTests.swift; sourceTree = "<group>"; };
+		3949FC8825C200DE00AC8D09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3949FC8D25C200DE00AC8D09 /* HydroPotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydroPotUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3949FC9125C200DE00AC8D09 /* HydroPotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotUITests.swift; sourceTree = "<group>"; };
+		3949FC9325C200DE00AC8D09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3949FCB225C2025200AC8D09 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		3949FCB725C2026D00AC8D09 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		3949FCBC25C2028500AC8D09 /* PlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantPage.swift; sourceTree = "<group>"; };
+		3949FCC125C2029F00AC8D09 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
+		3949FCC625C202B100AC8D09 /* PlantTypePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypePage.swift; sourceTree = "<group>"; };
+		3949FCCB25C202CE00AC8D09 /* PlantTypeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeList.swift; sourceTree = "<group>"; };
+		3949FCD025C202E700AC8D09 /* AccountPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPage.swift; sourceTree = "<group>"; };
+		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; };
+		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
+		3949FCDF25C2033500AC8D09 /* WaterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterModal.swift; sourceTree = "<group>"; };
+		3949FCE425C2034300AC8D09 /* FilterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModal.swift; sourceTree = "<group>"; };
+		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3949FC6E25C200DE00AC8D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC7F25C200DE00AC8D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC8A25C200DE00AC8D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3949FC6825C200DE00AC8D09 = {
+			isa = PBXGroup;
+			children = (
+				3949FC7325C200DE00AC8D09 /* HydroPot */,
+				3949FC8525C200DE00AC8D09 /* HydroPotTests */,
+				3949FC9025C200DE00AC8D09 /* HydroPotUITests */,
+				3949FC7225C200DE00AC8D09 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3949FC7225C200DE00AC8D09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3949FC7125C200DE00AC8D09 /* HydroPot.app */,
+				3949FC8225C200DE00AC8D09 /* HydroPotTests.xctest */,
+				3949FC8D25C200DE00AC8D09 /* HydroPotUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3949FC7325C200DE00AC8D09 /* HydroPot */ = {
+			isa = PBXGroup;
+			children = (
+				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
+				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
+				3949FCB225C2025200AC8D09 /* Login.swift */,
+				3949FCB725C2026D00AC8D09 /* Home.swift */,
+				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
+				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
+				3949FCC625C202B100AC8D09 /* PlantTypePage.swift */,
+				3949FCCB25C202CE00AC8D09 /* PlantTypeList.swift */,
+				3949FCD025C202E700AC8D09 /* AccountPage.swift */,
+				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
+				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
+				3949FCDF25C2033500AC8D09 /* WaterModal.swift */,
+				3949FCE425C2034300AC8D09 /* FilterModal.swift */,
+				3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */,
+				3949FC7825C200DE00AC8D09 /* Assets.xcassets */,
+				3949FC7D25C200DE00AC8D09 /* Info.plist */,
+				3949FC7A25C200DE00AC8D09 /* Preview Content */,
+			);
+			path = HydroPot;
+			sourceTree = "<group>";
+		};
+		3949FC7A25C200DE00AC8D09 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3949FC7B25C200DE00AC8D09 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3949FC8525C200DE00AC8D09 /* HydroPotTests */ = {
+			isa = PBXGroup;
+			children = (
+				3949FC8625C200DE00AC8D09 /* HydroPotTests.swift */,
+				3949FC8825C200DE00AC8D09 /* Info.plist */,
+			);
+			path = HydroPotTests;
+			sourceTree = "<group>";
+		};
+		3949FC9025C200DE00AC8D09 /* HydroPotUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3949FC9125C200DE00AC8D09 /* HydroPotUITests.swift */,
+				3949FC9325C200DE00AC8D09 /* Info.plist */,
+			);
+			path = HydroPotUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3949FC7025C200DE00AC8D09 /* HydroPot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3949FC9625C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPot" */;
+			buildPhases = (
+				3949FC6D25C200DE00AC8D09 /* Sources */,
+				3949FC6E25C200DE00AC8D09 /* Frameworks */,
+				3949FC6F25C200DE00AC8D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HydroPot;
+			productName = HydroPot;
+			productReference = 3949FC7125C200DE00AC8D09 /* HydroPot.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3949FC8125C200DE00AC8D09 /* HydroPotTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3949FC9925C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotTests" */;
+			buildPhases = (
+				3949FC7E25C200DE00AC8D09 /* Sources */,
+				3949FC7F25C200DE00AC8D09 /* Frameworks */,
+				3949FC8025C200DE00AC8D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3949FC8425C200DE00AC8D09 /* PBXTargetDependency */,
+			);
+			name = HydroPotTests;
+			productName = HydroPotTests;
+			productReference = 3949FC8225C200DE00AC8D09 /* HydroPotTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3949FC8C25C200DE00AC8D09 /* HydroPotUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3949FC9C25C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotUITests" */;
+			buildPhases = (
+				3949FC8925C200DE00AC8D09 /* Sources */,
+				3949FC8A25C200DE00AC8D09 /* Frameworks */,
+				3949FC8B25C200DE00AC8D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3949FC8F25C200DE00AC8D09 /* PBXTargetDependency */,
+			);
+			name = HydroPotUITests;
+			productName = HydroPotUITests;
+			productReference = 3949FC8D25C200DE00AC8D09 /* HydroPotUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3949FC6925C200DE00AC8D09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					3949FC7025C200DE00AC8D09 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					3949FC8125C200DE00AC8D09 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 3949FC7025C200DE00AC8D09;
+					};
+					3949FC8C25C200DE00AC8D09 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 3949FC7025C200DE00AC8D09;
+					};
+				};
+			};
+			buildConfigurationList = 3949FC6C25C200DE00AC8D09 /* Build configuration list for PBXProject "HydroPot" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3949FC6825C200DE00AC8D09;
+			productRefGroup = 3949FC7225C200DE00AC8D09 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3949FC7025C200DE00AC8D09 /* HydroPot */,
+				3949FC8125C200DE00AC8D09 /* HydroPotTests */,
+				3949FC8C25C200DE00AC8D09 /* HydroPotUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3949FC6F25C200DE00AC8D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3949FC7C25C200DE00AC8D09 /* Preview Assets.xcassets in Resources */,
+				3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC8025C200DE00AC8D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC8B25C200DE00AC8D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3949FC6D25C200DE00AC8D09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3949FCB325C2025200AC8D09 /* Login.swift in Sources */,
+				3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */,
+				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
+				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
+				3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */,
+				3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */,
+				3949FCB825C2026D00AC8D09 /* Home.swift in Sources */,
+				3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */,
+				3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */,
+				3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */,
+				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,
+				3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */,
+				3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */,
+				3949FCC725C202B100AC8D09 /* PlantTypePage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC7E25C200DE00AC8D09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3949FC8725C200DE00AC8D09 /* HydroPotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3949FC8925C200DE00AC8D09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3949FC9225C200DE00AC8D09 /* HydroPotUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3949FC8425C200DE00AC8D09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3949FC7025C200DE00AC8D09 /* HydroPot */;
+			targetProxy = 3949FC8325C200DE00AC8D09 /* PBXContainerItemProxy */;
+		};
+		3949FC8F25C200DE00AC8D09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3949FC7025C200DE00AC8D09 /* HydroPot */;
+			targetProxy = 3949FC8E25C200DE00AC8D09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3949FC9425C200DE00AC8D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3949FC9525C200DE00AC8D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3949FC9725C200DE00AC8D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"HydroPot/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = HydroPot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3949FC9825C200DE00AC8D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"HydroPot/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = HydroPot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3949FC9A25C200DE00AC8D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HydroPotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HydroPot.app/HydroPot";
+			};
+			name = Debug;
+		};
+		3949FC9B25C200DE00AC8D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HydroPotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HydroPot.app/HydroPot";
+			};
+			name = Release;
+		};
+		3949FC9D25C200DE00AC8D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HydroPotUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPotUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HydroPot;
+			};
+			name = Debug;
+		};
+		3949FC9E25C200DE00AC8D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HydroPotUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPotUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HydroPot;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3949FC6C25C200DE00AC8D09 /* Build configuration list for PBXProject "HydroPot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3949FC9425C200DE00AC8D09 /* Debug */,
+				3949FC9525C200DE00AC8D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3949FC9625C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3949FC9725C200DE00AC8D09 /* Debug */,
+				3949FC9825C200DE00AC8D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3949FC9925C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3949FC9A25C200DE00AC8D09 /* Debug */,
+				3949FC9B25C200DE00AC8D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3949FC9C25C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3949FC9D25C200DE00AC8D09 /* Debug */,
+				3949FC9E25C200DE00AC8D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3949FC6925C200DE00AC8D09 /* Project object */;
+}
