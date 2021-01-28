@@ -38,7 +38,9 @@ struct HomeView: View {
                     NavigationLink(destination: PlantPage(user: user)) {
                         VStack {
                             HStack(){
-                                Text("Image goes here")
+                                Image(systemName: "leaf.fill")
+                                    .font(.system(size: 45))
+                                    .padding(.trailing, 88)
                                 VStack(alignment: .leading) {
                                     Text(pot.plantName)
                                         .font(.title2)
@@ -49,6 +51,7 @@ struct HomeView: View {
                             }
                             HStack() {
                                 Text("Last watered: temp ")
+                                    .frame(maxWidth: 125)
                                 Button("Water Plant") {
                                     self.showModal.toggle()
                                    }.sheet(isPresented: $showModal) {
@@ -63,8 +66,9 @@ struct HomeView: View {
                         }
                     }
                 }
-            }.navigationBarTitle("Hydro Pot", displayMode: .inline)
-            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user)) {
+            }
+            .navigationBarTitle("Hydro Pot", displayMode: .inline)
+            .navigationBarItems(trailing:  NavigationLink(destination: AddPlantPage(user: user)) {
                  Image(systemName: "plus")
                      .resizable()
                      .padding(6)
