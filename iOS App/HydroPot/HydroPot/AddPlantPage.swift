@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct AddPlantPage: View {
+    @ObservedObject var user: GetUser
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct AddPlantPage_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPlantPage()
+        Text("Hello, World!")
     }
 }

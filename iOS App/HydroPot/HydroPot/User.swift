@@ -15,6 +15,7 @@ class GetUser: ObservableObject {
     @Published var name: String
     @Published var email: String
     @Published var password: String
+    @Published var pots: [Pot]
 
 
     init() {
@@ -23,6 +24,7 @@ class GetUser: ObservableObject {
         self.name = ""
         self.email = ""
         self.password = ""
+        self.pots = [Pot(), Pot(), Pot(), Pot()]
     }
     
     func login (email: String, password: String) {

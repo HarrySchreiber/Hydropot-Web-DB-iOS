@@ -30,14 +30,14 @@ struct Login: View {
                                 TextField("Email", text: $email)
                                     .padding(6)
                                     .border(Color.black.opacity(0.2))
-                                    .fixedSize()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 TextField("Password", text: $password)
                                     .padding(6)
                                     .border(Color.black.opacity(0.2))
-                                    .fixedSize()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
@@ -48,6 +48,7 @@ struct Login: View {
                                 .padding(10)
                                 .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                 .cornerRadius(6)
+                                .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         } else {
@@ -55,19 +56,21 @@ struct Login: View {
                                 TextField("Name", text: $name)
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 TextField("Email", text: $email)
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 TextField("Password", text: $password)
-                                    .fixedSize()
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
@@ -79,12 +82,13 @@ struct Login: View {
                                 .padding(10)
                                 .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                 .cornerRadius(6)
+                                .frame(maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }
                     }
                     .frame(width: 280, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Color(red: 0.090, green: 0.607, blue: 0.839, opacity: 0.1))
+                    .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
                     .cornerRadius(6)
                 } else {
                     Home(user: user)
