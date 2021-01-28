@@ -8,13 +8,91 @@
 import SwiftUI
 
 struct AccountPage: View {
+    @ObservedObject var user: GetUser
+    @State var notifications = false
+    @State var notToggled = true
+    @State var name: String = ""
+    
     var body: some View {
-        Text("Account Page")
-    }
-}
+        GeometryReader { geomOne in
+            VStack {
+                NavigationView {
+                    VStack {
+                        VStack (alignment: .leading){
+                            GeometryReader{ geometry in
+                                VStack(alignment: .leading){
+                                    Text("Name: ")
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        .padding(.leading, 3)
+                                    TextField(user.name, text: $name)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        .border(Color.black.opacity(0.2))
+                                        .padding(.leading, 3)
+                                    Text("Email: ")
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        .padding(.leading, 3)
+                                    Text(user.email)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        .border(Color.black.opacity(0.2))
+                                        .padding(.leading, 3)
 
-struct AccountPage_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountPage()
+                                    Button(action: {
+                                        user.logout()
+                                    }) {
+                                       Text("Change Password")
+                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                        .multilineTextAlignment(.center)
+                                        .padding(10)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        
+                                    }
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .foregroundColor(.white)
+                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .cornerRadius(6)
+                                    .padding(3)
+                                    
+                                    Button(action: {
+                                        user.logout()
+                                    }) {
+                                       Text("Sign Out")
+                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                        .multilineTextAlignment(.center)
+                                        .padding(10)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    }
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .foregroundColor(.white)
+                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .cornerRadius(6)
+                                    .padding(3)
+                                    
+                                    Button(action: {
+                                        user.logout()
+                                    }) {
+                                       Text("Toggle Notis")
+                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                        .multilineTextAlignment(.center)
+                                        .padding(10)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    }
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .foregroundColor(.white)
+                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .cornerRadius(6)
+                                    .padding(3)
+                                    
+                                }
+                                
+                            }
+                            .frame(width: geomOne.size.width * 0.9, height: geomOne.size.height * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .cornerRadius(6)
+                            Spacer()
+                        }
+                    }
+                    .navigationBarTitle("Account", displayMode: .inline)
+                }
+            }
+        }
     }
 }

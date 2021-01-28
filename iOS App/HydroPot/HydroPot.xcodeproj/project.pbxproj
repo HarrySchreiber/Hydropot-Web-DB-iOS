@@ -25,6 +25,7 @@
 		3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDF25C2033500AC8D09 /* WaterModal.swift */; };
 		3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE425C2034300AC8D09 /* FilterModal.swift */; };
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
+		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		3949FCDF25C2033500AC8D09 /* WaterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterModal.swift; sourceTree = "<group>"; };
 		3949FCE425C2034300AC8D09 /* FilterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModal.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
 				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
 				3949FCB225C2025200AC8D09 /* Login.swift */,
+				7F8E298C25C228E8004EBC61 /* User.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
 				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
@@ -303,6 +306,7 @@
 				3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */,
 				3949FCB825C2026D00AC8D09 /* Home.swift in Sources */,
 				3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */,
+				7F8E298D25C228E8004EBC61 /* User.swift in Sources */,
 				3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */,
 				3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */,
 				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,

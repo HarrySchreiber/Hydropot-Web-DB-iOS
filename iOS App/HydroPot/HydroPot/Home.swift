@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct Home: View {
+    @ObservedObject var user: GetUser
+    
     var body: some View {
         TabView() {
             HomeView().tabItem { Text("Home") }.tag(1)
             PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
             NotificationsPage().tabItem { Text("Notifications") }.tag(3)
-            AccountPage().tabItem { Text("Account") }.tag(4)
+            AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
     }
 }
@@ -26,8 +28,3 @@ struct HomeView: View {
     }
 }
 
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-    }
-}
