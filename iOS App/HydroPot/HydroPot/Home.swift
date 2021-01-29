@@ -39,23 +39,27 @@ struct HomeView: View {
                         VStack {
                             HStack(){
                                 Image(systemName: "leaf.fill")
-                                    .font(.system(size: 45))
-                                    .padding(.trailing, 88)
+                                    .font(.system(size: 80))
                                 VStack(alignment: .leading) {
                                     Text(pot.plantName)
                                         .font(.title2)
                                         .fontWeight(.bold)
-                                    Text("Temperature \(pot.curTemp)°F")
+                                        .padding(.leading)
+                                    Text("Temperature: \(pot.curTemp)°F")
+                                        .font(.footnote)
+                                        .padding(.leading)
                                 }
                                 
                             }
                             HStack() {
-                                Text("Last watered: temp ")
+                                Text("Last watered: \n4 days ago ")
+                                    .padding(.top)
                                     .frame(maxWidth: 125)
                                 Button("Water Plant") {
                                     self.showModal.toggle()
                                    }.sheet(isPresented: $showModal) {
                                     WaterModal(showModal: self.$showModal)
+                                        .padding(.top)
                                 }
                                 .buttonStyle(BorderlessButtonStyle())
                                 .foregroundColor(.white)
