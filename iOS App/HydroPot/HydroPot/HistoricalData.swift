@@ -97,6 +97,8 @@ struct HistoricalData: View {
                 }.frame(width: 325, height: 225)
             }
         }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
     }
 }
 
