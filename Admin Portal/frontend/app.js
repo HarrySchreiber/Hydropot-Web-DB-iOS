@@ -34,49 +34,24 @@ fetch(API_URL)
 });
 
 function buildTable(data){
-    var table = document.getElementById("plant-types-table");
+    var keyArray = ["name","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     for(var i = 0; i < data.length; i++){
         var obj = data[i];
-        var row = table.insertRow(i + 1);
-        var plantName = row.insertCell(0);
-        var plantNameInput = document.createElement("input");
-        plantNameInput.setAttribute("type","text");
-        plantNameInput.value = obj.name;
-        plantName.appendChild(plantNameInput);
-        var lowTemp = row.insertCell(1);
-        var lowTempInput = document.createElement("input");
-        lowTempInput.setAttribute("type","number");
-        lowTempInput.value = obj.idealTempLow;
-        lowTemp.appendChild(lowTempInput);
-        var highTemp = row.insertCell(2);
-        var highTempInput = document.createElement("input");
-        highTempInput.setAttribute("type","number");
-        highTempInput.value = obj.idealTempHigh;
-        highTemp.appendChild(highTempInput);
-        var lowMoisture = row.insertCell(3);
-        var lowMoistureInput = document.createElement("input");
-        lowMoistureInput.setAttribute("type","number");
-        lowMoistureInput.value = obj.idealMoistureLow;
-        lowMoisture.appendChild(lowMoistureInput);
-        var highMoisture = row.insertCell(4);
-        var highMoistureInput = document.createElement("input");
-        highMoistureInput.setAttribute("type","number");
-        highMoistureInput.value = obj.idealMoistureHigh;
-        highMoisture.appendChild(highMoistureInput);
-        var lowLight = row.insertCell(5);
-        var lowLightInput = document.createElement("input");
-        lowLightInput.setAttribute("type","number");
-        lowLightInput.value = obj.idealMoistureLow;
-        lowLight.appendChild(lowLightInput);
-        var highLight = row.insertCell(6);
-        var highLightInput = document.createElement("input");
-        highLightInput.setAttribute("type","number");
-        highLightInput.value = obj.idealMoistureLow;
-        highLight.appendChild(highLightInput);
-        var description = row.insertCell(7);
-        var descriptionInput = document.createElement("input");
-        descriptionInput.setAttribute("type","text");
-        descriptionInput.value = obj.description;
-        description.appendChild(descriptionInput);
+        var row = document.createElement("div");
+        row.setAttribute("class","row no-gutters");
+        for(var key in keyArray){
+            var col = document.createElement("div");
+            col.setAttribute("class","col-sm-1");
+            var input = document.createElement("input");
+            if(keyArray[key] == "name" || keyArray[key] == "description"){
+                input.setAttribute("type","text");
+            }else{
+                input.setAttribute("type","number");
+            }
+            input.value = obj[keyArray[key]];
+            col.appendChild(input);
+            row.appendChild(col);
+        }
+        $("#plant-table").append(row);
     }
 }
