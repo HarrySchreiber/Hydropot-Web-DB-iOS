@@ -53,7 +53,6 @@ struct HomeView: View {
                                             .font(.footnote)
                                             .padding(.leading)
                                     }
-                                    
                                 }
                                 HStack() {
                                     Text("Last watered: \n4 days ago ")
@@ -81,8 +80,6 @@ struct HomeView: View {
                          .clipShape(Circle())
                          .foregroundColor(.white)
                  } )
-            }.onTapGesture {
-                showPopUp = false
             }
             if $showPopUp.wrappedValue {
                 ZStack {
