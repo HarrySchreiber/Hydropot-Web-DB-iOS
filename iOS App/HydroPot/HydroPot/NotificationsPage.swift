@@ -9,7 +9,9 @@ import SwiftUI
 
 struct NotificationsPage: View {
     var body: some View {
-        Text("Notification Page")
+        List {
+            Text("Hey Shelby! Your plant Cinnamon Toast Crunch was just watered by your Hydro Pot!")
+        }
         
     }
 }

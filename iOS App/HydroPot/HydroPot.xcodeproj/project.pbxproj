@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906C9AC25C5DE3C005FEF79 /* Plants.swift */; };
 		3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */; };
 		3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7625C200DE00AC8D09 /* ContentView.swift */; };
 		3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7825C200DE00AC8D09 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3906C9AC25C5DE3C005FEF79 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
 		3949FC7125C200DE00AC8D09 /* HydroPot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotApp.swift; sourceTree = "<group>"; };
 		3949FC7625C200DE00AC8D09 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				3949FCB225C2025200AC8D09 /* Login.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
 				7F401A6A25C3435E00624B09 /* Pot.swift */,
+				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
 				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
@@ -303,6 +306,7 @@
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
 				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
 				3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */,
+				3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */,
 				3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */,
 				3949FCB825C2026D00AC8D09 /* Home.swift in Sources */,
 				7F401A6B25C3435F00624B09 /* Pot.swift in Sources */,
