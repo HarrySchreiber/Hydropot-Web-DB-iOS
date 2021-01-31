@@ -20,7 +20,7 @@ struct Home: View {
         TabView() {
             HomeView(user: user).tabItem { Text("Home") }.tag(1)
             PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
-            NotificationsPage().tabItem { Text("Notifications") }.tag(3)
+            NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
     }
