@@ -29,6 +29,9 @@ struct Home: View {
 struct HomeView: View {
     @ObservedObject var user: GetUser
     @State private var showPopUp = false
+    @State private var threeML = true
+    @State private var sixML = false
+    @State private var nineML = false
 
     var body: some View {
         ZStack{
@@ -78,6 +81,8 @@ struct HomeView: View {
                          .clipShape(Circle())
                          .foregroundColor(.white)
                  } )
+            }.onTapGesture {
+                showPopUp = false
             }
             if $showPopUp.wrappedValue {
                 ZStack {
@@ -85,25 +90,64 @@ struct HomeView: View {
                     VStack (alignment: .leading) {
                         Text("Water Amount")
                         HStack {
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
+                            if (threeML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
                             Text("300 mL")
                         }
-                        HStack {
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
-                            Text("600 mL")
+                        .onTapGesture {
+                            threeML = true
+                            sixML = false
+                            nineML = false
                         }
                         HStack {
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
-                            Image(systemName: "drop.fill")
-                                .font(.system(size: 40))
+                            if (sixML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("600 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = true
+                            nineML = false
+                        }
+                        HStack {
+                            if (nineML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
                             Text("900 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = false
+                            nineML = true
                         }
                         HStack {
                             Button("Cancel") {
@@ -125,7 +169,7 @@ struct HomeView: View {
                         }
                     }.padding()
                 }
-                .frame(width: 300, height: 200)
+                .frame(width: 300, height: 250)
                 .cornerRadius(20).shadow(radius: 20)
             }
         }
