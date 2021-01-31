@@ -19,7 +19,7 @@ class Plant: ObservableObject, Identifiable {
     @Published var Description: String
 
     init() {
-        self.plantType = "tulip"
+        self.plantType = "Tulip"
         self.idealTempLow = 60
         self.idealTempHigh = 70
         self.idealMoistureLow = 30
