@@ -23,7 +23,6 @@
 		3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD025C202E700AC8D09 /* AccountPage.swift */; };
 		3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */; };
 		3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */; };
-		3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDF25C2033500AC8D09 /* WaterModal.swift */; };
 		3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE425C2034300AC8D09 /* FilterModal.swift */; };
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
@@ -70,7 +69,6 @@
 		3949FCD025C202E700AC8D09 /* AccountPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPage.swift; sourceTree = "<group>"; };
 		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; };
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
-		3949FCDF25C2033500AC8D09 /* WaterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterModal.swift; sourceTree = "<group>"; };
 		3949FCE425C2034300AC8D09 /* FilterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModal.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				3949FCD025C202E700AC8D09 /* AccountPage.swift */,
 				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
 				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
-				3949FCDF25C2033500AC8D09 /* WaterModal.swift */,
 				3949FCE425C2034300AC8D09 /* FilterModal.swift */,
 				3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */,
 				3949FC7825C200DE00AC8D09 /* Assets.xcassets */,
@@ -316,7 +313,6 @@
 				3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */,
 				7F8E298D25C228E8004EBC61 /* User.swift in Sources */,
 				3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */,
-				3949FCE025C2033500AC8D09 /* WaterModal.swift in Sources */,
 				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,
 				3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */,
 				3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */,

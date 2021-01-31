@@ -9,7 +9,7 @@ fetch(API_URL)
 .then(res => res.json())
 .then(data => {
     // There was not an error
-    console.log(data);
+    buildTable(data);
 })
 .catch((error) => {
     // There was an error
@@ -32,3 +32,26 @@ fetch(API_URL)
     // There was an error
     console.log(error);
 });
+
+function buildTable(data){
+    var keyArray = ["name","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    for(var i = 0; i < data.length; i++){
+        var obj = data[i];
+        var row = document.createElement("div");
+        row.setAttribute("class","row no-gutters");
+        for(var key in keyArray){
+            var col = document.createElement("div");
+            col.setAttribute("class","col-sm-1");
+            var input = document.createElement("input");
+            if(keyArray[key] == "name" || keyArray[key] == "description"){
+                input.setAttribute("type","text");
+            }else{
+                input.setAttribute("type","number");
+            }
+            input.value = obj[keyArray[key]];
+            col.appendChild(input);
+            row.appendChild(col);
+        }
+        $("#plant-table").append(row);
+    }
+}
