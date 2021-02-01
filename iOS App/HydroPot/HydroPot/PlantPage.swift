@@ -18,14 +18,6 @@ struct PlantPage: View {
                     Text("Do Something")
                 }
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
         }
-//        Button(action: {
-//            screenChange = true
-//        }) {
-//            Text("Do Something")
-//        }
     }
-    //navigate(to: MainPageView(), when: $willMoveToNextScreen)
 }

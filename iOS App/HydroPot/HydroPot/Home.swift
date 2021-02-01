@@ -20,7 +20,7 @@ struct Home: View {
         TabView() {
             HomeView(user: user).tabItem { Text("Home") }.tag(1)
             PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
-            NotificationsPage().tabItem { Text("Notifications") }.tag(3)
+            NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
     }
@@ -28,58 +28,147 @@ struct Home: View {
 
 struct HomeView: View {
     @ObservedObject var user: GetUser
-    @State private var showModal = false
-    
+    @State private var showPopUp = false
+    @State private var threeML = true
+    @State private var sixML = false
+    @State private var nineML = false
+
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(user.pots) {
-                pot in
-                    NavigationLink(destination: PlantPage(user: user)) {
-                        VStack {
-                            HStack(){
-                                Image(systemName: "leaf.fill")
-                                    .font(.system(size: 80))
-                                VStack(alignment: .leading) {
-                                    Text(pot.plantName)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .padding(.leading)
-                                    Text("Temperature: \(pot.curTemp)°F")
-                                        .font(.footnote)
-                                        .padding(.leading)
+        ZStack{
+            NavigationView {
+                List {
+                    ForEach(user.pots) {
+                    pot in
+                        NavigationLink(destination: PlantPage(user: user)) {
+                            VStack {
+                                HStack(){
+                                    Image(systemName: "leaf.fill")
+                                        .font(.system(size: 80))
+                                    VStack(alignment: .leading) {
+                                        Text(pot.plantName)
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .padding(.leading)
+                                        Text("Temperature: \(pot.curTemp)°F")
+                                            .font(.footnote)
+                                            .padding(.leading)
+                                    }
                                 }
-                                
-                            }
-                            HStack() {
-                                Text("Last watered: \n4 days ago ")
-                                    .padding(.top)
-                                    .frame(maxWidth: 125)
-                                Button("Water Plant") {
-                                    self.showModal.toggle()
-                                   }.sheet(isPresented: $showModal) {
-                                    WaterModal(showModal: self.$showModal)
+                                HStack() {
+                                    Text("Last watered: \n4 days ago ")
                                         .padding(.top)
+                                        .frame(maxWidth: 125)
+                                    Button("Water Plant") {
+                                        showPopUp = true
+                                       }
+                                    .buttonStyle(BorderlessButtonStyle())
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                                    .cornerRadius(6)
                                 }
-                                .buttonStyle(BorderlessButtonStyle())
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                                .cornerRadius(6)
                             }
                         }
                     }
                 }
+                .navigationBarTitle("Hydro Pot", displayMode: .inline)
+                .navigationBarItems(trailing:  NavigationLink(destination: AddPlantPage(user: user)) {
+                     Image(systemName: "plus")
+                         .resizable()
+                         .padding(6)
+                         .frame(width: 30, height: 30)
+                         .clipShape(Circle())
+                         .foregroundColor(.white)
+                 } )
             }
-            .navigationBarTitle("Hydro Pot", displayMode: .inline)
-            .navigationBarItems(trailing:  NavigationLink(destination: AddPlantPage(user: user)) {
-                 Image(systemName: "plus")
-                     .resizable()
-                     .padding(6)
-                     .frame(width: 30, height: 30)
-                     .clipShape(Circle())
-                     .foregroundColor(.white)
-             } )
+            if $showPopUp.wrappedValue {
+                ZStack {
+                    Color.white
+                    VStack (alignment: .leading) {
+                        Text("Water Amount")
+                        HStack {
+                            if (threeML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("300 mL")
+                        }
+                        .onTapGesture {
+                            threeML = true
+                            sixML = false
+                            nineML = false
+                        }
+                        HStack {
+                            if (sixML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("600 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = true
+                            nineML = false
+                        }
+                        HStack {
+                            if (nineML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("900 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = false
+                            nineML = true
+                        }
+                        HStack {
+                            Button("Cancel") {
+                                showPopUp = false
+                               }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                            Button("Confirm") {
+                                showPopUp = false
+                               }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                        }
+                    }.padding()
+                }
+                .frame(width: 300, height: 250)
+                .cornerRadius(20).shadow(radius: 20)
+            }
         }
     }
 }
