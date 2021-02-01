@@ -23,18 +23,14 @@ struct AccountPage: View {
                                 VStack(alignment: .leading){
                                     Text("Name: ")
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .padding(.leading, 3)
                                     TextField(user.name, text: $name)
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                         .border(Color.black.opacity(0.2))
-                                        .padding(.leading, 3)
                                     Text("Email: ")
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .padding(.leading, 3)
                                     Text(user.email)
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                         .border(Color.black.opacity(0.2))
-                                        .padding(.leading, 3)
 
                                     Button(action: {
                                         user.logout()
@@ -48,7 +44,7 @@ struct AccountPage: View {
                                     }
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .padding(3)
                                     
@@ -63,7 +59,7 @@ struct AccountPage: View {
                                     }
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .padding(3)
                                     
@@ -78,7 +74,7 @@ struct AccountPage: View {
                                     }
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
+                                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .padding(3)
                                     

@@ -16,37 +16,40 @@ struct AddPlantPage: View {
     @State var idealLightLevel: String = ""
     
     var body: some View {
-        GeometryReader { geomOne in
-            VStack {
+        GeometryReader{ geometry in
+            VStack(){
                 Image(systemName: "camera.circle.fill")
-                    .font(.system(size: 150))
-                NavigationView {
-                    VStack(alignment: .leading){
-                        TextField("Plant Name", text: $plantName)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Plant Type", text: $plantType)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Ideal Temperature", text: $idealTemperature)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Plant Moisture", text: $idealMoisture)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Ideal Light Level", text: $idealLightLevel)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                    }
-                }
+                    .frame(alignment: .center)
+                    .font(.system(size: geometry.size.width/2))
+                Text("Add Photo")
+                    .frame(alignment: .center)
+                    .padding(.bottom, 3)
+                TextField("Plant Name", text: $plantName)
+                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                    .border(Color.black.opacity(0.5))
+                    .padding(.leading, 20)
+                TextField("Plant Type", text: $plantType)
+                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                    .border(Color.black.opacity(0.5))
+                    .padding(.leading, 20)
+                TextField("Ideal Temperature", text: $idealTemperature)
+                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                    .border(Color.black.opacity(0.5))
+                    .padding(.leading, 20)
+                TextField("Plant Moisture", text: $idealMoisture)
+                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                    .border(Color.black.opacity(0.5))
+                    .padding(.leading, 20)
+                TextField("Ideal Light Level", text: $idealLightLevel)
+                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                    .border(Color.black.opacity(0.5))
+                    .padding(.leading, 20)
             }
-            .frame(height: geomOne.size.height * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .cornerRadius(6)
+            Spacer()
         }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
     }
 }
+

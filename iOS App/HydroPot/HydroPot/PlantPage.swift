@@ -17,6 +17,9 @@ struct PlantPage: View {
                 NavigationLink(destination: HistoricalData()) {
                     Text("Do Something")
                 }
+                NavigationLink(destination: EditPlantPage(user: user)) {
+                    Text("Do Something Two")
+                }
             }
         }
     }
