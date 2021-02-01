@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddPlantPage: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
     @State var plantName = ""
     @State var plantType = ""
@@ -48,8 +49,23 @@ struct AddPlantPage: View {
             .cornerRadius(6)
             Spacer()
         }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Text("Cancel")
+                }
+        })
+        .navigationBarItems(trailing:
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+            HStack {
+                Text("Confirm")
+            }
+        })
     }
 }
 

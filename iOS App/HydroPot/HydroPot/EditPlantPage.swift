@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditPlantPage: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
     @State var plantName = ""
     @State var plantType = ""
@@ -50,6 +51,23 @@ struct EditPlantPage: View {
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Text("Cancel")
+                }
+        })
+        .navigationBarItems(trailing:
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+            HStack {
+                Text("Confirm")
+            }
+        })
     }
 }
 
