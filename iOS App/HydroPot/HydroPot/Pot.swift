@@ -20,6 +20,9 @@ class Pot: ObservableObject, Identifiable {
     @Published var idealLightHigh: Int
     @Published var lastWatered: Date
     @Published var automaticWatering: Bool
+    @Published var records: [Record]
+    @Published var notifications: [Notification]
+    
 
     init() {
         self.plantName = "billy"
@@ -33,6 +36,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = 4000
         self.lastWatered = Date()
         self.automaticWatering = true
+        self.records = [Record(), Record()]
+        self.notifications = [Notification(), Notification()]
     }
-
 }

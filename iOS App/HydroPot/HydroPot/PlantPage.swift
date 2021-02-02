@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlantPage: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
     @State var screenChange = false
     var body: some View {

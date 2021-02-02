@@ -27,6 +27,8 @@
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
 		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
+		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
+		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,8 @@
 				3949FCB225C2025200AC8D09 /* Login.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
 				7F401A6A25C3435E00624B09 /* Pot.swift */,
+				7FA929D925C89F04003F967C /* Record.swift */,
+				7FA929DE25C89F18003F967C /* Notification.swift */,
 				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
@@ -303,6 +309,7 @@
 			files = (
 				3949FCB325C2025200AC8D09 /* Login.swift in Sources */,
 				3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */,
+				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
 				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
 				3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */,
@@ -316,6 +323,7 @@
 				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,
 				3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */,
 				3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */,
+				7FA929DA25C89F04003F967C /* Record.swift in Sources */,
 				3949FCC725C202B100AC8D09 /* PlantTypePage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
