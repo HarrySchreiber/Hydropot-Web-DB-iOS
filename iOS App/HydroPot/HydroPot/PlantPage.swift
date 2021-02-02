@@ -11,6 +11,8 @@ struct PlantPage: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
     @State var screenChange = false
+    @State var showingDetail = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -18,8 +20,18 @@ struct PlantPage: View {
                 NavigationLink(destination: HistoricalData()) {
                     Text("Do Something")
                 }
-                NavigationLink(destination: EditPlantPage(user: user)) {
-                    Text("Do Something Two")
+                Button(action: {
+                    self.showingDetail.toggle()
+                }) {
+                   Text("Sign up")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
+                    .cornerRadius(6)
+                    .frame(maxWidth: .infinity)
+                    .sheet(isPresented: $showingDetail) {
+                        AddPlantPage(user: user, showModal: $showingDetail)
+                    }
                 }
             }
         }

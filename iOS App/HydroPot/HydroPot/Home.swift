@@ -32,6 +32,7 @@ struct HomeView: View {
     @State private var threeML = true
     @State private var sixML = false
     @State private var nineML = false
+    @State var showingDetail = false
 
     var body: some View {
         ZStack{
@@ -72,14 +73,19 @@ struct HomeView: View {
                     }
                 }
                 .navigationBarTitle("Hydro Pot", displayMode: .inline)
-                .navigationBarItems(trailing:  NavigationLink(destination: AddPlantPage(user: user)) {
-                     Image(systemName: "plus")
-                         .resizable()
-                         .padding(6)
-                         .frame(width: 30, height: 30)
-                         .clipShape(Circle())
-                         .foregroundColor(.white)
-                 } )
+                .navigationBarItems(trailing:
+                Button(action: {
+                    self.showingDetail.toggle()
+                }) {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .padding(6)
+                        .frame(width: 30, height: 30)
+                        .clipShape(Circle())
+                        .foregroundColor(.white)
+                }.sheet(isPresented: $showingDetail) {
+                    AddPlantPage(user: user, showModal: $showingDetail)
+                })
             }
             if $showPopUp.wrappedValue {
                 ZStack {
