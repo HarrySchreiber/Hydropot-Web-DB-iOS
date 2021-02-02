@@ -30,7 +30,7 @@ struct PlantPage: View {
                     .cornerRadius(6)
                     .frame(maxWidth: .infinity)
                     .sheet(isPresented: $showingDetail) {
-                        AddPlantPage(user: user, showModal: $showingDetail)
+                        EditPlantPage(user: user, showModal: $showingDetail)
                     }
                 }
             }
