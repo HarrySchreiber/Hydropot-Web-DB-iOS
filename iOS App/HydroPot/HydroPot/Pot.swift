@@ -38,4 +38,5 @@ class Pot: ObservableObject, Identifiable {
         self.records = [Record(), Record()]
         self.notifications = [Notification(), Notification()]
     }
+    
 }

@@ -56,4 +56,8 @@ class GetUser: ObservableObject {
         self.password = password
     }
     
+    func addPlant() {
+        
+    }
+    
 }
