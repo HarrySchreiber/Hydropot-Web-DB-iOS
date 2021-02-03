@@ -18,7 +18,7 @@ class GetUser: ObservableObject {
 
 
     init() {
-        self.userId = ""
+        self.userId = "Spencer The Cool"
         self.loggedIn = false
         self.name = ""
         self.email = ""

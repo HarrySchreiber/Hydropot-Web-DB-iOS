@@ -13,9 +13,12 @@ struct EditPlantPage: View {
     @Binding var showModal: Bool
     @State var plantName = ""
     @State var plantType = ""
-    @State var idealTemperature: String = ""
-    @State var idealMoisture: String = ""
-    @State var idealLightLevel: String = ""
+    @State var idealTemperatureHigh: String = ""
+    @State var idealMoistureHigh: String = ""
+    @State var idealLightLevelHigh: String = ""
+    @State var idealTemperatureLow: String = ""
+    @State var idealMoistureLow: String = ""
+    @State var idealLightLevelLow: String = ""
 
     var body: some View {
         NavigationView {
@@ -30,34 +33,63 @@ struct EditPlantPage: View {
                             .padding(.bottom, 3)
                         HStack{
                             TextField("Plant Name", text: $plantName)
+                                .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
-                            .padding(.leading, 20)
+                            .padding(.leading, geometry.size.height/30)
                         HStack{
-                            TextField("Plant Type", text: $plantName)
+                            TextField("Plant Type", text: $plantType)
+                                .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
-                            .padding(.leading, 20)
+                            .padding(.leading, geometry.size.height/30)
                         HStack{
-                            TextField("Ideal Temperature", text: $plantName)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            Text("Temperature")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealTemperatureHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealTemperatureLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
-                            .padding(.leading, 20)
+                            .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Text("Moisture")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealMoistureHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealMoistureLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                        }
+                            .padding(.leading, geometry.size.height/30)
                         HStack{
-                            TextField("Ideal Moisture", text: $plantName)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            Text("Light")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealLightLevelHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealLightLevelLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
-                            .padding(.leading, 20)
-                        HStack{
-                            TextField("Ideal Light Level", text: $plantName)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.5))
-                        }
-                            .padding(.leading, 20)
+                            .padding(.leading, geometry.size.height/30)
                     }
                     .cornerRadius(6)
                     Spacer()
