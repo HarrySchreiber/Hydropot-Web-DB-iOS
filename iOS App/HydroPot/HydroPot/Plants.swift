@@ -7,8 +7,9 @@
 
 import Foundation
 
+
+
 class Plant: ObservableObject, Identifiable {
-    // initialize an empty array of monsters to be filled
     @Published var plantType: String
     @Published var idealTempLow: Int
     @Published var idealTempHigh: Int
@@ -29,4 +30,14 @@ class Plant: ObservableObject, Identifiable {
         self.Description = "This plant is a good plant! This plant is so good it will make you happy to be a plant owner. Even if you hate your life this plant will make you no longer hate your life"
     }
 
+}
+
+class Plants: ObservableObject {
+    @Published var plantList: [Plant]
+
+    init() {
+        let specialPlant = Plant()
+        specialPlant.plantType = "Special Plant"
+        self.plantList = [Plant(), Plant(), Plant(), specialPlant, Plant(), Plant()]
+    }
 }

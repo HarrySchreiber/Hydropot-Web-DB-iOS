@@ -40,7 +40,7 @@ struct HomeView: View {
                 List {
                     ForEach(user.pots) {
                     pot in
-                        NavigationLink(destination: PlantPage(user: user)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: pot)) {
                             VStack {
                                 HStack(){
                                     Image(systemName: "leaf.fill")

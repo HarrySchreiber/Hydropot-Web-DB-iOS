@@ -8,7 +8,6 @@
 import Foundation
 
 class Pot: ObservableObject, Identifiable {
-    // initialize an empty array of monsters to be filled
     @Published var plantName: String
     @Published var plantType: String
     @Published var idealTempLow: Int

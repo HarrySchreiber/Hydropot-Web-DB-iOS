@@ -9,7 +9,6 @@ import Foundation
 
 
 class GetUser: ObservableObject {
-    // initialize an empty array of monsters to be filled
     @Published var userId: String
     @Published var loggedIn: Bool
     @Published var name: String
@@ -24,7 +23,9 @@ class GetUser: ObservableObject {
         self.name = ""
         self.email = ""
         self.password = ""
-        self.pots = [Pot(), Pot(), Pot(), Pot()]
+        let specialPot = Pot()
+        specialPot.plantName = "Jeff"
+        self.pots = [Pot(), Pot(), specialPot, Pot()]
     }
     
     func login (email: String, password: String) {
