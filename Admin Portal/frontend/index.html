@@ -11,33 +11,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-  <body>
-    <div id="plant-table">
-      <div class="row no-gutters">
-        <div class="col-md-1 no-gutters">
-          <!-- Image add goes here -->
-        </div>
-        <!-- Temporary widths and style depending on what the boys think -->
-        <div class="col-md-10 no-gutters">
-          <div class="row no-gutters">
-            <input type="text" style="width: 22%;" placeholder="Plant Name">
-            <input type="number" style="width: 13%" placeholder="High Temp">
-            <input type="number" style="width: 13%;" placeholder="Low Temp">
-            <input type="number" style="width: 13%;" placeholder="High Moisture">
-            <input type="number" style="width: 13%;" placeholder="Low Moisture">
-            <input type="number" style="width: 13%;" placeholder="High Light">
-            <input type="number" style="width: 13%;" placeholder="Low Light">
-          </div>
-          <div class="row no-gutters">
-            <input type="text" style="width: 100%" placeholder="Description">
-          </div>
-        </div>
-        <div class="col-md-1 no-gutters">
-          <input id="add-button" value="+" type="button" style="width: 100%; height: 100%;">
-        </div>
-      </div>
-
-    </div>
+  <body onload="loadPage()" >
+    <div id="plant-table"></div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
