@@ -141,8 +141,13 @@ struct EditPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                    if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                         pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                        user.replacePot(pot: pot)
+                        self.showModal.toggle()
+                    }
+                    else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        pot.editPlant(plantName: plantName, plantType: pot.plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }
