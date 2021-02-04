@@ -10,6 +10,7 @@ import SwiftUI
 struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
+    @ObservedObject var pot: Pot
     @Binding var showModal: Bool
     @State var plantName = ""
     @State var plantType = ""
@@ -19,6 +20,7 @@ struct EditPlantPage: View {
     @State var idealTemperatureLow: String = ""
     @State var idealMoistureLow: String = ""
     @State var idealLightLevelLow: String = ""
+    @State var plantSelected: String = ""
 
     var body: some View {
         NavigationView {
@@ -39,10 +41,19 @@ struct EditPlantPage: View {
                         }
                             .padding(.leading, geometry.size.height/30)
                         HStack{
-                            TextField("Plant Type", text: $plantType)
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.5))
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                                if (plantSelected == ""){
+                                    Text("Plant Type")
+                                        .opacity(0.3)
+                                }
+                                else {
+                                    Text("\(plantSelected)")
+                                }
+                            }
+                            .padding(6)
+                            .buttonStyle(PlainButtonStyle())
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .border(Color.black.opacity(0.5))
                         }
                             .padding(.leading, geometry.size.height/30)
                         HStack{
@@ -105,6 +116,7 @@ struct EditPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
+                    pot.editPlant(plantName: plantName, plantType: plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
                     self.showModal.toggle()
                 }) {
                 HStack {

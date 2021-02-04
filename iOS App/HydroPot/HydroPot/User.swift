@@ -23,9 +23,9 @@ class GetUser: ObservableObject {
         self.name = ""
         self.email = ""
         self.password = ""
-        let specialPot = Pot()
+        let specialPot = Pot(plantName: "Bob", plantType: "Rose", idealTempHigh: "70", idealTempLow: "80", idealMoistureHigh: "50", idealMoistureLow: "70", idealLightHigh: "40", idealLightLow: "40")
         specialPot.plantName = "Jeff"
-        self.pots = [Pot(), Pot(), specialPot, Pot()]
+        self.pots = [Pot(plantName: "Jill", plantType: "Rose", idealTempHigh: "70", idealTempLow: "80", idealMoistureHigh: "50", idealMoistureLow: "70", idealLightHigh: "40", idealLightLow: "40"), specialPot]
     }
     
     func login (email: String, password: String) {
@@ -56,8 +56,8 @@ class GetUser: ObservableObject {
         self.password = password
     }
     
-    func addPlant() {
-        
+    func addPlant(pot: Pot) {
+        pots.append(pot)
     }
     
 }

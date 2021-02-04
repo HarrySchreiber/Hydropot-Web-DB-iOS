@@ -35,7 +35,7 @@ struct NotificationsPage: View {
                 }
             }
             .navigationBarTitle("Notifications", displayMode: .inline)
-            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user, pot: Pot())) {
+            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user, pot: user.pots[0])) {
             } )    //why does this line add styling to the list?
         }
     }

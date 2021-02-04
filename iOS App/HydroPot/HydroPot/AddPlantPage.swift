@@ -115,6 +115,7 @@ struct AddPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
+                    user.addPlant(pot: Pot(plantName: plantName, plantType: plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow))
                     self.showModal.toggle()
                 }) {
                 HStack {

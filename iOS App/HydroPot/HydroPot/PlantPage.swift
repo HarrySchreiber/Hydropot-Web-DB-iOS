@@ -168,7 +168,7 @@ struct PlantPage: View {
                         .padding(6)
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showingDetail) {
-                    EditPlantPage(user: user, showModal: $showingDetail)
+                    EditPlantPage(user: user, pot: pot, showModal: $showingDetail)
                 })
             if $showPopUp.wrappedValue {
                 ZStack {
@@ -259,11 +259,5 @@ struct PlantPage: View {
                 .cornerRadius(20).shadow(radius: 20)
             }
         }
-    }
-}
-
-struct PlantPage_Previews: PreviewProvider {
-    static var previews: some View {
-        PlantPage(user: GetUser(), pot: Pot())
     }
 }

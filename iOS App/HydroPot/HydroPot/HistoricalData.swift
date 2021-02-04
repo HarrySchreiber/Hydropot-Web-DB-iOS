@@ -150,9 +150,3 @@ struct PagesContainer <Content : View> : View {
         }
     }
 }
-
-struct HistoricalData_Previews: PreviewProvider {
-    static var previews: some View {
-        HistoricalData(pot: Pot())
-    }
-}
