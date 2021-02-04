@@ -13,28 +13,257 @@ struct PlantPage: View {
     @ObservedObject var pot: Pot
     @State var screenChange = false
     @State var showingDetail = false
+    @State var autoWatering = false
+    @State private var showPopUp = false
+    @State private var threeML = true
+    @State private var sixML = false
+    @State private var nineML = false
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Plant Name: \(pot.plantName)")
-                NavigationLink(destination: HistoricalData()) {
-                    Text("View Historical Data")
-                }
+        ZStack {
+            NavigationView {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "photo")
+                                .font(.system(size: 90))
+                                .foregroundColor(.black)
+                                .padding(.leading, 5)
+                            VStack(alignment: .leading){
+                                Text(pot.plantName)
+                                    .font(.title)
+                                    .bold()
+                                Text(pot.plantType)
+                            }
+                        }
+                        HStack() {
+                            Text("Last watered: \n4 days ago ")
+                                .frame(maxWidth: 300)
+                                .padding(.trailing, 15)
+                            Button("Water Plant") {
+                                showPopUp = true
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                        }
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding([.top, .bottom, .trailing])
+                        .border(Color.gray, width: 1.25)
+                        .padding([.leading, .bottom, .trailing])
+                        Toggle(isOn: $autoWatering) {
+                            Text("Automatic Water").padding(.leading)
+                        }
+                        .frame(maxWidth: 300)
+                        .padding([.top, .bottom, .trailing])
+                        .border(Color.gray, width: 1.25)
+                        .padding([.leading, .bottom, .trailing])
+                        
+                        //soil moisture
+                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                            HStack {
+                                VStack{
+                                    HStack {
+                                        Text("Soil Moisture")
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(.black)
+                                        Text("\(pot.curMoisture)%")
+                                            .font(.title)
+                                            .bold()
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .padding(.leading, 45)
+                                    }
+                                    Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
+                                        .padding(.leading, 100)
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                }
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: 300)
+                            .padding([.top, .bottom])
+                            .padding([.leading, .trailing], 5)
+                            .border(Color.gray, width: 1.25)
+                            .padding([.leading, .bottom, .trailing])
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                        //light level
+                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                            HStack {
+                                VStack{
+                                    HStack {
+                                        Text("Light Level")
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(.black)
+                                            .padding(.trailing, 10)
+                                        Text("\(pot.curLight)lm")
+                                            .font(.title)
+                                            .bold()
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .padding(.leading, 1)
+                                    }
+                                    Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
+                                        .padding(.leading, 50)
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                }
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: 300)
+                            .padding([.top, .bottom])
+                            .padding(.trailing, 5)
+                            .border(Color.gray, width: 1.25)
+                            .padding([.leading, .bottom, .trailing])
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                        
+                        //temperature
+                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                            HStack {
+                                VStack{
+                                    HStack {
+                                        Text("Temperature")
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(.black)
+                                        Text("\(pot.curTemp)°F")
+                                            .font(.title)
+                                            .bold()
+                                            .frame(maxWidth: 300)
+                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .padding(.leading, 35)
+                                    }
+                                    Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
+                                        .padding(.leading, 90)
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                }
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: 300)
+                            .padding([.top, .bottom])
+                            .padding([.leading, .trailing], 5)
+                            .border(Color.gray, width: 1.25)
+                            .padding([.leading, .bottom, .trailing])
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .navigationBarHidden(true)
+                    }
+                }//end scroll view
+            }
+            .navigationBarItems(trailing:
                 Button(action: {
                     self.showingDetail.toggle()
                 }) {
-                   Text("Edit Plant")
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
-                    .cornerRadius(6)
-                    .frame(maxWidth: .infinity)
-                    .sheet(isPresented: $showingDetail) {
-                        EditPlantPage(user: user, showModal: $showingDetail)
-                    }
+                    Text("Edit")
+                        .padding(6)
+                        .foregroundColor(.white)
+                }.sheet(isPresented: $showingDetail) {
+                    EditPlantPage(user: user, showModal: $showingDetail)
+                })
+            if $showPopUp.wrappedValue {
+                ZStack {
+                    Color.white
+                    VStack (alignment: .leading) {
+                        Text("Water Amount")
+                        HStack {
+                            if (threeML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("300 mL")
+                        }
+                        .onTapGesture {
+                            threeML = true
+                            sixML = false
+                            nineML = false
+                        }
+                        HStack {
+                            if (sixML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("600 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = true
+                            nineML = false
+                        }
+                        HStack {
+                            if (nineML == true){
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop.fill")
+                                    .font(.system(size: 40))
+                            }
+                            else {
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                                Image(systemName: "drop")
+                                    .font(.system(size: 40))
+                            }
+                            Text("900 mL")
+                        }
+                        .onTapGesture {
+                            threeML = false
+                            sixML = false
+                            nineML = true
+                        }
+                        HStack {
+                            Button("Cancel") {
+                                showPopUp = false
+                               }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                            Button("Confirm") {
+                                showPopUp = false
+                               }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                        }
+                    }.padding()
                 }
+                .frame(width: 300, height: 250)
+                .cornerRadius(20).shadow(radius: 20)
             }
         }
+    }
+}
+
+struct PlantPage_Previews: PreviewProvider {
+    static var previews: some View {
+        PlantPage(user: GetUser(), pot: Pot())
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HistoricalData: View {
+    @ObservedObject var pot : Pot
     var body: some View {
         ScrollView {
             VStack {
@@ -32,7 +33,7 @@ struct HistoricalData: View {
                                 .font(.callout)
                                 .padding(.bottom)
                                 .foregroundColor(Color.gray)
-                            Text("Low: 64")
+                            Text("Low: \(pot.idealTempLow)")
                                 .font(.callout)
                                 .foregroundColor(Color.gray)
                         }
@@ -152,6 +153,6 @@ struct PagesContainer <Content : View> : View {
 
 struct HistoricalData_Previews: PreviewProvider {
     static var previews: some View {
-        HistoricalData()
+        HistoricalData(pot: Pot())
     }
 }

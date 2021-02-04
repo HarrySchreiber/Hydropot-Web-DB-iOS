@@ -14,8 +14,10 @@ class Pot: ObservableObject, Identifiable {
     @Published var curTemp: Int
     @Published var idealTempHigh: Int
     @Published var idealMoistureLow: Int
+    @Published var curMoisture: Int
     @Published var idealMoistureHigh: Int
     @Published var idealLightLow: Int
+    @Published var curLight: Int
     @Published var idealLightHigh: Int
     @Published var lastWatered: Date
     @Published var automaticWatering: Bool
@@ -30,8 +32,10 @@ class Pot: ObservableObject, Identifiable {
         self.curTemp = 65
         self.idealTempHigh = 70
         self.idealMoistureLow = 30
+        self.curMoisture = 30
         self.idealMoistureHigh = 60
         self.idealLightLow = 1000
+        self.curLight = 3500
         self.idealLightHigh = 4000
         self.lastWatered = Date()
         self.automaticWatering = true
