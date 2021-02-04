@@ -60,4 +60,12 @@ class GetUser: ObservableObject {
         pots.append(pot)
     }
     
+    func replacePot(pot: Pot){
+        for (index, _) in pots.enumerated() {
+            if (self.pots[index].id == pot.id){
+                self.pots[index] = pot
+            }
+        }
+    }
+    
 }

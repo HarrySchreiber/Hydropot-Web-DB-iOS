@@ -117,6 +117,7 @@ struct EditPlantPage: View {
             }, trailing:
                 Button(action: {
                     pot.editPlant(plantName: plantName, plantType: plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                    user.replacePot(pot: pot)
                     self.showModal.toggle()
                 }) {
                 HStack {

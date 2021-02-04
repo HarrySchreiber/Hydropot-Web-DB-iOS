@@ -23,6 +23,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var automaticWatering: Bool
     @Published var records: [Record]
     @Published var notifications: [Notification]
+    @Published var id: UUID
     
 
     init(plantName: String, plantType: String, idealTempHigh: String, idealTempLow: String, idealMoistureHigh: String, idealMoistureLow: String, idealLightHigh: String, idealLightLow: String) {
@@ -41,6 +42,7 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = true
         self.records = [Record(), Record()]
         self.notifications = [Notification(), Notification()]
+        self.id = UUID()
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: String, idealTempLow: String, idealMoistureHigh: String, idealMoistureLow: String, idealLightHigh: String, idealLightLow: String) {
