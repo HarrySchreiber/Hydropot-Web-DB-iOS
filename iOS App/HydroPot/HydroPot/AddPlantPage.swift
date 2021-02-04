@@ -12,14 +12,13 @@ struct AddPlantPage: View {
     @ObservedObject var user: GetUser
     @Binding var showModal: Bool
     @State var plantName = ""
-    @State var plantType = ""
     @State var idealTemperatureHigh: String = ""
     @State var idealMoistureHigh: String = ""
     @State var idealLightLevelHigh: String = ""
     @State var idealTemperatureLow: String = ""
     @State var idealMoistureLow: String = ""
     @State var idealLightLevelLow: String = ""
-    @State var plantSelected: String = ""
+    @State var plantSelected: String = "Plant Type"
 
     var body: some View {
         NavigationView {
@@ -39,20 +38,32 @@ struct AddPlantPage: View {
                                 .border(Color.black.opacity(0.5))
                         }
                             .padding(.leading, geometry.size.height/30)
-                        HStack{
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
-                                if (plantSelected == ""){
-                                    Text("Plant Type")
-                                        .opacity(0.3)
-                                }
-                                else {
-                                    Text("\(plantSelected)")
-                                }
+                        ZStack{
+                            if (plantSelected == "Plant Type"){
+                                Text("\(plantSelected)")
+                                    .foregroundColor(.black)
+                                    .opacity(0.3)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
                             }
-                            .padding(6)
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
+                            else {
+                                Text("\(plantSelected)")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .padding(.leading, geometry.size.width * 0.8)
+                            }
                         }
                             .padding(.leading, geometry.size.height/30)
                         HStack{

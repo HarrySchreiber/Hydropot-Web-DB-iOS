@@ -42,16 +42,31 @@ struct EditPlantPage: View {
                                 .border(Color.black.opacity(0.5))
                         }
                             .padding(.leading, geometry.size.height/30)
-                        HStack{
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
-                                    Text("\(plantSelected)").onAppear() {
-                                        plantSelected = pot.plantType
-                                }
+                        ZStack{
+                            if (plantSelected == ""){
+                                Text("\(pot.plantType)")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
                             }
-                            .padding(6)
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
+                            else {
+                                Text("\(plantSelected)")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .padding(.leading, geometry.size.width * 0.8)
+                            }
                         }
                             .padding(.leading, geometry.size.height/30)
                         HStack{
