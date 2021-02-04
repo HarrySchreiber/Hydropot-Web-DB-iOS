@@ -14,85 +14,89 @@ struct AccountPage: View {
     @State var name: String = ""
     
     var body: some View {
-        GeometryReader { geomOne in
-            VStack {
-                NavigationView {
-                    VStack {
-                        VStack (alignment: .leading){
-                            GeometryReader{ geometry in
-                                VStack(alignment: .leading){
-                                    Text("Name: ")
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .padding(.leading, 3)
-                                    TextField(user.name, text: $name)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.2))
-                                        .padding(.leading, 3)
-                                    Text("Email: ")
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .padding(.leading, 3)
-                                    Text(user.email)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.2))
-                                        .padding(.leading, 3)
-
-                                    Button(action: {
-                                        user.logout()
-                                    }) {
-                                       Text("Change Password")
-                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                        .multilineTextAlignment(.center)
-                                        .padding(10)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        
-                                    }
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
-                                    .cornerRadius(6)
-                                    .padding(3)
-                                    
-                                    Button(action: {
-                                        user.logout()
-                                    }) {
-                                       Text("Sign Out")
-                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                        .multilineTextAlignment(.center)
-                                        .padding(10)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    }
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
-                                    .cornerRadius(6)
-                                    .padding(3)
-                                    
-                                    Button(action: {
-                                        user.logout()
-                                    }) {
-                                       Text("Toggle Notis")
-                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                        .multilineTextAlignment(.center)
-                                        .padding(10)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    }
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .foregroundColor(.white)
-                                    .background(Color(red: 0.51, green: 0.51, blue: 0.51))
-                                    .cornerRadius(6)
-                                    .padding(3)
-                                    
-                                }
+        NavigationView {
+            VStack{
+                GeometryReader{ geometry in
+                    VStack(){
+                        HStack {
+                            Text("Name: ")
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            TextField(user.name, text: $name)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.2))
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Text("Email: ")
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Text(user.email)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.2))
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Button(action: {
+                                user.logout()
+                            }) {
+                               Text("Change Password")
+                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                .multilineTextAlignment(.center)
+                                .padding(10)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 
                             }
-                            .frame(width: geomOne.size.width * 0.9, height: geomOne.size.height * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .foregroundColor(.white)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                             .cornerRadius(6)
-                            Spacer()
+                            .padding(3)
                         }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Button(action: {
+                                user.logout()
+                            }) {
+                               Text("Sign Out")
+                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                .multilineTextAlignment(.center)
+                                .padding(10)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .foregroundColor(.white)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                            .padding(3)
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Button(action: {
+                                user.logout()
+                            }) {
+                               Text("Toggle Notis")
+                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                .multilineTextAlignment(.center)
+                                .padding(10)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .foregroundColor(.white)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
+                            .padding(3)
+                        }
+                        .padding(.leading, geometry.size.height/30)
                     }
-                    .navigationBarTitle("Account", displayMode: .inline)
                 }
-            }
+            }.navigationBarTitle("Account", displayMode: .inline)
         }
     }
 }

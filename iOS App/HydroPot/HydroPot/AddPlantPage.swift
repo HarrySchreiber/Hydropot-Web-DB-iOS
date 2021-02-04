@@ -8,45 +8,124 @@
 import SwiftUI
 
 struct AddPlantPage: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
+    @Binding var showModal: Bool
     @State var plantName = ""
     @State var plantType = ""
-    @State var idealTemperature: String = ""
-    @State var idealMoisture: String = ""
-    @State var idealLightLevel: String = ""
-    
+    @State var idealTemperatureHigh: String = ""
+    @State var idealMoistureHigh: String = ""
+    @State var idealLightLevelHigh: String = ""
+    @State var idealTemperatureLow: String = ""
+    @State var idealMoistureLow: String = ""
+    @State var idealLightLevelLow: String = ""
+    @State var plantSelected: String = ""
+
     var body: some View {
-        GeometryReader { geomOne in
-            VStack {
-                Image(systemName: "camera.circle.fill")
-                    .font(.system(size: 150))
-                NavigationView {
-                    VStack(alignment: .leading){
-                        TextField("Plant Name", text: $plantName)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+        NavigationView {
+            VStack{
+                GeometryReader{ geometry in
+                    VStack(){
+                        Image(systemName: "camera.circle")
+                            .frame(alignment: .center)
+                            .font(.system(size: geometry.size.width/2))
+                        Text("Add Photo")
+                            .frame(alignment: .center)
+                            .padding(.bottom, 3)
+                        HStack{
+                            TextField("Plant Name", text: $plantName)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                        }
+                            .padding(.leading, geometry.size.height/30)
+                        HStack{
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                                if (plantSelected == ""){
+                                    Text("Plant Type")
+                                        .opacity(0.3)
+                                }
+                                else {
+                                    Text("\(plantSelected)")
+                                }
+                            }
+                            .padding(6)
+                            .buttonStyle(PlainButtonStyle())
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Plant Type", text: $plantType)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Ideal Temperature", text: $idealTemperature)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Plant Moisture", text: $idealMoisture)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
-                        TextField("Ideal Light Level", text: $idealLightLevel)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
-                            .padding(.leading, 3)
+                        }
+                            .padding(.leading, geometry.size.height/30)
+                        HStack{
+                            Text("Temperature")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealTemperatureHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealTemperatureLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                        }
+                            .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Text("Moisture")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealMoistureHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealMoistureLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                        }
+                            .padding(.leading, geometry.size.height/30)
+                        HStack{
+                            Text("Light")
+                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            TextField("High", text: $idealLightLevelHigh)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                            Text(" - ")
+                                .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                            TextField("Low", text: $idealLightLevelLow)
+                                .padding(6)
+                                .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                .border(Color.black.opacity(0.5))
+                        }
+                            .padding(.leading, geometry.size.height/30)
                     }
+                    .cornerRadius(6)
+                    Spacer()
                 }
             }
-            .frame(height: geomOne.size.height * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .cornerRadius(6)
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(leading:
+                Button(action: {
+                    self.showModal.toggle()
+                }) {
+                    HStack {
+                        Text("Cancel")
+                    }
+            }, trailing:
+                Button(action: {
+                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow))
+                        self.showModal.toggle()
+                    }
+                }) {
+                HStack {
+                    Text("Confirm")
+                }
+            })
+
         }
     }
 }
+

@@ -9,7 +9,6 @@ import Foundation
 
 
 class GetUser: ObservableObject {
-    // initialize an empty array of monsters to be filled
     @Published var userId: String
     @Published var loggedIn: Bool
     @Published var name: String
@@ -21,10 +20,12 @@ class GetUser: ObservableObject {
     init() {
         self.userId = ""
         self.loggedIn = false
-        self.name = ""
+        self.name = "Spencer The Cool"
         self.email = ""
         self.password = ""
-        self.pots = [Pot(), Pot(), Pot(), Pot()]
+        let specialPot = Pot(plantName: "Bob", plantType: "Rose", idealTempHigh: "70", idealTempLow: "80", idealMoistureHigh: "50", idealMoistureLow: "70", idealLightHigh: "40", idealLightLow: "40")
+        specialPot.plantName = "Jeff"
+        self.pots = [Pot(plantName: "Jill", plantType: "Rose", idealTempHigh: "70", idealTempLow: "80", idealMoistureHigh: "50", idealMoistureLow: "70", idealLightHigh: "40", idealLightLow: "40"), specialPot]
     }
     
     func login (email: String, password: String) {
@@ -53,6 +54,18 @@ class GetUser: ObservableObject {
         self.name = name
         self.email = email
         self.password = password
+    }
+    
+    func addPlant(pot: Pot) {
+        pots.append(pot)
+    }
+    
+    func replacePot(pot: Pot){
+        for (index, _) in pots.enumerated() {
+            if (self.pots[index].id == pot.id){
+                self.pots[index] = pot
+            }
+        }
     }
     
 }

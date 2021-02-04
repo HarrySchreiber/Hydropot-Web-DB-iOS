@@ -9,19 +9,40 @@ import SwiftUI
 
 struct NotificationsPage: View {
     @ObservedObject var user: GetUser
+    static let taskDateFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, hh:mm a"
+        return formatter
+    }()
     var body: some View {
         NavigationView {
             List {
                 ForEach(user.pots) {
-                    pot in
-                    NavigationLink(destination: PlantPage(user: user)) {
-                        Text("Hey \(user.name)! Your plant, \(pot.plantName), was just watered by your Hydro Pot!")
+                    pot in ForEach(pot.notifications) {
+                        notie in
+                        
+                        NavigationLink(destination: PlantPage(user: user, pot: pot)) {
+                            VStack {
+                                Text(notie.text)
+                                HStack {
+                                    Spacer()
+                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
+                                        .font(.footnote)
+                                }
+                            }.fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
             }
             .navigationBarTitle("Notifications", displayMode: .inline)
-            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user)) {
-             } )    //why does this line add styling to the list?
+            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user, pot: user.pots[0])) {
+            } )    //why does this line add styling to the list?
         }
+    }
+}
+
+struct NotificationsPage_Previews: PreviewProvider {
+    static var previews: some View {
+        NotificationsPage(user: GetUser())
     }
 }
