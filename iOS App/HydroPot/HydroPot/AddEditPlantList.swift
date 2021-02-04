@@ -30,7 +30,7 @@ struct AddEditPlantList: View {
                                 plantSelected = plantList[row]
                                 self.presentationMode.wrappedValue.dismiss()
                             }) {
-                                Text(searching ? searchedPlantList[row] : plantList[row])
+                                ListCell(text: searching ? searchedPlantList[row] : plantList[row])
                                     .frame(height: 45)
                             }
                                 .simultaneousGesture(TapGesture().onEnded {
