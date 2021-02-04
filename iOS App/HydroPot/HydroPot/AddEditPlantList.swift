@@ -27,7 +27,7 @@ struct AddEditPlantList: View {
                     VStack(spacing: 0) {
                         ForEach(searching ? (0..<searchedPlantList.count) : (0..<plantList.count), id: \.self) { row in
                             Button(action: {
-                                plantSelected = plantList[row]
+                                plantSelected = searching ? searchedPlantList[row] : plantList[row]
                                 self.presentationMode.wrappedValue.dismiss()
                             }) {
                                 ListCell(text: searching ? searchedPlantList[row] : plantList[row])
