@@ -45,7 +45,7 @@ function buildTable(data){
 
     buildInputFields();
 
-    var keyArray = ["name","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyArray = ["plantName","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     for(var i = 0; i < data.length; i++){
         //Declare the json object
         var obj = data[i];
@@ -70,19 +70,22 @@ function buildTable(data){
         bottomRow.setAttribute("class","row no-gutters");
         for(var key in keyArray){
             var input = document.createElement("input");
-            if(keyArray[key] == "name"){
+            if(keyArray[key] == "plantName"){
                 input.setAttribute("type","text");
                 input.setAttribute("style","width: 22%;"); //TODO: Dummy Values for percent
+                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
                 input.value = obj[keyArray[key]];
                 topRow.appendChild(input);
             }else if(keyArray[key] == "description"){
                 input.setAttribute("type","text");
                 input.setAttribute("style","width: 100%;"); //TODO: Dummy Values for percent
+                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
                 input.value = obj[keyArray[key]];
                 bottomRow.appendChild(input);
             }else{
                 input.setAttribute("type", "number");
                 input.setAttribute("style","width: 13%;"); //TODO: Dummy Values for percent
+                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
                 input.value = obj[keyArray[key]];
                 topRow.appendChild(input);
             }
@@ -94,13 +97,12 @@ function buildTable(data){
         var saveButton = document.createElement("input");
         saveButton.setAttribute("type","button");
         saveButton.setAttribute("style","width: 50%; height: 100%");
+        saveButton.setAttribute("onclick",`editPlant("${obj['id']}")`);
         saveButton.value = "💾";
-        saveButton.id = "save-button-" + i;
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
         deleteButton.value = "🤮";
-        deleteButton.id = "delete-button-" + i;
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
 
@@ -218,7 +220,7 @@ function addPlant(){
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
-                    'name':plantName.value,
+                    'plantName':plantName.value,
                     'idealTempLow':Number(idealTempHigh.value),
                     'idealTempHigh':Number(idealTempLow.value),
                     'idealMoistureLow':Number(idealMoistureLow.value),
@@ -226,6 +228,54 @@ function addPlant(){
                     'idealLightLow':Number(idealLightHigh.value),
                     'idealLightHigh':Number(idealLightLow.value),
                     'description':description.value
+                }
+            }
+        })
+        
+    }
+    fetch(API_URL,options) 
+    .then(res => res.json())
+    .then(data => {
+        // There was not an error
+        console.log(data);
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+
+
+    setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
+}
+
+function editPlant(id){
+    var keyArray = ["plantName","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyValueStore = {};
+    for(var key in keyArray){
+        var fieldValue = document.getElementById(`${keyArray[key]}-${id}`).value;
+        if(keyArray[key] == "plantName" || keyArray[key] == "description"){
+            keyValueStore[keyArray[key]] = fieldValue;
+        }else{
+            keyValueStore[keyArray[key]] = Number(fieldValue);
+        }
+    }
+    var options = { 
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' }, 
+        body: JSON.stringify({
+            'operation':'edit',
+            'tableName':'HydroPotPlantTypes',
+            'payload':{
+                'Item':{
+                    'id':id,
+                    'plantName':keyValueStore['plantName'],
+                    'idealTempLow':keyValueStore['idealTempLow'],
+                    'idealTempHigh':keyValueStore['idealTempHigh'],
+                    'idealMoistureLow':keyValueStore['idealMoistureLow'],
+                    'idealMoistureHigh':keyValueStore['idealMoistureHigh'],
+                    'idealLightLow':keyValueStore['idealLightLow'],
+                    'idealLightHigh':keyValueStore['idealLightHigh'],
+                    'description':keyValueStore['description']
                 }
             }
         })
