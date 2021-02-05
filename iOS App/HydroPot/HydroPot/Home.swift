@@ -9,16 +9,18 @@ import SwiftUI
 
 struct Home: View {
     @ObservedObject var user: GetUser
+    @ObservedObject var plants: Plants
     
     init (user : GetUser){
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
         self.user = user
+        self.plants = Plants()
     }
     var body: some View {
         TabView() {
-            HomeView(user: user).tabItem { Text("Home") }.tag(1)
+            HomeView(user: user, plants: plants).tabItem { Text("Home") }.tag(1)
             PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
             NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
@@ -28,6 +30,7 @@ struct Home: View {
 
 struct HomeView: View {
     @ObservedObject var user: GetUser
+    @ObservedObject var plants: Plants
     @State private var showPopUp = false
     @State private var threeML = true
     @State private var sixML = false
@@ -84,7 +87,7 @@ struct HomeView: View {
                         .clipShape(Circle())
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showingDetail) {
-                    AddPlantPage(user: user, showModal: $showingDetail)
+                    AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
                 })
             }
             if $showPopUp.wrappedValue {

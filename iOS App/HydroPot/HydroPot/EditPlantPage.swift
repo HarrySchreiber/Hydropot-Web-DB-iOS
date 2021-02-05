@@ -27,6 +27,9 @@ struct EditPlantPage: View {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
+                        if (plantSelected != ""){
+                            
+                        }
                         Image(systemName: "camera.circle")
                             .frame(alignment: .center)
                             .font(.system(size: geometry.size.width/2))
@@ -59,7 +62,7 @@ struct EditPlantPage: View {
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
                             }
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.black)
                                     .padding(6)

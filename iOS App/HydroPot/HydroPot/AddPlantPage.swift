@@ -10,6 +10,7 @@ import SwiftUI
 struct AddPlantPage: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
+    @ObservedObject var plants: Plants
     @Binding var showModal: Bool
     @State var plantName = ""
     @State var idealTemperatureHigh: String = ""
@@ -56,7 +57,8 @@ struct AddPlantPage: View {
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
                             }
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
+                            
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.black)
                                     .padding(6)
