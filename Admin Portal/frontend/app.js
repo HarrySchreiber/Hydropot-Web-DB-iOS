@@ -45,7 +45,7 @@ function buildTable(data){
 
     buildInputFields();
 
-    var keyArray = ["plantName","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     for(var i = 0; i < data.length; i++){
         //Declare the json object
         var obj = data[i];
@@ -70,7 +70,7 @@ function buildTable(data){
         bottomRow.setAttribute("class","row no-gutters");
         for(var key in keyArray){
             var input = document.createElement("input");
-            if(keyArray[key] == "plantName"){
+            if(keyArray[key] == "plantType"){
                 input.setAttribute("type","text");
                 input.setAttribute("style","width: 22%;"); //TODO: Dummy Values for percent
                 input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
@@ -129,12 +129,12 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    var addPlantName = document.createElement("input");
-    addPlantName.setAttribute("id","add-plant-name");
-    addPlantName.setAttribute("type","text");
-    addPlantName.setAttribute("style","width: 22%");
-    addPlantName.setAttribute("placeholder","Plant Name");
-    topRow.appendChild(addPlantName);
+    var addplantType = document.createElement("input");
+    addplantType.setAttribute("id","add-plant-name");
+    addplantType.setAttribute("type","text");
+    addplantType.setAttribute("style","width: 22%");
+    addplantType.setAttribute("placeholder","Plant Name");
+    topRow.appendChild(addplantType);
     var addTempHigh = document.createElement("input");
     addTempHigh.setAttribute("id","add-temp-high");
     addTempHigh.setAttribute("type","number");
@@ -205,7 +205,7 @@ function buildInputFields(){
 }
 
 function addPlant(){
-    var plantName = document.getElementById("add-plant-name");
+    var plantType = document.getElementById("add-plant-name");
     var idealMoistureHigh = document.getElementById("add-moisture-high");
     var idealMoistureLow = document.getElementById("add-moisture-low");
     var idealLightHigh = document.getElementById("add-light-high");
@@ -221,7 +221,7 @@ function addPlant(){
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
-                    'plantName':plantName.value,
+                    'plantType':plantType.value,
                     'idealTempLow':Number(idealTempHigh.value),
                     'idealTempHigh':Number(idealTempLow.value),
                     'idealMoistureLow':Number(idealMoistureLow.value),
@@ -250,11 +250,11 @@ function addPlant(){
 }
 
 function editPlant(id){
-    var keyArray = ["plantName","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     var keyValueStore = {};
     for(var key in keyArray){
         var fieldValue = document.getElementById(`${keyArray[key]}-${id}`).value;
-        if(keyArray[key] == "plantName" || keyArray[key] == "description"){
+        if(keyArray[key] == "plantType" || keyArray[key] == "description"){
             keyValueStore[keyArray[key]] = fieldValue;
         }else{
             keyValueStore[keyArray[key]] = Number(fieldValue);
@@ -269,7 +269,7 @@ function editPlant(id){
             'payload':{
                 'Item':{
                     'id':id,
-                    'plantName':keyValueStore['plantName'],
+                    'plantType':keyValueStore['plantType'],
                     'idealTempLow':keyValueStore['idealTempLow'],
                     'idealTempHigh':keyValueStore['idealTempHigh'],
                     'idealMoistureLow':keyValueStore['idealMoistureLow'],
