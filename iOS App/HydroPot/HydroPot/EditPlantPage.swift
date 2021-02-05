@@ -27,9 +27,6 @@ struct EditPlantPage: View {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
-                        if (plantSelected != ""){
-                            
-                        }
                         Image(systemName: "camera.circle")
                             .frame(alignment: .center)
                             .font(.system(size: geometry.size.width/2))
@@ -38,7 +35,9 @@ struct EditPlantPage: View {
                             .padding(.bottom, 3)
                         HStack{
                             TextField("Plant Name", text: $plantName).onAppear() {
-                                plantName = pot.plantName
+                                if (plantName == ""){
+                                    plantName = pot.plantName
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
@@ -76,7 +75,9 @@ struct EditPlantPage: View {
                             Text("Temperature")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
                             TextField("High", text: $idealTemperatureHigh).onAppear() {
-                                idealTemperatureHigh = pot.idealTempHigh
+                                if (idealTemperatureHigh == ""){
+                                    idealTemperatureHigh = pot.idealTempHigh
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -84,7 +85,9 @@ struct EditPlantPage: View {
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealTemperatureLow).onAppear() {
-                                idealTemperatureLow = pot.idealTempLow
+                                if (idealTemperatureLow == ""){
+                                    idealTemperatureLow = pot.idealTempLow
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -95,7 +98,9 @@ struct EditPlantPage: View {
                             Text("Moisture")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
                             TextField("High", text: $idealMoistureHigh).onAppear() {
-                                idealMoistureHigh = pot.idealMoistureHigh
+                                if (idealMoistureHigh == ""){
+                                    idealMoistureHigh = pot.idealMoistureHigh
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -103,7 +108,9 @@ struct EditPlantPage: View {
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealMoistureLow).onAppear() {
-                                idealMoistureLow = pot.idealMoistureLow
+                                if (idealMoistureLow == ""){
+                                    idealMoistureLow = pot.idealMoistureLow
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -114,7 +121,9 @@ struct EditPlantPage: View {
                             Text("Light")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
                             TextField("High", text: $idealLightLevelHigh).onAppear() {
-                                idealLightLevelHigh = pot.idealLightHigh
+                                if (idealLightLevelHigh == ""){
+                                    idealLightLevelHigh = pot.idealLightHigh
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -122,7 +131,9 @@ struct EditPlantPage: View {
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealLightLevelLow).onAppear() {
-                                idealLightLevelLow = pot.idealLightLow
+                                if (idealLightLevelLow == ""){
+                                    idealLightLevelLow = pot.idealLightLow
+                                }
                             }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
