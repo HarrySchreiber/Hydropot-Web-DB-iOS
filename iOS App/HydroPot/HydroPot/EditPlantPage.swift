@@ -27,6 +27,9 @@ struct EditPlantPage: View {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
+                        if (plantSelected != ""){
+                            
+                        }
                         Image(systemName: "camera.circle")
                             .frame(alignment: .center)
                             .font(.system(size: geometry.size.width/2))
@@ -42,16 +45,31 @@ struct EditPlantPage: View {
                                 .border(Color.black.opacity(0.5))
                         }
                             .padding(.leading, geometry.size.height/30)
-                        HStack{
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected)) {
-                                    Text("\(plantSelected)").onAppear() {
-                                        plantSelected = pot.plantType
-                                }
+                        ZStack{
+                            if (plantSelected == ""){
+                                Text("\(pot.plantType)")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
                             }
-                            .padding(6)
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .border(Color.black.opacity(0.5))
+                            else {
+                                Text("\(plantSelected)")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .padding(.leading, geometry.size.width * 0.8)
+                            }
                         }
                             .padding(.leading, geometry.size.height/30)
                         HStack{
@@ -126,8 +144,13 @@ struct EditPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                    if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                         pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                        user.replacePot(pot: pot)
+                        self.showModal.toggle()
+                    }
+                    else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        pot.editPlant(plantName: plantName, plantType: pot.plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }

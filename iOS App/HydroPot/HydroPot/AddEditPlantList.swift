@@ -12,10 +12,17 @@ struct AddEditPlantList: View {
     @Environment(\.presentationMode) var presentationMode
     @State var plants = Plants()
     @Binding var plantSelected: String
+    @Binding var idealTemperatureHigh: String
+    @Binding var idealMoistureHigh: String
+    @Binding var idealLightLevelHigh: String
+    @Binding var idealTemperatureLow: String
+    @Binding var idealMoistureLow: String
+    @Binding var idealLightLevelLow: String
     @State private var searchQuery: String = ""
     @State private var plantList = [String]()
     @State private var searchedPlantList = [String]()
     @State private var searching = false
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -27,10 +34,21 @@ struct AddEditPlantList: View {
                     VStack(spacing: 0) {
                         ForEach(searching ? (0..<searchedPlantList.count) : (0..<plantList.count), id: \.self) { row in
                             Button(action: {
-                                plantSelected = plantList[row]
+                                plantSelected = searching ? searchedPlantList[row] : plantList[row]
+                                
+                                if (plants.contains(plantName: plantSelected)){
+                                    let tempPlant = plants.getPlant(plantName: plantSelected)
+                                    idealMoistureHigh = tempPlant.idealMoistureHigh
+                                    idealMoistureLow = tempPlant.idealMoistureLow
+                                    idealTemperatureHigh = tempPlant.idealTempHigh
+                                    idealTemperatureLow = tempPlant.idealTempLow
+                                    idealLightLevelLow = tempPlant.idealLightLow
+                                    idealLightLevelHigh = tempPlant.idealLightHigh
+                                }
+
                                 self.presentationMode.wrappedValue.dismiss()
                             }) {
-                                Text(searching ? searchedPlantList[row] : plantList[row])
+                                ListCell(text: searching ? searchedPlantList[row] : plantList[row])
                                     .frame(height: 45)
                             }
                                 .simultaneousGesture(TapGesture().onEnded {
@@ -64,4 +82,3 @@ struct AddEditPlantList: View {
     }
     
 }
-
