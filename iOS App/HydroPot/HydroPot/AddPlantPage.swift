@@ -13,12 +13,12 @@ struct AddPlantPage: View {
     @ObservedObject var plants: Plants
     @Binding var showModal: Bool
     @State var plantName = ""
-    @State var idealTemperatureHigh: String = ""
-    @State var idealMoistureHigh: String = ""
-    @State var idealLightLevelHigh: String = ""
-    @State var idealTemperatureLow: String = ""
-    @State var idealMoistureLow: String = ""
-    @State var idealLightLevelLow: String = ""
+    @State var idealTemperatureHigh: Int = 0
+    @State var idealMoistureHigh: Int = 0
+    @State var idealLightLevelHigh: Int = 0
+    @State var idealTemperatureLow: Int = 0
+    @State var idealMoistureLow: Int = 0
+    @State var idealLightLevelLow: Int = 0
     @State var plantSelected: String = "Plant Type"
 
     var body: some View {
@@ -71,13 +71,13 @@ struct AddPlantPage: View {
                         HStack{
                             Text("Temperature")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", text: $idealTemperatureHigh)
+                            TextField("High", value: $idealTemperatureHigh, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", text: $idealTemperatureLow)
+                            TextField("Low", value: $idealTemperatureLow, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -86,13 +86,13 @@ struct AddPlantPage: View {
                         HStack {
                             Text("Moisture")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", text: $idealMoistureHigh)
+                            TextField("High", value: $idealMoistureHigh, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", text: $idealMoistureLow)
+                            TextField("Low", value: $idealMoistureLow, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -101,13 +101,13 @@ struct AddPlantPage: View {
                         HStack{
                             Text("Light")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", text: $idealLightLevelHigh)
+                            TextField("High", value: $idealLightLevelHigh, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", text: $idealLightLevelLow)
+                            TextField("Low", value: $idealLightLevelLow, formatter: NumberFormatter())
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -128,7 +128,7 @@ struct AddPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                    if (plantName != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
                         user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow))
                         self.showModal.toggle()
                     }

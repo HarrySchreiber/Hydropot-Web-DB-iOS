@@ -10,15 +10,15 @@ import Foundation
 class Pot: ObservableObject, Identifiable {
     @Published var plantName: String
     @Published var plantType: String
-    @Published var idealTempLow: String
-    @Published var curTemp: String
-    @Published var idealTempHigh: String
-    @Published var idealMoistureLow: String
-    @Published var curMoisture: String
-    @Published var idealMoistureHigh: String
-    @Published var idealLightLow: String
-    @Published var curLight: String
-    @Published var idealLightHigh: String
+    @Published var idealTempLow: Int
+    @Published var curTemp: Int
+    @Published var idealTempHigh: Int
+    @Published var idealMoistureLow: Int
+    @Published var curMoisture: Int
+    @Published var idealMoistureHigh: Int
+    @Published var idealLightLow: Int
+    @Published var curLight: Int
+    @Published var idealLightHigh: Int
     @Published var lastWatered: Date
     @Published var automaticWatering: Bool
     @Published var records: [Record]
@@ -26,17 +26,17 @@ class Pot: ObservableObject, Identifiable {
     @Published var id: UUID
     
 
-    init(plantName: String, plantType: String, idealTempHigh: String, idealTempLow: String, idealMoistureHigh: String, idealMoistureLow: String, idealLightHigh: String, idealLightLow: String) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = "65"
+        self.curTemp = 65
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = "60"
+        self.curMoisture = 60
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
-        self.curLight = "3000"
+        self.curLight = 3000
         self.idealLightHigh = idealLightHigh
         self.lastWatered = Date()
         self.automaticWatering = true
@@ -45,17 +45,17 @@ class Pot: ObservableObject, Identifiable {
         self.id = UUID()
     }
     
-    func editPlant(plantName: String, plantType: String, idealTempHigh: String, idealTempLow: String, idealMoistureHigh: String, idealMoistureLow: String, idealLightHigh: String, idealLightLow: String) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = "65"
+        self.curTemp = 65
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = "60"
+        self.curMoisture = 60
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
-        self.curLight = "3000"
+        self.curLight = 3000
         self.idealLightHigh = idealLightHigh
         self.lastWatered = Date()
         self.automaticWatering = true
