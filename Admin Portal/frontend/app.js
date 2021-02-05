@@ -102,6 +102,7 @@ function buildTable(data){
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
+        deleteButton.setAttribute("onclick",`deletePlant("${obj['id']}")`);
         deleteButton.value = "🤮";
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
@@ -276,6 +277,36 @@ function editPlant(id){
                     'idealLightLow':keyValueStore['idealLightLow'],
                     'idealLightHigh':keyValueStore['idealLightHigh'],
                     'description':keyValueStore['description']
+                }
+            }
+        })
+        
+    }
+    fetch(API_URL,options) 
+    .then(res => res.json())
+    .then(data => {
+        // There was not an error
+        console.log(data);
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+
+
+    setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
+}
+
+function deletePlant(id){
+    var options = { 
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' }, 
+        body: JSON.stringify({
+            'operation':'delete',
+            'tableName':'HydroPotPlantTypes',
+            'payload':{
+                'Item':{
+                    'id':id
                 }
             }
         })
