@@ -68,25 +68,25 @@ function buildTable(data){
         topRow.setAttribute("class","row no-gutters");
         var bottomRow = document.createElement("div");
         bottomRow.setAttribute("class","row no-gutters");
-        for(var key in keyArray){
+        for(key of keyArray){
             var input = document.createElement("input");
-            if(keyArray[key] == "plantType"){
+            if(key == "plantType"){
                 input.setAttribute("type","text");
                 input.setAttribute("style","width: 22%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
-                input.value = obj[keyArray[key]];
+                input.setAttribute("id",`${key}-${obj['id']}`);
+                input.value = obj[key];
                 topRow.appendChild(input);
-            }else if(keyArray[key] == "description"){
+            }else if(key == "description"){
                 input.setAttribute("type","text");
                 input.setAttribute("style","width: 100%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
-                input.value = obj[keyArray[key]];
+                input.setAttribute("id",`${key}-${obj['id']}`);
+                input.value = obj[key];
                 bottomRow.appendChild(input);
             }else{
                 input.setAttribute("type", "number");
                 input.setAttribute("style","width: 13%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${keyArray[key]}-${obj['id']}`);
-                input.value = obj[keyArray[key]];
+                input.setAttribute("id",`${key}-${obj['id']}`);
+                input.value = obj[key];
                 topRow.appendChild(input);
             }
         }
@@ -102,7 +102,7 @@ function buildTable(data){
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
-        deleteButton.setAttribute("onclick",`deletePlant("${obj['id']}")`);
+        deleteButton.setAttribute("onclick",`confirmDeleteModal("${obj['id']}","${obj['plantType']}")`);
         deleteButton.value = "🤮";
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
@@ -252,12 +252,12 @@ function addPlant(){
 function editPlant(id){
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     var keyValueStore = {};
-    for(var key in keyArray){
-        var fieldValue = document.getElementById(`${keyArray[key]}-${id}`).value;
-        if(keyArray[key] == "plantType" || keyArray[key] == "description"){
-            keyValueStore[keyArray[key]] = fieldValue;
+    for(key of keyArray){
+        var fieldValue = document.getElementById(`${key}-${id}`).value;
+        if(key == "plantType" || key == "description"){
+            keyValueStore[key] = fieldValue;
         }else{
-            keyValueStore[keyArray[key]] = Number(fieldValue);
+            keyValueStore[key] = Number(fieldValue);
         }
     }
     var options = { 
@@ -298,6 +298,7 @@ function editPlant(id){
 }
 
 function deletePlant(id){
+    cleanModel();
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -325,4 +326,77 @@ function deletePlant(id){
 
 
     setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
+}
+
+function confirmDeleteModal(id, plantType){
+    var modal = document.createElement("div");
+    modal.setAttribute("class","modal");
+    modal.setAttribute("id","confirmDeleteModal");
+
+    var modalDialog = document.createElement("div");
+    modalDialog.setAttribute("class","modal-dialog");
+
+    var modalContent = document.createElement("div");
+    modalContent.setAttribute("class","modal-content");
+
+    var modalHeader = document.createElement("div");
+    modalHeader.setAttribute("class","modal-header");
+
+    var modalTitle = document.createElement("div");
+    modalTitle.setAttribute("class","h5");
+    modalTitle.textContent = "Confirm Delete?";
+
+    var closeButton = document.createElement("button");
+    closeButton.setAttribute("type","button");
+    closeButton.setAttribute("class","close");
+    closeButton.setAttribute("data-dismiss","modal");
+    closeButton.setAttribute("aria-label","Close");
+
+    var hidden = document.createElement("span");
+    hidden.setAttribute("aria-hidden","true");
+    hidden.append("X");
+    closeButton.appendChild(hidden);
+
+    var modalBody = document.createElement("div");
+    modalBody.setAttribute("class","modal-body");
+    var message = document.createElement("p");
+    message.append("Deleting ");
+    var boldSection = document.createElement("b");
+    boldSection.append(plantType);
+    message.append(boldSection);
+    message.append(" will permenantly remove it from the database, are you sure?");
+    modalBody.appendChild(message);
+
+    var modalFooter = document.createElement("div");
+    modalFooter.setAttribute("class","modal-footer");
+    var cancelButton = document.createElement("div");
+    cancelButton.setAttribute("type","button");
+    cancelButton.setAttribute("class","btn btn-secondary");
+    cancelButton.setAttribute("data-dismiss","modal");
+    cancelButton.setAttribute("onclick","cleanModel()");
+    cancelButton.append("Cancel");
+    var deleteButton = document.createElement("div");
+    deleteButton.setAttribute("type","button");
+    deleteButton.setAttribute("class","btn btn-danger");
+    deleteButton.setAttribute("data-dismiss","modal");
+    deleteButton.setAttribute("onclick",`deletePlant("${id}")`);
+    deleteButton.append("Delete");
+    modalFooter.appendChild(cancelButton);
+    modalFooter.appendChild(deleteButton);
+
+    modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(closeButton);
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalContent.appendChild(modalFooter);
+    modalDialog.appendChild(modalContent);
+    modal.appendChild(modalDialog);
+
+    $(document.body).append(modal);
+    $("#confirmDeleteModal").modal();
+}
+
+function cleanModel(){
+    $("#confirmDeleteModal").remove();
+    $(".modal-backdrop").remove();
 }
