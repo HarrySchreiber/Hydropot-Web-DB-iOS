@@ -69,7 +69,7 @@ class Pot: ObservableObject, Identifiable {
         self.id = ""
     }
     
-    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, records: [Record], notifications: [Notification]) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = 65
@@ -83,8 +83,6 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.lastWatered = Date()
         self.automaticWatering = true
-        self.records = records
-        self.notifications = notifications
     }
     
 }
