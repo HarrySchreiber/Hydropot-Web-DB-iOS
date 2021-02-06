@@ -11,7 +11,7 @@ struct Login: View {
     @State var selectedTab: Int = 1
     @State var name: String = ""
     @State var password: String = "Failure"
-    @State var email: String = "Example@example.com"
+    @State var email: String = "spencerMoney@gmail.com"
     @StateObject var user = GetUser()
     
     var body: some View {

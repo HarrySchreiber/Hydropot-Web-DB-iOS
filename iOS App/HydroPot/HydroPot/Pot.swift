@@ -8,23 +8,24 @@
 import Foundation
 
 struct codePot: Codable, Identifiable {
-    let plantName: String
-    let plantType: String
-    let idealTempLow: Int
-    let curTemp: Int
-    let idealTempHigh: Int
-    let idealMoistureLow: Int
-    let curMoisture: Int
-    let idealMoistureHigh: Int
-    let idealLightLow: Int
     let curLight: Int
+    let curMoisture: Int
+    let image: String
     let idealLightHigh: Int
-    let lastWatered: Date
-    let automaticWatering: Bool
+    let curTemp: Int
+    let lastWatered: String
+    let plantType: String
+    let idealMoistureHigh : Int
+    let idealMoistureLow: Int
+    let idealTempLow: Int
+    let idealLightLow: Int
     let id: String
+    let automaticWatering: Bool
+    let plantName: String
+    let idealTempHigh: Int
     
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image
     }
 }
 

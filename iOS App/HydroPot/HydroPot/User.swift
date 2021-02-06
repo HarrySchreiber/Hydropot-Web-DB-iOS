@@ -18,9 +18,10 @@ struct User: Codable, Identifiable {
     let email: String
     let hashedPW: String
     let userName: String
+    let pots: [codePot]?
     
     enum CodingKeys: String, CodingKey {
-        case id, email, hashedPW, userName
+        case id, email, hashedPW, userName, pots
     }
 }
 
@@ -39,9 +40,7 @@ class GetUser: ObservableObject {
         self.name = "Spencer The Cool"
         self.email = ""
         self.password = ""
-        let specialPot = Pot(plantName: "Bob", plantType: "Rose", idealTempHigh: 70, idealTempLow: 80, idealMoistureHigh: 50, idealMoistureLow: 70, idealLightHigh: 40, idealLightLow: 40)
-        specialPot.plantName = "Jeff"
-        self.pots = [Pot(plantName: "Jill", plantType: "Rose", idealTempHigh: 70, idealTempLow: 80, idealMoistureHigh: 50, idealMoistureLow: 70, idealLightHigh: 40, idealLightLow: 40), specialPot]
+        self.pots = []
     }
     
     func login (email: String, password: String) {
@@ -54,7 +53,6 @@ class GetUser: ObservableObject {
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
         var request = URLRequest(url: url)
-        
         
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
@@ -73,6 +71,7 @@ class GetUser: ObservableObject {
                 print("Unable to load data")
                 return
             }
+            
             // decode the returned data into Codable structs
             let results: UserResults?
             do {
@@ -92,6 +91,12 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     self.password = password
+                    let codePots = r.Items[0].pots
+                    if (codePots?.count != 0){
+                        for pot in codePots! {
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealLightLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow))
+                        }
+                    }
                 }
             })
         }.resume()
