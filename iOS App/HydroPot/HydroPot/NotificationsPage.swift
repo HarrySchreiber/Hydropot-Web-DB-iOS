@@ -26,8 +26,8 @@ struct NotificationsPage: View {
                                 Text(notie.type)
                                 HStack {
                                     Spacer()
-//                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
-                                    Text(notie.timeStamp) .font(.footnote)
+                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
+                                        .font(.footnote)
                                 }
                             }.fixedSize(horizontal: false, vertical: true)
                         }

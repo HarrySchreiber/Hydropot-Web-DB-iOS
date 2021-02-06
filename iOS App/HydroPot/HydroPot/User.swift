@@ -96,12 +96,20 @@ class GetUser: ObservableObject {
                         for pot in codePots! {
                             var records : [Record] = []
                             for rec in pot.records! {
-                                let record = Record(dateRecorded: rec.dateRecorded, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                let date = dateFormatter.date(from: rec.dateRecorded)
+                                
+                                let record = Record(dateRecorded: date!, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
                                 records.append(record)
                             }
                             var notifications : [Notification] = []
                             for notie in pot.notifications! {
-                                let notification = Notification(type: notie.type, timeStamp: notie.timeStamp)
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                let date = dateFormatter.date(from: notie.timeStamp)
+                                
+                                let notification = Notification(type: notie.type, timeStamp: date!)
                                 notifications.append(notification)
                             }
 //                            var notifications : [Notification] = []

@@ -18,9 +18,9 @@ struct codeNotification: Codable {
 }
 class Notification: ObservableObject, Identifiable {
     @Published var type: String
-    @Published var timeStamp: String
+    @Published var timeStamp: Date
     
-    init(type: String, timeStamp: String) {
+    init(type: String, timeStamp: Date) {
         self.type = type
         self.timeStamp = timeStamp
     }
