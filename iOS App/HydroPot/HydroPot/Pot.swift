@@ -7,6 +7,27 @@
 
 import Foundation
 
+struct codePot: Codable, Identifiable {
+    let plantName: String
+    let plantType: String
+    let idealTempLow: Int
+    let curTemp: Int
+    let idealTempHigh: Int
+    let idealMoistureLow: Int
+    let curMoisture: Int
+    let idealMoistureHigh: Int
+    let idealLightLow: Int
+    let curLight: Int
+    let idealLightHigh: Int
+    let lastWatered: Date
+    let automaticWatering: Bool
+    let id: String
+    
+    enum CodingKeys: String, CodingKey {
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id
+    }
+}
+
 class Pot: ObservableObject, Identifiable {
     @Published var plantName: String
     @Published var plantType: String
@@ -23,7 +44,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var automaticWatering: Bool
     @Published var records: [Record]
     @Published var notifications: [Notification]
-    @Published var id: UUID
+    @Published var id: String
     
 
     init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
@@ -42,7 +63,7 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = true
         self.records = [Record(), Record()]
         self.notifications = [Notification(), Notification()]
-        self.id = UUID()
+        self.id = ""
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
