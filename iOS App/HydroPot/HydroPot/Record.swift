@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct codeRecord: Codable {
+
+    let dateRecorded: String
+    let light: Int
+    let moisture: Int
+    let reservoir: Int
+    let temperature: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case light, moisture, reservoir, temperature, dateRecorded
+    }
+}
 
 class Record: ObservableObject, Identifiable {
     @Published var dateRecorded: Date

@@ -114,14 +114,40 @@ class GetUser: ObservableObject {
         self.name = ""
         self.email = ""
         self.password = ""
+        self.pots = []
     }
     
-    func signup(userId: String, name: String, email: String, password: String) {
-        self.userId = userId
+    func signup(name: String, email: String, password: String) {
+        
+        let tempID = UUID()
+        
+        let json: [String: Any] = ["operation": "signup", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": email, "password": password, "id": tempID.uuidString]]]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in }.resume()
+        
+        self.userId = tempID.uuidString
         self.loggedIn = true
         self.name = name
         self.email = email
         self.password = password
+        self.pots = []
+
     }
     
     func addPlant(pot: Pot) {

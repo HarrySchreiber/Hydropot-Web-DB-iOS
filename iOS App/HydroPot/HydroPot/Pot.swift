@@ -23,9 +23,10 @@ struct codePot: Codable, Identifiable {
     let automaticWatering: Bool
     let plantName: String
     let idealTempHigh: Int
-    
+    let records: [codeRecord]?
+
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records
     }
 }
 

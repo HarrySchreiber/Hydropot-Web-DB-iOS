@@ -74,8 +74,7 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                user.signup(userId: UUID().uuidString, name: name, email: email, password: password)
-                                user.loggedIn = true
+                                user.signup(name: name, email: email, password: password)
                             }) {
                                Text("Sign up")
                                 .foregroundColor(.white)
