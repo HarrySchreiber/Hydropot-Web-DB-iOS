@@ -23,11 +23,11 @@ struct NotificationsPage: View {
                         
                         NavigationLink(destination: PlantPage(user: user, pot: pot)) {
                             VStack {
-                                Text(notie.text)
+                                Text(notie.type)
                                 HStack {
                                     Spacer()
-                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
-                                        .font(.footnote)
+//                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
+                                    Text(notie.timeStamp) .font(.footnote)
                                 }
                             }.fixedSize(horizontal: false, vertical: true)
                         }
@@ -35,8 +35,6 @@ struct NotificationsPage: View {
                 }
             }
             .navigationBarTitle("Notifications", displayMode: .inline)
-            .navigationBarItems(trailing:  NavigationLink(destination: PlantPage(user: user, pot: user.pots[0])) {
-            } )    //why does this line add styling to the list?
         }
     }
 }

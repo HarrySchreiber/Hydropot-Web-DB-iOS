@@ -156,12 +156,12 @@ struct EditPlantPage: View {
             }, trailing:
                 Button(action: {
                     if (plantName != "" && plantSelected != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                        pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, records: pot.records, notifications: pot.notifications)
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }
                     else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        pot.editPlant(plantName: plantName, plantType: pot.plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                        pot.editPlant(plantName: plantName, plantType: pot.plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, records: pot.records, notifications: pot.notifications)
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }

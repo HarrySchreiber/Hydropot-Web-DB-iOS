@@ -21,18 +21,18 @@ struct codeRecord: Codable {
 }
 
 class Record: ObservableObject, Identifiable {
-    @Published var dateRecorded: Date
+    @Published var dateRecorded: String
     @Published var moisture: Int
     @Published var temperature: Int
     @Published var light: Int
     @Published var reservoir: Int
     
-    init() {
-        self.dateRecorded = Date()
-        self.moisture = 70
-        self.temperature = 60
-        self.light = 1500
-        self.reservoir = 20
+    init(dateRecorded: String, moisture: Int, temperature: Int, light: Int, reservoir: Int) {
+        self.dateRecorded = dateRecorded
+        self.moisture = moisture
+        self.temperature = temperature
+        self.light = light
+        self.reservoir = reservoir
     }
 }
 

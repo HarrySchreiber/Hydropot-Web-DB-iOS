@@ -94,7 +94,22 @@ class GetUser: ObservableObject {
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealLightLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow))
+                            var records : [Record] = []
+                            for rec in pot.records! {
+                                let record = Record(dateRecorded: rec.dateRecorded, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                records.append(record)
+                            }
+                            var notifications : [Notification] = []
+                            for notie in pot.notifications! {
+                                let notification = Notification(type: notie.type, timeStamp: notie.timeStamp)
+                                notifications.append(notification)
+                            }
+//                            var notifications : [Notification] = []
+//                            for notie in pot.! {
+//                                let record = Record(dateRecorded: rec.dateRecorded, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+//                                records.append(record)
+//                            }
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealLightLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, records: records, notifications: notifications))
                         }
                     }
                 }

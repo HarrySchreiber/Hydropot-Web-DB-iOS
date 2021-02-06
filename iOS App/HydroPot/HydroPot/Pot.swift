@@ -24,9 +24,10 @@ struct codePot: Codable, Identifiable {
     let plantName: String
     let idealTempHigh: Int
     let records: [codeRecord]?
+    let notifications: [codeNotification]?
 
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records, notifications
     }
 }
 
@@ -49,7 +50,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var id: String
     
 
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, records: [Record], notifications: [Notification]) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = 65
@@ -63,12 +64,12 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.lastWatered = Date()
         self.automaticWatering = true
-        self.records = [Record(), Record()]
-        self.notifications = [Notification(), Notification()]
+        self.records = records
+        self.notifications = notifications
         self.id = ""
     }
     
-    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, records: [Record], notifications: [Notification]) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = 65
@@ -82,8 +83,8 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.lastWatered = Date()
         self.automaticWatering = true
-        self.records = [Record(), Record()]
-        self.notifications = [Notification(), Notification()]
+        self.records = records
+        self.notifications = notifications
     }
     
 }
