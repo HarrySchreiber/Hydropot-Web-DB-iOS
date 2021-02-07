@@ -10,9 +10,10 @@ import SwiftUI
 struct Login: View {
     @State var selectedTab: Int = 1
     @State var name: String = ""
-    @State var password: String = "Failure"
+    @State var password: String = ""
     @State var email: String = "spencerMoney@gmail.com"
     @StateObject var user = GetUser()
+    @State var plants = Plants()
     
     var body: some View {
         ZStack {
@@ -42,6 +43,8 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 user.login(email: email, password: password)
+                                print("______________________________")
+                                plants.getPlantsList()
                             }) {
                                Text("Login")
                                 .foregroundColor(.white)

@@ -20,7 +20,7 @@ struct PlantTypePage: View {
                 Divider()
                 VStack(alignment: .leading){
                     (Text("Description: ").bold() +
-                        Text("\(plant.Description)"))
+                        Text("\(plant.description)"))
                         .font(.footnote)
                         .padding(.vertical, 0.5)
                         .lineLimit(nil)
@@ -39,9 +39,9 @@ struct PlantTypePage: View {
         }
     }
 }
-
-struct PlantTypePage_Previews: PreviewProvider {
-    static var previews: some View {
-        PlantTypePage(plant: Plant())
-    }
-}
+//
+//struct PlantTypePage_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PlantTypePage(plant: Plant())
+//    }
+//}

@@ -94,6 +94,7 @@ class GetUser: ObservableObject {
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
+                            
                             var records : [Record] = []
                             for rec in pot.records! {
                                 let dateFormatter = DateFormatter()
@@ -112,12 +113,12 @@ class GetUser: ObservableObject {
                                 let notification = Notification(type: notie.type, timeStamp: date!)
                                 notifications.append(notification)
                             }
-//                            var notifications : [Notification] = []
-//                            for notie in pot.! {
-//                                let record = Record(dateRecorded: rec.dateRecorded, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
-//                                records.append(record)
-//                            }
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealLightLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, records: records, notifications: notifications))
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                            let date = dateFormatter.date(from: pot.lastWatered)
+                            
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date!, records: records, notifications: notifications))
                         }
                     }
                 }

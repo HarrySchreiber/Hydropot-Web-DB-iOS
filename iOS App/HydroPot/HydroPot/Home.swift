@@ -21,7 +21,7 @@ struct Home: View {
     var body: some View {
         TabView() {
             HomeView(user: user, plants: plants).tabItem { Text("Home") }.tag(1)
-            PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
+            PlantTypeList(plants: self.plants).tabItem { Text("Plant Type") }.tag(2)
             NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
@@ -37,6 +37,13 @@ struct HomeView: View {
     @State private var nineML = false
     @State var showingDetail = false
 
+    //temperary date formatting
+    static let taskDateFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, hh:mm a"
+        return formatter
+    }()
+    
     var body: some View {
         ZStack{
             NavigationView {
@@ -59,7 +66,7 @@ struct HomeView: View {
                                     }
                                 }
                                 HStack() {
-                                    Text("Last watered: \n4 days ago ")
+                                    Text("Last watered: \n\(pot.lastWatered, formatter: Self.taskDateFormat)")
                                         .padding(.top)
                                         .frame(maxWidth: 125)
                                     Button("Water Plant") {

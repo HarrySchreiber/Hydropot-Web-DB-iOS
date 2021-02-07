@@ -17,34 +17,52 @@ class Plant: ObservableObject, Identifiable {
     @Published var idealMoistureHigh: Int
     @Published var idealLightLow: Int
     @Published var idealLightHigh: Int
-    @Published var Description: String
-
-    init() {
-        self.plantType = "Tulip"
-        self.idealTempLow = 60
-        self.idealTempHigh = 70
-        self.idealMoistureLow = 30
-        self.idealMoistureHigh = 60
-        self.idealLightLow = 1000
-        self.idealLightHigh = 4000
-        self.Description = "This plant is a good plant! This plant is so good it will make you happy to be a plant owner. Even if you hate your life this plant will make you no longer hate your life"
+    @Published var description: String
+    
+    init(plantType: String, idealTempLow: Int, idealTempHigh: Int, idealMoistureLow: Int, idealMoistureHigh: Int,
+         idealLightLow: Int, idealLightHigh: Int, description: String) {
+        self.plantType = plantType
+        self.idealTempLow = idealTempLow
+        self.idealTempHigh = idealTempHigh
+        self.idealMoistureLow = idealMoistureLow
+        self.idealMoistureHigh = idealMoistureHigh
+        self.idealLightLow = idealLightLow
+        self.idealLightHigh = idealLightHigh
+        self.description = description
     }
-
+    
 }
+
+
+struct PlantResults: Codable {
+    let Items: [codePlant]
+    let Count: Int
+    let ScannedCount: Int
+}
+
+struct codePlant: Codable, Identifiable {
+    let id: String
+    let description: String
+    let idealLightHigh: Int
+    let idealLightLow: Int
+    let idealMoistureHigh: Int
+    let idealMoistureLow: Int
+    let idealTempHigh: Int
+    let idealTempLow: Int
+    let plantType: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, description, idealLightHigh, idealLightLow, idealMoistureHigh, idealMoistureLow,
+             idealTempHigh, idealTempLow, plantType
+    }
+}
+
 
 class Plants: ObservableObject, Identifiable {
     @Published var plantList: [Plant]
-
+    
     init() {
-        let specialPlant = Plant()
-        specialPlant.plantType = "Special Plant"
-        specialPlant.idealLightHigh = 100000
-        specialPlant.idealLightLow = 0
-        specialPlant.idealTempLow = 0
-        specialPlant.idealTempHigh = 100
-        specialPlant.idealMoistureLow = 0
-        specialPlant.idealMoistureHigh = 100
-        self.plantList = [Plant(), Plant(), Plant(), specialPlant, Plant(), Plant()]
+        self.plantList = []
     }
     
     func contains(plantName: String) -> Bool {
@@ -63,7 +81,71 @@ class Plants: ObservableObject, Identifiable {
                 return plantList[index]
             }
         }
-        return Plant()
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up")
+    }
+    
+    func getPlantsList() {
+        
+        let json: [String: Any] =
+            ["operation": "getAll", "tableName": "HydroPotPlantTypes"]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+        
+        
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        // start a data task to download the data from the URL
+        
+        
+        session.dataTask(with: request) { data, response, error in
+            // make sure data is not nil
+            guard let d = data else {
+                print("Unable to load data")
+                return
+            }
+            
+            // decode the returned data into Codable structs
+            let results: PlantResults?
+            do {
+                let decoder = JSONDecoder()
+                results = try decoder.decode(PlantResults.self, from: d)
+            } catch {
+                print(error)
+                results = nil
+            }
+            guard let r = results else {
+                print("Unable to parse JSON")
+                return
+            }
+            DispatchQueue.main.async(execute: {
+                if ((r.Items.count) != 0) {
+                    for plant in r.Items {
+                        self.plantList.append(Plant(
+                            plantType: plant.plantType,
+                            idealTempLow: plant.idealTempLow,
+                            idealTempHigh: plant.idealTempHigh,
+                            idealMoistureLow: plant.idealMoistureLow,
+                            idealMoistureHigh: plant.idealMoistureHigh,
+                            idealLightLow: plant.idealLightLow,
+                            idealLightHigh: plant.idealLightHigh,
+                            description: plant.description))
+                    }
+                    print("number of list elements inside: \(self.plantList.count)")
+                }
+            })
+        }.resume()
+        print("number of list elements outside: \(self.plantList.count)")
     }
     
 }

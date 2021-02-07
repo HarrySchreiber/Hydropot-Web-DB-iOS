@@ -50,7 +50,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var id: String
     
 
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, records: [Record], notifications: [Notification]) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification]) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = 65
@@ -62,7 +62,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightLow = idealLightLow
         self.curLight = 3000
         self.idealLightHigh = idealLightHigh
-        self.lastWatered = Date()
+        self.lastWatered = lastWatered
         self.automaticWatering = true
         self.records = records
         self.notifications = notifications
