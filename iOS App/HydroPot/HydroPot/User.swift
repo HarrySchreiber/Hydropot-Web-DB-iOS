@@ -100,7 +100,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
-                                let record = Record(dateRecorded: date!, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
                                 records.append(record)
                             }
                             var notifications : [Notification] = []
@@ -109,7 +109,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
-                                let notification = Notification(type: notie.type, timeStamp: date!)
+                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
                                 notifications.append(notification)
                             }
                             
@@ -120,6 +120,7 @@ class GetUser: ObservableObject {
                             self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
                         }
                     }
+                    
                 }
             })
         }.resume()
@@ -184,7 +185,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
-                                let record = Record(dateRecorded: date!, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
                                 records.append(record)
                             }
                             var notifications : [Notification] = []
@@ -193,7 +194,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
-                                let notification = Notification(type: notie.type, timeStamp: date!)
+                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
                                 notifications.append(notification)
                             }
                             
@@ -201,7 +202,7 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date!, records: records, notifications: notifications))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
                         }
                     }
                 }
