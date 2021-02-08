@@ -14,6 +14,7 @@ struct Login: View {
     @State var email: String = "spencerMoney@gmail.com"
     @StateObject var user = GetUser()
     @State var plants = Plants()
+    @State var alert = false
     
     var body: some View {
         ZStack {
@@ -43,8 +44,14 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 user.login(email: email, password: password)
-                                plants.getPlantsList()
-                                print("______________________________")
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                    if (!user.loggedIn) {
+                                        alert = true
+                                    }
+                                    else {
+                                        plants.getPlantsList()
+                                    }
+                                }
                             }) {
                                Text("Login")
                                 .foregroundColor(.white)
@@ -52,6 +59,9 @@ struct Login: View {
                                 .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                 .cornerRadius(6)
                                 .frame(minWidth: 0, maxWidth: .infinity)
+                            }
+                            .alert(isPresented: $alert) {
+                                Alert(title: Text(""), message: Text("Invalid Login Credentials"), dismissButton: .default(Text("Try Again")))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         } else {
@@ -77,7 +87,12 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                user.signup(name: name, email: email, password: password)
+                                if (name == "" || email != "" || password == ""){
+                                    alert = true
+                                }
+                                else {
+                                    user.signup(name: name, email: email, password: password)
+                                }
                             }) {
                                Text("Sign up")
                                 .foregroundColor(.white)
@@ -85,6 +100,9 @@ struct Login: View {
                                 .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                 .cornerRadius(6)
                                 .frame(maxWidth: .infinity)
+                            }
+                            .alert(isPresented: $alert) {
+                                Alert(title: Text(""), message: Text("Please fille out all fields"), dismissButton: .default(Text("Got it!")))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }
