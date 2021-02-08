@@ -66,12 +66,10 @@ struct HomeView: View {
                                     }
                                 }
                                 HStack() {
-                                    Text("Last watered: \n\(pot.lastWatered, formatter: Self.taskDateFormat)")
+                                    Text("Last watered: \n\(getLastWatered(pot: pot))")
                                         .padding(.top)
                                         .frame(maxWidth: 125)
                                     Button("Water Plant") {
-                                        print(user.pots[0].plantName)
-                                        print(user.pots[1].plantName)
                                         showPopUp = true
                                        }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -188,6 +186,20 @@ struct HomeView: View {
                 .cornerRadius(20).shadow(radius: 20)
             }
         }
+    }
+    
+    func getLastWatered(pot: Pot) -> String {
+
+        let date1 = pot.lastWatered
+        let date2 = Date()
+
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        let days = diffs.day ?? 0
+        
+        if days == 1 {
+            return String(days) +  " day ago"
+        }
+        return String(days) + " days ago"
     }
 }
 
