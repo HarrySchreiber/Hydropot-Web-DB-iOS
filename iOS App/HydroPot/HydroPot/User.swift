@@ -257,6 +257,27 @@ class GetUser: ObservableObject {
     }
     
     func addPlant(pot: Pot) {
+        /*
+        let json: [String: Any] = ["operation": "addPots", "tableName": "HydroPotUsers", "payload": ["Item": ["id": userId, "email": email, "pots" :["automaticWatering": pot.automaticWatering, "curLight": pot.curLight, "curMoisture": pot.curMoisture, "curTemp": pot.curTemp, "id": pot.id, "idealLightHigh": pot.idealLightHigh, "idealLightLow": pot.idealLightLow, "idealMoistureHigh": pot.idealMoistureHigh, "idealMoistureLow": pot.idealMoistureLow, "idealTempHigh": pot.idealTempHigh, "image": pot.image, "lastWatered": pot.lastWatered, "notificaitons": [], "plantName": pot.plantName, "plantType": pot.plantType, "records": []]]]]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in }.resume()
+        */
         reload()
     }
     
@@ -293,6 +314,7 @@ class GetUser: ObservableObject {
         })
         print(notiesTupleList)
         return notiesTupleList
+        
     }
     
 }

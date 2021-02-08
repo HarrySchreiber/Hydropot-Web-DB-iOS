@@ -47,6 +47,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var automaticWatering: Bool
     @Published var records: [Record]
     @Published var notifications: [Notification]
+    @Published var image: String
     @Published var id: String
     
 
@@ -66,6 +67,7 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = true
         self.records = records
         self.notifications = notifications
+        self.image = ""
         self.id = "12341234123"
     }
     
