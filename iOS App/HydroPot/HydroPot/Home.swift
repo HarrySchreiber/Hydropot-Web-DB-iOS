@@ -11,18 +11,18 @@ struct Home: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     
-    init (user : GetUser){
+    init (user : GetUser, plants: Plants){
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
         self.user = user
-        self.plants = Plants()
+        self.plants = plants
     }
     var body: some View {
         TabView() {
             HomeView(user: user, plants: plants).tabItem { Text("Home") }.tag(1)
             PlantTypeList(plants: self.plants).tabItem { Text("Plant Type") }.tag(2)
-            NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
+            NotificationsPage(user: user, plants: plants).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
     }
@@ -50,7 +50,7 @@ struct HomeView: View {
                 List {
                     ForEach(user.pots) {
                     pot in
-                        NavigationLink(destination: PlantPage(user: user, pot: pot)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
                             VStack {
                                 HStack(){
                                     Image(systemName: "leaf.fill")
@@ -192,6 +192,6 @@ struct HomeView: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home(user: GetUser())
+        Home(user: GetUser(), plants: Plants())
     }
 }

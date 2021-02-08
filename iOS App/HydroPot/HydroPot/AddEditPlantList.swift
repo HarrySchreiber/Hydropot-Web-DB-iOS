@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AddEditPlantList: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var plants = Plants()
+    @State var plants: Plants
     @Binding var plantSelected: String
     @Binding var idealTemperatureHigh: Int
     @Binding var idealMoistureHigh: Int

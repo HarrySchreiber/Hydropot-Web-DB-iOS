@@ -43,8 +43,8 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 user.login(email: email, password: password)
-                                print("______________________________")
                                 plants.getPlantsList()
+                                print("______________________________")
                             }) {
                                Text("Login")
                                 .foregroundColor(.white)
@@ -93,7 +93,7 @@ struct Login: View {
                     .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
                     .cornerRadius(6)
                 } else {
-                    Home(user: user)
+                    Home(user: user, plants: plants)
                 }
             }
         }

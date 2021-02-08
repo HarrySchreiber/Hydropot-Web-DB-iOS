@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NotificationsPage: View {
     @ObservedObject var user: GetUser
+    @ObservedObject var plants: Plants
     static let taskDateFormat: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, hh:mm a"
@@ -21,7 +22,7 @@ struct NotificationsPage: View {
                     pot in ForEach(pot.notifications) {
                         notie in
                         
-                        NavigationLink(destination: PlantPage(user: user, pot: pot)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
                             VStack(alignment: .leading){
                                 Text(getMessage(type: notie.type, pot: pot))
                                 HStack {
@@ -65,6 +66,6 @@ struct NotificationsPage: View {
 
 struct NotificationsPage_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationsPage(user: GetUser())
+        NotificationsPage(user: GetUser(), plants: Plants())
     }
 }
