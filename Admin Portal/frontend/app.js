@@ -205,14 +205,15 @@ function buildInputFields(){
 }
 
 function addPlant(){
-    var plantType = document.getElementById("add-plant-name");
-    var idealMoistureHigh = document.getElementById("add-moisture-high");
-    var idealMoistureLow = document.getElementById("add-moisture-low");
-    var idealLightHigh = document.getElementById("add-light-high");
-    var idealLightLow = document.getElementById("add-light-low");
-    var idealTempHigh = document.getElementById("add-temp-high");
-    var idealTempLow = document.getElementById("add-temp-low");
-    var description = document.getElementById("add-description");
+    var plantType = document.getElementById("add-plant-name").value;
+    var idealMoistureHigh = Number(document.getElementById("add-moisture-high").value);
+    var idealMoistureLow = Number(document.getElementById("add-moisture-low").value);
+    var idealLightHigh = Number(document.getElementById("add-light-high").value);
+    var idealLightLow = Number(document.getElementById("add-light-low").value);
+    var idealTempHigh = Number(document.getElementById("add-temp-high").value);
+    var idealTempLow = Number(document.getElementById("add-temp-low").value);
+    var description = document.getElementById("add-description").value;
+
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -221,14 +222,14 @@ function addPlant(){
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
-                    'plantType':plantType.value,
-                    'idealTempLow':Number(idealTempHigh.value),
-                    'idealTempHigh':Number(idealTempLow.value),
-                    'idealMoistureLow':Number(idealMoistureLow.value),
-                    'idealMoistureHigh':Number(idealMoistureHigh.value),
-                    'idealLightLow':Number(idealLightHigh.value),
-                    'idealLightHigh':Number(idealLightLow.value),
-                    'description':description.value
+                    'plantType':plantType,
+                    'idealTempLow':idealTempHigh,
+                    'idealTempHigh':idealTempLow,
+                    'idealMoistureLow':idealMoistureLow,
+                    'idealMoistureHigh':idealMoistureHigh,
+                    'idealLightLow':idealLightHigh,
+                    'idealLightHigh':idealLightLow,
+                    'description':description
                 }
             }
         })
