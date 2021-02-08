@@ -86,6 +86,8 @@ class Plants: ObservableObject, Identifiable {
     
     func getPlantsList() {
         
+        plantList = []
+        
         let json: [String: Any] =
             ["operation": "getAll", "tableName": "HydroPotPlantTypes"]
         
