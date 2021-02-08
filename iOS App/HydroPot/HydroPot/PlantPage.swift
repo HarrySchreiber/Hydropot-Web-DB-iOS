@@ -11,6 +11,7 @@ struct PlantPage: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
     @ObservedObject var pot: Pot
+    @ObservedObject var plants: Plants
     @State var screenChange = false
     @State var showingDetail = false
     @State var autoWatering = false
@@ -168,7 +169,7 @@ struct PlantPage: View {
                         .padding(6)
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showingDetail) {
-                    EditPlantPage(user: user, pot: pot, showModal: $showingDetail)
+                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
                 })
             if $showPopUp.wrappedValue {
                 ZStack {

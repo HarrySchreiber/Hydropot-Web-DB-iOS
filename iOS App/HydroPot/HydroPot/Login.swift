@@ -10,9 +10,11 @@ import SwiftUI
 struct Login: View {
     @State var selectedTab: Int = 1
     @State var name: String = ""
-    @State var password: String = "Failure"
-    @State var email: String = "Example@example.com"
+    @State var password: String = ""
+    @State var email: String = "spencerMoney@gmail.com"
     @StateObject var user = GetUser()
+    @State var plants = Plants()
+    @State var alert = false
     
     var body: some View {
         ZStack {
@@ -42,6 +44,14 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 user.login(email: email, password: password)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                    if (!user.loggedIn) {
+                                        alert = true
+                                    }
+                                    else {
+                                        plants.getPlantsList()
+                                    }
+                                }
                             }) {
                                Text("Login")
                                 .foregroundColor(.white)
@@ -49,6 +59,9 @@ struct Login: View {
                                 .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                 .cornerRadius(6)
                                 .frame(minWidth: 0, maxWidth: .infinity)
+                            }
+                            .alert(isPresented: $alert) {
+                                Alert(title: Text(""), message: Text("Invalid Login Credentials"), dismissButton: .default(Text("Try Again")))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         } else {
@@ -74,8 +87,12 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                user.signup(userId: UUID().uuidString, name: name, email: email, password: password)
-                                user.loggedIn = true
+                                if (name == "" || email != "" || password == ""){
+                                    alert = true
+                                }
+                                else {
+                                    user.signup(name: name, email: email, password: password)
+                                }
                             }) {
                                Text("Sign up")
                                 .foregroundColor(.white)
@@ -84,6 +101,9 @@ struct Login: View {
                                 .cornerRadius(6)
                                 .frame(maxWidth: .infinity)
                             }
+                            .alert(isPresented: $alert) {
+                                Alert(title: Text(""), message: Text("Please fille out all fields"), dismissButton: .default(Text("Got it!")))
+                            }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }
                     }
@@ -91,7 +111,7 @@ struct Login: View {
                     .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
                     .cornerRadius(6)
                 } else {
-                    Home(user: user)
+                    Home(user: user, plants: plants)
                 }
             }
         }

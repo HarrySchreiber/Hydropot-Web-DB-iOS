@@ -11,18 +11,18 @@ struct Home: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     
-    init (user : GetUser){
+    init (user : GetUser, plants: Plants){
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
         self.user = user
-        self.plants = Plants()
+        self.plants = plants
     }
     var body: some View {
         TabView() {
             HomeView(user: user, plants: plants).tabItem { Text("Home") }.tag(1)
-            PlantTypeList().tabItem { Text("Plant Type") }.tag(2)
-            NotificationsPage(user: user).tabItem { Text("Notifications") }.tag(3)
+            PlantTypeList(plants: self.plants).tabItem { Text("Plant Type") }.tag(2)
+            NotificationsPage(user: user, plants: plants).tabItem { Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem { Text("Account") }.tag(4)
         }
     }
@@ -37,13 +37,20 @@ struct HomeView: View {
     @State private var nineML = false
     @State var showingDetail = false
 
+    //temperary date formatting
+    static let taskDateFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, hh:mm a"
+        return formatter
+    }()
+    
     var body: some View {
         ZStack{
             NavigationView {
                 List {
                     ForEach(user.pots) {
                     pot in
-                        NavigationLink(destination: PlantPage(user: user, pot: pot)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
                             VStack {
                                 HStack(){
                                     Image(systemName: "leaf.fill")
@@ -59,10 +66,12 @@ struct HomeView: View {
                                     }
                                 }
                                 HStack() {
-                                    Text("Last watered: \n4 days ago ")
+                                    Text("Last watered: \n\(pot.lastWatered, formatter: Self.taskDateFormat)")
                                         .padding(.top)
                                         .frame(maxWidth: 125)
                                     Button("Water Plant") {
+                                        print(user.pots[0].plantName)
+                                        print(user.pots[1].plantName)
                                         showPopUp = true
                                        }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -185,6 +194,6 @@ struct HomeView: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home(user: GetUser())
+        Home(user: GetUser(), plants: Plants())
     }
 }

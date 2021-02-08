@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantTypeList: View {
-    @State var plants = Plants()
+    @State var plants : Plants
     @State private var searchQuery: String = ""
     
     @State private var plantList = [String]()
@@ -61,7 +61,7 @@ struct PlantTypeList: View {
             }
         }
         print("error occured\n_____------_____----_____")
-        return Plant()
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up") 
     }
     
 }
@@ -120,7 +120,6 @@ struct SearchBar: View {
                 Button(action: {
                     searching = false
                     searchInput = ""
-                    
                     // Hide Keyboard
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }, label: {
@@ -135,8 +134,8 @@ struct SearchBar: View {
     }
 }
 
-struct PlantTypeList_Previews: PreviewProvider {
-    static var previews: some View {
-        PlantTypeList()
-    }
-}
+//struct PlantTypeList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PlantTypeList(plants: Plants())
+//    }
+//}

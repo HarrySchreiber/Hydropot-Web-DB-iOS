@@ -10,6 +10,7 @@ import SwiftUI
 struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var user: GetUser
+    @ObservedObject var plants: Plants
     @ObservedObject var pot: Pot
     @Binding var showModal: Bool
     @State var plantName = ""
@@ -61,7 +62,7 @@ struct EditPlantPage: View {
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
                             }
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                            NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.black)
                                     .padding(6)
@@ -165,6 +166,7 @@ struct EditPlantPage: View {
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }
+                    print("false")
                 }) {
                 HStack {
                     Text("Confirm")

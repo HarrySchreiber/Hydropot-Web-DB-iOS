@@ -7,14 +7,22 @@
 
 import Foundation
 
+struct codeNotification: Codable {
 
+    let type: String
+    let timeStamp: String
+    
+    enum CodingKeys: String, CodingKey {
+        case type, timeStamp
+    }
+}
 class Notification: ObservableObject, Identifiable {
-    @Published var text: String
+    @Published var type: String
     @Published var timeStamp: Date
     
-    init() {
-        self.text = "Hey Spencer! Your plant, Billy, was just watered by your Hydro Pot!"
-        self.timeStamp = Date()
+    init(type: String, timeStamp: Date) {
+        self.type = type
+        self.timeStamp = timeStamp
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AddEditPlantList: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var plants = Plants()
+    @State var plants: Plants
     @Binding var plantSelected: String
     @Binding var idealTemperatureHigh: Int
     @Binding var idealMoistureHigh: Int
@@ -78,7 +78,7 @@ struct AddEditPlantList: View {
             }
         }
         print("error occured\n_____------_____----_____")
-        return Plant()
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up")
     }
     
 }

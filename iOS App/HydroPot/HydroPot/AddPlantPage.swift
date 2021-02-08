@@ -58,7 +58,7 @@ struct AddPlantPage: View {
                                     .border(Color.black.opacity(0.5))
                             }
                             
-                            NavigationLink(destination: AddEditPlantList(plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                            NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.black)
                                     .padding(6)
@@ -129,7 +129,7 @@ struct AddPlantPage: View {
             }, trailing:
                 Button(action: {
                     if (plantName != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow))
+                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, lastWatered: Date(), records: [], notifications: []))
                         self.showModal.toggle()
                     }
                 }) {

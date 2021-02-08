@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct codeRecord: Codable {
+
+    let dateRecorded: String
+    let light: Int
+    let moisture: Int
+    let reservoir: Int
+    let temperature: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case light, moisture, reservoir, temperature, dateRecorded
+    }
+}
 
 class Record: ObservableObject, Identifiable {
     @Published var dateRecorded: Date
@@ -15,12 +27,12 @@ class Record: ObservableObject, Identifiable {
     @Published var light: Int
     @Published var reservoir: Int
     
-    init() {
-        self.dateRecorded = Date()
-        self.moisture = 70
-        self.temperature = 60
-        self.light = 1500
-        self.reservoir = 20
+    init(dateRecorded: Date, moisture: Int, temperature: Int, light: Int, reservoir: Int) {
+        self.dateRecorded = dateRecorded
+        self.moisture = moisture
+        self.temperature = temperature
+        self.light = light
+        self.reservoir = reservoir
     }
 }
 
