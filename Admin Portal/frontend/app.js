@@ -97,12 +97,12 @@ function buildTable(data){
         var saveButton = document.createElement("input");
         saveButton.setAttribute("type","button");
         saveButton.setAttribute("style","width: 50%; height: 100%");
-        saveButton.setAttribute("onclick",`editPlant("${obj['id']}")`);
+        saveButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['plantType']}","edit")`);
         saveButton.value = "💾";
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
-        deleteButton.setAttribute("onclick",`confirmDeleteModal("${obj['id']}","${obj['plantType']}")`);
+        deleteButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['plantType']}","delete")`);
         deleteButton.value = "🤮";
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
@@ -328,10 +328,10 @@ function deletePlant(id){
     setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
-function confirmDeleteModal(id, plantType){
+function confirmActionModal(id, plantType, action){
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
-    modal.setAttribute("id","confirmDeleteModal");
+    modal.setAttribute("id","confirmActionModal");
 
     var modalDialog = document.createElement("div");
     modalDialog.setAttribute("class","modal-dialog");
@@ -344,7 +344,13 @@ function confirmDeleteModal(id, plantType){
 
     var modalTitle = document.createElement("div");
     modalTitle.setAttribute("class","h5");
-    modalTitle.textContent = "Confirm Delete?";
+
+    if(action == "delete"){
+        modalTitle.textContent = "Confirm Delete?";
+    }else if (action == "edit"){
+        modalTitle.textContent = "Confirm Edit?";
+    }
+    
 
     var closeButton = document.createElement("button");
     closeButton.setAttribute("type","button");
@@ -360,11 +366,19 @@ function confirmDeleteModal(id, plantType){
     var modalBody = document.createElement("div");
     modalBody.setAttribute("class","modal-body");
     var message = document.createElement("p");
-    message.append("Deleting ");
-    var boldSection = document.createElement("b");
-    boldSection.append(plantType);
-    message.append(boldSection);
-    message.append(" will permenantly remove it from the database, are you sure?");
+    if(action == "delete"){
+        message.append("Deleting ");
+        var boldSection = document.createElement("b");
+        boldSection.append(plantType);
+        message.append(boldSection);
+        message.append(" will permenantly remove it from the database, are you sure?");
+    }else if(action == "edit"){
+        message.append("Editing ");
+        var boldSection = document.createElement("b");
+        boldSection.append(plantType);
+        message.append(boldSection);
+        message.append(" will permenantly change it's values in the database, are you sure?");
+    }
     modalBody.appendChild(message);
 
     var modalFooter = document.createElement("div");
@@ -375,14 +389,21 @@ function confirmDeleteModal(id, plantType){
     cancelButton.setAttribute("data-dismiss","modal");
     cancelButton.setAttribute("onclick","cleanModel()");
     cancelButton.append("Cancel");
-    var deleteButton = document.createElement("div");
-    deleteButton.setAttribute("type","button");
-    deleteButton.setAttribute("class","btn btn-danger");
-    deleteButton.setAttribute("data-dismiss","modal");
-    deleteButton.setAttribute("onclick",`deletePlant("${id}")`);
-    deleteButton.append("Delete");
+    var actionButton = document.createElement("div");
+    actionButton.setAttribute("type","button");
+    if(action == "delete"){
+        actionButton.setAttribute("class","btn btn-danger");
+        actionButton.setAttribute("data-dismiss","modal");
+        actionButton.setAttribute("onclick",`deletePlant("${id}")`);
+        actionButton.append("Delete");
+    }else if(action == "edit"){
+        actionButton.setAttribute("class","btn btn-primary");
+        actionButton.setAttribute("data-dismiss","modal");
+        actionButton.setAttribute("onclick",`editPlant("${id}")`);
+        actionButton.append("Save Changes");
+    }
     modalFooter.appendChild(cancelButton);
-    modalFooter.appendChild(deleteButton);
+    modalFooter.appendChild(actionButton);
 
     modalHeader.appendChild(modalTitle);
     modalHeader.appendChild(closeButton);
@@ -393,10 +414,10 @@ function confirmDeleteModal(id, plantType){
     modal.appendChild(modalDialog);
 
     $(document.body).append(modal);
-    $("#confirmDeleteModal").modal();
+    $("#confirmActionModal").modal();
 }
 
 function cleanModel(){
-    $("#confirmDeleteModal").remove();
+    $("#confirmActionModal").remove();
     $(".modal-backdrop").remove();
 }
