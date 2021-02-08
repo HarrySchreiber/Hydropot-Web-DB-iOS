@@ -38,7 +38,7 @@ struct PlantPage: View {
                             }
                         }
                         HStack() {
-                            Text("Last watered: \n4 days ago ")
+                            Text("Last watered: \n\(getLastWatered(pot: pot))")
                                 .frame(maxWidth: 300)
                                 .padding(.trailing, 15)
                             Button("Water Plant") {
@@ -260,5 +260,18 @@ struct PlantPage: View {
                 .cornerRadius(20).shadow(radius: 20)
             }
         }
+    }
+    func getLastWatered(pot: Pot) -> String {
+
+        let date1 = pot.lastWatered
+        let date2 = Date()
+
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        let days = diffs.day ?? 0
+        
+        if days == 1 {
+            return String(days) +  " day ago"
+        }
+        return String(days) + " days ago"
     }
 }

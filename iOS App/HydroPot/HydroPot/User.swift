@@ -81,7 +81,7 @@ class GetUser: ObservableObject {
                 results = nil
             }
             guard let r = results else {
-                print("Unable to parse JSON")
+                print("Unable to parse user login JSON")
                 return
             }
             DispatchQueue.main.async(execute: {
@@ -166,7 +166,7 @@ class GetUser: ObservableObject {
                 results = nil
             }
             guard let r = results else {
-                print("Unable to parse JSON")
+                print("Unable to parse user reload JSON")
                 return
             }
             DispatchQueue.main.async(execute: {
