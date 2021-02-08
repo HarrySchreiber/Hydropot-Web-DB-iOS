@@ -70,6 +70,8 @@ struct HomeView: View {
                                         .padding(.top)
                                         .frame(maxWidth: 125)
                                     Button("Water Plant") {
+                                        print(user.pots[0].plantName)
+                                        print(user.pots[1].plantName)
                                         showPopUp = true
                                        }
                                     .buttonStyle(BorderlessButtonStyle())

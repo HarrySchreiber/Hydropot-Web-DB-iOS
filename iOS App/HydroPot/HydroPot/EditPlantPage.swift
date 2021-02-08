@@ -166,6 +166,7 @@ struct EditPlantPage: View {
                         user.replacePot(pot: pot)
                         self.showModal.toggle()
                     }
+                    print("false")
                 }) {
                 HStack {
                     Text("Confirm")

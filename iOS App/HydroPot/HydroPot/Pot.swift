@@ -66,7 +66,7 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = true
         self.records = records
         self.notifications = notifications
-        self.id = ""
+        self.id = "12341234123"
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
