@@ -94,7 +94,6 @@ class GetUser: ObservableObject {
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
-                            
                             var records : [Record] = []
                             for rec in pot.records! {
                                 let dateFormatter = DateFormatter()

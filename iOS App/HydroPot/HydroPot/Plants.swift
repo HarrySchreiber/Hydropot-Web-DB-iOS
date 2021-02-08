@@ -143,11 +143,9 @@ class Plants: ObservableObject, Identifiable {
                             idealLightHigh: plant.idealLightHigh,
                             description: plant.description))
                     }
-                    print("number of list elements inside: \(self.plantList.count)")
                 }
             })
         }.resume()
-        print("number of list elements outside: \(self.plantList.count)")
     }
     
 }
