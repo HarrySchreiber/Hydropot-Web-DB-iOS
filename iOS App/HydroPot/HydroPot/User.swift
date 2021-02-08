@@ -268,4 +268,31 @@ class GetUser: ObservableObject {
         }
     }
     
+    
+    struct notiePots: Identifiable {
+        var id: Int
+        
+        var notiesTuple : (pot: Pot, notification: Notification)
+
+    }
+    func getOrderedNotifications() ->  [notiePots] {
+        //make list of tuples, pot : notification
+        //for each pot, add notification
+        var notiesTupleList : [notiePots] = []
+        var counter = 0
+        for pot in pots {
+            for notie in pot.notifications {
+                counter += 1
+                let notiePot = notiePots(id: counter, notiesTuple: (pot, notie))
+                notiesTupleList.append(notiePot)
+            }
+        }
+        //sort list of tuples
+        notiesTupleList = notiesTupleList.sorted(by: {
+            $0.notiesTuple.notification.timeStamp.compare($1.notiesTuple.notification.timeStamp) == .orderedDescending
+        })
+        print(notiesTupleList)
+        return notiesTupleList
+    }
+    
 }

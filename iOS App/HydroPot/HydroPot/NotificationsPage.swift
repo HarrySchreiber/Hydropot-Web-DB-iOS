@@ -18,20 +18,18 @@ struct NotificationsPage: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(user.pots) {
-                    pot in ForEach(pot.notifications) {
-                        notie in
-                        
-                        NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
-                            VStack(alignment: .leading){
-                                Text(getMessage(type: notie.type, pot: pot))
-                                HStack {
-                                    Spacer()
-                                    Text("\(notie.timeStamp, formatter: Self.taskDateFormat)")
-                                        .font(.footnote)
-                                }
-                            }.fixedSize(horizontal: false, vertical: true)
-                        }
+                ForEach(user.getOrderedNotifications()) {
+                    notiePots in
+                    
+                    NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
+                        VStack(alignment: .leading){
+                            Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
+                            HStack {
+                                Spacer()
+                                Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
+                                    .font(.footnote)
+                            }
+                        }.fixedSize(horizontal: false, vertical: true)
                     }
                 }
             }
@@ -61,8 +59,6 @@ struct NotificationsPage: View {
         }
     }
 }
-
-
 
 struct NotificationsPage_Previews: PreviewProvider {
     static var previews: some View {
