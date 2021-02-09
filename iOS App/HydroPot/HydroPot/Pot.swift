@@ -68,7 +68,7 @@ class Pot: ObservableObject, Identifiable {
         self.records = records
         self.notifications = notifications
         self.image = ""
-        self.id = "12341234123"
+        self.id = UUID().uuidString
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {

@@ -257,9 +257,40 @@ class GetUser: ObservableObject {
     }
     
     func addPlant(pot: Pot) {
-        /*
-        let json: [String: Any] = ["operation": "addPots", "tableName": "HydroPotUsers", "payload": ["Item": ["id": userId, "email": email, "pots" :["automaticWatering": pot.automaticWatering, "curLight": pot.curLight, "curMoisture": pot.curMoisture, "curTemp": pot.curTemp, "id": pot.id, "idealLightHigh": pot.idealLightHigh, "idealLightLow": pot.idealLightLow, "idealMoistureHigh": pot.idealMoistureHigh, "idealMoistureLow": pot.idealMoistureLow, "idealTempHigh": pot.idealTempHigh, "image": pot.image, "lastWatered": pot.lastWatered, "notificaitons": [], "plantName": pot.plantName, "plantType": pot.plantType, "records": []]]]]
+        pot.lastWatered = Date()
         
+        pots.append(pot)
+
+        let json: [String: Any] =
+            [
+              "operation": "addPots",
+              "tableName": "HydroPotUsers",
+              "payload": [
+                "Item": [
+                    "id": userId,
+                    "email": email,
+                  "pot": [
+                    "automaticWatering": pot.automaticWatering,
+                    "curLight": pot.curLight,
+                    "curMoisture": pot.curMoisture,
+                    "curTemp": pot.curTemp,
+                    "id": pot.id,
+                    "idealLightHigh": pot.idealLightHigh,
+                    "idealLightLow": pot.idealTempLow,
+                    "idealMoistureHigh": pot.idealMoistureHigh,
+                    "idealMoistureLow": pot.idealMoistureLow,
+                    "idealTempHigh": pot.idealTempHigh,
+                    "idealTempLow": pot.idealTempLow,
+                    "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
+                    "lastWatered": "2021-01-02T03:00:16.047",
+                    "notifications": [],
+                    "plantName": pot.plantName,
+                    "plantType": pot.plantType,
+                    "records": []
+                  ]
+                ]
+              ]
+            ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
@@ -276,8 +307,8 @@ class GetUser: ObservableObject {
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
-        session.dataTask(with: request) { data, response, error in }.resume()
-        */
+        session.dataTask(with: request) { data, response, error in}.resume()
+        
         reload()
     }
     
