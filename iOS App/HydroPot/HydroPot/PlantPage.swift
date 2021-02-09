@@ -63,7 +63,7 @@ struct PlantPage: View {
                         .padding([.leading, .bottom, .trailing])
                         
                         //soil moisture
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
@@ -94,7 +94,7 @@ struct PlantPage: View {
                             .fixedSize(horizontal: false, vertical: true)
                         }
                         //light level
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
@@ -127,7 +127,7 @@ struct PlantPage: View {
                         }
                         
                         //temperature
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
