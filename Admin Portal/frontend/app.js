@@ -363,9 +363,11 @@ function deletePlant(id){
 }
 
 function confirmActionModal(id, plantType, action){
+    console.log(action == "delete");
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
     modal.setAttribute("id","confirmActionModal");
+    modal.setAttribute("data-backdrop","static");
 
     var modalDialog = document.createElement("div");
     modalDialog.setAttribute("class","modal-dialog");
@@ -389,6 +391,7 @@ function confirmActionModal(id, plantType, action){
     var closeButton = document.createElement("button");
     closeButton.setAttribute("type","button");
     closeButton.setAttribute("class","close");
+    closeButton.setAttribute("onclick","cleanModel()");
     closeButton.setAttribute("data-dismiss","modal");
     closeButton.setAttribute("aria-label","Close");
 
@@ -455,6 +458,7 @@ function warningModel(warningMessage){
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
     modal.setAttribute("id","warningModel");
+    modal.setAttribute("data-backdrop","static");
 
     var modalDialog = document.createElement("div");
     modalDialog.setAttribute("class","modal-dialog");
@@ -475,6 +479,7 @@ function warningModel(warningMessage){
     closeButton.setAttribute("class","close");
     closeButton.setAttribute("data-dismiss","modal");
     closeButton.setAttribute("aria-label","Close");
+    closeButton.setAttribute("onclick","cleanModel()");
 
     var hidden = document.createElement("span");
     hidden.setAttribute("aria-hidden","true");
