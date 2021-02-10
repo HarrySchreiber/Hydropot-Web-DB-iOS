@@ -136,7 +136,7 @@ struct AddPlantPage: View {
             }, trailing:
                 Button(action: {
                     if (plantName != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 80, curLight: 3000, curMoisture: 60))
+                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 80, curLight: 3000, curMoisture: 60, id: UUID().uuidString))
                         self.showModal.toggle()
                     }
                 }) {

@@ -53,7 +53,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var resLevel: Int
     
     
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -71,7 +71,7 @@ class Pot: ObservableObject, Identifiable {
         self.notifications = notifications
         self.image = ""
         self.resLevel = resLevel
-        self.id = UUID().uuidString
+        self.id = id
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
