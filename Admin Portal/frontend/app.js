@@ -223,9 +223,28 @@ function addPlant(){
     }
 
     for(var key in keyValueStore){
-        if(!(key == "plantType"|| key == "description")){
+        if(!(key == "plantType"||key == "description")){
+            if(isNaN(keyValueStore[key])){
+                window.alert("All ideals must be numerical");
+                return
+            }
             keyValueStore[key] = Number(keyValueStore[key]);
         }
+    }
+
+    if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
+        window.alert("Ideal Temperature High must be greater than Ideal Temperature Low");
+        return
+    }
+
+    if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
+        window.alert("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return
+    }
+
+    if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
+        window.alert("Ideal Light High must be greater than Ideal Light Low");
+        return
     }
 
     var options = { 
