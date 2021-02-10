@@ -215,11 +215,9 @@ function addPlant(){
     keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
     keyValueStore["description"] = document.getElementById("add-description").value;
 
-    console.log(keyValueStore);
-
     for(var key in keyValueStore){
         if(keyValueStore[key] === ""){
-            warningModel("All fields must have values!");
+            warningModal("All fields must have values!");
             return
         }
     }
@@ -227,7 +225,7 @@ function addPlant(){
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
             if(isNaN(keyValueStore[key])){
-                warningModel("All ideals must be numerical");
+                warningModal("All ideals must be numerical");
                 return
             }
             keyValueStore[key] = Number(keyValueStore[key]);
@@ -235,17 +233,17 @@ function addPlant(){
     }
 
     if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
-        warningModel("Ideal Temperature High must be greater than Ideal Temperature Low");
+        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
         return
     }
 
     if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
-        warningModel("Ideal Moisture High must be greater than Ideal Moisture Low");
+        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
         return
     }
 
     if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
-        warningModel("Ideal Light High must be greater than Ideal Light Low");
+        warningModal("Ideal Light High must be greater than Ideal Light Low");
         return
     }
 
@@ -274,6 +272,7 @@ function addPlant(){
     .then(res => res.json())
     .then(data => {
         // There was not an error
+        loadPage();
         console.log(data);
     })
     .catch((error) => {
@@ -282,10 +281,11 @@ function addPlant(){
     });
 
 
-    setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
+    //setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
 function editPlant(id){
+    cleanModal();
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     var keyValueStore = {};
     for(key of keyArray){
@@ -322,6 +322,7 @@ function editPlant(id){
     .then(res => res.json())
     .then(data => {
         // There was not an error
+        loadPage();
         console.log(data);
     })
     .catch((error) => {
@@ -330,11 +331,11 @@ function editPlant(id){
     });
 
 
-    setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
+    //setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
 function deletePlant(id){
-    cleanModel();
+    cleanModal();
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -353,6 +354,7 @@ function deletePlant(id){
     .then(res => res.json())
     .then(data => {
         // There was not an error
+        loadPage();
         console.log(data);
     })
     .catch((error) => {
@@ -393,7 +395,7 @@ function confirmActionModal(id, plantType, action){
     var closeButton = document.createElement("button");
     closeButton.setAttribute("type","button");
     closeButton.setAttribute("class","close");
-    closeButton.setAttribute("onclick","cleanModel()");
+    closeButton.setAttribute("onclick","cleanModal()");
     closeButton.setAttribute("data-dismiss","modal");
     closeButton.setAttribute("aria-label","Close");
 
@@ -426,7 +428,7 @@ function confirmActionModal(id, plantType, action){
     cancelButton.setAttribute("type","button");
     cancelButton.setAttribute("class","btn btn-secondary");
     cancelButton.setAttribute("data-dismiss","modal");
-    cancelButton.setAttribute("onclick","cleanModel()");
+    cancelButton.setAttribute("onclick","cleanModal()");
     cancelButton.append("Cancel");
     var actionButton = document.createElement("div");
     actionButton.setAttribute("type","button");
@@ -456,10 +458,10 @@ function confirmActionModal(id, plantType, action){
     $("#confirmActionModal").modal();
 }
 
-function warningModel(warningMessage){
+function warningModal(warningMessage){
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
-    modal.setAttribute("id","warningModel");
+    modal.setAttribute("id","warningModal");
     modal.setAttribute("data-backdrop","static");
 
     var modalDialog = document.createElement("div");
@@ -481,7 +483,7 @@ function warningModel(warningMessage){
     closeButton.setAttribute("class","close");
     closeButton.setAttribute("data-dismiss","modal");
     closeButton.setAttribute("aria-label","Close");
-    closeButton.setAttribute("onclick","cleanModel()");
+    closeButton.setAttribute("onclick","cleanModal()");
 
     var hidden = document.createElement("span");
     hidden.setAttribute("aria-hidden","true");
@@ -500,7 +502,7 @@ function warningModel(warningMessage){
     cancelButton.setAttribute("type","button");
     cancelButton.setAttribute("class","btn btn-primary");
     cancelButton.setAttribute("data-dismiss","modal");
-    cancelButton.setAttribute("onclick","cleanModel()");
+    cancelButton.setAttribute("onclick","cleanModal()");
     cancelButton.append("Close");
     modalFooter.appendChild(cancelButton);
 
@@ -513,11 +515,11 @@ function warningModel(warningMessage){
     modal.appendChild(modalDialog);
 
     $(document.body).append(modal);
-    $("#warningModel").modal();
+    $("#warningModal").modal();
 }
 
-function cleanModel(){
+function cleanModal(){
     $("#confirmActionModal").remove();
-    $("#warningModel").remove();
+    $("#warningModal").remove();
     $(".modal-backdrop").remove();
 }
