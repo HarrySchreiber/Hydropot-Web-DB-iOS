@@ -93,7 +93,7 @@ class Pot: ObservableObject, Identifiable {
     
     func getValues(unit: String) -> [(high: Int, avg: Int, low: Int)] {
         if records.count != 0 {
-            print(self.plantName)
+            //print(self.plantName)
             var maxLight = Int.min
             var minLight = Int.max
             var maxTemp = Int.min
@@ -117,7 +117,7 @@ class Pot: ObservableObject, Identifiable {
                 let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
                 let days = diffs.day ?? 0
                 let hours = diffs.hour ?? 0
-                print("days and hours behind: \(days), \(hours)")
+                //print("days and hours behind: \(days), \(hours)")
                 //if not in range anymore
                 //            if unit == "Hourly" && hours >= 12 {
                 //                break
@@ -148,10 +148,10 @@ class Pot: ObservableObject, Identifiable {
                 if record.temperature > maxTemp {
                     maxTemp = record.temperature
                 }
-                print("----------")
-                print(record.moisture)
-                print(record.light)
-                print(record.temperature)
+//                print("----------")
+//                print(record.moisture)
+//                print(record.light)
+//                print(record.temperature)
                 listForAvgTemp.append(record.temperature)
                 
                 //get min/max for moisture
@@ -179,9 +179,9 @@ class Pot: ObservableObject, Identifiable {
             let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
             let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)
             
-            print(lightTuple)
-            print("------------")
-            print([moistureTuple, lightTuple, tempTuple])
+//            print(lightTuple)
+//            print("------------")
+//            print([moistureTuple, lightTuple, tempTuple])
             return [moistureTuple, lightTuple, tempTuple]
         }
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
