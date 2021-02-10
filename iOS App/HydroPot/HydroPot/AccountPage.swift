@@ -24,7 +24,9 @@ struct AccountPage: View {
                         }
                         .padding(.leading, geometry.size.height/30)
                         HStack {
-                            TextField(user.name, text: $name)
+                            TextField(user.name, text: $name).onAppear() {
+                                    name = user.name
+                                }
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.2))
@@ -64,7 +66,7 @@ struct AccountPage: View {
                             Button(action: {
                                 user.logout()
                             }) {
-                               Text("Sign Out")
+                               Text("Toggle Notifications")
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
                                 .multilineTextAlignment(.center)
                                 .padding(10)
@@ -81,7 +83,7 @@ struct AccountPage: View {
                             Button(action: {
                                 user.logout()
                             }) {
-                               Text("Toggle Notis")
+                               Text("Sign Out")
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
                                 .multilineTextAlignment(.center)
                                 .padding(10)

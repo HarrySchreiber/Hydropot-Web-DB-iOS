@@ -44,7 +44,7 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 user.login(email: email, password: password)
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     if (!user.loggedIn) {
                                         alert = true
                                     }
