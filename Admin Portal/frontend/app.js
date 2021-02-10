@@ -217,7 +217,7 @@ function addPlant(){
 
     for(var key in keyValueStore){
         if(keyValueStore[key] === ""){
-            window.alert("All fields must have values!");
+            warningModel("All fields must have values!");
             return
         }
     }
@@ -225,7 +225,7 @@ function addPlant(){
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
             if(isNaN(keyValueStore[key])){
-                window.alert("All ideals must be numerical");
+                warningModel("All ideals must be numerical");
                 return
             }
             keyValueStore[key] = Number(keyValueStore[key]);
@@ -233,17 +233,17 @@ function addPlant(){
     }
 
     if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
-        window.alert("Ideal Temperature High must be greater than Ideal Temperature Low");
+        warningModel("Ideal Temperature High must be greater than Ideal Temperature Low");
         return
     }
 
     if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
-        window.alert("Ideal Moisture High must be greater than Ideal Moisture Low");
+        warningModel("Ideal Moisture High must be greater than Ideal Moisture Low");
         return
     }
 
     if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
-        window.alert("Ideal Light High must be greater than Ideal Light Low");
+        warningModel("Ideal Light High must be greater than Ideal Light Low");
         return
     }
 
@@ -451,7 +451,66 @@ function confirmActionModal(id, plantType, action){
     $("#confirmActionModal").modal();
 }
 
+function warningModel(warningMessage){
+    var modal = document.createElement("div");
+    modal.setAttribute("class","modal");
+    modal.setAttribute("id","warningModel");
+
+    var modalDialog = document.createElement("div");
+    modalDialog.setAttribute("class","modal-dialog");
+
+    var modalContent = document.createElement("div");
+    modalContent.setAttribute("class","modal-content");
+
+    var modalHeader = document.createElement("div");
+    modalHeader.setAttribute("class","modal-header");
+
+    var modalTitle = document.createElement("div");
+    modalTitle.setAttribute("class","h5");
+    modalTitle.textContent = "ERROR";
+    
+
+    var closeButton = document.createElement("button");
+    closeButton.setAttribute("type","button");
+    closeButton.setAttribute("class","close");
+    closeButton.setAttribute("data-dismiss","modal");
+    closeButton.setAttribute("aria-label","Close");
+
+    var hidden = document.createElement("span");
+    hidden.setAttribute("aria-hidden","true");
+    hidden.append("X");
+    closeButton.appendChild(hidden);
+
+    var modalBody = document.createElement("div");
+    modalBody.setAttribute("class","modal-body");
+    var message = document.createElement("p");
+    message.append(warningMessage)
+    modalBody.appendChild(message);
+
+    var modalFooter = document.createElement("div");
+    modalFooter.setAttribute("class","modal-footer");
+    var cancelButton = document.createElement("div");
+    cancelButton.setAttribute("type","button");
+    cancelButton.setAttribute("class","btn btn-primary");
+    cancelButton.setAttribute("data-dismiss","modal");
+    cancelButton.setAttribute("onclick","cleanModel()");
+    cancelButton.append("Close");
+    modalFooter.appendChild(cancelButton);
+
+    modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(closeButton);
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalContent.appendChild(modalFooter);
+    modalDialog.appendChild(modalContent);
+    modal.appendChild(modalDialog);
+
+    $(document.body).append(modal);
+    $("#warningModel").modal();
+}
+
 function cleanModel(){
     $("#confirmActionModal").remove();
+    $("#warningModel").remove();
     $(".modal-backdrop").remove();
 }
