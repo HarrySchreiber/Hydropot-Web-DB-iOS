@@ -102,7 +102,7 @@ struct Login: View {
                                 .frame(maxWidth: .infinity)
                             }
                             .alert(isPresented: $alert) {
-                                Alert(title: Text(""), message: Text("Please fille out all fields"), dismissButton: .default(Text("Got it!")))
+                                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }

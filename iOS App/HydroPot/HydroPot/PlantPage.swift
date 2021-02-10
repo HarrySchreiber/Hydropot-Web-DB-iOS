@@ -19,6 +19,9 @@ struct PlantPage: View {
     @State private var threeML = true
     @State private var sixML = false
     @State private var nineML = false
+    @State var moistureGood = false//(pot.curMoisture > pot.idealMoistureLow && pot.curMoisture < pot.idealMoistureHigh)
+    @State var lightGood = true
+    @State var tempGood = true
     
     var body: some View {
         ZStack {
@@ -63,7 +66,7 @@ struct PlantPage: View {
                         .padding([.leading, .bottom, .trailing])
                         
                         //soil moisture
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
@@ -74,7 +77,7 @@ struct PlantPage: View {
                                             .font(.title)
                                             .bold()
                                             .frame(maxWidth: 300)
-                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .foregroundColor(getTextColor(bool: moistureGood))
                                             .padding(.leading, 45)
                                     }
                                     Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
@@ -94,7 +97,7 @@ struct PlantPage: View {
                             .fixedSize(horizontal: false, vertical: true)
                         }
                         //light level
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
@@ -106,7 +109,7 @@ struct PlantPage: View {
                                             .font(.title)
                                             .bold()
                                             .frame(maxWidth: 300)
-                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .foregroundColor(getTextColor(bool: lightGood))
                                             .padding(.leading, 1)
                                     }
                                     Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
@@ -127,7 +130,7 @@ struct PlantPage: View {
                         }
                         
                         //temperature
-                        NavigationLink(destination: HistoricalData(pot: pot)) {
+                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
                             HStack {
                                 VStack{
                                     HStack {
@@ -138,7 +141,7 @@ struct PlantPage: View {
                                             .font(.title)
                                             .bold()
                                             .frame(maxWidth: 300)
-                                            .foregroundColor(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0))
+                                            .foregroundColor(getTextColor(bool: tempGood))
                                             .padding(.leading, 35)
                                     }
                                     Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
@@ -273,5 +276,12 @@ struct PlantPage: View {
             return String(days) +  " day ago"
         }
         return String(days) + " days ago"
+    }
+    
+    func getTextColor(bool: Bool) -> Color{
+        if(bool) {
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        return Color.red
     }
 }

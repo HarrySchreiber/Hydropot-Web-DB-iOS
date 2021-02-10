@@ -94,14 +94,13 @@ class GetUser: ObservableObject {
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
-                            
                             var records : [Record] = []
                             for rec in pot.records! {
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
-                                let record = Record(dateRecorded: date!, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
                                 records.append(record)
                             }
                             var notifications : [Notification] = []
@@ -110,7 +109,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
-                                let notification = Notification(type: notie.type, timeStamp: date!)
+                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
                                 notifications.append(notification)
                             }
                             
@@ -118,9 +117,10 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date!, records: records, notifications: notifications))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
                         }
                     }
+                    
                 }
             })
         }.resume()
@@ -185,7 +185,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
-                                let record = Record(dateRecorded: date!, moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir)
                                 records.append(record)
                             }
                             var notifications : [Notification] = []
@@ -194,7 +194,7 @@ class GetUser: ObservableObject {
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
-                                let notification = Notification(type: notie.type, timeStamp: date!)
+                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
                                 notifications.append(notification)
                             }
                             
@@ -202,7 +202,7 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date!, records: records, notifications: notifications))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
                         }
                     }
                 }
@@ -257,9 +257,40 @@ class GetUser: ObservableObject {
     }
     
     func addPlant(pot: Pot) {
-        /*
-        let json: [String: Any] = ["operation": "addPots", "tableName": "HydroPotUsers", "payload": ["Item": ["id": userId, "email": email, "pots" :["automaticWatering": pot.automaticWatering, "curLight": pot.curLight, "curMoisture": pot.curMoisture, "curTemp": pot.curTemp, "id": pot.id, "idealLightHigh": pot.idealLightHigh, "idealLightLow": pot.idealLightLow, "idealMoistureHigh": pot.idealMoistureHigh, "idealMoistureLow": pot.idealMoistureLow, "idealTempHigh": pot.idealTempHigh, "image": pot.image, "lastWatered": pot.lastWatered, "notificaitons": [], "plantName": pot.plantName, "plantType": pot.plantType, "records": []]]]]
+        pot.lastWatered = Date()
         
+        pots.append(pot)
+
+        let json: [String: Any] =
+            [
+              "operation": "addPots",
+              "tableName": "HydroPotUsers",
+              "payload": [
+                "Item": [
+                    "id": userId,
+                    "email": email,
+                  "pot": [
+                    "automaticWatering": pot.automaticWatering,
+                    "curLight": pot.curLight,
+                    "curMoisture": pot.curMoisture,
+                    "curTemp": pot.curTemp,
+                    "id": pot.id,
+                    "idealLightHigh": pot.idealLightHigh,
+                    "idealLightLow": pot.idealTempLow,
+                    "idealMoistureHigh": pot.idealMoistureHigh,
+                    "idealMoistureLow": pot.idealMoistureLow,
+                    "idealTempHigh": pot.idealTempHigh,
+                    "idealTempLow": pot.idealTempLow,
+                    "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
+                    "lastWatered": "2021-01-02T03:00:16.047",
+                    "notifications": [],
+                    "plantName": pot.plantName,
+                    "plantType": pot.plantType,
+                    "records": []
+                  ]
+                ]
+              ]
+            ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
@@ -276,8 +307,8 @@ class GetUser: ObservableObject {
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
-        session.dataTask(with: request) { data, response, error in }.resume()
-        */
+        session.dataTask(with: request) { data, response, error in}.resume()
+        
         reload()
     }
     
