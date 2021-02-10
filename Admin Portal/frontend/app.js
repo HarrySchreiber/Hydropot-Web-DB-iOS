@@ -205,14 +205,47 @@ function buildInputFields(){
 }
 
 function addPlant(){
-    var plantType = document.getElementById("add-plant-name").value;
-    var idealMoistureHigh = Number(document.getElementById("add-moisture-high").value);
-    var idealMoistureLow = Number(document.getElementById("add-moisture-low").value);
-    var idealLightHigh = Number(document.getElementById("add-light-high").value);
-    var idealLightLow = Number(document.getElementById("add-light-low").value);
-    var idealTempHigh = Number(document.getElementById("add-temp-high").value);
-    var idealTempLow = Number(document.getElementById("add-temp-low").value);
-    var description = document.getElementById("add-description").value;
+    var keyValueStore = {}
+    keyValueStore["plantType"] = document.getElementById("add-plant-name").value;
+    keyValueStore["idealTempHigh"] = document.getElementById("add-temp-high").value;
+    keyValueStore["idealTempLow"] = document.getElementById("add-temp-low").value;
+    keyValueStore["idealMoistureHigh"] = document.getElementById("add-moisture-high").value;
+    keyValueStore["idealMoistureLow"] = document.getElementById("add-moisture-low").value;
+    keyValueStore["idealLightHigh"] = document.getElementById("add-light-high").value;
+    keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
+    keyValueStore["description"] = document.getElementById("add-description").value;
+
+    for(var key in keyValueStore){
+        if(keyValueStore[key] === ""){
+            window.alert("All fields must have values!");
+            return
+        }
+    }
+
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            if(isNaN(keyValueStore[key])){
+                window.alert("All ideals must be numerical");
+                return
+            }
+            keyValueStore[key] = Number(keyValueStore[key]);
+        }
+    }
+
+    if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
+        window.alert("Ideal Temperature High must be greater than Ideal Temperature Low");
+        return
+    }
+
+    if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
+        window.alert("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return
+    }
+
+    if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
+        window.alert("Ideal Light High must be greater than Ideal Light Low");
+        return
+    }
 
     var options = { 
         method: 'POST',
@@ -222,14 +255,14 @@ function addPlant(){
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
-                    'plantType':plantType,
-                    'idealTempLow':idealTempHigh,
-                    'idealTempHigh':idealTempLow,
-                    'idealMoistureLow':idealMoistureLow,
-                    'idealMoistureHigh':idealMoistureHigh,
-                    'idealLightLow':idealLightHigh,
-                    'idealLightHigh':idealLightLow,
-                    'description':description
+                    'plantType':keyValueStore["plantType"],
+                    'idealTempLow':keyValueStore["idealTempHigh"],
+                    'idealTempHigh':keyValueStore["idealTempLow"],
+                    'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                    'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
+                    'idealLightLow':keyValueStore["idealLightHigh"],
+                    'idealLightHigh':keyValueStore["idealLightLow"],
+                    'description':keyValueStore["description"]
                 }
             }
         })
