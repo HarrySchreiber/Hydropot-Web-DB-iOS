@@ -279,9 +279,6 @@ function addPlant(){
         // There was an error
         console.log(error);
     });
-
-
-    //setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
 function editPlant(id){
@@ -329,9 +326,6 @@ function editPlant(id){
         // There was an error
         console.log(error);
     });
-
-
-    //setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
 function deletePlant(id){
@@ -361,9 +355,6 @@ function deletePlant(id){
         // There was an error
         console.log(error);
     });
-
-
-    setTimeout(() => {loadPage()},2000); //TODO: Fix this asynchronous, the table is being built before the db is updated
 }
 
 function confirmActionModal(id, plantType, action){
