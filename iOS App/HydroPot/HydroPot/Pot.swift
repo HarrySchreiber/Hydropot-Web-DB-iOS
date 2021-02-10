@@ -23,11 +23,12 @@ struct codePot: Codable, Identifiable {
     let automaticWatering: Bool
     let plantName: String
     let idealTempHigh: Int
+    let resLevel: Int
     let records: [codeRecord]?
     let notifications: [codeNotification]?
     
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records, notifications
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records, notifications, resLevel
     }
 }
 
@@ -49,25 +50,27 @@ class Pot: ObservableObject, Identifiable {
     @Published var notifications: [Notification]
     @Published var image: String
     @Published var id: String
+    @Published var resLevel: Int
     
     
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification]) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = 65
+        self.curTemp = curTemp
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = 60
+        self.curMoisture = curMoisture
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
-        self.curLight = 3000
+        self.curLight = curLight
         self.idealLightHigh = idealLightHigh
         self.lastWatered = lastWatered
         self.automaticWatering = true
         self.records = records
         self.notifications = notifications
         self.image = ""
+        self.resLevel = resLevel
         self.id = UUID().uuidString
     }
     

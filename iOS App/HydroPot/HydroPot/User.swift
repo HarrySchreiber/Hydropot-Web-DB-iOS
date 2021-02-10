@@ -18,10 +18,11 @@ struct User: Codable, Identifiable {
     let email: String
     let hashedPW: String
     let userName: String
+    let notifications: Bool
     let pots: [codePot]?
     
     enum CodingKeys: String, CodingKey {
-        case id, email, hashedPW, userName, pots
+        case id, email, hashedPW, userName, pots, notifications
     }
 }
 
@@ -31,6 +32,7 @@ class GetUser: ObservableObject {
     @Published var name: String
     @Published var email: String
     @Published var password: String
+    @Published var notifications: Bool
     @Published var pots: [Pot]
 
 
@@ -41,9 +43,10 @@ class GetUser: ObservableObject {
         self.email = ""
         self.password = ""
         self.pots = []
+        self.notifications = true
     }
     
-    func login (email: String, password: String) {
+    func login (email: String, password: String) -> Bool {
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
@@ -91,6 +94,7 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     self.password = password
+                    self.notifications = true
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
@@ -117,13 +121,15 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture))
                         }
                     }
                     
                 }
             })
         }.resume()
+        
+        return loggedIn
     }
     
     func reload () {
@@ -202,7 +208,7 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture))
                         }
                     }
                 }
@@ -227,7 +233,7 @@ class GetUser: ObservableObject {
         
         let tempID = UUID()
         
-        let json: [String: Any] = ["operation": "signup", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": email, "password": password, "id": tempID.uuidString]]]
+        let json: [String: Any] = ["operation": "signup", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": email, "password": password, "id": tempID.uuidString, "notifications": notifications]]]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
@@ -286,6 +292,7 @@ class GetUser: ObservableObject {
                     "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
+                    "resLevel": pot.resLevel,
                     "records": []
                   ]
                 ]
@@ -315,11 +322,14 @@ class GetUser: ObservableObject {
     func replacePot(pot: Pot){
         for (index, _) in pots.enumerated() {
             if (self.pots[index].id == pot.id){
-                reload()
+                self.pots[index] = pot
             }
         }
     }
     
+    func editPot(pot: Pot){
+        replacePot(pot: pot)
+    }
     
     struct notiePots: Identifiable {
         var id: Int
