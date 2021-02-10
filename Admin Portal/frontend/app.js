@@ -215,6 +215,8 @@ function addPlant(){
     keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
     keyValueStore["description"] = document.getElementById("add-description").value;
 
+    console.log(keyValueStore);
+
     for(var key in keyValueStore){
         if(keyValueStore[key] === ""){
             warningModel("All fields must have values!");
@@ -256,12 +258,12 @@ function addPlant(){
             'payload':{
                 'Item':{
                     'plantType':keyValueStore["plantType"],
-                    'idealTempLow':keyValueStore["idealTempHigh"],
-                    'idealTempHigh':keyValueStore["idealTempLow"],
-                    'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                    'idealTempHigh':keyValueStore["idealTempHigh"],
+                    'idealTempLow':keyValueStore["idealTempLow"],
                     'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
-                    'idealLightLow':keyValueStore["idealLightHigh"],
-                    'idealLightHigh':keyValueStore["idealLightLow"],
+                    'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                    'idealLightHigh':keyValueStore["idealLightHigh"],
+                    'idealLightLow':keyValueStore["idealLightLow"],
                     'description':keyValueStore["description"]
                 }
             }
