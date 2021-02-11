@@ -23,11 +23,12 @@ struct codePot: Codable, Identifiable {
     let automaticWatering: Bool
     let plantName: String
     let idealTempHigh: Int
+    let resLevel: Int
     let records: [codeRecord]?
     let notifications: [codeNotification]?
     
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records, notifications
+        case plantName, plantType, idealTempLow, curTemp, idealTempHigh, curMoisture, idealMoistureHigh, idealLightLow, curLight, idealLightHigh, lastWatered, automaticWatering, idealMoistureLow, id, image, records, notifications, resLevel
     }
 }
 
@@ -49,26 +50,28 @@ class Pot: ObservableObject, Identifiable {
     @Published var notifications: [Notification]
     @Published var image: String
     @Published var id: String
+    @Published var resLevel: Int
     
     
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification]) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = 65
+        self.curTemp = curTemp
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = 60
+        self.curMoisture = curMoisture
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
-        self.curLight = 3000
+        self.curLight = curLight
         self.idealLightHigh = idealLightHigh
         self.lastWatered = lastWatered
         self.automaticWatering = true
         self.records = records
         self.notifications = notifications
         self.image = ""
-        self.id = UUID().uuidString
+        self.resLevel = resLevel
+        self.id = id
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
@@ -90,7 +93,7 @@ class Pot: ObservableObject, Identifiable {
     
     func getValues(unit: String) -> [(high: Int, avg: Int, low: Int)] {
         if records.count != 0 {
-            print(self.plantName)
+            //print(self.plantName)
             var maxLight = Int.min
             var minLight = Int.max
             var maxTemp = Int.min
@@ -114,7 +117,7 @@ class Pot: ObservableObject, Identifiable {
                 let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
                 let days = diffs.day ?? 0
                 let hours = diffs.hour ?? 0
-                print("days and hours behind: \(days), \(hours)")
+                //print("days and hours behind: \(days), \(hours)")
                 //if not in range anymore
                 //            if unit == "Hourly" && hours >= 12 {
                 //                break
@@ -145,10 +148,10 @@ class Pot: ObservableObject, Identifiable {
                 if record.temperature > maxTemp {
                     maxTemp = record.temperature
                 }
-                print("----------")
-                print(record.moisture)
-                print(record.light)
-                print(record.temperature)
+//                print("----------")
+//                print(record.moisture)
+//                print(record.light)
+//                print(record.temperature)
                 listForAvgTemp.append(record.temperature)
                 
                 //get min/max for moisture
@@ -176,9 +179,9 @@ class Pot: ObservableObject, Identifiable {
             let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
             let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)
             
-            print(lightTuple)
-            print("------------")
-            print([moistureTuple, lightTuple, tempTuple])
+//            print(lightTuple)
+//            print("------------")
+//            print([moistureTuple, lightTuple, tempTuple])
             return [moistureTuple, lightTuple, tempTuple]
         }
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]

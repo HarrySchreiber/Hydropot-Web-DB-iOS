@@ -43,14 +43,8 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                user.login(email: email, password: password)
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                                    if (!user.loggedIn) {
-                                        alert = true
-                                    }
-                                    else {
-                                        plants.getPlantsList()
-                                    }
+                                if (!user.login(email: email, password: password)) {
+                                    alert = true
                                 }
                             }) {
                                Text("Login")
@@ -87,7 +81,7 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                if (name == "" || email != "" || password == ""){
+                                if (name == "" || email == "" || password == ""){
                                     alert = true
                                 }
                                 else {
@@ -114,6 +108,9 @@ struct Login: View {
                     Home(user: user, plants: plants)
                 }
             }
+        }
+        .onAppear(){
+            plants.getPlantsList()
         }
         .background(Color.white)
     }

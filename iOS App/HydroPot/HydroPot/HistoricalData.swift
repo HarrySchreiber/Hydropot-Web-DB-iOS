@@ -180,10 +180,10 @@ struct PagesContainer <Content : View> : View {
         }
     }
 }
-
+/*
 struct HistoricalData_Previews: PreviewProvider {
     static var previews: some View {
         HistoricalData(pot: Pot(plantName: "bob", plantType: "type", idealTempHigh: 80, idealTempLow: 20, idealMoistureHigh: 30, idealMoistureLow: 20, idealLightHigh: 3200, idealLightLow: 2300, lastWatered: Date(), records: [], notifications: []), tuples: [(high: 0, avg: 2, low: 0),(high: 1, avg: 2, low: 3),(high: 1, avg: 2, low: 3)])
         
     }
-}
+}*/
