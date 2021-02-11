@@ -13,9 +13,20 @@ struct AccountPage: View {
     @State var notToggled = true
     @State var name: String = ""
     @State var showingDetail = false
-    @State var noties = false
+    @State var noties = false {
+        didSet{
+            user.toggleNotifications(notifications: noties)
+        }
+    }
+    
     
     var body: some View {
+        
+        let bind = Binding<Bool>(
+              get:{self.noties},
+              set:{self.noties = $0}
+        )
+        
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
@@ -75,9 +86,10 @@ struct AccountPage: View {
                             Button(action: {
                                 user.logout()
                             }) {
-                                Toggle(isOn: $noties) {
+                                Toggle(isOn: bind) {
                                     Text("Toggle Notifications")
-                                }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
+                                }
+                                .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
                                 .foregroundColor(Color.black)
                                 .multilineTextAlignment(.center)
                                 .padding(10)

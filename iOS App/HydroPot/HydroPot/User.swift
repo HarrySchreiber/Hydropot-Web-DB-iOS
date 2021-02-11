@@ -94,7 +94,7 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     self.password = password
-                    self.notifications = true
+                    self.notifications = r.Items[0].notifications
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
@@ -182,6 +182,7 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     let codePots = r.Items[0].pots
+                    self.notifications = r.Items[0].notifications
                     if (codePots?.count != 0){
                         for pot in codePots! {
                             
@@ -471,5 +472,34 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
+    
+    func toggleNotifications(notifications: Bool) {
+        
+        self.notifications = notifications
+        
+        print(notifications)
+        
+        let json: [String: Any] = ["operation": "toggleNotis", "tableName": "HydroPotUsers", "payload": ["Item": ["name": self.name, "email": self.email, "notifications": notifications, "id": self.userId]]]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in }.resume()
+
+    }
+    
     
 }
