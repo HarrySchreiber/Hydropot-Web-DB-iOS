@@ -25,8 +25,8 @@ struct AccountPage: View {
     var body: some View {
         
         let bind = Binding<Bool>(
-              get:{self.noties},
-              set:{self.noties = $0}
+            get:{self.noties},
+            set:{self.noties = $0}
         )
         
         NavigationView {
@@ -53,11 +53,11 @@ struct AccountPage: View {
                         .padding(.leading, geometry.size.height/30)
                         HStack {
                             TextField(user.name, text: $name).onAppear() {
-                                    name = user.name
-                                }
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.2))
+                                name = user.name
+                            }
+                            .padding(6)
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .border(Color.black.opacity(0.2))
                         }
                         .padding(.leading, geometry.size.height/30)
                         HStack {
@@ -68,10 +68,10 @@ struct AccountPage: View {
                                 }
                             }) {
                                 HStack {
-                                        Spacer()
-                                        Text("Save Name")
-                                        Spacer()
-                                      }
+                                    Spacer()
+                                    Text("Save Name")
+                                    Spacer()
+                                }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
                                 .multilineTextAlignment(.center)
                                 .padding(10)
@@ -89,18 +89,14 @@ struct AccountPage: View {
                         .padding(.leading, geometry.size.height/30)
                         .padding(.bottom, 30)
                         HStack {
-                            Button(action: {
-                                user.logout()
-                            }) {
-                                Toggle(isOn: bind) {
-                                    Text("Toggle Notifications")
-                                }
-                                .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
-                                .foregroundColor(Color.black)
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            Toggle(isOn: bind) {
+                                Text("Toggle Notifications")
                             }
+                            .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
+                            .foregroundColor(Color.black)
+                            .multilineTextAlignment(.center)
+                            .padding(10)
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
@@ -109,10 +105,10 @@ struct AccountPage: View {
                                 self.showingDetail.toggle()
                             }) {
                                 HStack {
-                                        Spacer()
-                                        Text("Change Password")
-                                        Spacer()
-                                      }
+                                    Spacer()
+                                    Text("Change Password")
+                                    Spacer()
+                                }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
                                 .multilineTextAlignment(.center)
                                 .padding(10)
@@ -134,10 +130,10 @@ struct AccountPage: View {
                                 user.logout()
                             }) {
                                 HStack {
-                                        Spacer()
-                                        Text("Sign out")
-                                        Spacer()
-                                      }
+                                    Spacer()
+                                    Text("Sign out")
+                                    Spacer()
+                                }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
                                 .multilineTextAlignment(.center)
                                 .padding(10)
