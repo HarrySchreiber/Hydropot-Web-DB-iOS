@@ -45,28 +45,28 @@ struct HomeView: View {
     
     var body: some View {
         ZStack{
-                NavigationView {
-                    if(user.pots.count == 0) {
-                        Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
-                            .bold()
-                            .italic()
-                            .padding()
-                            .foregroundColor(.gray)
-                            .navigationBarTitle("Hydro Pot", displayMode: .inline)
-                            .navigationBarItems(trailing:
-                                                    Button(action: {
-                                                        self.showingDetail.toggle()
-                                                    }) {
-                                                        Image(systemName: "plus")
-                                                            .resizable()
-                                                            .padding(6)
-                                                            .frame(width: 30, height: 30)
-                                                            .clipShape(Circle())
-                                                            .foregroundColor(.white)
-                                                    }.sheet(isPresented: $showingDetail) {
-                                                        AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                                                    })
-                    } else {
+            NavigationView {
+                if(user.pots.count == 0) {
+                    Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
+                        .bold()
+                        .italic()
+                        .padding()
+                        .foregroundColor(.gray)
+                        .navigationBarTitle("Hydro Pot", displayMode: .inline)
+                        .navigationBarItems(trailing:
+                                                Button(action: {
+                                                    self.showingDetail.toggle()
+                                                }) {
+                                                    Image(systemName: "plus")
+                                                        .resizable()
+                                                        .padding(6)
+                                                        .frame(width: 30, height: 30)
+                                                        .clipShape(Circle())
+                                                        .foregroundColor(.white)
+                                                }.sheet(isPresented: $showingDetail) {
+                                                    AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                                                })
+                } else {
                     List {
                         ForEach(user.pots) {
                             pot in
