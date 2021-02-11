@@ -270,6 +270,7 @@ class GetUser: ObservableObject {
         let date = dateFormatter.string(from: pot.lastWatered)
         
         pots.append(pot)
+        
 
         let json: [String: Any] =
             [
@@ -364,11 +365,9 @@ class GetUser: ObservableObject {
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
-                    "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
                     "resLevel": pot.resLevel,
-                    "records": []
                   ]
                 ]
               ]
