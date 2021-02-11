@@ -15,12 +15,12 @@ struct EditPlantPage: View {
     @Binding var showModal: Bool
     @State var plantName = ""
     @State var plantType = ""
-    @State var idealTemperatureHigh: Int = 0
-    @State var idealMoistureHigh: Int = 0
-    @State var idealLightLevelHigh: Int = 0
-    @State var idealTemperatureLow: Int = 0
-    @State var idealMoistureLow: Int = 0
-    @State var idealLightLevelLow: Int = 0
+    @State var idealTemperatureHigh: String = ""
+    @State var idealMoistureHigh: String = ""
+    @State var idealLightLevelHigh: String = ""
+    @State var idealTemperatureLow: String = ""
+    @State var idealMoistureLow: String = ""
+    @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = ""
 
     var body: some View {
@@ -75,21 +75,13 @@ struct EditPlantPage: View {
                         HStack {
                             Text("Moisture")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", value: $idealMoistureLow, formatter: NumberFormatter()).onAppear() {
-                                if (idealMoistureLow == 0){
-                                    idealMoistureLow = pot.idealMoistureLow
-                                }
-                            }
+                            TextField("Low", text: $idealMoistureLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealMoistureHigh, formatter: NumberFormatter()).onAppear() {
-                                if (idealMoistureHigh == 0){
-                                    idealMoistureHigh = pot.idealMoistureHigh
-                                }
-                            }
+                            TextField("High", text: $idealMoistureHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -99,21 +91,13 @@ struct EditPlantPage: View {
                         HStack{
                             Text("Light")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", value: $idealLightLevelLow, formatter: NumberFormatter()).onAppear() {
-                                if (idealLightLevelLow == 0){
-                                    idealLightLevelLow = pot.idealLightLow
-                                }
-                            }
+                            TextField("Low", text: $idealLightLevelLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealLightLevelHigh, formatter: NumberFormatter()).onAppear() {
-                                if (idealLightLevelHigh == 0){
-                                    idealLightLevelHigh = pot.idealLightHigh
-                                }
-                            }
+                            TextField("High", text: $idealLightLevelHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -125,21 +109,13 @@ struct EditPlantPage: View {
                             Text("Temperature")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
                             
-                            TextField("Low", value: $idealTemperatureLow, formatter: NumberFormatter()).onAppear() {
-                                if (idealTemperatureLow == 0){
-                                    idealTemperatureLow = pot.idealTempLow
-                                }
-                            }
+                            TextField("Low", text: $idealTemperatureLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealTemperatureHigh, formatter: NumberFormatter()).onAppear() {
-                                if (idealTemperatureHigh == 0){
-                                    idealTemperatureHigh = pot.idealTempHigh
-                                }
-                            }
+                            TextField("High", text: $idealTemperatureHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -160,13 +136,19 @@ struct EditPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && plantSelected != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                    if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                        
                         user.editPot(pot: pot)
                         self.showModal.toggle()
                     }
-                    else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        pot.editPlant(plantName: plantName, plantType: pot.plantType, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow)
+                    else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                        
+                        print(pot.plantName)
+                        print(pot.plantType)
+                        print(pot.id)
+                        print(pot.idealMoistureLow)
                         user.editPot(pot: pot)
                         self.showModal.toggle()
                     }
@@ -176,6 +158,13 @@ struct EditPlantPage: View {
                 }
             })
 
+        }.onAppear() {
+            idealMoistureLow = String(pot.idealMoistureLow)
+            idealMoistureHigh = String(pot.idealMoistureHigh)
+            idealTemperatureLow = String(pot.idealTempLow)
+            idealTemperatureHigh = String(pot.idealTempHigh)
+            idealLightLevelLow = String(pot.idealLightLow)
+            idealLightLevelHigh = String(pot.idealLightHigh)
         }
     }
 }

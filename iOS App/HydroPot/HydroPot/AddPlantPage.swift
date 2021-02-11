@@ -13,12 +13,12 @@ struct AddPlantPage: View {
     @ObservedObject var plants: Plants
     @Binding var showModal: Bool
     @State var plantName = ""
-    @State var idealTemperatureHigh: Int = 0
-    @State var idealMoistureHigh: Int = 0
-    @State var idealLightLevelHigh: Int = 0
-    @State var idealTemperatureLow: Int = 0
-    @State var idealMoistureLow: Int = 0
-    @State var idealLightLevelLow: Int = 0
+    @State var idealTemperatureHigh: String = ""
+    @State var idealMoistureHigh: String = ""
+    @State var idealLightLevelHigh: String = ""
+    @State var idealTemperatureLow: String = ""
+    @State var idealMoistureLow: String = ""
+    @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = "Plant Type"
 
     var body: some View {
@@ -72,13 +72,13 @@ struct AddPlantPage: View {
                         HStack {
                             Text("Moisture")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", value: $idealMoistureLow, formatter: NumberFormatter())
+                            TextField("Low", text: $idealMoistureLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealMoistureHigh, formatter: NumberFormatter())
+                            TextField("High", text: $idealMoistureHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -89,13 +89,13 @@ struct AddPlantPage: View {
                         HStack{
                             Text("Light")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", value: $idealLightLevelLow, formatter: NumberFormatter())
+                            TextField("Low", text: $idealLightLevelLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealLightLevelHigh, formatter: NumberFormatter())
+                            TextField("High", text: $idealLightLevelHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -106,13 +106,13 @@ struct AddPlantPage: View {
                         HStack{
                             Text("Temperature")
                                 .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                            TextField("Low", value: $idealTemperatureLow, formatter: NumberFormatter())
+                            TextField("Low", text: $idealTemperatureLow)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             Text(" - ")
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                            TextField("High", value: $idealTemperatureHigh, formatter: NumberFormatter())
+                            TextField("High", text: $idealTemperatureHigh)
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
@@ -135,8 +135,8 @@ struct AddPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != 0 && idealTemperatureLow != 0 && idealMoistureHigh != 0 && idealMoistureLow != 0 && idealLightLevelHigh != 0 && idealLightLevelLow != 0){
-                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: idealTemperatureHigh, idealTempLow: idealTemperatureLow, idealMoistureHigh: idealMoistureHigh, idealMoistureLow: idealMoistureLow, idealLightHigh: idealLightLevelHigh, idealLightLow: idealLightLevelLow, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 80, curLight: 3000, curMoisture: 60, id: UUID().uuidString))
+                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 80, curLight: 3000, curMoisture: 60, id: UUID().uuidString))
                         self.showModal.toggle()
                     }
                 }) {

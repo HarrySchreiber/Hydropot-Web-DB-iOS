@@ -337,7 +337,6 @@ class GetUser: ObservableObject {
         replacePot(pot: pot)
         
         pot.lastWatered = Date()
-        print(pot.id)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -352,22 +351,24 @@ class GetUser: ObservableObject {
                     "id": userId,
                     "email": email,
                   "pot": [
-                    "automaticWatering": pot.automaticWatering,
+                    "automaticWatering": true,
                     "curLight": pot.curLight,
                     "curMoisture": pot.curMoisture,
                     "curTemp": pot.curTemp,
                     "id": pot.id,
                     "idealLightHigh": pot.idealLightHigh,
-                    "idealLightLow": pot.idealTempLow,
+                    "resLevel": pot.resLevel,
+                    "idealLightLow": pot.idealLightLow,
                     "idealMoistureHigh": pot.idealMoistureHigh,
                     "idealMoistureLow": pot.idealMoistureLow,
                     "idealTempHigh": pot.idealTempHigh,
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
+                            "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "resLevel": pot.resLevel,
+                    "records": []
                   ]
                 ]
               ]
