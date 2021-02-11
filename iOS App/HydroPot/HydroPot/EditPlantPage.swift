@@ -159,6 +159,7 @@ struct EditPlantPage: View {
             })
 
         }.onAppear() {
+            plantSelected = pot.plantType
             idealMoistureLow = String(pot.idealMoistureLow)
             idealMoistureHigh = String(pot.idealMoistureHigh)
             idealTemperatureLow = String(pot.idealTempLow)
