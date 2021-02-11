@@ -13,6 +13,8 @@ struct AccountPage: View {
     @State var notToggled = true
     @State var name: String = ""
     @State var showingDetail = false
+    @State var alert = false
+    
     @State var noties = false {
         didSet{
             user.toggleNotifications(notifications: noties)
@@ -60,7 +62,10 @@ struct AccountPage: View {
                         .padding(.leading, geometry.size.height/30)
                         HStack {
                             Button(action: {
-                                user.changeName(name: name)
+                                if (user.name != name) {
+                                    user.changeName(name: name)
+                                    alert = true
+                                }
                             }) {
                                 HStack {
                                         Spacer()
@@ -72,6 +77,9 @@ struct AccountPage: View {
                                 .padding(10)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             }
+                            .alert(isPresented: $alert) {
+                                Alert(title: Text(""), message: Text("Username successfully changed"), dismissButton: .default(Text("Ok")))
+                            }
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .foregroundColor(.white)
                             .background(Color(red: 24/255, green: 57/255, blue: 163/255))
@@ -80,8 +88,6 @@ struct AccountPage: View {
                         }
                         .padding(.leading, geometry.size.height/30)
                         .padding(.bottom, 30)
-                        
-                        
                         HStack {
                             Button(action: {
                                 user.logout()
