@@ -305,9 +305,29 @@ function editPlant(id){
         if(key == "plantType" || key == "description"){
             keyValueStore[key] = fieldValue;
         }else{
+            if(isNaN(fieldValue)){
+                warningModal("All ideals must be numeric");
+                return
+            }
             keyValueStore[key] = Number(fieldValue);
         }
     }
+
+    if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
+        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
+        return
+    }
+
+    if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
+        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return
+    }
+
+    if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
+        warningModal("Ideal Light High must be greater than Ideal Light Low");
+        return
+    }
+
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -373,7 +393,6 @@ function deletePlant(id){
 }
 
 function confirmActionModal(id, plantType, action){
-    console.log(action == "delete");
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
     modal.setAttribute("id","confirmActionModal");
