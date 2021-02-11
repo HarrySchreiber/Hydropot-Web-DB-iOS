@@ -57,6 +57,7 @@ struct PlantPage: View {
                         .padding([.top, .bottom, .trailing])
                         .border(Color.gray, width: 1.25)
                         .padding([.leading, .bottom, .trailing])
+                        
                         Toggle(isOn: $autoWatering) {
                             Text("Automatic Water").padding(.leading)
                         }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
