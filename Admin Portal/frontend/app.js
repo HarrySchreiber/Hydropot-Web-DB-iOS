@@ -61,7 +61,15 @@ function buildTable(data){
         buttonsCol.setAttribute("class", "col-md-1 no-gutters");
 
         //TODO: Image Code
+        var image = document.createElement("img");
+        image.setAttribute("src",obj['imageURL']);
+        image.setAttribute("alt",`Picture of ${obj['plantType']}`);
+
+        var uploadButton = document.createElement("button");
+        uploadButton.textContent = "Upload";
         
+        pictureCol.appendChild(image);
+        pictureCol.appendChild(uploadButton);
 
         //Content Code
         var topRow = document.createElement("div");
@@ -285,8 +293,15 @@ function editPlant(id){
     cleanModal();
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     var keyValueStore = {};
+
     for(key of keyArray){
         var fieldValue = document.getElementById(`${key}-${id}`).value;
+
+        if(fieldValue === ""){
+            warningModal("All fields must have values");
+            return
+        }
+
         if(key == "plantType" || key == "description"){
             keyValueStore[key] = fieldValue;
         }else{
