@@ -49,7 +49,7 @@ struct AccountPage: View {
                         .padding(.leading, geometry.size.height/30)
                         HStack {
                             Button(action: {
-                                user.logout()
+                                user.changeName(name: name)
                             }) {
                                 HStack {
                                         Spacer()
