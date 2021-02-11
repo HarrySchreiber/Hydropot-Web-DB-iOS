@@ -14,7 +14,12 @@ struct PlantPage: View {
     @ObservedObject var plants: Plants
     @State var screenChange = false
     @State var showingDetail = false
-    @State var autoWatering = false
+    @State var autoWatering = false {
+           didSet{
+                pot.automaticWatering = autoWatering
+                user.editPot(pot: pot)
+           }
+    }
     @State private var showPopUp = false
     @State private var threeML = true
     @State private var sixML = false
@@ -24,6 +29,12 @@ struct PlantPage: View {
     @State var tempGood = true
     
     var body: some View {
+        
+        let bind = Binding<Bool>(
+              get:{self.autoWatering},
+              set:{self.autoWatering = $0}
+        )
+        
         ZStack {
             NavigationView {
                 ScrollView {
@@ -58,7 +69,7 @@ struct PlantPage: View {
                         .border(Color.gray, width: 1.25)
                         .padding([.leading, .bottom, .trailing])
                         
-                        Toggle(isOn: $autoWatering) {
+                        Toggle(isOn: bind) {
                             Text("Automatic Water").padding(.leading)
                         }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
                         .frame(maxWidth: 300)
