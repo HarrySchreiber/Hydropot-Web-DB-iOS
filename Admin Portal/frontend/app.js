@@ -127,9 +127,25 @@ function buildInputFields(){
 
     var fullRow = document.createElement("div");
     fullRow.setAttribute("class","row no-gutters");
+
+
     var pictureCol = document.createElement("div");
     pictureCol.setAttribute("class", "col-md-1 no-gutters");
     
+    var addImageOutput = document.createElement("img");
+    addImageOutput.setAttribute("id","add-image-output");
+    addImageOutput.setAttribute("width","100px");
+    addImageOutput.setAttribute("height","100px");
+    addImageOutput.setAttribute("style","cursor:pointer");
+    pictureCol.appendChild(addImageOutput);
+
+    var addImageButton = document.createElement("input");
+    addImageButton.setAttribute("type","file");
+    addImageButton.setAttribute("id","addImageButton");
+    addImageButton.setAttribute("onchange","displayCurrentImage()");
+    addImageButton.setAttribute("style","display:none");
+    addImageButton.setAttribute("accept","image/*");
+    pictureCol.appendChild(addImageButton);
 
     var contentCol = document.createElement("div");
     contentCol.setAttribute("class", "col-md-10 no-gutters");
@@ -548,3 +564,24 @@ function cleanModal(){
     $("#warningModal").remove();
     $(".modal-backdrop").remove();
 }
+
+/**
+ * Displays the add image in the html
+ */
+function displayCurrentImage(){
+    var image = document.getElementById("addImageButton");
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('add-image-output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(image.files[0]);
+    
+}
+
+/**
+ * Cathches the click on the image for add image
+ */
+$(document).on("click","#add-image-output", function () {
+    $("#addImageButton").trigger('click');
+});
