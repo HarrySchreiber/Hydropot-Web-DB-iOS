@@ -26,6 +26,7 @@ struct EditPlantPage: View {
     @State var idealMoistureLow: String = ""
     @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = ""
+    @State var failed: Bool = false
 
     var body: some View {
         NavigationView {
@@ -156,11 +157,17 @@ struct EditPlantPage: View {
                         user.editPot(pot: pot)
                         self.showModal.toggle()
                     }
+                    else {
+                        failed = true
+                    }
                 }) {
                 HStack {
                     Text("Confirm")
                 }
             })
+            .alert(isPresented: $failed) {
+                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
+            }
 
         }.onAppear() {
             plantSelected = pot.plantType
