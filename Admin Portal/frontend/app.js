@@ -146,7 +146,7 @@ function buildInputFields(){
     pictureCol.appendChild(addImageOutput);
 
     var imageOverlay = document.createElement("img");
-    // imageOverlay.setAttribute("src","icon.png"); //TODO: Come back to this when we have an actual image overlay
+    imageOverlay.setAttribute("src","icon.png"); //TODO: Come back to this when we have an actual image overlay
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
     imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
@@ -269,17 +269,17 @@ function addPlant(){
         }
     }
 
-    if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
+    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
         warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
         return
     }
 
-    if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
+    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
         warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
         return
     }
 
-    if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
+    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
         warningModal("Ideal Light High must be greater than Ideal Light Low");
         return
     }
@@ -342,17 +342,17 @@ function editPlant(id){
         }
     }
 
-    if(keyValueStore["idealTempHigh"] < keyValueStore["idealTempLow"]){
+    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
         warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
         return
     }
 
-    if(keyValueStore["idealMoistureHigh"] < keyValueStore["idealMoistureLow"]){
+    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
         warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
         return
     }
 
-    if(keyValueStore["idealLightHigh"] < keyValueStore["idealLightLow"]){
+    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
         warningModal("Ideal Light High must be greater than Ideal Light Low");
         return
     }
