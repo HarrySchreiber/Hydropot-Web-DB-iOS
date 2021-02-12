@@ -45,7 +45,6 @@ struct AccountPage: View {
                                 .border(Color.black.opacity(0.2))
                         }
                         .padding(.leading, geometry.size.height/30)
-                        .padding(.bottom, 30)
                         HStack {
                             Text("Name: ")
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
@@ -85,19 +84,6 @@ struct AccountPage: View {
                             .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                             .cornerRadius(6)
                             .padding(3)
-                        }
-                        .padding(.leading, geometry.size.height/30)
-                        .padding(.bottom, 30)
-                        HStack {
-                            Toggle(isOn: bind) {
-                                Text("Toggle Notifications")
-                            }
-                            .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
-                            .foregroundColor(Color.black)
-                            .multilineTextAlignment(.center)
-                            .padding(10)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
                         HStack {
@@ -144,6 +130,18 @@ struct AccountPage: View {
                             .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                             .cornerRadius(6)
                             .padding(3)
+                        }
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Toggle(isOn: bind) {
+                                Text("Toggle Notifications")
+                            }
+                            .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
+                            .foregroundColor(Color.black)
+                            .multilineTextAlignment(.center)
+                            .padding(10)
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
                     }
