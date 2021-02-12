@@ -11,6 +11,7 @@ struct HistoricalData: View {
     @ObservedObject var pot : Pot
     @State private var selectedUnit = 0
     var units = ["Hourly", "Daily", "Weekly"]
+    @Environment(\.presentationMode) var presentationMode
     @State var tuples : [(high: Int, avg: Int, low: Int)]
     
     var body: some View {
@@ -127,10 +128,7 @@ struct HistoricalData: View {
                 
             }
         }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
     }
-    
 }
 
 struct PagesContainer <Content : View> : View {
