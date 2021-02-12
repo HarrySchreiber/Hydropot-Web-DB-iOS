@@ -13,6 +13,10 @@ struct EditPlantPage: View {
     @ObservedObject var plants: Plants
     @ObservedObject var pot: Pot
     @Binding var showModal: Bool
+    @Binding var moistureGood: Bool
+    @Binding var lightGood: Bool
+    @Binding var tempGood: Bool
+    @Binding var resGood: Bool
     @State var plantName = ""
     @State var plantType = ""
     @State var idealTemperatureHigh: String = ""
@@ -166,6 +170,12 @@ struct EditPlantPage: View {
             idealTemperatureHigh = String(pot.idealTempHigh)
             idealLightLevelLow = String(pot.idealLightLow)
             idealLightLevelHigh = String(pot.idealLightHigh)
+        }
+        .onDisappear() {
+            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
+            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
+            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+            resGood = pot.resLevel > 20
         }
     }
 }

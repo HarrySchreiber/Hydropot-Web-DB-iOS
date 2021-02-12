@@ -24,7 +24,7 @@ struct PlantPage: View {
     @State private var threeML = true
     @State private var sixML = false
     @State private var nineML = false
-    @State var moistureGood = false//(pot.curMoisture > pot.idealMoistureLow && pot.curMoisture < pot.idealMoistureHigh)
+    @State var moistureGood = false //(pot.curMoisture > pot.idealMoistureLow && pot.curMoisture < pot.idealMoistureHigh)
     @State var lightGood = true
     @State var tempGood = true
     @State var resGood = true
@@ -203,7 +203,7 @@ struct PlantPage: View {
                             .padding(6)
                             .foregroundColor(.white)
                     }.sheet(isPresented: $showingDetail) {
-                        EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
+                        EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
                     })
             if $showPopUp.wrappedValue {
                 ZStack {
