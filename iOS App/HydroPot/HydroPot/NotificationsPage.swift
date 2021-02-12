@@ -17,23 +17,32 @@ struct NotificationsPage: View {
     }()
     var body: some View {
         NavigationView {
-            List {
-                ForEach(user.getOrderedNotifications()) {
-                    notiePots in
-                    
-                    NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
-                        VStack(alignment: .leading){
-                            Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
-                            HStack {
-                                Spacer()
-                                Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
-                                    .font(.footnote)
-                            }
-                        }.fixedSize(horizontal: false, vertical: true)
+            if(user.getOrderedNotifications().count == 0) {
+                Text("You have not received any notifications. \nBe sure you have notifications turned on in the Account tab")
+                    .bold()
+                    .italic()
+                    .padding()
+                    .foregroundColor(.gray)
+                    .navigationBarTitle("Notifications", displayMode: .inline)
+            } else {
+                List {
+                    ForEach(user.getOrderedNotifications()) {
+                        notiePots in
+                        
+                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
+                            VStack(alignment: .leading){
+                                Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
+                                HStack {
+                                    Spacer()
+                                    Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
+                                        .font(.footnote)
+                                }
+                            }.fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
+                .navigationBarTitle("Notifications", displayMode: .inline)
             }
-            .navigationBarTitle("Notifications", displayMode: .inline)
         }
     }
     func getMessage(type: String, pot: Pot) -> String {

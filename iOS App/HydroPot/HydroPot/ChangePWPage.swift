@@ -54,7 +54,10 @@ struct ChangePWPage: View {
                     
                     HStack {
                         Button(action: {
-                            self.showModal.toggle()
+                            if ((newPW == newConfPW) && (oldPW == user.password) && (oldPW != newPW)){
+                                user.changePass(password: newConfPW)
+                                self.showModal.toggle()
+                            }
                         }) {
                             HStack {
                                 Spacer()

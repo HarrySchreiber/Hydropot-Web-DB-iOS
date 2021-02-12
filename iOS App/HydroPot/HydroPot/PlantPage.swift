@@ -14,7 +14,12 @@ struct PlantPage: View {
     @ObservedObject var plants: Plants
     @State var screenChange = false
     @State var showingDetail = false
-    @State var autoWatering = false
+    @State var autoWatering = false {
+        didSet{
+            pot.automaticWatering = autoWatering
+            user.editPot(pot: pot)
+        }
+    }
     @State private var showPopUp = false
     @State private var threeML = true
     @State private var sixML = false
@@ -22,8 +27,15 @@ struct PlantPage: View {
     @State var moistureGood = false//(pot.curMoisture > pot.idealMoistureLow && pot.curMoisture < pot.idealMoistureHigh)
     @State var lightGood = true
     @State var tempGood = true
+    @State var resGood = true
     
     var body: some View {
+        
+        let bind = Binding<Bool>(
+            get:{self.autoWatering},
+            set:{self.autoWatering = $0}
+        )
+        
         ZStack {
             NavigationView {
                 ScrollView {
@@ -58,7 +70,7 @@ struct PlantPage: View {
                         .border(Color.gray, width: 1.25)
                         .padding([.leading, .bottom, .trailing])
                         
-                        Toggle(isOn: $autoWatering) {
+                        Toggle(isOn: bind) {
                             Text("Automatic Water").padding(.leading)
                         }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
                         .frame(maxWidth: 300)
@@ -162,19 +174,37 @@ struct PlantPage: View {
                             .fixedSize(horizontal: false, vertical: true)
                         }
                         .navigationBarHidden(true)
+                        HStack {
+                            Text("Reservoir Level")
+                                .frame(maxWidth: 300)
+                                .foregroundColor(.black)
+                            Text("\(pot.resLevel)%")
+                                .font(.title)
+                                .bold()
+                                .frame(maxWidth: 300)
+                                .foregroundColor(getTextColor(bool: resGood))
+                                .padding(.leading, 45)
+                            
+                        }
+                        .frame(maxWidth: 300)
+                        //.padding([.top, .bottom])
+                        .padding( 5)
+                        .border(Color.gray, width: 1.25)
+                        .padding([.leading, .bottom, .trailing])
+                        .fixedSize(horizontal: false, vertical: true)
                     }
                 }//end scroll view
             }
             .navigationBarItems(trailing:
-                Button(action: {
-                    self.showingDetail.toggle()
-                }) {
-                    Text("Edit")
-                        .padding(6)
-                        .foregroundColor(.white)
-                }.sheet(isPresented: $showingDetail) {
-                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
-                })
+                    Button(action: {
+                        self.showingDetail.toggle()
+                    }) {
+                        Text("Edit")
+                            .padding(6)
+                            .foregroundColor(.white)
+                    }.sheet(isPresented: $showingDetail) {
+                        EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
+                    })
             if $showPopUp.wrappedValue {
                 ZStack {
                     Color.white
@@ -243,7 +273,7 @@ struct PlantPage: View {
                         HStack {
                             Button("Cancel") {
                                 showPopUp = false
-                               }
+                            }
                             .buttonStyle(BorderlessButtonStyle())
                             .foregroundColor(.white)
                             .padding(10)
@@ -251,7 +281,7 @@ struct PlantPage: View {
                             .cornerRadius(6)
                             Button("Confirm") {
                                 showPopUp = false
-                               }
+                            }
                             .buttonStyle(BorderlessButtonStyle())
                             .foregroundColor(.white)
                             .padding(10)
@@ -268,13 +298,14 @@ struct PlantPage: View {
             lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
             tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
             autoWatering = pot.automaticWatering
+            resGood = pot.resLevel > 20
         }
     }
     func getLastWatered(pot: Pot) -> String {
-
+        
         let date1 = pot.lastWatered
         let date2 = Date()
-
+        
         let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
         let days = diffs.day ?? 0
         

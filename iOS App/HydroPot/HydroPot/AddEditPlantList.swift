@@ -12,12 +12,12 @@ struct AddEditPlantList: View {
     @Environment(\.presentationMode) var presentationMode
     @State var plants: Plants
     @Binding var plantSelected: String
-    @Binding var idealTemperatureHigh: Int
-    @Binding var idealMoistureHigh: Int
-    @Binding var idealLightLevelHigh: Int
-    @Binding var idealTemperatureLow: Int
-    @Binding var idealMoistureLow: Int
-    @Binding var idealLightLevelLow: Int
+    @Binding var idealTemperatureHigh: String
+    @Binding var idealMoistureHigh: String
+    @Binding var idealLightLevelHigh: String
+    @Binding var idealTemperatureLow: String
+    @Binding var idealMoistureLow: String
+    @Binding var idealLightLevelLow: String
     @State private var searchQuery: String = ""
     @State private var plantList = [String]()
     @State private var searchedPlantList = [String]()
@@ -38,12 +38,12 @@ struct AddEditPlantList: View {
                                 
                                 if (plants.contains(plantName: plantSelected)){
                                     let tempPlant = plants.getPlant(plantName: plantSelected)
-                                    idealMoistureHigh = tempPlant.idealMoistureHigh
-                                    idealMoistureLow = tempPlant.idealMoistureLow
-                                    idealTemperatureHigh = tempPlant.idealTempHigh
-                                    idealTemperatureLow = tempPlant.idealTempLow
-                                    idealLightLevelLow = tempPlant.idealLightLow
-                                    idealLightLevelHigh = tempPlant.idealLightHigh
+                                    idealMoistureHigh = String(tempPlant.idealMoistureHigh)
+                                    idealMoistureLow = String(tempPlant.idealMoistureLow)
+                                    idealTemperatureHigh = String(tempPlant.idealTempHigh)
+                                    idealTemperatureLow = String(tempPlant.idealTempLow)
+                                    idealLightLevelLow = String(tempPlant.idealLightLow)
+                                    idealLightLevelHigh = String(tempPlant.idealLightHigh)
                                 }
 
                                 self.presentationMode.wrappedValue.dismiss()

@@ -94,7 +94,7 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     self.password = password
-                    self.notifications = true
+                    self.notifications = r.Items[0].notifications
                     let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
@@ -121,7 +121,7 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id, automaticWatering: pot.automaticWatering))
                         }
                     }
                     
@@ -182,6 +182,7 @@ class GetUser: ObservableObject {
                     self.name = r.Items[0].userName
                     self.email = r.Items[0].email
                     let codePots = r.Items[0].pots
+                    self.notifications = r.Items[0].notifications
                     if (codePots?.count != 0){
                         for pot in codePots! {
                             
@@ -208,7 +209,7 @@ class GetUser: ObservableObject {
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
                             
-                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id))
+                            self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id, automaticWatering: pot.automaticWatering))
                         }
                     }
                 }
@@ -270,6 +271,7 @@ class GetUser: ObservableObject {
         let date = dateFormatter.string(from: pot.lastWatered)
         
         pots.append(pot)
+        
 
         let json: [String: Any] =
             [
@@ -336,7 +338,8 @@ class GetUser: ObservableObject {
         replacePot(pot: pot)
         
         pot.lastWatered = Date()
-        print(pot.id)
+        
+        print(pot.automaticWatering)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -357,17 +360,17 @@ class GetUser: ObservableObject {
                     "curTemp": pot.curTemp,
                     "id": pot.id,
                     "idealLightHigh": pot.idealLightHigh,
-                    "idealLightLow": pot.idealTempLow,
+                    "resLevel": pot.resLevel,
+                    "idealLightLow": pot.idealLightLow,
                     "idealMoistureHigh": pot.idealMoistureHigh,
                     "idealMoistureLow": pot.idealMoistureLow,
                     "idealTempHigh": pot.idealTempHigh,
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
-                    "notifications": [],
+                            "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "resLevel": pot.resLevel,
                     "records": []
                   ]
                 ]
@@ -471,5 +474,32 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
+    
+    func toggleNotifications(notifications: Bool) {
+        
+        self.notifications = notifications
+        
+        let json: [String: Any] = ["operation": "toggleNotis", "tableName": "HydroPotUsers", "payload": ["Item": ["name": self.name, "email": self.email, "notifications": notifications, "id": self.userId]]]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in }.resume()
+
+    }
+    
     
 }
