@@ -54,7 +54,8 @@ function buildTable(data){
         fullRow.setAttribute("class","row no-gutters");
         fullRow.setAttribute("id",obj["id"]);
         var pictureCol = document.createElement("div");
-        pictureCol.setAttribute("class", "col-md-1 no-gutters");
+        pictureCol.setAttribute("class", "col-md-1 no-gutters parent");
+        pictureCol.setAttribute("style","position: relative; top:0; left:0;");
         var contentCol = document.createElement("div");
         contentCol.setAttribute("class", "col-md-10 no-gutters");
         var buttonsCol = document.createElement("div");
@@ -64,12 +65,18 @@ function buildTable(data){
         var image = document.createElement("img");
         image.setAttribute("src",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
+        image.setAttribute("style","position: relative; top:0; left:0;");
 
-        var uploadButton = document.createElement("button");
-        uploadButton.textContent = "Upload";
+        //TODO: Add this back when we have an actual image overlay to work with
+        // var imageOverlay = document.createElement("img");
+        // imageOverlay.setAttribute("src","icon.png");
+        // imageOverlay.setAttribute("alt","image overlay");
+        // imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0;");
+
         
         pictureCol.appendChild(image);
-        pictureCol.appendChild(uploadButton);
+        //TODO: Add this back when we have an actual image overlay to work with
+        // pictureCol.appendChild(imageOverlay);
 
         //Content Code
         var topRow = document.createElement("div");
@@ -136,8 +143,14 @@ function buildInputFields(){
     addImageOutput.setAttribute("id","add-image-output");
     addImageOutput.setAttribute("width","100px");
     addImageOutput.setAttribute("height","100px");
-    addImageOutput.setAttribute("style","cursor:pointer");
     pictureCol.appendChild(addImageOutput);
+
+    var imageOverlay = document.createElement("img");
+    // imageOverlay.setAttribute("src","icon.png"); //TODO: Come back to this when we have an actual image overlay
+    imageOverlay.setAttribute("alt","image overlay");
+    imageOverlay.setAttribute("id","add-image-overlay");
+    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
+    pictureCol.appendChild(imageOverlay);
 
     var addImageButton = document.createElement("input");
     addImageButton.setAttribute("type","file");
@@ -582,6 +595,6 @@ function displayCurrentImage(){
 /**
  * Cathches the click on the image for add image
  */
-$(document).on("click","#add-image-output", function () {
+$(document).on("click","#add-image-overlay", function () {
     $("#addImageButton").trigger('click');
 });
