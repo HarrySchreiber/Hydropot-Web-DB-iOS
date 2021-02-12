@@ -31,6 +31,7 @@
 		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 		7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929EB25CB128C003F967C /* AddEditPlantList.swift */; };
+		7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		7FA929EB25CB128C003F967C /* AddEditPlantList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantList.swift; sourceTree = "<group>"; };
+		7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				7FA929DE25C89F18003F967C /* Notification.swift */,
 				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
+				7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
 				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
 				3949FCC625C202B100AC8D09 /* PlantTypePage.swift */,
@@ -333,6 +336,7 @@
 				7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */,
 				7FA929DA25C89F04003F967C /* Record.swift in Sources */,
 				3949FCC725C202B100AC8D09 /* PlantTypePage.swift in Sources */,
+				7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
