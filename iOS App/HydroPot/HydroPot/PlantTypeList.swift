@@ -94,6 +94,7 @@ struct SearchBar: View {
     @Binding var searching: Bool
     @Binding var mainList: [String]
     @Binding var searchedList: [String]
+    @State var viewFilter: Bool = false
     
     var body: some View {
         ZStack {
@@ -117,20 +118,28 @@ struct SearchBar: View {
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                 
                 // 'Cancel' Button
+                //                Button(action: {
+                //                    searching = false
+                //                    searchInput = ""
+                //                    // Hide Keyboard
+                //                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                //                }, label: {
+                //                    Text("Cancel")
+                //                })
+                //                .accentColor(Color.black)
+                //                .padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 8))
                 Button(action: {
-                    searching = false
-                    searchInput = ""
-                    // Hide Keyboard
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }, label: {
-                    Text("Cancel")
+                    self.viewFilter.toggle()
                 })
-                .accentColor(Color.black)
-                .padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 8))
+                {
+                    Text("Cancel")
+                }.sheet(isPresented: $viewFilter) {
+                    plantTypesFilter(showFilter: $viewFilter)
+                }
+                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
             }
-            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+            .frame(height: 50)
         }
-        .frame(height: 50)
     }
 }
 
