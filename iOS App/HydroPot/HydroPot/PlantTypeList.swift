@@ -173,24 +173,14 @@ struct SearchBar: View {
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
                             
                         })
+                        .modifier(TextFieldClearButton(searchInput: $searchInput, searching: $searching))
                         .accentColor(.black)
                         .foregroundColor(.black)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+
                 }
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                 
-                // 'Cancel' Button
-                //                Button(action: {
-                //                    searching = false
-                //                    searchInput = ""
-                //                    // Hide Keyboard
-                //                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                //                }, label: {
-                //                     Image(xmark.circle.fill)
-                //                })
-                //                .accentColor(Color.black)
-                //                .padding(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 8))
                 Button(action: {
                     self.viewFilter.toggle()
                 })
@@ -207,6 +197,31 @@ struct SearchBar: View {
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
             }
             .frame(height: 50)
+        }
+    }
+}
+struct TextFieldClearButton: ViewModifier {
+    @Binding var searchInput: String
+    @Binding var searching: Bool
+    func body(content: Content) -> some View {
+        HStack {
+            content
+            
+            if !searchInput.isEmpty {
+                Button(
+                    action: {
+                        searching = false
+                        searchInput = ""
+                        // Hide Keyboard
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        
+                    },
+                    label: {
+                        Image(systemName: "delete.left")
+                            .foregroundColor(Color(UIColor.opaqueSeparator))
+                    }
+                )
+            }
         }
     }
 }
