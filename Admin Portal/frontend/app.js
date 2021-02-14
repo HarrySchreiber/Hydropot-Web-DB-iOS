@@ -65,18 +65,17 @@ function buildTable(data){
         var image = document.createElement("img");
         image.setAttribute("src",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
-        image.setAttribute("style","position: relative; top:0; left:0;");
+        image.setAttribute("style","position: relative; top:0; left:0; width:100px; height:100px;");
 
-        //TODO: Add this back when we have an actual image overlay to work with
-        // var imageOverlay = document.createElement("img");
-        // imageOverlay.setAttribute("src","icon.png");
-        // imageOverlay.setAttribute("alt","image overlay");
-        // imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0;");
+        
+        var imageOverlay = document.createElement("img");
+        imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
+        imageOverlay.setAttribute("alt","image overlay");
+        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 100px; height: 100px;");
 
         
         pictureCol.appendChild(image);
-        //TODO: Add this back when we have an actual image overlay to work with
-        // pictureCol.appendChild(imageOverlay);
+        pictureCol.appendChild(imageOverlay);
 
         //Content Code
         var topRow = document.createElement("div");
@@ -146,7 +145,7 @@ function buildInputFields(){
     pictureCol.appendChild(addImageOutput);
 
     var imageOverlay = document.createElement("img");
-    imageOverlay.setAttribute("src","icon.png"); //TODO: Come back to this when we have an actual image overlay
+    imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
     imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
@@ -228,7 +227,7 @@ function buildInputFields(){
     
     var addButton = document.createElement("input");
     addButton.setAttribute("id","add-button");
-    addButton.setAttribute("onclick","addPlant()");
+    addButton.setAttribute("onclick","imageUpload('add')");
     addButton.value = "🥵";
     addButton.setAttribute("type","button");
     addButton.setAttribute("style","width: 100%; height: 100%;");
@@ -241,7 +240,7 @@ function buildInputFields(){
     $("#plant-table").append(fullRow);
 }
 
-function addPlant(){
+function addPlant(imageURL){
     var keyValueStore = {}
     keyValueStore["plantType"] = document.getElementById("add-plant-name").value;
     keyValueStore["idealTempHigh"] = document.getElementById("add-temp-high").value;
@@ -299,7 +298,8 @@ function addPlant(){
                     'idealMoistureLow':keyValueStore["idealMoistureLow"],
                     'idealLightHigh':keyValueStore["idealLightHigh"],
                     'idealLightLow':keyValueStore["idealLightLow"],
-                    'description':keyValueStore["description"]
+                    'description':keyValueStore["description"],
+                    'imageURL':imageURL
                 }
             }
         })
@@ -590,6 +590,45 @@ function displayCurrentImage(){
     };
     reader.readAsDataURL(image.files[0]);
     
+}
+
+function imageUpload(action, id = ""){
+    var image = document.getElementById("addImageButton");
+    var reader = new FileReader();
+    reader.onload = function(){
+      var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
+      var encodedImage = reader.result.split(",",2)[1];
+
+      var options = { 
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' }, 
+        body: JSON.stringify({
+            'operation':'imageUpload',
+            'tableName':'HydroPotPlantTypes',
+            'payload':{
+                'Item':{
+                    'encodedImage':encodedImage,
+                    'fileExtension':fileExtension
+                }
+            }
+        })
+        
+    }
+    fetch(API_URL,options) 
+    .then(res => res.json())
+    .then(data => {
+        // There was not an error
+        console.log(data);
+        if(action === "add"){
+            addPlant(data);
+        }
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+    };
+    reader.readAsDataURL(image.files[0]);
 }
 
 /**
