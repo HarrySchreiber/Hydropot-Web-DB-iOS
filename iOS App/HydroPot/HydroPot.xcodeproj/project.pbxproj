@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906C9AC25C5DE3C005FEF79 /* Plants.swift */; };
 		3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */; };
+		3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3941EAA525D6D33300E37724 /* plantTypesFilter.swift */; };
 		3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */; };
 		3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7625C200DE00AC8D09 /* ContentView.swift */; };
 		3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7825C200DE00AC8D09 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 		7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929EB25CB128C003F967C /* AddEditPlantList.swift */; };
+		7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,7 @@
 /* Begin PBXFileReference section */
 		3906C9AC25C5DE3C005FEF79 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
 		3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePWPage.swift; sourceTree = "<group>"; };
+		3941EAA525D6D33300E37724 /* plantTypesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plantTypesFilter.swift; sourceTree = "<group>"; };
 		3949FC7125C200DE00AC8D09 /* HydroPot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotApp.swift; sourceTree = "<group>"; };
 		3949FC7625C200DE00AC8D09 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		7FA929EB25CB128C003F967C /* AddEditPlantList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantList.swift; sourceTree = "<group>"; };
+		7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,7 @@
 				7FA929DE25C89F18003F967C /* Notification.swift */,
 				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
+				7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
 				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
 				3949FCC625C202B100AC8D09 /* PlantTypePage.swift */,
@@ -147,6 +152,7 @@
 				7FA929EB25CB128C003F967C /* AddEditPlantList.swift */,
 				3949FCD025C202E700AC8D09 /* AccountPage.swift */,
 				3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */,
+				3941EAA525D6D33300E37724 /* plantTypesFilter.swift */,
 				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
 				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
 				3949FCE425C2034300AC8D09 /* FilterModal.swift */,
@@ -315,6 +321,7 @@
 			files = (
 				3949FCB325C2025200AC8D09 /* Login.swift in Sources */,
 				3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */,
+				3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */,
 				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
@@ -333,6 +340,7 @@
 				7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */,
 				7FA929DA25C89F04003F967C /* Record.swift in Sources */,
 				3949FCC725C202B100AC8D09 /* PlantTypePage.swift in Sources */,
+				7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

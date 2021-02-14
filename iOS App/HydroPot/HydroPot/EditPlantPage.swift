@@ -13,6 +13,10 @@ struct EditPlantPage: View {
     @ObservedObject var plants: Plants
     @ObservedObject var pot: Pot
     @Binding var showModal: Bool
+    @Binding var moistureGood: Bool
+    @Binding var lightGood: Bool
+    @Binding var tempGood: Bool
+    @Binding var resGood: Bool
     @State var plantName = ""
     @State var plantType = ""
     @State var idealTemperatureHigh: String = ""
@@ -22,6 +26,7 @@ struct EditPlantPage: View {
     @State var idealMoistureLow: String = ""
     @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = ""
+    @State var failed: Bool = false
 
     var body: some View {
         NavigationView {
@@ -152,11 +157,17 @@ struct EditPlantPage: View {
                         user.editPot(pot: pot)
                         self.showModal.toggle()
                     }
+                    else {
+                        failed = true
+                    }
                 }) {
                 HStack {
                     Text("Confirm")
                 }
             })
+            .alert(isPresented: $failed) {
+                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
+            }
 
         }.onAppear() {
             plantSelected = pot.plantType
@@ -166,6 +177,12 @@ struct EditPlantPage: View {
             idealTemperatureHigh = String(pot.idealTempHigh)
             idealLightLevelLow = String(pot.idealLightLow)
             idealLightLevelHigh = String(pot.idealLightHigh)
+        }
+        .onDisappear() {
+            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
+            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
+            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+            resGood = pot.resLevel > 20
         }
     }
 }
