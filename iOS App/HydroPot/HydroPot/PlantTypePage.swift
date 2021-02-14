@@ -24,13 +24,15 @@ struct PlantTypePage: View {
                         .font(.footnote)
                         .padding(.vertical, 0.5)
                         .lineLimit(nil)
-                    (Text("Ideal Temperature: ").bold() + Text("\(plant.idealTempLow) - \(plant.idealTempHigh)°F"))
-                        .font(.footnote)
-                        .padding(.bottom, 0.5)
+                        .padding(.bottom,5)
+                    
                     (Text("Ideal Moisture: ").bold() + Text("\(plant.idealMoistureLow) - \(plant.idealMoistureHigh)%"))
                         .font(.footnote)
                         .padding(.bottom, 0.5)
                     (Text("Ideal Light: ").bold() + Text("\(plant.idealLightLow) - \(plant.idealLightHigh) lm")).font(.footnote)
+                        .padding(.bottom, 0.5)
+                    (Text("Ideal Temperature: ").bold() + Text("\(plant.idealTempLow) - \(plant.idealTempHigh)°F"))
+                        .font(.footnote)
                         .padding(.bottom, 0.5)
                     
                 }

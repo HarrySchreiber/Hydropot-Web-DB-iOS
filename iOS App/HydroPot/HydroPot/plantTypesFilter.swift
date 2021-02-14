@@ -8,22 +8,11 @@
 import SwiftUI
 
 struct plantTypesFilter: View {
-    //@Environment(\.presentationMode) var presentationMode
-    //@ObservedObject var user: GetUser
+    @Environment(\.presentationMode) var presentationMode
     @Binding var showFilter: Bool
-    //moisture buttons
-    @State var lowMoist: Bool = false
-    @State var medMoist: Bool = false
-    @State var highMoist: Bool = false
-    //light buttons
-    @State var lowLight: Bool = false
-    @State var medLight: Bool = false
-    @State var highLight: Bool = false
-    //temperature buttons
-    @State var lowTemp: Bool = false
-    @State var medTemp: Bool = false
-    @State var highTemp: Bool = false
-    
+    @Binding var filteredValues: [(Bool,Bool,Bool)]
+    @State var tempValues = [(false,false,false),(false,false,false),(false,false,false)]
+
     var body: some View {
         VStack{
             Text("Filter Plant Types")
@@ -37,36 +26,42 @@ struct plantTypesFilter: View {
             Group {
                 HStack {
                     Button(action: {
-                        lowMoist.toggle()
+                        tempValues[0].0.toggle()
+                        tempValues[0].1 = false
+                        tempValues[0].2 = false
                     }) {
                         Text("Low")
-                            .foregroundColor(setButtonColor(selected: lowMoist))
+                            .foregroundColor(setButtonColor(selected: tempValues[0].0))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: lowMoist), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[0].0), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        medMoist.toggle()
+                        tempValues[0].1.toggle()
+                        tempValues[0].0 = false
+                        tempValues[0].2 = false
                     }) {
                         Text("Medium")
-                            .foregroundColor(setButtonColor(selected: medMoist))
+                            .foregroundColor(setButtonColor(selected: tempValues[0].1))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: medMoist), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[0].1), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        highMoist.toggle()
+                        tempValues[0].2.toggle()
+                        tempValues[0].0 = false
+                        tempValues[0].1 = false
                     }) {
                         Text("High")
-                            .foregroundColor(setButtonColor(selected: highMoist))
+                            .foregroundColor(setButtonColor(selected: tempValues[0].2))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: highMoist), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[0].2), lineWidth: 2)
                             )
                     }
                 }
@@ -78,36 +73,42 @@ struct plantTypesFilter: View {
                 }.padding()
                 HStack {
                     Button(action: {
-                        lowLight.toggle()
+                        tempValues[1].0.toggle()
+                        tempValues[1].1 = false
+                        tempValues[1].2 = false
                     }) {
                         Text("Low")
-                            .foregroundColor(setButtonColor(selected: lowLight))
+                            .foregroundColor(setButtonColor(selected: tempValues[1].0))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: lowLight), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[1].0), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        medLight.toggle()
+                        tempValues[1].1.toggle()
+                        tempValues[1].0 = false
+                        tempValues[1].2 = false
                     }) {
                         Text("Medium")
-                            .foregroundColor(setButtonColor(selected: medLight))
+                            .foregroundColor(setButtonColor(selected: tempValues[1].1))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: medLight), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[1].1), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        highLight.toggle()
+                        tempValues[1].2.toggle()
+                        tempValues[1].0 = false
+                        tempValues[1].1 = false
                     }) {
                         Text("High")
-                            .foregroundColor((setButtonColor(selected: highLight)))
+                            .foregroundColor((setButtonColor(selected: tempValues[1].2)))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: highLight), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[1].2), lineWidth: 2)
                             )
                     }
                 }
@@ -119,42 +120,49 @@ struct plantTypesFilter: View {
                 }.padding()
                 HStack {
                     Button(action: {
-                        lowTemp.toggle()
+                        tempValues[2].0.toggle()
+                        tempValues[2].1 = false
+                        tempValues[2].2 = false
                     }) {
                         Text("Low")
-                            .foregroundColor(setButtonColor(selected: lowTemp))
+                            .foregroundColor(setButtonColor(selected: tempValues[2].0))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: lowTemp), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[2].0), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        medTemp.toggle()
+                        tempValues[2].1.toggle()
+                        tempValues[2].0 = false
+                        tempValues[2].2 = false
                     }) {
                         Text("Medium")
-                            .foregroundColor(setButtonColor(selected: medTemp))
+                            .foregroundColor(setButtonColor(selected: tempValues[2].1))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: medTemp), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[2].1), lineWidth: 2)
                             )
                     }
                     Button(action: {
-                        highTemp.toggle()
+                        tempValues[2].2.toggle()
+                        tempValues[2].0 = false
+                        tempValues[2].1 = false
                     }) {
                         Text("High")
-                            .foregroundColor(setButtonColor(selected: highTemp))
+                            .foregroundColor(setButtonColor(selected: tempValues[2].2))
                             .padding(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(setButtonColor(selected: highTemp), lineWidth: 2)
+                                    .stroke(setButtonColor(selected: tempValues[2].2), lineWidth: 2)
                             )
                     }
                 }
             }
             HStack {
                 Button(action: {
+                    filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
                     self.showFilter.toggle()
                 }) {
                     HStack {
@@ -166,6 +174,7 @@ struct plantTypesFilter: View {
                     .cornerRadius(6)
                 }
                 Button(action: {
+                    filteredValues = tempValues
                     self.showFilter.toggle()
                 }) {
                     HStack {
@@ -178,6 +187,8 @@ struct plantTypesFilter: View {
                     
                 }.padding(.leading)
             }.padding(.top,30)
+        }.onAppear {
+            tempValues = filteredValues
         }
         Spacer()
     }
