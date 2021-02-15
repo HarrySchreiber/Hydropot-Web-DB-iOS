@@ -18,6 +18,43 @@ var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production
 //     console.log(error);
 // });
 
+function authenticateUser(){
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
+
+    var options = { 
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' }, 
+        body: JSON.stringify({
+            'operation':'login',
+            'tableName':'HydroPotPlantTypes',
+            'payload':{
+                'Item':{
+                    'email':email.value,
+                    'password':password.value
+                }
+            }
+        })
+        
+    }
+    fetch(API_URL,options) 
+    .then(res => res.json())
+    .then(data => {
+        // There was not an error
+        if(data['Count'] === 1){
+            $("#login").remove();
+            loadPage();
+        }else{
+            warningModal("No account registered with those credentials");
+        }
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+
+}
+
 function loadPage(){
     var options = { 
         method: 'POST',
@@ -117,7 +154,7 @@ function buildTable(data){
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
         deleteButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['plantType']}","delete")`);
-        deleteButton.value = "🤮";
+        deleteButton.value = "🗑";
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
 
@@ -228,7 +265,7 @@ function buildInputFields(){
     var addButton = document.createElement("input");
     addButton.setAttribute("id","add-button");
     addButton.setAttribute("onclick","imageUpload('add')");
-    addButton.value = "🥵";
+    addButton.value = "➕";
     addButton.setAttribute("type","button");
     addButton.setAttribute("style","width: 100%; height: 100%;");
     buttonsCol.appendChild(addButton);
@@ -392,6 +429,8 @@ function editPlant(id){
     });
 }
 
+
+//TODO: Add url here so that we can ge the key to delete in s3
 function deletePlant(id){
     cleanModal();
     var options = { 
@@ -592,7 +631,9 @@ function displayCurrentImage(){
     
 }
 
-function imageUpload(action, id = ""){
+function imageUpload(action){
+
+
     var image = document.getElementById("addImageButton");
     var reader = new FileReader();
     reader.onload = function(){
