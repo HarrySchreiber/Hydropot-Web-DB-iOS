@@ -11,7 +11,7 @@ struct HistoricalData: View {
     @ObservedObject var pot : Pot
     @State private var selectedUnit = 0
     var units = ["Hourly", "Daily", "Weekly"]
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var tuples : [(high: Int, avg: Int, low: Int)]
     
     var body: some View {
