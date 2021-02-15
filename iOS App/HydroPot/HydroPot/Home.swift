@@ -97,7 +97,9 @@ struct HomeView: View {
                                     }
                                 }
                             }
-                        }.navigationBarTitle("", displayMode: .inline)
+                        }
+                        .onDelete(perform: user.deletePot)
+                        .navigationBarTitle("", displayMode: .inline)
                     }
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:

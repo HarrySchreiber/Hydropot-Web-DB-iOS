@@ -132,7 +132,7 @@ class GetUser: ObservableObject {
         return loggedIn
     }
     
-    func reload () {
+    func reload (onEnded: @escaping () -> ()) -> Bool {
         
         pots = []
         
@@ -210,7 +210,9 @@ class GetUser: ObservableObject {
                     
                 }
             })
+            onEnded()
         }.resume()
+        return loggedIn
     }
     
     func changePass(newPass: String) {
@@ -317,8 +319,6 @@ class GetUser: ObservableObject {
         let session = URLSession(configuration: config)
         
         session.dataTask(with: request) { data, response, error in}.resume()
-        
-        reload()
     }
     
     func replacePot(pot: Pot){
@@ -327,6 +327,47 @@ class GetUser: ObservableObject {
                 self.pots[index] = pot
             }
         }
+    }
+    
+    func deletePot(at offsets: IndexSet){
+
+        for index in offsets {
+            let json: [String: Any] =
+                [
+                  "operation": "deletePot",
+                  "tableName": "HydroPotUsers",
+                  "payload": [
+                    "Item": [
+                        "id": userId,
+                        "email": email,
+                      "pot": [
+                        "id": pots[index].id,
+                      ]
+                    ]
+                  ]
+                ]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            
+            let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+            
+            var request = URLRequest(url: url)
+            
+            request.httpMethod = "POST"
+            request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            // insert json data to the request
+            request.httpBody = jsonData
+
+            let config = URLSessionConfiguration.default
+            config.httpAdditionalHeaders = ["Accept": "Application/json"]
+            let session = URLSession(configuration: config)
+            
+            session.dataTask(with: request) { data, response, error in}.resume()
+            
+          }
+        
+        pots.remove(atOffsets: offsets)
+        
     }
     
     func editPot(pot: Pot){
@@ -362,7 +403,7 @@ class GetUser: ObservableObject {
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
-                            "notifications": [],
+                    "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
                     "records": []
@@ -495,5 +536,16 @@ class GetUser: ObservableObject {
 
     }
     
+    func attemptReload(){
+        self.reload() {
+            // will be received at the login processed
+            if self.loggedIn {
+                print("")
+            }
+            else{
+                print("You aren't logged in")
+            }
+        }
+    }
     
 }

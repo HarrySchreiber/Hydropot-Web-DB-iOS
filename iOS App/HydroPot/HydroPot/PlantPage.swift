@@ -36,7 +36,7 @@ struct PlantPage: View {
         ZStack {
             ScrollView {
                 //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                  //  user.reload()
+                    
                 //}
                 VStack(alignment: .leading) {
                     HStack {
