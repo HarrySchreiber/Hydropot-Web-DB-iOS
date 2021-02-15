@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906C9AC25C5DE3C005FEF79 /* Plants.swift */; };
 		3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */; };
+		3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3941EAA525D6D33300E37724 /* plantTypesFilter.swift */; };
 		3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */; };
 		3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7625C200DE00AC8D09 /* ContentView.swift */; };
 		3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7825C200DE00AC8D09 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		3906C9AC25C5DE3C005FEF79 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
 		3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePWPage.swift; sourceTree = "<group>"; };
+		3941EAA525D6D33300E37724 /* plantTypesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plantTypesFilter.swift; sourceTree = "<group>"; };
 		3949FC7125C200DE00AC8D09 /* HydroPot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotApp.swift; sourceTree = "<group>"; };
 		3949FC7625C200DE00AC8D09 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				7FA929EB25CB128C003F967C /* AddEditPlantList.swift */,
 				3949FCD025C202E700AC8D09 /* AccountPage.swift */,
 				3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */,
+				3941EAA525D6D33300E37724 /* plantTypesFilter.swift */,
 				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
 				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
 				3949FCE425C2034300AC8D09 /* FilterModal.swift */,
@@ -318,6 +321,7 @@
 			files = (
 				3949FCB325C2025200AC8D09 /* Login.swift in Sources */,
 				3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */,
+				3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */,
 				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
