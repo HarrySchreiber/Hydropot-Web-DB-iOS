@@ -11,7 +11,14 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-  <body onload="loadPage()" >
+  <body>
+    <div class="container" id="login">
+      <form>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        <input type="button" class="form-control" onclick="authenticateUser()" value="Submit"> 
+      </form>
+    </div>
     <div id="plant-table"></div>
 
     <!-- jQuery -->
