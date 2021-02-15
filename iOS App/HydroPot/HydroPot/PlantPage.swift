@@ -34,164 +34,166 @@ struct PlantPage: View {
         )
         
         ZStack {
-            NavigationView {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "photo")
-                                .font(.system(size: 90))
-                                .foregroundColor(.black)
-                                .padding(.leading, 5)
-                            VStack(alignment: .leading){
-                                Text(pot.plantName)
-                                    .font(.title)
-                                    .bold()
-                                Text(pot.plantType)
-                            }
-                        }
-                        HStack() {
-                            Text("Last watered: \n\(getLastWatered(pot: pot))")
-                                .frame(maxWidth: 300)
-                                .padding(.trailing, 15)
-                            Button("Water Plant") {
-                                showPopUp = true
-                            }
-                            .buttonStyle(BorderlessButtonStyle())
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                            .cornerRadius(6)
-                        }
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding([.top, .bottom, .trailing])
-                        .border(Color.gray, width: 1.25)
-                        .padding([.leading, .bottom, .trailing])
-                        
-                        Toggle(isOn: bind) {
-                            Text("Automatic Water").padding(.leading)
-                        }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
-                        .frame(maxWidth: 300)
-                        .padding([.top, .bottom, .trailing])
-                        .border(Color.gray, width: 1.25)
-                        .padding([.leading, .bottom, .trailing])
-                        
-                        //soil moisture
-                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
-                            HStack {
-                                VStack{
-                                    HStack {
-                                        Text("Soil Moisture")
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(.black)
-                                        Text("\(pot.curMoisture)%")
-                                            .font(.title)
-                                            .bold()
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(getTextColor(bool: moistureGood))
-                                            .padding(.leading, 45)
-                                    }
-                                    Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
-                                        .padding(.leading, 100)
-                                        .frame(maxWidth: 300)
-                                        .foregroundColor(.black)
-                                }
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: 300)
-                            .padding([.top, .bottom])
-                            .padding([.leading, .trailing], 5)
-                            .border(Color.gray, width: 1.25)
-                            .padding([.leading, .bottom, .trailing])
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
-                        //light level
-                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
-                            HStack {
-                                VStack{
-                                    HStack {
-                                        Text("Light Level")
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(.black)
-                                            .padding(.trailing, 10)
-                                        Text("\(pot.curLight)lm")
-                                            .font(.title)
-                                            .bold()
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(getTextColor(bool: lightGood))
-                                            .padding(.leading, 1)
-                                    }
-                                    Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
-                                        .padding(.leading, 50)
-                                        .frame(maxWidth: 300)
-                                        .foregroundColor(.black)
-                                }
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: 300)
-                            .padding([.top, .bottom])
-                            .padding(.trailing, 5)
-                            .border(Color.gray, width: 1.25)
-                            .padding([.leading, .bottom, .trailing])
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
-                        
-                        //temperature
-                        NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
-                            HStack {
-                                VStack{
-                                    HStack {
-                                        Text("Temperature")
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(.black)
-                                        Text("\(pot.curTemp)°F")
-                                            .font(.title)
-                                            .bold()
-                                            .frame(maxWidth: 300)
-                                            .foregroundColor(getTextColor(bool: tempGood))
-                                            .padding(.leading, 35)
-                                    }
-                                    Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
-                                        .padding(.leading, 90)
-                                        .frame(maxWidth: 300)
-                                        .foregroundColor(.black)
-                                }
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: 300)
-                            .padding([.top, .bottom])
-                            .padding([.leading, .trailing], 5)
-                            .border(Color.gray, width: 1.25)
-                            .padding([.leading, .bottom, .trailing])
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
-                        .navigationBarHidden(true)
-                        HStack {
-                            Text("Reservoir Level")
-                                .frame(maxWidth: 300)
-                                .foregroundColor(.black)
-                            Text("\(pot.resLevel)%")
+            ScrollView {
+                //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                  //  user.reload()
+                //}
+                VStack(alignment: .leading) {
+                    HStack {
+                        Image(systemName: "photo")
+                            .font(.system(size: 90))
+                            .foregroundColor(.black)
+                            .padding(.leading, 5)
+                        VStack(alignment: .leading){
+                            Text(pot.plantName)
                                 .font(.title)
                                 .bold()
-                                .frame(maxWidth: 300)
-                                .foregroundColor(getTextColor(bool: resGood))
-                                .padding(.leading, 45)
-                            
+                            Text(pot.plantType)
+                        }
+                    }
+                    HStack() {
+                        Text("Last watered: \n\(getLastWatered(pot: pot))")
+                            .frame(maxWidth: 300)
+                            .padding(.trailing, 15)
+                        Button("Water Plant") {
+                            showPopUp = true
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .cornerRadius(6)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding([.top, .bottom, .trailing])
+                    .border(Color.gray, width: 1.25)
+                    .padding([.leading, .bottom, .trailing])
+                    
+                    Toggle(isOn: bind) {
+                        Text("Automatic Water").padding(.leading)
+                    }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
+                    .frame(maxWidth: 300)
+                    .padding([.top, .bottom, .trailing])
+                    .border(Color.gray, width: 1.25)
+                    .padding([.leading, .bottom, .trailing])
+        
+                    //soil moisture
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                        HStack {
+                            VStack{
+                                HStack {
+                                    Text("Soil Moisture")
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                    Text("\(pot.curMoisture)%")
+                                        .font(.title)
+                                        .bold()
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(getTextColor(bool: moistureGood))
+                                        .padding(.leading, 45)
+                                }
+                                Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
+                                    .padding(.leading, 100)
+                                    .frame(maxWidth: 300)
+                                    .foregroundColor(.black)
+                            }
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
                         }
                         .frame(maxWidth: 300)
-                        //.padding([.top, .bottom])
-                        .padding( 5)
+                        .padding([.top, .bottom])
+                        .padding([.leading, .trailing], 5)
                         .border(Color.gray, width: 1.25)
                         .padding([.leading, .bottom, .trailing])
                         .fixedSize(horizontal: false, vertical: true)
                     }
-                }//end scroll view
+                    //light level
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                        HStack {
+                            VStack{
+                                HStack {
+                                    Text("Light Level")
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                        .padding(.trailing, 10)
+                                    Text("\(pot.curLight)lm")
+                                        .font(.title)
+                                        .bold()
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(getTextColor(bool: lightGood))
+                                        .padding(.leading, 1)
+                                }
+                                Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
+                                    .padding(.leading, 50)
+                                    .frame(maxWidth: 300)
+                                    .foregroundColor(.black)
+                            }
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
+                        }
+                        .frame(maxWidth: 300)
+                        .padding([.top, .bottom])
+                        .padding(.trailing, 5)
+                        .border(Color.gray, width: 1.25)
+                        .padding([.leading, .bottom, .trailing])
+                        .fixedSize(horizontal: false, vertical: true)
+                    }
+                    
+                    //temperature
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                        HStack {
+                            VStack{
+                                HStack {
+                                    Text("Temperature")
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(.black)
+                                    Text("\(pot.curTemp)°F")
+                                        .font(.title)
+                                        .bold()
+                                        .frame(maxWidth: 300)
+                                        .foregroundColor(getTextColor(bool: tempGood))
+                                        .padding(.leading, 35)
+                                }
+                                Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
+                                    .padding(.leading, 90)
+                                    .frame(maxWidth: 300)
+                                    .foregroundColor(.black)
+                            }
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
+                        }
+                        .frame(maxWidth: 300)
+                        .padding([.top, .bottom])
+                        .padding([.leading, .trailing], 5)
+                        .border(Color.gray, width: 1.25)
+                        .padding([.leading, .bottom, .trailing])
+                        .fixedSize(horizontal: false, vertical: true)
+                    }
+                    HStack {
+                        Text("Reservoir Level")
+                            .frame(maxWidth: 300)
+                            .foregroundColor(.black)
+                        Text("\(pot.resLevel)%")
+                            .font(.title)
+                            .bold()
+                            .frame(maxWidth: 300)
+                            .foregroundColor(getTextColor(bool: resGood))
+                            .padding(.leading, 45)
+                        
+                    }
+                    .frame(maxWidth: 300)
+                    //.padding([.top, .bottom])
+                    .padding( 5)
+                    .border(Color.gray, width: 1.25)
+                    .padding([.leading, .bottom, .trailing])
+                    .fixedSize(horizontal: false, vertical: true)
+                }
             }
+            //end scroll view
+            .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
                     Button(action: {
                         self.showingDetail.toggle()
@@ -205,12 +207,12 @@ struct PlantPage: View {
             if $showPopUp.wrappedValue {
                 waterModal(showPopUp: $showPopUp)
             }
-        }.onAppear {
-            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            autoWatering = pot.automaticWatering
-            resGood = pot.resLevel > 20
+            }.onAppear {
+                moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
+                lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
+                tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+                autoWatering = pot.automaticWatering
+                resGood = pot.resLevel > 20
         }
     }
     func getLastWatered(pot: Pot) -> String {

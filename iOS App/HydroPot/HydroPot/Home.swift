@@ -41,8 +41,8 @@ struct HomeView: View {
     }()
     
     var body: some View {
-        ZStack{
-            NavigationView {
+        NavigationView {
+            ZStack{
                 if(user.pots.count == 0) {
                     Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
                         .bold()
@@ -97,7 +97,7 @@ struct HomeView: View {
                                     }
                                 }
                             }
-                        }
+                        }.navigationBarTitle("", displayMode: .inline)
                     }
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
@@ -114,9 +114,9 @@ struct HomeView: View {
                             AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
                     })
                 }
-            }
-            if $showPopUp.wrappedValue {
-                waterModal(showPopUp: $showPopUp)
+                if $showPopUp.wrappedValue {
+                    waterModal(showPopUp: $showPopUp)
+                }
             }
         }
     }

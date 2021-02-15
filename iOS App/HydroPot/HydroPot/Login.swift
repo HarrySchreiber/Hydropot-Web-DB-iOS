@@ -36,7 +36,7 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
-                                TextField("Password", text: $password)
+                                SecureField("Password", text: $password)
                                     .padding(6)
                                     .border(Color.black.opacity(0.2))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -74,7 +74,7 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
-                                TextField("Password", text: $password)
+                                SecureField("Password", text: $password)
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
                                     .frame(minWidth: 0, maxWidth: .infinity)

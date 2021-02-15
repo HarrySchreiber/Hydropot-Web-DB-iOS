@@ -25,7 +25,7 @@ struct ChangePWPage: View {
                         .padding(.top, 32)
                     Spacer()
                     HStack {
-                        TextField("Current Password", text: $oldPW)
+                        SecureField("Current Password", text: $oldPW)
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -34,7 +34,7 @@ struct ChangePWPage: View {
                     .padding(.leading, geometry.size.height/30)
                     .padding(.bottom)
                     HStack {
-                        TextField("New Password", text: $newPW)
+                        SecureField("New Password", text: $newPW)
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -43,7 +43,7 @@ struct ChangePWPage: View {
                     .padding(.leading, geometry.size.height/30)
                     .padding(.bottom)
                     HStack {
-                        TextField("Confirm New Password", text: $newConfPW)
+                        SecureField("Confirm New Password", text: $newConfPW)
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
