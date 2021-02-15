@@ -172,20 +172,15 @@ class GetUser: ObservableObject {
                 results = nil
             }
             guard let r = results else {
-                print("Unable to parse user reload JSON")
+                print("Unable to parse user login JSON")
                 return
             }
             DispatchQueue.main.async(execute: {
                 if ((r.Items.count) != 0) {
-                    self.userId = r.Items[0].id
-                    self.loggedIn = true
-                    self.name = r.Items[0].userName
-                    self.email = r.Items[0].email
-                    let codePots = r.Items[0].pots
                     self.notifications = r.Items[0].notifications
+                    let codePots = r.Items[0].pots
                     if (codePots?.count != 0){
                         for pot in codePots! {
-                            
                             var records : [Record] = []
                             for rec in pot.records! {
                                 let dateFormatter = DateFormatter()
@@ -208,10 +203,11 @@ class GetUser: ObservableObject {
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
-                            
+                            print(pot.curMoisture)
                             self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id, automaticWatering: pot.automaticWatering))
                         }
                     }
+                    
                 }
             })
         }.resume()
@@ -338,8 +334,6 @@ class GetUser: ObservableObject {
         replacePot(pot: pot)
         
         pot.lastWatered = Date()
-        
-        print(pot.automaticWatering)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"

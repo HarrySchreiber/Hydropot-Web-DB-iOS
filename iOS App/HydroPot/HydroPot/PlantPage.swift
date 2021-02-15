@@ -35,6 +35,9 @@ struct PlantPage: View {
         
         ZStack {
             ScrollView {
+                //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                  //  user.reload()
+                //}
                 VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "photo")
@@ -188,7 +191,9 @@ struct PlantPage: View {
                     .padding([.leading, .bottom, .trailing])
                     .fixedSize(horizontal: false, vertical: true)
                 }
-            }//end scroll view
+            }
+            //end scroll view
+            .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
                     Button(action: {
                         self.showingDetail.toggle()

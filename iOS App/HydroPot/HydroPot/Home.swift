@@ -114,9 +114,9 @@ struct HomeView: View {
                             AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
                     })
                 }
-            }
-            if $showPopUp.wrappedValue {
-                waterModal(showPopUp: $showPopUp)
+                if $showPopUp.wrappedValue {
+                    waterModal(showPopUp: $showPopUp)
+                }
             }
         }
     }
