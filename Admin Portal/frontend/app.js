@@ -77,6 +77,15 @@ function loadPage(){
     });
 }
 
+function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
+    var field = document.createElement("input");
+    field.setAttribute("id",fieldId);
+    field.setAttribute("type",fieldType);
+    field.setAttribute("style",`width: ${fieldWidthPercentage}%`);
+    field.setAttribute("placeholder", fieldPlaceHolder);
+    return field;
+}
+
 function buildTable(data){
     $("#plant-table").empty();
 
@@ -120,23 +129,16 @@ function buildTable(data){
         var bottomRow = document.createElement("div");
         bottomRow.setAttribute("class","row no-gutters");
         for(key of keyArray){
-            var input = document.createElement("input");
             if(key == "plantType"){
-                input.setAttribute("type","text");
-                input.setAttribute("style","width: 22%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${key}-${obj['id']}`);
+                var input = buildField(`${key}-${obj['id']}`,"text",22,"");
                 input.value = obj[key];
                 topRow.appendChild(input);
             }else if(key == "description"){
-                input.setAttribute("type","text");
-                input.setAttribute("style","width: 100%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${key}-${obj['id']}`);
+                var input = buildField(`${key}-${obj['id']}`,"text",100,"");
                 input.value = obj[key];
                 bottomRow.appendChild(input);
             }else{
-                input.setAttribute("type", "number");
-                input.setAttribute("style","width: 13%;"); //TODO: Dummy Values for percent
-                input.setAttribute("id",`${key}-${obj['id']}`);
+                var input = buildField(`${key}-${obj['id']}`,"number",13,"");
                 input.value = obj[key];
                 topRow.appendChild(input);
             }
@@ -202,58 +204,18 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    var addplantType = document.createElement("input");
-    addplantType.setAttribute("id","add-plant-name");
-    addplantType.setAttribute("type","text");
-    addplantType.setAttribute("style","width: 22%");
-    addplantType.setAttribute("placeholder","Plant Name");
-    topRow.appendChild(addplantType);
-    var addTempHigh = document.createElement("input");
-    addTempHigh.setAttribute("id","add-temp-high");
-    addTempHigh.setAttribute("type","number");
-    addTempHigh.setAttribute("style","width: 13%");
-    addTempHigh.setAttribute("placeholder","High Temp");
-    topRow.appendChild(addTempHigh);
-    var addTempLow = document.createElement("input");
-    addTempLow.setAttribute("id","add-temp-low");
-    addTempLow.setAttribute("type","number");
-    addTempLow.setAttribute("style","width: 13%");
-    addTempLow.setAttribute("placeholder","Low Temp");
-    topRow.appendChild(addTempLow);
-    var addMoistureHigh = document.createElement("input");
-    addMoistureHigh.setAttribute("id","add-moisture-high");
-    addMoistureHigh.setAttribute("type","number");
-    addMoistureHigh.setAttribute("style","width: 13%");
-    addMoistureHigh.setAttribute("placeholder","High Moisture");
-    topRow.appendChild(addMoistureHigh);
-    var addMoistureLow = document.createElement("input");
-    addMoistureLow.setAttribute("id","add-moisture-low");
-    addMoistureLow.setAttribute("type","number");
-    addMoistureLow.setAttribute("style","width: 13%");
-    addMoistureLow.setAttribute("placeholder","Low Moisture");
-    topRow.appendChild(addMoistureLow);
-    var addLightHigh = document.createElement("input");
-    addLightHigh.setAttribute("id","add-light-high");
-    addLightHigh.setAttribute("type","number");
-    addLightHigh.setAttribute("style","width: 13%");
-    addLightHigh.setAttribute("placeholder","High Light");
-    topRow.appendChild(addLightHigh);
-    var addLightLow = document.createElement("input");
-    addLightLow.setAttribute("id","add-light-low");
-    addLightLow.setAttribute("type","number");
-    addLightLow.setAttribute("style","width: 13%");
-    addLightLow.setAttribute("placeholder","Low Light");
-    topRow.appendChild(addLightLow);
+    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name"));
+    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp"));
+    topRow.appendChild(buildField("add-temp-low","number",13,"Low Temp"));
+    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture"));
+    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture"));
+    topRow.appendChild(buildField("add-light-high","number",13,"High Light"));
+    topRow.appendChild(buildField("add-light-low","number",13,"Low Light"));
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
 
-    var addDescription = document.createElement("input");
-    addDescription.setAttribute("id","add-description");
-    addDescription.setAttribute("type","text");
-    addDescription.setAttribute("style","width: 100%");
-    addDescription.setAttribute("placeholder","Description");
-    bottomRow.appendChild(addDescription);
+    bottomRow.appendChild(buildField("add-description","text",100,"Description"));
 
     contentCol.appendChild(topRow);
     contentCol.appendChild(bottomRow);
@@ -615,6 +577,7 @@ function cleanModal(){
     $("#confirmActionModal").remove();
     $("#warningModal").remove();
     $(".modal-backdrop").remove();
+    $(document.body).removeClass("modal-open");
 }
 
 /**
