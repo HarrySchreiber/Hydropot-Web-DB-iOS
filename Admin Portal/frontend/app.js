@@ -183,20 +183,21 @@ function buildInputFields(){
     addImageOutput.setAttribute("height","100px");
     pictureCol.appendChild(addImageOutput);
 
+    var addImageButton = document.createElement("input");
+    addImageButton.setAttribute("type","file");
+    addImageButton.setAttribute("id","addImageButton");
+    addImageButton.setAttribute("onchange","displayCurrentImage('addImageButton','add-image-output')");
+    addImageButton.setAttribute("style","display:none");
+    addImageButton.setAttribute("accept","image/*");
+    pictureCol.appendChild(addImageButton);
+
     var imageOverlay = document.createElement("img");
     imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
     imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
+    imageOverlay.setAttribute("onclick","document.getElementById('addImageButton').click()");
     pictureCol.appendChild(imageOverlay);
-
-    var addImageButton = document.createElement("input");
-    addImageButton.setAttribute("type","file");
-    addImageButton.setAttribute("id","addImageButton");
-    addImageButton.setAttribute("onchange","displayCurrentImage()");
-    addImageButton.setAttribute("style","display:none");
-    addImageButton.setAttribute("accept","image/*");
-    pictureCol.appendChild(addImageButton);
 
     var contentCol = document.createElement("div");
     contentCol.setAttribute("class", "col-md-10 no-gutters");
@@ -583,11 +584,11 @@ function cleanModal(){
 /**
  * Displays the add image in the html
  */
-function displayCurrentImage(){
-    var image = document.getElementById("addImageButton");
+function displayCurrentImage(fileUploadId, imageOutputId){
+    var image = document.getElementById(fileUploadId);
     var reader = new FileReader();
     reader.onload = function(){
-      var output = document.getElementById('add-image-output');
+      var output = document.getElementById(imageOutputId);
       output.src = reader.result;
     };
     reader.readAsDataURL(image.files[0]);
@@ -634,10 +635,3 @@ function imageUpload(action){
     };
     reader.readAsDataURL(image.files[0]);
 }
-
-/**
- * Cathches the click on the image for add image
- */
-$(document).on("click","#add-image-overlay", function () {
-    $("#addImageButton").trigger('click');
-});
