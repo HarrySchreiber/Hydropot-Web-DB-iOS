@@ -46,7 +46,7 @@ class GetUser: ObservableObject {
         self.notifications = true
     }
     
-    func login (email: String, password: String) -> Bool {
+    func login (email: String, password: String,onEnded: @escaping () -> ()) {
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
@@ -126,15 +126,14 @@ class GetUser: ObservableObject {
                     }
                     
                 }
+                onEnded()
             })
         }.resume()
-        
-        return loggedIn
     }
     
-    func reload (onEnded: @escaping () -> ()) -> Bool {
+    func reload (onEnded: @escaping () -> ()) {
         
-        pots = []
+        self.pots = []
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
@@ -203,17 +202,16 @@ class GetUser: ObservableObject {
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
-                            print(pot.curMoisture)
                             self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id, automaticWatering: pot.automaticWatering))
                         }
                     }
                     
                 }
+                onEnded()
             })
-            onEnded()
         }.resume()
-        return loggedIn
     }
+    
     
     func changePass(newPass: String) {
         self.password = newPass
@@ -562,17 +560,5 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
-    
-    func attemptReload(){
-        self.reload() {
-            // will be received at the login processed
-            if self.loggedIn {
-                print("")
-            }
-            else{
-                print("You aren't logged in")
-            }
-        }
-    }
-    
+
 }

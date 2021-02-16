@@ -88,6 +88,21 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
     }
     
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool) {
+        self.plantName = plantName
+        self.plantType = plantType
+        self.curTemp = curTemp
+        self.idealTempLow = idealTempLow
+        self.idealTempHigh = idealTempHigh
+        self.idealMoistureLow = idealMoistureLow
+        self.curMoisture = curMoisture
+        self.idealMoistureHigh = idealMoistureHigh
+        self.idealLightLow = idealLightLow
+        self.curLight = curLight
+        self.idealLightHigh = idealLightHigh
+        self.automaticWatering = automaticWatering
+    }
+    
     
     func getValues(unit: String) -> [(high: Int, avg: Int, low: Int)] {
         if records.count != 0 {
