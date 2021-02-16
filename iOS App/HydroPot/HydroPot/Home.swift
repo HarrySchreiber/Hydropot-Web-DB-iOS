@@ -19,10 +19,19 @@ struct Home: View {
     }
     var body: some View {
         TabView() {
-            HomeView(user: user, plants: plants).tabItem { Text("Home") }.tag(1)
-            PlantTypeList(plants: self.plants).tabItem { Text("Plant Type") }.tag(2)
-            NotificationsPage(user: user, plants: plants).tabItem { Text("Notifications") }.tag(3)
-            AccountPage(user: user).tabItem { Text("Account") }.tag(4)
+            HomeView(user: user, plants: plants).tabItem {
+                Image(systemName: "house.fill")
+                .resizable()
+                .scaledToFit()
+                Text("Home") }.tag(1)
+            PlantTypeList(plants: self.plants).tabItem { Image(systemName: "magnifyingglass")
+                Text("Plant Type") }.tag(2)
+            NotificationsPage(user: user, plants: plants).tabItem {
+                Image(systemName: "bell.fill")
+                Text("Notifications") }.tag(3)
+            AccountPage(user: user).tabItem {
+                Image(systemName: "person.crop.circle.fill")
+                      Text("Account") }.tag(4)
         }
     }
 }
