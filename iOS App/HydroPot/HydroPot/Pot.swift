@@ -86,8 +86,6 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightLow = idealLightLow
         self.curLight = 3000
         self.idealLightHigh = idealLightHigh
-        self.lastWatered = Date()
-        self.automaticWatering = true
     }
     
     
@@ -111,12 +109,12 @@ class Pot: ObservableObject, Identifiable {
             })
             
             for record in recordsList {
-                let date1 = record.dateRecorded
-                let date2 = Date()
+                //let date1 = record.dateRecorded
+                //let date2 = Date()
                 
-                let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
-                let days = diffs.day ?? 0
-                let hours = diffs.hour ?? 0
+                //let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+                //let days = diffs.day ?? 0
+                //let hours = diffs.hour ?? 0
                 //print("days and hours behind: \(days), \(hours)")
                 //if not in range anymore
                 //            if unit == "Hourly" && hours >= 12 {

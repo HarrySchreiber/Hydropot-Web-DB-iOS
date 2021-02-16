@@ -32,6 +32,7 @@ struct NotificationsPage: View {
                         NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
                             VStack(alignment: .leading){
                                 Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
+                                    .padding(.top, 5)
                                 HStack {
                                     Spacer()
                                     Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")

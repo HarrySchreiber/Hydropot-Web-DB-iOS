@@ -373,13 +373,40 @@ class GetUser: ObservableObject {
     func editPot(pot: Pot){
         
         replacePot(pot: pot)
-        
-        pot.lastWatered = Date()
-        
+                
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         let date = dateFormatter.string(from: pot.lastWatered)
+        
+        
+        var notieJsonArray : [Dictionary<String, Any>] = []
 
+        for notification in pot.notifications {
+            var notieDict : [String: String] = [:]
+            let dateString = dateFormatter.string(from: notification.timeStamp)
+            
+            notieDict["timeStamp"] = dateString
+            notieDict["type"] = notification.type
+            notieJsonArray.append(notieDict)
+        }
+        
+        var recJsonArray : [Dictionary<String, Any>] = []
+        for record in pot.records {
+            var recDict : [String: Any] = [:]
+            let dateString = dateFormatter.string(from: record.dateRecorded)
+            
+            recDict["dateRecorded"] = dateString
+            recDict["light"] = record.light
+            recDict["moisture"] = record.moisture
+            recDict["reservoir"] = record.reservoir
+            recDict["temperature"] = record.temperature
+            recJsonArray.append(recDict)
+        }
+        print("-_-_-_-_-_-_-_-_-_-_-_-")
+        print(recJsonArray)
+        
+        print("-_-_-_-_-_-_-_-_-_-_-_-")
+        print(notieJsonArray)
         let json: [String: Any] =
             [
               "operation": "editPot",
@@ -403,10 +430,10 @@ class GetUser: ObservableObject {
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
-                    "notifications": [],
+                    "notifications": notieJsonArray,
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "records": []
+                    "records": recJsonArray
                   ]
                 ]
               ]
