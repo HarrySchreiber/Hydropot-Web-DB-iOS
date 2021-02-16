@@ -400,11 +400,6 @@ class GetUser: ObservableObject {
             recDict["temperature"] = record.temperature
             recJsonArray.append(recDict)
         }
-        print("-_-_-_-_-_-_-_-_-_-_-_-")
-        print(recJsonArray)
-        
-        print("-_-_-_-_-_-_-_-_-_-_-_-")
-        print(notieJsonArray)
         let json: [String: Any] =
             [
               "operation": "editPot",
@@ -478,7 +473,6 @@ class GetUser: ObservableObject {
         notiesTupleList = notiesTupleList.sorted(by: {
             $0.notiesTuple.notification.timeStamp.compare($1.notiesTuple.notification.timeStamp) == .orderedDescending
         })
-        print(notiesTupleList)
         return notiesTupleList
         
     }
