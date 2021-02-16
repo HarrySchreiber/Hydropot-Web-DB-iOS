@@ -43,9 +43,6 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                if (!user.login(email: email, password: password)) {
-                                    alert = true
-                                }
                                 attemptLogin(email: email, password: password)
                             }) {
                                Text("Login")
