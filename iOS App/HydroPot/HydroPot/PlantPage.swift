@@ -25,6 +25,7 @@ struct PlantPage: View {
     @State var lightGood = true
     @State var tempGood = true
     @State var resGood = true
+    @State var done = true
     
     var body: some View {
         
@@ -35,9 +36,10 @@ struct PlantPage: View {
         
         ZStack {
             ScrollView {
-                //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                  //  user.reload()
-                //}
+                PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                    attemptReload()
+                }
+                    
                 VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "photo")
@@ -234,5 +236,19 @@ struct PlantPage: View {
             return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
         }
         return Color.red
+    }
+    
+    func attemptReload() {
+        user.reload() {
+            // will be received at the login processed
+            if user.loggedIn {
+                for (index, _) in user.pots.enumerated() {
+                    if (user.pots[index].id == pot.id){
+                        let tempPot = user.pots[index]
+                        pot.editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering)
+                    }
+                }
+            }
+        }
     }
 }

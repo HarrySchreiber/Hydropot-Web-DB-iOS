@@ -32,6 +32,7 @@ struct NotificationsPage: View {
                         NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
                             VStack(alignment: .leading){
                                 Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
+                                    .padding(.top, 5)
                                 HStack {
                                     Spacer()
                                     Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
@@ -56,7 +57,7 @@ struct NotificationsPage: View {
         case "temperature high":
             return "Hey \(user.name)! Your plant, \(pot.plantName), is too hot! Move it to a cooler location!"
         case "moisture low":
-            return "Hey \(user.name)! The soil on your plant, \(pot.plantName), is running a bit dry, hop onto Hydro Pot to water it!"
+            return "Hey \(user.name)! The soil on your plant, \(pot.plantName), is running a bit dry, be sure to water it soon!"
         case "moisture high":
             return "Hey \(user.name)! The soil on your plant, \(pot.plantName), is too wet!"
         case "light low":

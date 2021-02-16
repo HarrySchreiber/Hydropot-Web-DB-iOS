@@ -43,9 +43,7 @@ struct Login: View {
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
-                                if (!user.login(email: email, password: password)) {
-                                    alert = true
-                                }
+                                attemptLogin(email: email, password: password)
                             }) {
                                Text("Login")
                                 .foregroundColor(.white)
@@ -114,6 +112,19 @@ struct Login: View {
         }
         .background(Color.white)
     }
+    
+    func attemptLogin(email: String, password: String) {
+        user.login(email: email, password: password) {
+            // will be received at the login processed
+            if user.loggedIn {
+                alert = false
+            }
+            else{
+                alert = true
+            }
+        }
+    }
+    
 }
 
 struct Login_Previews: PreviewProvider {

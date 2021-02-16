@@ -46,7 +46,7 @@ class GetUser: ObservableObject {
         self.notifications = true
     }
     
-    func login (email: String, password: String) -> Bool {
+    func login (email: String, password: String,onEnded: @escaping () -> ()) {
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
@@ -126,15 +126,14 @@ class GetUser: ObservableObject {
                     }
                     
                 }
+                onEnded()
             })
         }.resume()
-        
-        return loggedIn
     }
     
-    func reload () {
+    func reload (onEnded: @escaping () -> ()) {
         
-        pots = []
+        self.pots = []
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
@@ -203,15 +202,16 @@ class GetUser: ObservableObject {
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                             let date = dateFormatter.date(from: pot.lastWatered)
-                            print(pot.curMoisture)
                             self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: date ?? Date(), records: records, notifications: notifications, resLevel: pot.resLevel, curTemp: pot.curTemp, curLight: pot.curLight, curMoisture: pot.curMoisture, id: pot.id, automaticWatering: pot.automaticWatering))
                         }
                     }
                     
                 }
+                onEnded()
             })
         }.resume()
     }
+    
     
     func changePass(newPass: String) {
         self.password = newPass
@@ -317,8 +317,6 @@ class GetUser: ObservableObject {
         let session = URLSession(configuration: config)
         
         session.dataTask(with: request) { data, response, error in}.resume()
-        
-        reload()
     }
     
     func replacePot(pot: Pot){
@@ -329,16 +327,79 @@ class GetUser: ObservableObject {
         }
     }
     
+    func deletePot(at offsets: IndexSet){
+
+        for index in offsets {
+            let json: [String: Any] =
+                [
+                  "operation": "deletePot",
+                  "tableName": "HydroPotUsers",
+                  "payload": [
+                    "Item": [
+                        "id": userId,
+                        "email": email,
+                      "pot": [
+                        "id": pots[index].id,
+                      ]
+                    ]
+                  ]
+                ]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            
+            let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+            
+            var request = URLRequest(url: url)
+            
+            request.httpMethod = "POST"
+            request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            // insert json data to the request
+            request.httpBody = jsonData
+
+            let config = URLSessionConfiguration.default
+            config.httpAdditionalHeaders = ["Accept": "Application/json"]
+            let session = URLSession(configuration: config)
+            
+            session.dataTask(with: request) { data, response, error in}.resume()
+            
+          }
+        
+        pots.remove(atOffsets: offsets)
+        
+    }
+    
     func editPot(pot: Pot){
         
         replacePot(pot: pot)
-        
-        pot.lastWatered = Date()
-        
+                
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         let date = dateFormatter.string(from: pot.lastWatered)
+        
+        
+        var notieJsonArray : [Dictionary<String, Any>] = []
 
+        for notification in pot.notifications {
+            var notieDict : [String: String] = [:]
+            let dateString = dateFormatter.string(from: notification.timeStamp)
+            
+            notieDict["timeStamp"] = dateString
+            notieDict["type"] = notification.type
+            notieJsonArray.append(notieDict)
+        }
+        
+        var recJsonArray : [Dictionary<String, Any>] = []
+        for record in pot.records {
+            var recDict : [String: Any] = [:]
+            let dateString = dateFormatter.string(from: record.dateRecorded)
+            
+            recDict["dateRecorded"] = dateString
+            recDict["light"] = record.light
+            recDict["moisture"] = record.moisture
+            recDict["reservoir"] = record.reservoir
+            recDict["temperature"] = record.temperature
+            recJsonArray.append(recDict)
+        }
         let json: [String: Any] =
             [
               "operation": "editPot",
@@ -362,10 +423,10 @@ class GetUser: ObservableObject {
                     "idealTempLow": pot.idealTempLow,
                     "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
                     "lastWatered": date,
-                            "notifications": [],
+                    "notifications": notieJsonArray,
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "records": []
+                    "records": recJsonArray
                   ]
                 ]
               ]
@@ -412,7 +473,6 @@ class GetUser: ObservableObject {
         notiesTupleList = notiesTupleList.sorted(by: {
             $0.notiesTuple.notification.timeStamp.compare($1.notiesTuple.notification.timeStamp) == .orderedDescending
         })
-        print(notiesTupleList)
         return notiesTupleList
         
     }
@@ -494,6 +554,5 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
-    
-    
+
 }

@@ -86,8 +86,21 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightLow = idealLightLow
         self.curLight = 3000
         self.idealLightHigh = idealLightHigh
-        self.lastWatered = Date()
-        self.automaticWatering = true
+    }
+    
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool) {
+        self.plantName = plantName
+        self.plantType = plantType
+        self.curTemp = curTemp
+        self.idealTempLow = idealTempLow
+        self.idealTempHigh = idealTempHigh
+        self.idealMoistureLow = idealMoistureLow
+        self.curMoisture = curMoisture
+        self.idealMoistureHigh = idealMoistureHigh
+        self.idealLightLow = idealLightLow
+        self.curLight = curLight
+        self.idealLightHigh = idealLightHigh
+        self.automaticWatering = automaticWatering
     }
     
     
@@ -111,12 +124,12 @@ class Pot: ObservableObject, Identifiable {
             })
             
             for record in recordsList {
-                let date1 = record.dateRecorded
-                let date2 = Date()
+                //let date1 = record.dateRecorded
+                //let date2 = Date()
                 
-                let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
-                let days = diffs.day ?? 0
-                let hours = diffs.hour ?? 0
+                //let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+                //let days = diffs.day ?? 0
+                //let hours = diffs.hour ?? 0
                 //print("days and hours behind: \(days), \(hours)")
                 //if not in range anymore
                 //            if unit == "Hourly" && hours >= 12 {
