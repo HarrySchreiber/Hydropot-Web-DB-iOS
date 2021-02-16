@@ -14,9 +14,10 @@ struct codeRecord: Codable {
     let moisture: Int
     let reservoir: Int
     let temperature: Int
+    let watering: Int
     
     enum CodingKeys: String, CodingKey {
-        case light, moisture, reservoir, temperature, dateRecorded
+        case light, moisture, reservoir, temperature, dateRecorded, watering
     }
 }
 
@@ -26,13 +27,15 @@ class Record: ObservableObject, Identifiable {
     @Published var temperature: Int
     @Published var light: Int
     @Published var reservoir: Int
+    @Published var watering: Int
     
-    init(dateRecorded: Date, moisture: Int, temperature: Int, light: Int, reservoir: Int) {
+    init(dateRecorded: Date, moisture: Int, temperature: Int, light: Int, reservoir: Int, watering: Int) {
         self.dateRecorded = dateRecorded
         self.moisture = moisture
         self.temperature = temperature
         self.light = light
         self.reservoir = reservoir
+        self.watering = watering
     }
 }
 
