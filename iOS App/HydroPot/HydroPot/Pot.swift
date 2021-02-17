@@ -73,14 +73,14 @@ class Pot: ObservableObject, Identifiable {
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = 65
+        self.curTemp = 0
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = 60
+        self.curMoisture = 0
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
-        self.curLight = 3000
+        self.curLight = 0
         self.idealLightHigh = idealLightHigh
     }
     
