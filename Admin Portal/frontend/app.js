@@ -111,6 +111,7 @@ function buildTable(data){
         var image = document.createElement("img");
         image.setAttribute("id",`image-output-${obj['id']}`);
         image.setAttribute("src",obj['imageURL']);
+        image.setAttribute("savedURL",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
         image.setAttribute("style","position: relative; top:0; left:0; width:100px; height:100px;");
         
@@ -238,7 +239,7 @@ function buildInputFields(){
     
     var addButton = document.createElement("input");
     addButton.setAttribute("id","add-button");
-    addButton.setAttribute("onclick","imageUpload('add')");
+    addButton.setAttribute("onclick",`imageUpload('','add','addImageButton')`);
     addButton.value = "➕";
     addButton.setAttribute("type","button");
     addButton.setAttribute("style","width: 100%; height: 100%;");
@@ -329,7 +330,7 @@ function addPlant(imageURL){
     });
 }
 
-function editPlant(id){
+function editPlant(id,imageURL, savedOldURL = ""){
     cleanModal();
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
     var keyValueStore = {};
@@ -368,6 +369,14 @@ function editPlant(id){
         return
     }
 
+    var oldImageKey;
+    if(savedOldURL === ""){
+        oldImageKey = savedOldURL;
+    }else{
+        oldImageKey = savedOldURL.split("/");
+        oldImageKey = oldImageKey[oldImageKey.length-1];
+    }
+
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -384,7 +393,9 @@ function editPlant(id){
                     'idealMoistureHigh':keyValueStore['idealMoistureHigh'],
                     'idealLightLow':keyValueStore['idealLightLow'],
                     'idealLightHigh':keyValueStore['idealLightHigh'],
-                    'description':keyValueStore['description']
+                    'description':keyValueStore['description'],
+                    'imageURL':imageURL,
+                    'oldImageKey':oldImageKey
                 }
             }
         })
@@ -511,7 +522,7 @@ function confirmActionModal(id, imageUrl, plantType, action){
     }else if(action == "edit"){
         actionButton.setAttribute("class","btn btn-primary");
         actionButton.setAttribute("data-dismiss","modal");
-        actionButton.setAttribute("onclick",`editPlant("${id}")`);
+        actionButton.setAttribute("onclick",`imageUpload("${id}","edit","image-button-${id}")`);
         actionButton.append("Save Changes");
     }
     modalFooter.appendChild(cancelButton);
@@ -610,10 +621,23 @@ function displayCurrentImage(fileUploadId, imageOutputId){
     
 }
 
-function imageUpload(action){
+function imageUpload(id,action,fileDialogueId){
+    //This bit is just so we can delete things from S3, side effect we can use it to edit if need be
+    var savedOldURL;
+    if(action === "edit"){
+        savedOldURL = $(`#image-output-${id}`).attr('savedURL');
+    }
 
-
-    var image = document.getElementById("addImageButton");
+    var image = document.getElementById(fileDialogueId);
+    if(image.files.length === 0){
+        if(action === "add"){
+            warningModal("You cannot add a plant without a picture.");
+            return
+        }else if(action === "edit"){
+            editPlant(id, savedOldURL);
+            return
+        }
+    }
     var reader = new FileReader();
     reader.onload = function(){
       var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
@@ -641,6 +665,9 @@ function imageUpload(action){
         console.log(data);
         if(action === "add"){
             addPlant(data);
+        }else if(action === "edit"){
+            console.log(savedOldURL);
+            editPlant(id,data, savedOldURL);
         }
     })
     .catch((error) => {
