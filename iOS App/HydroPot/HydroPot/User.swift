@@ -46,7 +46,7 @@ class GetUser: ObservableObject {
         self.notifications = true
     }
     
-    func login (email: String, password: String,onEnded: @escaping () -> ()) {
+    func login (email: String, password: String, onEnded: @escaping () -> ()) {
         
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]

@@ -28,7 +28,6 @@ struct HistoricalData: View {
 //                    Text("Value: \(units[selectedUnit])")
                 }.onReceive([self.selectedUnit].publisher.first()) { (value) in
 //                    self.tuples = pot.getValues(unit: units[selectedUnit])
-                    print("_____---_____---__---___---___--___--\(value)")
             }
                 if tuples[0].high == 0 && tuples[0].low == 0 {
                     Text("There is no historical data for this plant yet")

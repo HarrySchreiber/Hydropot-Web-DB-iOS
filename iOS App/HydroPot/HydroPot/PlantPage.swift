@@ -195,6 +195,7 @@ struct PlantPage: View {
                 }
             }
             //end scroll view
+            .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
                     Button(action: {

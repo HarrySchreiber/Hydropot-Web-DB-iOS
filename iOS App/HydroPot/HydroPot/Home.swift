@@ -53,13 +53,17 @@ struct HomeView: View {
         NavigationView {
             ZStack{
                 if(user.pots.count == 0) {
-                    Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
-                        .bold()
-                        .italic()
-                        .padding()
-                        .foregroundColor(.gray)
-                        .navigationBarTitle("Hydro Pot", displayMode: .inline)
-                        .navigationBarItems(trailing:
+                    ScrollView {
+                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                            //attemptReload()
+                        }
+                        Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
+                            .bold()
+                            .italic()
+                            .padding()
+                            .foregroundColor(.gray)
+                            .navigationBarTitle("Hydro Pot", displayMode: .inline)
+                            .navigationBarItems(trailing:
                         Button(action: {
                             self.showingDetail.toggle()
                         }) {
@@ -72,8 +76,12 @@ struct HomeView: View {
                         }.sheet(isPresented: $showingDetail) {
                             AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
                         })
+                    }
                 } else {
                     List {
+                        //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                            //attemptReload()
+                        //}
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
@@ -108,8 +116,8 @@ struct HomeView: View {
                             }
                         }
                         .onDelete(perform: user.deletePot)
-                        .navigationBarTitle("", displayMode: .inline)
                     }
+                    .allowsHitTesting(!showPopUp)
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
                         Button(action: {
@@ -144,6 +152,11 @@ struct HomeView: View {
             return String(days) +  " day ago"
         }
         return String(days) + " days ago"
+    }
+    func attemptReload() {
+        user.reload() {
+            
+        }
     }
 }
 
