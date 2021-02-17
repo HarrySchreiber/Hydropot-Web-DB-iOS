@@ -109,19 +109,29 @@ function buildTable(data){
 
         //TODO: Image Code
         var image = document.createElement("img");
+        image.setAttribute("id",`image-output-${obj['id']}`);
         image.setAttribute("src",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
         image.setAttribute("style","position: relative; top:0; left:0; width:100px; height:100px;");
-
+        
+        var imageUploadDialogue = document.createElement("input");
+        imageUploadDialogue.setAttribute("type","file");
+        imageUploadDialogue.setAttribute("id",`image-button-${obj['id']}`);
+        imageUploadDialogue.setAttribute("onchange",`displayCurrentImage('image-button-${obj['id']}','image-output-${obj['id']}')`);
+        imageUploadDialogue.setAttribute("style","display:none");
+        imageUploadDialogue.setAttribute("accept","image/*");
         
         var imageOverlay = document.createElement("img");
+        imageOverlay.setAttribute("id",`image-overlay-${obj['id']}`);
         imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
         imageOverlay.setAttribute("alt","image overlay");
-        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 100px; height: 100px;");
+        imageOverlay.setAttribute("onclick",`document.getElementById('image-button-${obj['id']}').click()`);
+        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 100px; height: 100px; cursor:pointer;");
 
         
         pictureCol.appendChild(image);
         pictureCol.appendChild(imageOverlay);
+        pictureCol.appendChild(imageUploadDialogue);
 
         //Content Code
         var topRow = document.createElement("div");
@@ -150,12 +160,12 @@ function buildTable(data){
         var saveButton = document.createElement("input");
         saveButton.setAttribute("type","button");
         saveButton.setAttribute("style","width: 50%; height: 100%");
-        saveButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['plantType']}","edit")`);
+        saveButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['imageURL']}","${obj['plantType']}","edit")`);
         saveButton.value = "💾";
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
-        deleteButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['plantType']}","delete")`);
+        deleteButton.setAttribute("onclick",`confirmActionModal("${obj['id']}","${obj['imageURL']}","${obj['plantType']}","delete")`);
         deleteButton.value = "🗑";
         buttonsCol.appendChild(saveButton);
         buttonsCol.appendChild(deleteButton);
@@ -165,6 +175,7 @@ function buildTable(data){
         fullRow.appendChild(buttonsCol);
 
         $("#plant-table").append(fullRow);
+        
     }
 }
 
@@ -394,8 +405,11 @@ function editPlant(id){
 
 
 //TODO: Add url here so that we can ge the key to delete in s3
-function deletePlant(id){
+function deletePlant(id,imageUrl){
     cleanModal();
+    var imageKey = imageUrl.split("/");
+    imageKey = imageKey[imageKey.length-1];
+    console.log(imageKey);
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
@@ -404,7 +418,8 @@ function deletePlant(id){
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
-                    'id':id
+                    'id':id,
+                    'imageKey':imageKey
                 }
             }
         })
@@ -423,7 +438,7 @@ function deletePlant(id){
     });
 }
 
-function confirmActionModal(id, plantType, action){
+function confirmActionModal(id, imageUrl, plantType, action){
     var modal = document.createElement("div");
     modal.setAttribute("class","modal");
     modal.setAttribute("id","confirmActionModal");
@@ -491,7 +506,7 @@ function confirmActionModal(id, plantType, action){
     if(action == "delete"){
         actionButton.setAttribute("class","btn btn-danger");
         actionButton.setAttribute("data-dismiss","modal");
-        actionButton.setAttribute("onclick",`deletePlant("${id}")`);
+        actionButton.setAttribute("onclick",`deletePlant("${id}","${imageUrl}")`);
         actionButton.append("Delete");
     }else if(action == "edit"){
         actionButton.setAttribute("class","btn btn-primary");
