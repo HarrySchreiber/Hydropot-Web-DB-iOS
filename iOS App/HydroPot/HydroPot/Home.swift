@@ -117,6 +117,7 @@ struct HomeView: View {
                         }
                         .onDelete(perform: user.deletePot)
                     }
+                    .allowsHitTesting(!showPopUp)
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
                         Button(action: {
