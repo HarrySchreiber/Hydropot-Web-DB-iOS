@@ -45,12 +45,12 @@ struct Login: View {
                             Button(action: {
                                 attemptLogin(email: email, password: password)
                             }) {
-                               Text("Login")
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(Color(red: 0.142, green: 0.231, blue: 0.498))
-                                .cornerRadius(6)
-                                .frame(minWidth: 0, maxWidth: .infinity)
+                                Text("Login")
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .cornerRadius(6)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .alert(isPresented: $alert) {
                                 Alert(title: Text(""), message: Text("Invalid Login Credentials"), dismissButton: .default(Text("Try Again")))
@@ -86,12 +86,12 @@ struct Login: View {
                                     user.signup(name: name, email: email, password: password)
                                 }
                             }) {
-                               Text("Sign up")
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(Color(red: 0.142, green: 0.231, blue: 0.498))
-                                .cornerRadius(6)
-                                .frame(maxWidth: .infinity)
+                                Text("Sign up")
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .cornerRadius(6)
+                                    .frame(maxWidth: .infinity)
                             }
                             .alert(isPresented: $alert) {
                                 Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
