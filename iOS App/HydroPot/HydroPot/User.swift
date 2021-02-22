@@ -564,5 +564,93 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
+    
+    func waterPot(pot: Pot, waterAmount: Int){
+        
+        replacePot(pot: pot)
+        
+        if (pot.records.count != 0){
+            pot.records[pot.records.count-1].watering = waterAmount
+            pot.records[pot.records.count-1].dateRecorded = Date()
+            pot.lastWatered = Date()
+        }
+        else {
+            pot.records.append(Record(dateRecorded: Date(), moisture: 0, temperature: 0, light: 0, reservoir: 0, watering: waterAmount))
+        }
+                
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        
+        
+        var notieJsonArray : [Dictionary<String, Any>] = []
+
+        for notification in pot.notifications {
+            var notieDict : [String: String] = [:]
+            let dateString = dateFormatter.string(from: notification.timeStamp)
+            
+            notieDict["timeStamp"] = dateString
+            notieDict["type"] = notification.type
+            notieJsonArray.append(notieDict)
+        }
+        
+        var recJsonArray : [Dictionary<String, Any>] = []
+        for record in pot.records {
+            var recDict : [String: Any] = [:]
+            let dateString = dateFormatter.string(from: record.dateRecorded)
+            
+            recDict["dateRecorded"] = dateString
+            recDict["light"] = record.light
+            recDict["moisture"] = record.moisture
+            recDict["reservoir"] = record.reservoir
+            recDict["temperature"] = record.temperature
+            recDict["watering"] = record.watering
+            recJsonArray.append(recDict)
+        }
+        let json: [String: Any] =
+            [
+              "operation": "editPot",
+              "tableName": "HydroPotUsers",
+              "payload": [
+                "Item": [
+                    "id": userId,
+                    "email": email,
+                  "pot": [
+                    "automaticWatering": pot.automaticWatering,
+                    "id": pot.id,
+                    "idealLightHigh": pot.idealLightHigh,
+                    "resLevel": pot.resLevel,
+                    "idealLightLow": pot.idealLightLow,
+                    "idealMoistureHigh": pot.idealMoistureHigh,
+                    "idealMoistureLow": pot.idealMoistureLow,
+                    "idealTempHigh": pot.idealTempHigh,
+                    "idealTempLow": pot.idealTempLow,
+                    "image": "https://www.gardeningknowhow.com/wp-content/uploads/2012/03/houseplant-sansevieria.jpg",
+                    "notifications": notieJsonArray,
+                    "plantName": pot.plantName,
+                    "plantType": pot.plantType,
+                    "records": recJsonArray
+                  ]
+                ]
+              ]
+            ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in}.resume()
+        
+    }
 
 }

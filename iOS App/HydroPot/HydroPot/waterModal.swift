@@ -9,11 +9,14 @@ import Foundation
 import SwiftUI
 
 struct waterModal: View {
+    
     @Binding var showPopUp: Bool
     @State var isShowing = false
     @State var threeML = true
     @State var sixML = false
     @State var nineML = false
+    @ObservedObject var pot: Pot
+    @ObservedObject var user: GetUser
     
     var body: some View {
         ZStack {
@@ -29,7 +32,7 @@ struct waterModal: View {
                         Image(systemName: "drop")
                             .font(.system(size: 40))
                     }
-                    Text("300 mL")
+                    Text("30 mL")
                 }
                 .onTapGesture {
                     threeML = true
@@ -49,7 +52,7 @@ struct waterModal: View {
                         Image(systemName: "drop")
                             .font(.system(size: 40))
                     }
-                    Text("600 mL")
+                    Text("60 mL")
                 }
                 .onTapGesture {
                     threeML = false
@@ -73,7 +76,7 @@ struct waterModal: View {
                         Image(systemName: "drop")
                             .font(.system(size: 40))
                     }
-                    Text("900 mL")
+                    Text("90 mL")
                 }
                 .onTapGesture {
                     threeML = false
@@ -90,6 +93,7 @@ struct waterModal: View {
                     .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                     .cornerRadius(6)
                     Button("Confirm") {
+                        waterPot()
                         showPopUp = false
                     }
                     .buttonStyle(BorderlessButtonStyle())
@@ -102,6 +106,18 @@ struct waterModal: View {
         }
         .frame(width: 300, height: 250)
         .cornerRadius(20).shadow(radius: 20)
+    }
+    
+    func waterPot(){
+        if (threeML == true){
+            user.waterPot(pot: pot, waterAmount: 1)
+        }
+        else if (sixML == true){
+            user.waterPot(pot: pot, waterAmount: 2)
+        }
+        else {
+            user.waterPot(pot: pot, waterAmount: 3)
+        }
     }
 }
 

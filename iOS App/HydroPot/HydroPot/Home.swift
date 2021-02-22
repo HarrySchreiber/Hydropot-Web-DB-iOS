@@ -40,6 +40,7 @@ struct HomeView: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     @State private var showPopUp = false
+    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false)
     @State var showingDetail = false
     
     //temperary date formatting
@@ -104,6 +105,7 @@ struct HomeView: View {
                                             .padding(.top)
                                             .frame(maxWidth: 125)
                                         Button("Water Plant") {
+                                            potSelected = pot
                                             showPopUp = true
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
@@ -121,7 +123,9 @@ struct HomeView: View {
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
                         Button(action: {
-                            self.showingDetail.toggle()
+                            if (showPopUp != true){
+                                self.showingDetail.toggle()
+                            }
                         }) {
                             Image(systemName: "plus")
                                 .resizable()
@@ -134,7 +138,7 @@ struct HomeView: View {
                     })
                 }
                 if $showPopUp.wrappedValue {
-                    waterModal(showPopUp: $showPopUp)
+                    waterModal(showPopUp: $showPopUp, pot: potSelected, user: user)
                 }
             }
         }

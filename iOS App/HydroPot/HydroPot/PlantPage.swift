@@ -199,7 +199,9 @@ struct PlantPage: View {
             .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
                     Button(action: {
-                        self.showingDetail.toggle()
+                        if (showPopUp != true){
+                            self.showingDetail.toggle()
+                        }
                     }) {
                         Text("Edit")
                             .padding(6)
@@ -208,7 +210,7 @@ struct PlantPage: View {
                         EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
                     })
             if $showPopUp.wrappedValue {
-                waterModal(showPopUp: $showPopUp)
+                waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
             }.onAppear {
                 moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
