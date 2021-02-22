@@ -8,14 +8,23 @@ import SwiftUI
 
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
-    static let screenHeight = UIScreen.main.bounds.size.height
-    static let screenSize = screenWidth
-    static let imageMultiplier = 4 //10692 //80
-    static let regTextMultiplier = 18.8 //10692 //17
-    static let titleTextMultiplier = 14.5 //8262 //22
-    static let subTextMultiplier = 24.6 //13982 //13
-    static let lastWateredMultiplier = 2.56 //1454 //125
-    static let boarderPaddingMultiplier = 32 //18176 //10
+    
+    //home values
+    static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
+    static let regTextSize = screenWidth / 18.8 // base is 17
+    static let titleTextSize = screenWidth / 14.5 //base is 22
+    static let subTextSize = screenWidth / 24.6  //base is 13
+    static let lastWateredSize = screenWidth / 2.56 //base is 125
+    static let homeCardsSize = screenWidth / 32 //base is 10
+    
+    //login values
+    static let modalWidth = screenWidth / 1.14 //base is 280
+    
+    //plant page values
+    
+    //modal values?
+    
+    
 }
 
 struct Home: View {
@@ -71,7 +80,7 @@ struct HomeView: View {
                             //attemptReload()
                         }
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
-                            .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)))
+                            .font(.system(size: UIScreen.regTextSize))
                             .bold()
                             .italic()
                             .padding()
@@ -102,21 +111,21 @@ struct HomeView: View {
                                 VStack {
                                     HStack(){
                                         Image(systemName: "leaf.fill")
-                                            .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.imageMultiplier)))
+                                            .font(.system(size: UIScreen.homeImageSize))
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
                                                 .fontWeight(.bold)
-                                                .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.titleTextMultiplier)))
+                                                .font(.system(size: UIScreen.titleTextSize))
                                             Text("Temperature: \(pot.curTemp)°F")
-                                                .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.subTextMultiplier)))
+                                                .font(.system(size: UIScreen.subTextSize))
                                         }
                                         .padding(.leading)
                                     }
                                     HStack() {
                                         Text("Last watered: \n\(getLastWatered(pot: pot))")
                                             .padding(.top, 2)
-                                            .frame(maxWidth: UIScreen.screenSize/CGFloat(UIScreen.lastWateredMultiplier))
-                                            .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)))
+                                            .frame(maxWidth: UIScreen.lastWateredSize)
+                                            .font(.system(size: UIScreen.regTextSize))
                                         Button("Water Plant") {
                                             showPopUp = true
                                         }
@@ -125,14 +134,14 @@ struct HomeView: View {
                                         .padding()
                                         .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                                         .cornerRadius(6)
-                                        .font(.system(size: UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)))
+                                        .font(.system(size: UIScreen.regTextSize))
                                     }
                                 }
                                 .foregroundColor(.black)
                                 .padding(20)
                                 .background(Color.white)
                                 .cornerRadius(6)
-                                .padding([.leading, .top, .trailing],UIScreen.screenSize/CGFloat(UIScreen.boarderPaddingMultiplier))
+                                .padding([.leading, .top, .trailing],UIScreen.homeCardsSize)
                                 
                                 //eventually can add custom swipe to delete with this drag gesture?
                                 .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)

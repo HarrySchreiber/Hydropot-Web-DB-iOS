@@ -17,10 +17,12 @@ struct Login: View {
     @State var alert = false
     
     var body: some View {
+        
         ZStack {
             VStack {
                 if (!user.loggedIn) {
                     VStack {
+                       
                         Picker(selection: $selectedTab, label: Text("Picker")) {
                             Text("Login").tag(1)
                             Text("Sign up").tag(2)
@@ -30,6 +32,7 @@ struct Login: View {
                         if (selectedTab == 1) {
                             HStack {
                                 TextField("Email", text: $email)
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .border(Color.black.opacity(0.2))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -37,6 +40,7 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 SecureField("Password", text: $password)
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .border(Color.black.opacity(0.2))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -46,6 +50,7 @@ struct Login: View {
                                 attemptLogin(email: email, password: password)
                             }) {
                                 Text("Login")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .background(Color(red: 0.142, green: 0.231, blue: 0.498))
@@ -53,12 +58,13 @@ struct Login: View {
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .alert(isPresented: $alert) {
-                                Alert(title: Text(""), message: Text("Invalid Login Credentials"), dismissButton: .default(Text("Try Again")))
+                                Alert(title: Text(""), message: Text("Invalid Login Credentials").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Try Again").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         } else {
                             HStack {
                                 TextField("Name", text: $name)
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -66,6 +72,7 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 TextField("Email", text: $email)
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -73,6 +80,7 @@ struct Login: View {
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             HStack {
                                 SecureField("Password", text: $password)
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .border(Color.black.opacity(0.1))
                                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -87,6 +95,7 @@ struct Login: View {
                                 }
                             }) {
                                 Text("Sign up")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .background(Color(red: 0.142, green: 0.231, blue: 0.498))
@@ -94,12 +103,12 @@ struct Login: View {
                                     .frame(maxWidth: .infinity)
                             }
                             .alert(isPresented: $alert) {
-                                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
+                                Alert(title: Text(""), message: Text("Please fill out all fields").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }
                     }
-                    .frame(width: 280, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: UIScreen.modalWidth, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
                     .cornerRadius(6)
                 } else {
