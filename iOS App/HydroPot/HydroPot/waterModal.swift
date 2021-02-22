@@ -20,16 +20,18 @@ struct waterModal: View {
             Color.white
             VStack (alignment: .leading) {
                 Text("Water Amount")
+                    .font(.system(size: UIScreen.regTextSize))
                 HStack {
                     if (threeML == true){
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
                     else {
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
-                    Text("300 mL")
+                    Text("30 mL")
+                        .font(.system(size: UIScreen.regTextSize))
                 }
                 .onTapGesture {
                     threeML = true
@@ -39,17 +41,18 @@ struct waterModal: View {
                 HStack {
                     if (sixML == true){
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
                     else {
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
-                    Text("600 mL")
+                    Text("60 mL")
+                        .font(.system(size: UIScreen.regTextSize))
                 }
                 .onTapGesture {
                     threeML = false
@@ -59,21 +62,22 @@ struct waterModal: View {
                 HStack {
                     if (nineML == true){
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
                     else {
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                         Image(systemName: "drop")
-                            .font(.system(size: 40))
+                            .font(.system(size: UIScreen.homeImageSize/2))
                     }
-                    Text("900 mL")
+                    Text("90 mL")
+                        .font(.system(size: UIScreen.regTextSize))
                 }
                 .onTapGesture {
                     threeML = false
@@ -81,26 +85,32 @@ struct waterModal: View {
                     nineML = true
                 }
                 HStack {
-                    Button("Cancel") {
+                    Button(action: {
                         showPopUp = false
+                    }) {
+                        Text("Cancel")
+                            .font(.system(size: UIScreen.regTextSize))
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
                     }
-                    .buttonStyle(BorderlessButtonStyle())
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                    .cornerRadius(6)
-                    Button("Confirm") {
+                    Button(action: {
                         showPopUp = false
+                    }) {
+                        Text("Confirm")
+                            .font(.system(size: UIScreen.regTextSize))
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .cornerRadius(6)
                     }
-                    .buttonStyle(BorderlessButtonStyle())
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                    .cornerRadius(6)
                 }
             }.padding()
         }
-        .frame(width: 300, height: 250)
+        .frame(width: UIScreen.modalWidth, height: UIScreen.modalWidth - UIScreen.screenWidth/80)
         .cornerRadius(20).shadow(radius: 20)
     }
 }

@@ -31,6 +31,7 @@ struct HistoricalData: View {
             }
                 if tuples[0].high == 0 && tuples[0].low == 0 {
                     Text("There is no historical data for this plant yet")
+                        .font(.system(size: UIScreen.regTextSize))
                         .bold()
                         .italic()
                         .padding()
@@ -43,28 +44,32 @@ struct HistoricalData: View {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.blue.opacity(0.3))
                             .padding()
-                        Text("Soil Moisture").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Soil Moisture")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.blue.opacity(0.3))
                             .padding()
-                        Text("Soil Moisture").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Soil Moisture")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                         VStack {
                             Text("High: \(tuples[0].high)%")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.vertical)
                                 .foregroundColor(Color.gray)
                             Text("Average: \(tuples[0].avg)%")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.bottom)
                                 .foregroundColor(Color.gray)
                             Text("Low: \(tuples[0].low)%")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .foregroundColor(Color.gray)
                         }
                     }
-                }.frame(width: 325, height: 225)
+                }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
                 
                 //light box
                 PagesContainer(contentCount: 2) {
@@ -72,28 +77,32 @@ struct HistoricalData: View {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.red.opacity(0.3))
                             .padding()
-                        Text("Light Level").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Light Level")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.red.opacity(0.3))
                             .padding()
-                        Text("Light Level").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Light Level")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                         VStack {
                             Text("High: \(tuples[1].high)")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.vertical)
                                 .foregroundColor(Color.gray)
                             Text("Average: \(tuples[1].avg)")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.bottom)
                                 .foregroundColor(Color.gray)
                             Text("Low: \(tuples[1].low)")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .foregroundColor(Color.gray)
                         }
                     }
-                }.frame(width: 325, height: 225)
+                }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
                 
                 //temperature box
                 PagesContainer(contentCount: 2) {
@@ -101,29 +110,33 @@ struct HistoricalData: View {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.green.opacity(0.3))
                             .padding()
-                        Text("Temperature").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Temperature")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(Color.green.opacity(0.3))
                             .padding()
-                        Text("Temperature").frame(width: 275, height: 150, alignment: .topLeading)
+                        Text("Temperature")
+                            .font(.system(size: UIScreen.title3TextSize))
+                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                         VStack {
                             Text("High: \(tuples[2].high)°F")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.vertical)
                                 .foregroundColor(Color.gray)
                             Text("Average: \(tuples[2].avg)°F")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(.bottom)
                                 .foregroundColor(Color.gray)
                             Text("Low: \(tuples[2].low)°F")
-                                .font(.callout)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .foregroundColor(Color.gray)
                         }
                     }
                 }
-                .frame(width: 325, height: 225) //scaling thing later
+                .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
                 
             }
         }
