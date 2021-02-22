@@ -19,7 +19,7 @@ struct Login: View {
     @State var confirm: String = ""
     @State var frameSizeWidth = UIScreen.main.bounds.size.width * 0.8
     @State var frameSizeHeight = UIScreen.main.bounds.size.height * 0.3
-    @State var fontSize = UIScreen.main.bounds.size.width * 0.06
+    @State var fontSize = UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)
     
     init() {
         UISegmentedControl.appearance().setTitleTextAttributes(
@@ -41,10 +41,10 @@ struct Login: View {
                             }
                             .onReceive([self.name].publisher.first()) { value in
                                 if (selectedTab == 1) {
-                                    frameSizeHeight = fontSize * 12
+                                    frameSizeHeight = fontSize * 14
                                 }
                                 else {
-                                    frameSizeHeight = fontSize * 18
+                                    frameSizeHeight = fontSize * 20
                                 }
                              }
                             .pickerStyle(SegmentedPickerStyle())
