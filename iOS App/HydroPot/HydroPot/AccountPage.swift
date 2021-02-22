@@ -141,7 +141,6 @@ struct AccountPage: View {
                             .multilineTextAlignment(.center)
                             .padding(10)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
                     }

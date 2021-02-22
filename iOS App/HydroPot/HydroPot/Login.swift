@@ -71,15 +71,16 @@ struct Login: View {
                                 }) {
                                    Text("Login")
                                     .foregroundColor(.white)
-                                    .padding(5)
+                                    .padding(10)
                                     .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                     .cornerRadius(6)
-                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .frame(maxWidth: .infinity)
+                                    .font(.system(size:  UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)))
                                 }
                                 .alert(isPresented: $alert) {
                                     Alert(title: Text(""), message: Text("Invalid Login Credentials"), dismissButton: .default(Text("Try Again")))
                                 }
-                                .padding(EdgeInsets(top: 15, leading: 25, bottom: 5, trailing: 25))
+                                .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             } else {
                                 HStack {
                                     TextField("Name", text: $name)
@@ -127,10 +128,12 @@ struct Login: View {
                                 }) {
                                    Text("Sign up")
                                     .foregroundColor(.white)
-                                    .padding(5)
+                                    .padding(10)
                                     .background(Color(red: 0.142, green: 0.231, blue: 0.498))
                                     .cornerRadius(6)
                                     .frame(maxWidth: .infinity)
+                                    .font(.system(size:  UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)))
+                                    
                                 }
                                 .alert(isPresented: $alert) {
                                     Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
