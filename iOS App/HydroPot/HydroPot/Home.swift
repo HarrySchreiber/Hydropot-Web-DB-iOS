@@ -6,6 +6,18 @@
 //
 import SwiftUI
 
+extension UIScreen{
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenSize = screenWidth
+    static let imageMultiplier = 4 //10692 //80
+    static let regTextMultiplier = 18.8 //10692 //17
+    static let titleTextMultiplier = 14.5 //8262 //22
+    static let subTextMultiplier = 24.6 //13982 //13
+    static let lastWateredMultiplier = 2.56 //1454 //125
+    static let boarderPaddingMultiplier = 32 //18176 //10
+}
+
 struct Home: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
