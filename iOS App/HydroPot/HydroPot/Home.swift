@@ -16,6 +16,7 @@ extension UIScreen{
     static let subTextMultiplier = 24.6 //13982 //13
     static let lastWateredMultiplier = 2.56 //1454 //125
     static let boarderPaddingMultiplier = 32 //18176 //10
+    static let waterDropMultiplier = 8
 }
 
 struct Home: View {
