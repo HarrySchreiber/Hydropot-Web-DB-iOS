@@ -17,11 +17,14 @@ struct Login: View {
     @State var alert = false
     @State var alertTwo = false
     @State var confirm: String = ""
+    @State var frameSizeWidth = UIScreen.main.bounds.size.width * 0.8
+    @State var frameSizeHeight = UIScreen.main.bounds.size.height * 0.3
+    @State var fontSize = UIScreen.main.bounds.size.width * 0.06
     
     init() {
         UISegmentedControl.appearance().setTitleTextAttributes(
             [
-                .font: UIFont.systemFont(ofSize: UIScreen.main.bounds.size.height >  UIScreen.main.bounds.size.width ?  UIScreen.main.bounds.size.width * 0.05:  UIScreen.main.bounds.size.height * 0.05),
+                .font: UIFont.systemFont(ofSize: fontSize),
             ], for: .normal)
     }
     
@@ -36,6 +39,14 @@ struct Login: View {
                                 Text("Sign up")
                                     .tag(2)
                             }
+                            .onReceive([self.name].publisher.first()) { value in
+                                if (selectedTab == 1) {
+                                    frameSizeHeight = fontSize * 12
+                                }
+                                else {
+                                    frameSizeHeight = fontSize * 18
+                                }
+                             }
                             .pickerStyle(SegmentedPickerStyle())
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 5, trailing: 25))
                             if (selectedTab == 1) {
@@ -51,7 +62,7 @@ struct Login: View {
                                     SecureField("Password", text: $password)
                                         .padding(3)
                                         .border(Color.black.opacity(0.2))
-                                        .frame(minWidth: 0, maxWidth:  UIScreen.main.bounds.size.width, minHeight: 0, maxHeight: UIScreen.main.bounds.size.height)
+                                        .frame(minWidth: 0, maxWidth:  UIScreen.main.bounds.size.width)
                                         .textFieldStyle(PlainTextFieldStyle())
                                 }
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 5, trailing: 25))
@@ -127,7 +138,7 @@ struct Login: View {
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             }
                         }
-                        .frame(width: UIScreen.main.bounds.size.width * 0.8, height: UIScreen.main.bounds.size.height * 0.40, alignment: .center)
+                        .frame(width: frameSizeWidth, height: frameSizeHeight, alignment: .center)
                         .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
                         .cornerRadius(6)
                     } else {
@@ -138,7 +149,7 @@ struct Login: View {
                 .onAppear(){
                     plants.getPlantsList()
                 }
-            .font(.system(size:  UIScreen.main.bounds.size.height >  UIScreen.main.bounds.size.width ?  UIScreen.main.bounds.size.width * 0.05:  UIScreen.main.bounds.size.height * 0.05))
+            .font(.system(size:  fontSize))
             .background(Color.white)
         }
     }
