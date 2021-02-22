@@ -9,11 +9,14 @@ import Foundation
 import SwiftUI
 
 struct waterModal: View {
+    
     @Binding var showPopUp: Bool
     @State var isShowing = false
     @State var threeML = true
     @State var sixML = false
     @State var nineML = false
+    @ObservedObject var pot: Pot
+    @ObservedObject var user: GetUser
     
     var body: some View {
         ZStack {
@@ -98,6 +101,7 @@ struct waterModal: View {
                     }
                     Button(action: {
                         showPopUp = false
+                        waterPot()
                     }) {
                         Text("Confirm")
                             .font(.system(size: UIScreen.regTextSize))
@@ -111,7 +115,20 @@ struct waterModal: View {
             }.padding()
         }
         .frame(width: UIScreen.modalWidth, height: UIScreen.modalWidth - UIScreen.screenWidth/80)
+
         .cornerRadius(20).shadow(radius: 20)
+    }
+    
+    func waterPot(){
+        if (threeML == true){
+            user.waterPot(pot: pot, waterAmount: 1)
+        }
+        else if (sixML == true){
+            user.waterPot(pot: pot, waterAmount: 2)
+        }
+        else {
+            user.waterPot(pot: pot, waterAmount: 3)
+        }
     }
 }
 

@@ -68,6 +68,7 @@ struct HomeView: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     @State private var showPopUp = false
+    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false)
     @State var showingDetail = false
     
     //temperary date formatting
@@ -93,24 +94,24 @@ struct HomeView: View {
                             .foregroundColor(.gray)
                             .navigationBarTitle("Hydro Pot", displayMode: .inline)
                             .navigationBarItems(trailing:
-                                                    Button(action: {
-                                                        self.showingDetail.toggle()
-                                                    }) {
-                                                        Image(systemName: "plus")
-                                                            .resizable()
-                                                            .padding(6)
-                                                            .frame(width: 30, height: 30)
-                                                            .clipShape(Circle())
-                                                            .foregroundColor(.white)
-                                                    }.sheet(isPresented: $showingDetail) {
-                                                        AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                                                    })
+                            Button(action: {
+                                self.showingDetail.toggle()
+                            }) {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .padding(6)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }.sheet(isPresented: $showingDetail) {
+                                AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                            })
                     }
                 } else {                        
                     ScrollView {
-                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                        //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                             //attemptReload()
-                        }
+                        //}
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
@@ -133,6 +134,7 @@ struct HomeView: View {
                                             .frame(maxWidth: UIScreen.lastWateredSize)
                                             .font(.system(size: UIScreen.regTextSize))
                                         Button("Water Plant") {
+                                            potSelected = pot
                                             showPopUp = true
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
@@ -163,17 +165,20 @@ struct HomeView: View {
                     .allowsHitTesting(!showPopUp)
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
-                                            Button(action: {
-                                                self.showingDetail.toggle()
-                                            }) {
-                                                Image(systemName: "plus") .resizable() .padding(6) .frame(width: 30, height: 30) .clipShape(Circle())
-                                                    .foregroundColor(.white)
-                                            }.sheet(isPresented: $showingDetail) {
-                                                AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                                            })
+                        Button(action: {
+                            self.showingDetail.toggle()
+                                if (showPopUp == true){
+                                    self.showingDetail.toggle()
+                                }
+                        }) {
+                            Image(systemName: "plus") .resizable() .padding(6) .frame(width: 30, height: 30) .clipShape(Circle())
+                                .foregroundColor(.white)
+                        }.sheet(isPresented: $showingDetail) {
+                            AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                        })
                 }
                 if $showPopUp.wrappedValue {
-                    waterModal(showPopUp: $showPopUp)
+                    waterModal(showPopUp: $showPopUp, pot: potSelected, user: user)
                 }
             }
             .background(
