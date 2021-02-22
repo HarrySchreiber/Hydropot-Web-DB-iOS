@@ -19,6 +19,7 @@ struct NotificationsPage: View {
         NavigationView {
             if(user.getOrderedNotifications().count == 0) {
                 Text("You have not received any notifications. \nBe sure you have notifications turned on in the Account tab")
+                    .font(.system(size: UIScreen.regTextSize))
                     .bold()
                     .italic()
                     .padding()
@@ -32,11 +33,13 @@ struct NotificationsPage: View {
                         NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
                             VStack(alignment: .leading){
                                 Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(.top, 5)
                                 HStack {
                                     Spacer()
                                     Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
-                                        .font(.footnote)
+                                        .font(.system(size: UIScreen.subTextSize))
+
                                 }
                             }.fixedSize(horizontal: false, vertical: true)
                         }

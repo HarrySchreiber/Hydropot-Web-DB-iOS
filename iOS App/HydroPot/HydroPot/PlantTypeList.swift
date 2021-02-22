@@ -37,6 +37,7 @@ struct PlantTypeList: View {
                     VStack(spacing: 0) {
                         if(plantList.count == 0) {
                             Text("No plant types match your filter(s). \nTry filtering for something else!")
+                                .font(.system(size: UIScreen.regTextSize))
                                 .bold()
                                 .italic()
                                 .padding()
@@ -50,8 +51,8 @@ struct PlantTypeList: View {
                                     
                                     label: {
                                         ListCell(text: searching ? searchedPlantList[row] : plantList[row])
-                                            .frame(height: 45)
-                                        
+                                            .frame(height: UIScreen.homeImageSize/1.75)
+                                            .padding(.top)
                                     })
                                     .simultaneousGesture(TapGesture().onEnded {
                                         // Hide Keyboard after pressing a Cell
@@ -137,9 +138,10 @@ struct ListCell: View {
                 HStack {
                     Image(systemName: "photo")
                         .padding(.leading, 15)
-                        .font(.system(size: 30))
+                        .font(.system(size: UIScreen.homeImageSize/2))
                         .foregroundColor(.black)
                     Text(text)
+                        .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.black)
                     Spacer()
                 }
@@ -173,6 +175,7 @@ struct SearchBar: View {
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
                             
                         })
+                        .font(.system(size: UIScreen.regTextSize))
                         .modifier(TextFieldClearButton(searchInput: $searchInput, searching: $searching))
                         .accentColor(.black)
                         .foregroundColor(.black)
@@ -186,6 +189,7 @@ struct SearchBar: View {
                 })
                 {
                     Text("Filter")
+                        .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.white)
                         .padding(10)
                         .background(Color(red: 0.142, green: 0.231, blue: 0.498))
@@ -225,9 +229,3 @@ struct TextFieldClearButton: ViewModifier {
         }
     }
 }
-
-//struct PlantTypeList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlantTypeList(plants: Plants())
-//    }
-//}

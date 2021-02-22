@@ -12,7 +12,7 @@ extension UIScreen{
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
     static let regTextSize = screenWidth / 18.8 // base is 17
-    static let titleTextSize = screenWidth / 14.5 //base is 22
+    static let title2TextSize = screenWidth / 14.5 //base is 22
     static let subTextSize = screenWidth / 24.6  //base is 13
     static let lastWateredSize = screenWidth / 2.56 //base is 125
     static let homeCardsSize = screenWidth / 32 //base is 10
@@ -21,10 +21,16 @@ extension UIScreen{
     static let modalWidth = screenWidth / 1.14 //base is 280
     
     //plant page values
+    static let titleTextSize = screenWidth / 11.4  //base is 28
+    static let plantTypeImageSize = screenWidth / 1.6 //base is 200
     
-    //modal values?
-    
-    
+    //historical Data page values
+    static let title3TextSize = screenWidth / 16  //base is 20
+    static let zStackWidth = modalWidth - 10 //base is 270
+    static let zStackHeight = screenWidth / 2.13  //base is 150
+    static let panelWidth = screenWidth
+    static let panelHeight = screenWidth / 1.4 //base is 225
+
 }
 
 struct Home: View {
@@ -115,7 +121,7 @@ struct HomeView: View {
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
                                                 .fontWeight(.bold)
-                                                .font(.system(size: UIScreen.titleTextSize))
+                                                .font(.system(size: UIScreen.title2TextSize))
                                             Text("Temperature: \(pot.curTemp)°F")
                                                 .font(.system(size: UIScreen.subTextSize))
                                         }
