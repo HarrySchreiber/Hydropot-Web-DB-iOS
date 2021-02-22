@@ -341,44 +341,43 @@ class GetUser: ObservableObject {
         }
     }
     
-    func deletePot(at offsets: IndexSet){
+    func deletePot(Index: Int){
 
-        for index in offsets {
-            let json: [String: Any] =
-                [
-                  "operation": "deletePot",
-                  "tableName": "HydroPotUsers",
-                  "payload": [
-                    "Item": [
-                        "id": userId,
-                        "email": email,
-                      "pot": [
-                        "id": pots[index].id,
-                      ]
-                    ]
+
+        let json: [String: Any] =
+            [
+              "operation": "deletePot",
+              "tableName": "HydroPotUsers",
+              "payload": [
+                "Item": [
+                    "id": userId,
+                    "email": email,
+                  "pot": [
+                    "id": pots[Index].id,
                   ]
                 ]
-            let jsonData = try? JSONSerialization.data(withJSONObject: json)
-            
-            let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-            
-            var request = URLRequest(url: url)
-            
-            request.httpMethod = "POST"
-            request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            // insert json data to the request
-            request.httpBody = jsonData
-
-            let config = URLSessionConfiguration.default
-            config.httpAdditionalHeaders = ["Accept": "Application/json"]
-            let session = URLSession(configuration: config)
-            
-            session.dataTask(with: request) { data, response, error in}.resume()
-            
-          }
+              ]
+            ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        pots.remove(atOffsets: offsets)
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in}.resume()
+        
+        
+        pots.remove(at: Index)
         
     }
     

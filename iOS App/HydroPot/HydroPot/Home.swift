@@ -94,24 +94,24 @@ struct HomeView: View {
                             .foregroundColor(.gray)
                             .navigationBarTitle("Hydro Pot", displayMode: .inline)
                             .navigationBarItems(trailing:
-                                                    Button(action: {
-                                                        self.showingDetail.toggle()
-                                                    }) {
-                                                        Image(systemName: "plus")
-                                                            .resizable()
-                                                            .padding(6)
-                                                            .frame(width: 30, height: 30)
-                                                            .clipShape(Circle())
-                                                            .foregroundColor(.white)
-                                                    }.sheet(isPresented: $showingDetail) {
-                                                        AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                                                    })
+                            Button(action: {
+                                self.showingDetail.toggle()
+                            }) {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .padding(6)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }.sheet(isPresented: $showingDetail) {
+                                AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                            })
                     }
                 } else {                        
                     ScrollView {
-                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                        //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                             //attemptReload()
-                        }
+                        //}
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
@@ -167,9 +167,9 @@ struct HomeView: View {
                     .navigationBarItems(trailing:
                         Button(action: {
                             self.showingDetail.toggle()
-                                if (showPopUp != true){
-                                self.showingDetail.toggle()
-                            }
+                                if (showPopUp == true){
+                                    self.showingDetail.toggle()
+                                }
                         }) {
                             Image(systemName: "plus") .resizable() .padding(6) .frame(width: 30, height: 30) .clipShape(Circle())
                                 .foregroundColor(.white)
