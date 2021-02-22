@@ -75,7 +75,7 @@ class GetUser: ObservableObject {
                 return
             }
             
-            // decode the returned
+            // decode the returned data to codable
             let results: UserResults?
             do {
                 let decoder = JSONDecoder()

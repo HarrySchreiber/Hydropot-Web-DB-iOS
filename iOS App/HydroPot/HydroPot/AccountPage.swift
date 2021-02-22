@@ -35,11 +35,15 @@ struct AccountPage: View {
                     VStack(){
                         HStack {
                             Text("Email: ")
+                                .font(.system(size: UIScreen.regTextSize))
+
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
                         HStack {
                             Text(user.email)
+                                .font(.system(size: UIScreen.regTextSize))
+
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.2))
@@ -47,6 +51,8 @@ struct AccountPage: View {
                         .padding(.leading, geometry.size.height/30)
                         HStack {
                             Text("Name: ")
+                                .font(.system(size: UIScreen.regTextSize))
+
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)
@@ -54,6 +60,8 @@ struct AccountPage: View {
                             TextField(user.name, text: $name).onAppear() {
                                 name = user.name
                             }
+                            .font(.system(size: UIScreen.regTextSize))
+
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -69,6 +77,7 @@ struct AccountPage: View {
                                 HStack {
                                     Spacer()
                                     Text("Save Name")
+                                        .font(.system(size: UIScreen.regTextSize))
                                     Spacer()
                                 }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
@@ -77,7 +86,7 @@ struct AccountPage: View {
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             }
                             .alert(isPresented: $alert) {
-                                Alert(title: Text(""), message: Text("Username successfully changed"), dismissButton: .default(Text("Ok")))
+                                Alert(title: Text(""), message: Text("Username successfully changed")                            .font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Ok")                            .font(.system(size: UIScreen.regTextSize))))
                             }
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .foregroundColor(.white)
@@ -93,6 +102,7 @@ struct AccountPage: View {
                                 HStack {
                                     Spacer()
                                     Text("Change Password")
+                                        .font(.system(size: UIScreen.regTextSize))
                                     Spacer()
                                 }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
@@ -118,6 +128,7 @@ struct AccountPage: View {
                                 HStack {
                                     Spacer()
                                     Text("Sign out")
+                                        .font(.system(size: UIScreen.regTextSize))
                                     Spacer()
                                 }
                                 .foregroundColor(Color(red: 1, green: 1, blue: 1))
@@ -135,12 +146,12 @@ struct AccountPage: View {
                         HStack {
                             Toggle(isOn: bind) {
                                 Text("Toggle Notifications")
+                                    .font(.system(size: UIScreen.regTextSize))
                             }
                             .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
                             .foregroundColor(Color.black)
                             .multilineTextAlignment(.center)
                             .padding(10)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         }
                         .padding(.leading, geometry.size.height/30)

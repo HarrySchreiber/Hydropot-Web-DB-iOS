@@ -8,21 +8,35 @@ import SwiftUI
 
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
-    static let screenHeight = UIScreen.main.bounds.size.height
-    static let screenSize = screenWidth
-    static let imageMultiplier = 4 //10692 //80
-    static let regTextMultiplier = 18.8 //10692 //17
-    static let titleTextMultiplier = 14.5 //8262 //22
-    static let subTextMultiplier = 24.6 //13982 //13
-    static let lastWateredMultiplier = 2.56 //1454 //125
-    static let boarderPaddingMultiplier = 32 //18176 //10
-    static let waterDropMultiplier = 8
+    
+    //home values
+    static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
+    static let regTextSize = screenWidth / 18.8 // base is 17
+    static let title2TextSize = screenWidth / 14.5 //base is 22
+    static let subTextSize = screenWidth / 24.6  //base is 13
+    static let lastWateredSize = screenWidth / 2.56 //base is 125
+    static let homeCardsSize = screenWidth / 32 //base is 10
+    
+    //login values
+    static let modalWidth = screenWidth / 1.14 //base is 280
+    
+    //plant page values
+    static let titleTextSize = screenWidth / 11.4  //base is 28
+    static let plantTypeImageSize = screenWidth / 1.6 //base is 200
+    
+    //historical Data page values
+    static let title3TextSize = screenWidth / 16  //base is 20
+    static let zStackWidth = modalWidth - 10 //base is 270
+    static let zStackHeight = screenWidth / 2.13  //base is 150
+    static let panelWidth = screenWidth
+    static let panelHeight = screenWidth / 1.4 //base is 225
+
 }
 
 struct Home: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
-
+    
     init (user : GetUser, plants: Plants){
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -34,8 +48,8 @@ struct Home: View {
         TabView() {
             HomeView(user: user, plants: plants).tabItem {
                 Image(systemName: "house.fill")
-                .resizable()
-                .scaledToFit()
+                    .resizable()
+                    .scaledToFit()
                 Text("Home") }.tag(1)
             PlantTypeList(plants: self.plants).tabItem { Image(systemName: "magnifyingglass")
                 Text("Plant Type") }.tag(2)
@@ -44,8 +58,9 @@ struct Home: View {
                 Text("Notifications") }.tag(3)
             AccountPage(user: user).tabItem {
                 Image(systemName: "person.crop.circle.fill")
-                      Text("Account") }.tag(4)
+                Text("Account") }.tag(4)
         }
+        .accentColor(.black)
     }
 }
 
@@ -72,88 +87,105 @@ struct HomeView: View {
                             //attemptReload()
                         }
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
+                            .font(.system(size: UIScreen.regTextSize))
                             .bold()
                             .italic()
                             .padding()
                             .foregroundColor(.gray)
                             .navigationBarTitle("Hydro Pot", displayMode: .inline)
                             .navigationBarItems(trailing:
-                        Button(action: {
-                            self.showingDetail.toggle()
-                        }) {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .padding(6)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                                .foregroundColor(.white)
-                        }.sheet(isPresented: $showingDetail) {
-                            AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                        })
+                                                    Button(action: {
+                                                        self.showingDetail.toggle()
+                                                    }) {
+                                                        Image(systemName: "plus")
+                                                            .resizable()
+                                                            .padding(6)
+                                                            .frame(width: 30, height: 30)
+                                                            .clipShape(Circle())
+                                                            .foregroundColor(.white)
+                                                    }.sheet(isPresented: $showingDetail) {
+                                                        AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                                                    })
                     }
-                } else {
-                    List {
-                        //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                } else {                        
+                    ScrollView {
+                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                             //attemptReload()
-                        //}
+                        }
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
                                 VStack {
                                     HStack(){
                                         Image(systemName: "leaf.fill")
-                                            .font(.system(size: 80))
+                                            .font(.system(size: UIScreen.homeImageSize))
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
-                                                .font(.title2)
                                                 .fontWeight(.bold)
-                                                .padding(.leading)
+                                                .font(.system(size: UIScreen.title2TextSize))
                                             Text("Temperature: \(pot.curTemp)°F")
-                                                .font(.footnote)
-                                                .padding(.leading)
+                                                .font(.system(size: UIScreen.subTextSize))
                                         }
+                                        .padding(.leading)
                                     }
                                     HStack() {
                                         Text("Last watered: \n\(getLastWatered(pot: pot))")
-                                            .padding(.top)
-                                            .frame(maxWidth: 125)
+                                            .padding(.top, 2)
+                                            .frame(maxWidth: UIScreen.lastWateredSize)
+                                            .font(.system(size: UIScreen.regTextSize))
                                         Button("Water Plant") {
                                             potSelected = pot
                                             showPopUp = true
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                         .foregroundColor(.white)
-                                        .padding(10)
+                                        .padding()
                                         .background(Color(red: 24/255, green: 57/255, blue: 163/255))
                                         .cornerRadius(6)
+                                        .font(.system(size: UIScreen.regTextSize))
                                     }
                                 }
+                                .foregroundColor(.black)
+                                .padding(20)
+                                .background(Color.white)
+                                .cornerRadius(6)
+                                .padding([.leading, .top, .trailing],UIScreen.homeCardsSize)
+                                
+                                //eventually can add custom swipe to delete with this drag gesture?
+                                .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                                .onEnded { value in
+                                    if value.translation.width < 0 && value.translation.height > -30 && value.translation.height < 30 {
+                                        print("left swipe on \(pot.plantName)")
+                                    }
+                                })
                             }
                         }
-                        .onDelete(perform: user.deletePot)
+                        //.onDelete(perform: user.deletePot)
                     }
                     .allowsHitTesting(!showPopUp)
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
                         Button(action: {
-                            if (showPopUp != true){
+                            self.showingDetail.toggle()
+                                if (showPopUp != true){
                                 self.showingDetail.toggle()
                             }
                         }) {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .padding(6)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
+                            Image(systemName: "plus") .resizable() .padding(6) .frame(width: 30, height: 30) .clipShape(Circle())
                                 .foregroundColor(.white)
                         }.sheet(isPresented: $showingDetail) {
                             AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                    })
+                        })
                 }
                 if $showPopUp.wrappedValue {
                     waterModal(showPopUp: $showPopUp, pot: potSelected, user: user)
                 }
             }
+            .background(
+                Image("plant2")
+                    .resizable()
+                    .opacity(0.50)
+            )
         }
     }
     
@@ -212,6 +244,7 @@ struct PullToRefresh: View {
                 if needRefresh {
                     ProgressView()
                 } else {
+                    //Image("arrow.down")
                     Text("⬇️")
                 }
                 Spacer()
