@@ -9,6 +9,10 @@ import SwiftUI
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
     
+    //nav bar values
+    static let plusImageSize = screenWidth / 12
+    static let titleSize = screenWidth / 16
+    
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
     static let regTextSize = screenWidth / 18.8 // base is 17
@@ -38,9 +42,13 @@ struct Home: View {
     @ObservedObject var plants: Plants
     
     init (user : GetUser, plants: Plants){
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIScreen.titleSize),
+            .foregroundColor: UIColor.white,
+        ]
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = attributes
         self.user = user
         self.plants = plants
     }
@@ -100,7 +108,7 @@ struct HomeView: View {
                                 Image(systemName: "plus")
                                     .resizable()
                                     .padding(6)
-                                    .frame(width: 30, height: 30)
+                                    .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize)
                                     .clipShape(Circle())
                                     .foregroundColor(.white)
                             }.sheet(isPresented: $showingDetail) {
@@ -171,7 +179,10 @@ struct HomeView: View {
                                     self.showingDetail.toggle()
                                 }
                         }) {
-                            Image(systemName: "plus") .resizable() .padding(6) .frame(width: 30, height: 30) .clipShape(Circle())
+                            Image(systemName: "plus")
+                                .resizable()
+                                .padding(6)
+                                .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
                                 .foregroundColor(.white)
                         }.sheet(isPresented: $showingDetail) {
                             AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
