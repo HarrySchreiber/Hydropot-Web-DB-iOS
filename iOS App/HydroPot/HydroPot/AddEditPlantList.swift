@@ -67,7 +67,7 @@ struct AddEditPlantList: View {
                                     
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
-                                    ListCell(text: searching ? searchedPlantList[row] : plantList[row])
+                                    ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
                                         .frame(height: 45)
                                 }
                                 .simultaneousGesture(TapGesture().onEnded {
@@ -98,7 +98,7 @@ struct AddEditPlantList: View {
             }
         }
         print("error occured\n_____------_____----_____")
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up")
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "")
     }
     
     func filterList(filteredValues: [(Bool,Bool,Bool)]) {

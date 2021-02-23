@@ -18,9 +18,10 @@ class Plant: ObservableObject, Identifiable {
     @Published var idealLightLow: Int
     @Published var idealLightHigh: Int
     @Published var description: String
+    @Published var imageURL: String
     
     init(plantType: String, idealTempLow: Int, idealTempHigh: Int, idealMoistureLow: Int, idealMoistureHigh: Int,
-         idealLightLow: Int, idealLightHigh: Int, description: String) {
+         idealLightLow: Int, idealLightHigh: Int, description: String, imageURL: String) {
         self.plantType = plantType
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
@@ -29,6 +30,7 @@ class Plant: ObservableObject, Identifiable {
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
         self.description = description
+        self.imageURL = imageURL
     }
     
 }
@@ -50,10 +52,11 @@ struct codePlant: Codable, Identifiable {
     let idealTempHigh: Int
     let idealTempLow: Int
     let plantType: String
+    let imageURL: String
     
     enum CodingKeys: String, CodingKey {
         case id, description, idealLightHigh, idealLightLow, idealMoistureHigh, idealMoistureLow,
-             idealTempHigh, idealTempLow, plantType
+             idealTempHigh, idealTempLow, plantType, imageURL
     }
 }
 
@@ -81,7 +84,7 @@ class Plants: ObservableObject, Identifiable {
                 return plantList[index]
             }
         }
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up")
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "")
     }
     
     func getPlantsList() {
@@ -141,7 +144,8 @@ class Plants: ObservableObject, Identifiable {
                             idealMoistureHigh: plant.idealMoistureHigh,
                             idealLightLow: plant.idealLightLow,
                             idealLightHigh: plant.idealLightHigh,
-                            description: plant.description))
+                            description: plant.description,
+                            imageURL: plant.imageURL))
                     }
                 }
             })

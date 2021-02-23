@@ -6,14 +6,21 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct PlantTypePage: View {
     @ObservedObject var plant: Plant
     var body: some View {
         VStack {
             ScrollView {
-                Image(systemName: "photo")
-                    .font(.system(size: UIScreen.plantTypeImageSize))
+                URLImage(url: URL(string: plant.imageURL)!) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.leading, 15)
+                        .font(.system(size: UIScreen.homeImageSize/2))
+                        .foregroundColor(.black)
+                }
                 Divider()
                 Text("\(plant.plantType)")
                     .font(.system(size: UIScreen.titleTextSize))
