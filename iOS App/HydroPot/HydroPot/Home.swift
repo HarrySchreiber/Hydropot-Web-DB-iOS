@@ -20,16 +20,23 @@ extension UIScreen{
     //login values
     static let modalWidth = screenWidth / 1.14 //base is 280
     
-    //plant page values
+    //plant type page values
     static let titleTextSize = screenWidth / 11.4  //base is 28
     static let plantTypeImageSize = screenWidth / 1.6 //base is 200
     
     //historical Data page values
     static let title3TextSize = screenWidth / 16  //base is 20
-    static let zStackWidth = modalWidth - 10 //base is 270
+    static let zStackWidth = modalWidth - (screenWidth / 10) //base is about 270
     static let zStackHeight = screenWidth / 2.13  //base is 150
     static let panelWidth = screenWidth
     static let panelHeight = screenWidth / 1.4 //base is 225
+    
+    //plant page values
+    static let plantBoxWidth = screenWidth / 1.06 //base is 300
+    static let plantBoxHeight = homeImageSize
+    static let plantBoxIdealsDistance = screenWidth / 5.4 //base is 60
+    static let plantTitleBottom = screenWidth / 16 //base is 20
+    static let plantTitleSide = screenWidth / 10.6 //base is 30
 
 }
 

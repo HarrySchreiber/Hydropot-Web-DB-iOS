@@ -43,23 +43,25 @@ struct PlantPage: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "photo")
-                            .font(.system(size: 90))
+                            .font(.system(size: UIScreen.homeImageSize))
                             .foregroundColor(.black)
                             .padding(.leading, 5)
                         VStack(alignment: .leading){
                             Text(pot.plantName)
-                                .font(.title)
+                                .font(.system(size: UIScreen.titleTextSize))
                                 .bold()
                             Text(pot.plantType)
                         }
                     }
                     HStack() {
                         Text("Last watered: \n\(getLastWatered(pot: pot))")
-                            .frame(maxWidth: 300)
+                            .font(.system(size: UIScreen.regTextSize))
+                            .frame(maxWidth: UIScreen.plantBoxWidth)
                             .padding(.trailing, 15)
                         Button("Water Plant") {
                             showPopUp = true
                         }
+                        .font(.system(size: UIScreen.regTextSize))
                         .buttonStyle(BorderlessButtonStyle())
                         .foregroundColor(.white)
                         .padding(10)
@@ -72,9 +74,11 @@ struct PlantPage: View {
                     .padding([.leading, .bottom, .trailing])
                     
                     Toggle(isOn: bind) {
-                        Text("Automatic Water").padding(.leading)
+                        Text("Automatic Water")
+                            .font(.system(size: UIScreen.regTextSize))
+                            .padding(.leading)
                     }.toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
-                    .frame(maxWidth: 300)
+                    .frame(maxWidth: UIScreen.plantBoxWidth)
                     .padding([.top, .bottom, .trailing])
                     .border(Color.gray, width: 1.25)
                     .padding([.leading, .bottom, .trailing])
@@ -85,25 +89,27 @@ struct PlantPage: View {
                             VStack{
                                 HStack {
                                     Text("Soil Moisture")
-                                        .frame(maxWidth: 300)
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .frame(maxWidth: UIScreen.plantBoxWidth)
                                         .foregroundColor(.black)
                                     Text("\(pot.curMoisture)%")
-                                        .font(.title)
+                                        .font(.system(size: UIScreen.titleTextSize))
                                         .bold()
-                                        .frame(maxWidth: 300)
+                                        .frame(maxWidth: UIScreen.plantBoxWidth)
                                         .foregroundColor(getTextColor(bool: moistureGood))
                                         .padding(.leading, 45)
                                 }
                                 Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(.leading, 100)
-                                    .frame(maxWidth: 300)
+                                    .frame(maxWidth: UIScreen.plantBoxWidth)
                                     .foregroundColor(.black)
                             }
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 20))
+                                .font(.system(size: UIScreen.title3TextSize))
                                 .foregroundColor(.black)
                         }
-                        .frame(maxWidth: 300)
+                        .frame(maxWidth: UIScreen.plantBoxWidth)
                         .padding([.top, .bottom])
                         .padding([.leading, .trailing], 5)
                         .border(Color.gray, width: 1.25)
@@ -112,35 +118,33 @@ struct PlantPage: View {
                     }
                     //light level
                     NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
-                        HStack {
-                            VStack{
-                                HStack {
-                                    Text("Light Level")
-                                        .frame(maxWidth: 300)
-                                        .foregroundColor(.black)
-                                        .padding(.trailing, 10)
-                                    Text("\(pot.curLight)lm")
-                                        .font(.title)
-                                        .bold()
-                                        .frame(maxWidth: 300)
-                                        .foregroundColor(getTextColor(bool: lightGood))
-                                        .padding(.leading, 1)
-                                }
-                                Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
-                                    .padding(.leading, 50)
-                                    .frame(maxWidth: 300)
-                                    .foregroundColor(.black)
-                            }
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 20))
+                        ZStack {
+                            Text("Light Level")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)
                                 .foregroundColor(.black)
+                                .padding(.leading, UIScreen.plantTitleSide)
+                                .padding(.bottom, UIScreen.plantTitleBottom)
+                            VStack (alignment: .trailing) {
+                                    Text("\(pot.curLight)lm")
+                                        .font(.system(size: UIScreen.titleTextSize))
+                                        .bold()
+                                        .foregroundColor(getTextColor(bool: lightGood))
+                                    Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .foregroundColor(.gray)
+                            }
+                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .trailing)
+                            .padding(.trailing, UIScreen.plantBoxIdealsDistance)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .foregroundColor(.gray)
+                                .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .trailing)
+                                .padding(.trailing)
                         }
-                        .frame(maxWidth: 300)
-                        .padding([.top, .bottom])
-                        .padding(.trailing, 5)
+                        .frame(maxWidth: UIScreen.plantBoxWidth)
                         .border(Color.gray, width: 1.25)
                         .padding([.leading, .bottom, .trailing])
-                        .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     //temperature
@@ -149,25 +153,27 @@ struct PlantPage: View {
                             VStack{
                                 HStack {
                                     Text("Temperature")
-                                        .frame(maxWidth: 300)
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .frame(maxWidth: UIScreen.plantBoxWidth)
                                         .foregroundColor(.black)
                                     Text("\(pot.curTemp)°F")
-                                        .font(.title)
+                                        .font(.system(size: UIScreen.titleTextSize))
                                         .bold()
-                                        .frame(maxWidth: 300)
+                                        .frame(maxWidth: UIScreen.plantBoxWidth)
                                         .foregroundColor(getTextColor(bool: tempGood))
                                         .padding(.leading, 35)
                                 }
                                 Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .padding(.leading, 90)
-                                    .frame(maxWidth: 300)
+                                    .frame(maxWidth: UIScreen.plantBoxWidth)
                                     .foregroundColor(.black)
                             }
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 20))
+                                .font(.system(size: UIScreen.title3TextSize))
                                 .foregroundColor(.black)
                         }
-                        .frame(maxWidth: 300)
+                        .frame(maxWidth: UIScreen.plantBoxWidth)
                         .padding([.top, .bottom])
                         .padding([.leading, .trailing], 5)
                         .border(Color.gray, width: 1.25)
@@ -176,17 +182,18 @@ struct PlantPage: View {
                     }
                     HStack {
                         Text("Reservoir Level")
-                            .frame(maxWidth: 300)
+                            .font(.system(size: UIScreen.regTextSize))
+                            .frame(maxWidth: UIScreen.plantBoxWidth)
                             .foregroundColor(.black)
                         Text("\(pot.resLevel)%")
-                            .font(.title)
+                            .font(.system(size: UIScreen.titleTextSize))
                             .bold()
-                            .frame(maxWidth: 300)
+                            .frame(maxWidth: UIScreen.plantBoxWidth)
                             .foregroundColor(getTextColor(bool: resGood))
                             .padding(.leading, 45)
                         
                     }
-                    .frame(maxWidth: 300)
+                    .frame(maxWidth: UIScreen.plantBoxWidth)
                     //.padding([.top, .bottom])
                     .padding( 5)
                     .border(Color.gray, width: 1.25)
