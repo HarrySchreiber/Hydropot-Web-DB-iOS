@@ -83,8 +83,8 @@ struct HomeView: View {
             ZStack{
                 if(user.pots.count == 0) {
                     ScrollView {
-                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                            //attemptReload()
+                        PullToRefresh(coordinateSpaceName: "pull") {
+                            attemptReload()
                         }
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
                             .font(.system(size: UIScreen.regTextSize))
@@ -106,12 +106,12 @@ struct HomeView: View {
                             }.sheet(isPresented: $showingDetail) {
                                 AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
                             })
-                    }
+                    }.coordinateSpace(name: "pull")
                 } else {                        
                     ScrollView {
-                        //PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                            //attemptReload()
-                        //}
+                        PullToRefresh(coordinateSpaceName: "pullRefresh") {
+                            attemptReload()
+                        }
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
@@ -137,7 +137,7 @@ struct HomeView: View {
                                             potSelected = pot
                                             showPopUp = true
                                         }
-                                        .buttonStyle(BorderlessButtonStyle())
+                                        .buttonStyle(HighPriorityButtonStyle())
                                         .foregroundColor(.white)
                                         .padding()
                                         .background(Color(red: 24/255, green: 57/255, blue: 163/255))
@@ -160,8 +160,8 @@ struct HomeView: View {
                                 })
                             }
                         }
-                        //.onDelete(perform: user.deletePot)
                     }
+                    .coordinateSpace(name: "pullRefresh")
                     .allowsHitTesting(!showPopUp)
                     .navigationBarTitle("Hydro Pot", displayMode: .inline)
                     .navigationBarItems(trailing:
@@ -202,9 +202,17 @@ struct HomeView: View {
         }
         return String(days) + " days ago"
     }
+    
     func attemptReload() {
         user.reload() {
-            
+            // will be received at the login processed
+            if user.loggedIn {
+                print("hey")
+                for (index, _) in user.pots.enumerated() {
+                    let tempPot = user.pots[index]
+                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered)
+                }
+            }
         }
     }
 }
@@ -250,5 +258,41 @@ struct PullToRefresh: View {
                 Spacer()
             }
         }.padding(.top, -50)
+    }
+}
+
+struct HighPriorityButtonStyle: PrimitiveButtonStyle {
+    func makeBody(configuration: PrimitiveButtonStyle.Configuration) -> some View {
+        MyButton(configuration: configuration)
+    }
+    
+    private struct MyButton: View {
+        @State var pressed = false
+        let configuration: PrimitiveButtonStyle.Configuration
+        
+        var body: some View {
+            let gesture = DragGesture(minimumDistance: 0)
+                .onChanged { _ in self.pressed = true }
+                .onEnded { value in
+                    self.pressed = false
+                    if value.translation.width < 10 && value.translation.height < 10 {
+                        self.configuration.trigger()
+                    }
+                }
+            
+            return configuration.label
+                .opacity(self.pressed ? 0.5 : 1.0)
+                .highPriorityGesture(gesture)
+        }
+    }
+}
+
+struct StaticHighPriorityButtonStyle: PrimitiveButtonStyle {
+    func makeBody(configuration: PrimitiveButtonStyle.Configuration) -> some View {
+        let gesture = TapGesture()
+            .onEnded { _ in configuration.trigger() }
+        
+        return configuration.label
+            .highPriorityGesture(gesture)
     }
 }
