@@ -17,7 +17,6 @@ struct PlantTypePage: View {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding(.leading, 15)
                         .font(.system(size: UIScreen.homeImageSize/2))
                         .foregroundColor(.black)
                 }
