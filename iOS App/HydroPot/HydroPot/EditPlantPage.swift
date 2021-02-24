@@ -58,15 +58,18 @@ struct EditPlantPage: View {
                                 }
                             }
                             else {
-                                image?
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(alignment: .center)
-                                    .font(.system(size: UIScreen.imageSelection))
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                    .shadow(radius: 10)
+                                VStack {
+                                    image?
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(alignment: .center)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                        .shadow(radius: 10)
+                                }
+                                .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
                             }
+                            
                         }
                         .foregroundColor(.black)
                             .frame(alignment: .center)

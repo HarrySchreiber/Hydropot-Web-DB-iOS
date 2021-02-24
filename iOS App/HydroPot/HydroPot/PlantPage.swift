@@ -43,10 +43,23 @@ struct PlantPage: View {
                 
                 VStack(alignment: .leading) {
                     HStack (){
-                        Image(systemName: "photo")
-                            .font(.system(size: UIScreen.homeImageSize))
-                            .foregroundColor(.black)
-                            .padding(.leading, 5)
+                        if (URL(string: pot.image) != nil){
+                            URLImage(url: URL(string: pot.image)!) { image in
+                                VStack {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                        .shadow(radius: 10)
+                                }
+                                .frame(width: UIScreen.plantImage, height:  UIScreen.plantImage)
+                            }
+                        }
+                        else {
+                            Image(systemName: "leaf.fill")
+                                .font(.system(size: UIScreen.homeImageSize))
+                        }
                         VStack(alignment: .leading){
                             Text(pot.plantName)
                                 .font(.system(size: UIScreen.titleTextSize))

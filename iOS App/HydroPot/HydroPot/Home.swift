@@ -37,7 +37,7 @@ extension UIScreen{
     static let panelHeight = screenWidth / 1.4 //base is 225
     
     //add edit value
-    static let imageSelection = screenWidth / 3
+    static let imageSelection = screenWidth / 1.4
     
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
@@ -46,6 +46,7 @@ extension UIScreen{
     static let plantTitleBottom = screenWidth / 16 //base is 20
     static let plantTitleSide = screenWidth / 10.6 //base is 30
     static let resLevelPadding = screenWidth / 5.5  //base is ~57
+    static let plantImage = screenWidth / 2
 
 }
 
@@ -144,11 +145,10 @@ struct HomeView: View {
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .clipShape(Circle())
-                                                        
                                                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                                         .shadow(radius: 10)
                                                 }
-                                                .font(.system(size: UIScreen.homeImageSize))
+                                                .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
                                             }
                                         }
                                         else {
