@@ -597,13 +597,10 @@ function imageUpload(id,action,fileDialogueId){
     }
     var reader = new FileReader();
     reader.onload = function(){
-      var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
-      var encodedImage = reader.result.split(",",2)[1];
-
-      var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
+        var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
+        var encodedImage = reader.result.split(",",2)[1];
+        
+        postToLambda(JSON.stringify({
             'operation':'imageUpload',
             'tableName':'HydroPotPlantTypes',
             'payload':{
@@ -612,25 +609,15 @@ function imageUpload(id,action,fileDialogueId){
                     'fileExtension':fileExtension
                 }
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
-        console.log(data);
-        if(action === "add"){
-            addPlant(data);
-        }else if(action === "edit"){
-            console.log(savedOldURL);
-            editPlant(id,data, savedOldURL);
-        }
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
-    });
+        }),
+        function(data){
+            if(action === "add"){
+                addPlant(data);
+            }else if(action === "edit"){
+                editPlant(id,data, savedOldURL);
+            }
+        });
     };
+
     reader.readAsDataURL(image.files[0]);
 }
