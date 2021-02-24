@@ -67,7 +67,9 @@ function loadPage(){
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
-        //TODO this this now packages data but now we have to do stuff with it
+        $("#input-fields").empty();
+        $("#plant-table").empty();
+        buildInputFields();
         buildTable(packageData(data['Items']));
     });
 }
@@ -106,10 +108,6 @@ function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
 }
 
 function buildTable(data){
-    $("#plant-table").empty();
-
-    buildInputFields();
-
    
     for(var id in data){
         //Declare the json object
@@ -202,6 +200,10 @@ function buildTable(data){
     }
 }
 
+function buildSearchField(){
+
+}
+
 function buildInputFields(){
 
     var fullRow = document.createElement("div");
@@ -271,7 +273,7 @@ function buildInputFields(){
     fullRow.appendChild(contentCol);
     fullRow.appendChild(buttonsCol);
 
-    $("#plant-table").append(fullRow);
+    $("#input-fields").append(fullRow);
 }
 
 function addPlant(imageURL){
