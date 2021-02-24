@@ -39,24 +39,13 @@ function postToLambda(content, actionFunction){
 }
 
 function loadPage(){
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'getAll',
-            'tableName':'HydroPotPlantTypes'
-        })
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+    postToLambda(JSON.stringify({
+        'operation':'getAll',
+        'tableName':'HydroPotPlantTypes'
+    }),
+    function(data){
         buildTable(data['Items']);
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
+        console.log("Thats what we like to see");
     });
 }
 
@@ -82,28 +71,7 @@ function authenticateUser(){
             warningModal("No account registered with those credentials");
         }
     })
-}
 
-function loadPage(){
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'getAll',
-            'tableName':'HydroPotPlantTypes'
-        })
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
-        buildTable(data['Items']);
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
-    });
 }
 
 function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
