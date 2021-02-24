@@ -12,7 +12,6 @@ extension UIScreen{
     
     //nav bar values
     static let plusImageSize = screenWidth / 12
-    static let titleSize = screenWidth / 16
     
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
@@ -26,19 +25,27 @@ extension UIScreen{
     //login values
     static let modalWidth = screenWidth / 1.14 //base is 280
     
-    //plant page values
+    //plant type page values
     static let titleTextSize = screenWidth / 11.4  //base is 28
     static let plantTypeImageSize = screenWidth / 1.6 //base is 200
     
     //historical Data page values
     static let title3TextSize = screenWidth / 16  //base is 20
-    static let zStackWidth = modalWidth - 10 //base is 270
+    static let zStackWidth = modalWidth - (screenWidth / 10) //base is about 270
     static let zStackHeight = screenWidth / 2.13  //base is 150
     static let panelWidth = screenWidth
     static let panelHeight = screenWidth / 1.4 //base is 225
     
     //add edit value
     static let imageSelection = screenWidth / 3
+    
+    //plant page values
+    static let plantBoxWidth = screenWidth / 1.06 //base is 300
+    static let plantBoxHeight = homeImageSize
+    static let plantBoxIdealsDistance = screenWidth / 5.4 //base is 60
+    static let plantTitleBottom = screenWidth / 16 //base is 20
+    static let plantTitleSide = screenWidth / 10.6 //base is 30
+    static let resLevelPadding = screenWidth / 5.5  //base is ~57
 
 }
 
@@ -48,7 +55,7 @@ struct Home: View {
     
     init (user : GetUser, plants: Plants){
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: UIScreen.titleSize),
+            .font: UIFont.systemFont(ofSize: UIScreen.title3TextSize),
             .foregroundColor: UIColor.white,
         ]
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
