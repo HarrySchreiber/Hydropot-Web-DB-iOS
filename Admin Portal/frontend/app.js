@@ -390,31 +390,19 @@ function deletePlant(id,imageUrl){
     cleanModal();
     var imageKey = imageUrl.split("/");
     imageKey = imageKey[imageKey.length-1];
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'delete',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'id':id,
-                    'imageKey':imageKey
-                }
+
+    postToLambda(JSON.stringify({
+        'operation':'delete',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'id':id,
+                'imageKey':imageKey
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+        }
+    }),
+    function(data){
         loadPage();
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
     });
 }
 
