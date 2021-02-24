@@ -11,7 +11,6 @@ extension UIScreen{
     
     //nav bar values
     static let plusImageSize = screenWidth / 12
-    static let titleSize = screenWidth / 16
     
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
@@ -41,6 +40,7 @@ extension UIScreen{
     static let plantBoxIdealsDistance = screenWidth / 5.4 //base is 60
     static let plantTitleBottom = screenWidth / 16 //base is 20
     static let plantTitleSide = screenWidth / 10.6 //base is 30
+    static let resLevelPadding = screenWidth / 5.5  //base is ~57
 
 }
 
@@ -50,7 +50,7 @@ struct Home: View {
     
     init (user : GetUser, plants: Plants){
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: UIScreen.titleSize),
+            .font: UIFont.systemFont(ofSize: UIScreen.title3TextSize),
             .foregroundColor: UIColor.white,
         ]
         UINavigationBar.appearance().barTintColor = UIColor(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, alpha: 1.0)
