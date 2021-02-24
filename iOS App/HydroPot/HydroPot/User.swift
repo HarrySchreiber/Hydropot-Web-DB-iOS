@@ -126,10 +126,10 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image))
                             }
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image))
                             }
                         }
                     }
@@ -215,7 +215,7 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
-                                self.replacePot(pot: Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering))
+                                self.replacePot(pot: Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image))
                             }
                         }
                     }

@@ -5,6 +5,7 @@
 //  Created by David Dray on 1/27/21.
 //
 import SwiftUI
+import URLImage
 
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
@@ -76,7 +77,7 @@ struct HomeView: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     @State private var showPopUp = false
-    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false)
+    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false, image: "")
     @State var showingDetail = false
     
     //temperary date formatting
@@ -125,8 +126,18 @@ struct HomeView: View {
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
                                 VStack {
                                     HStack(){
-                                        Image(systemName: "leaf.fill")
-                                            .font(.system(size: UIScreen.homeImageSize))
+                                        if (URL(string: pot.image != nil)){
+                                            URLImage(url: URL(string: pot.image)!) { image in
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .font(.system(size: UIScreen.homeImageSize))
+                                                    .foregroundColor(.black)
+                                            }
+                                        }
+                                        else {
+                                            
+                                        }
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
                                                 .fontWeight(.bold)
@@ -221,7 +232,7 @@ struct HomeView: View {
                 print("hey")
                 for (index, _) in user.pots.enumerated() {
                     let tempPot = user.pots[index]
-                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered)
+                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
                 }
             }
         }

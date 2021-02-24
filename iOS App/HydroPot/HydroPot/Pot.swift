@@ -48,8 +48,7 @@ class Pot: ObservableObject, Identifiable {
     @Published var id: String
     @Published var resLevel: Int
     
-    
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -68,6 +67,7 @@ class Pot: ObservableObject, Identifiable {
         self.image = ""
         self.resLevel = resLevel
         self.id = id
+        self.image = image
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
@@ -84,7 +84,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
     }
     
-    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool, lastWatered: Date) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool, lastWatered: Date, image: String) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -98,6 +98,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.automaticWatering = automaticWatering
         self.lastWatered = lastWatered
+        self.image = image
     }
     
     
