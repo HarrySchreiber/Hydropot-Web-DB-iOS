@@ -21,16 +21,34 @@ struct AddPlantPage: View {
     @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = "Plant Type"
     @State var failed: Bool = false
+    @State var isShowPicker: Bool = false
+    @State var image: Image? = Image(systemName: "camera.circle")
 
     var body: some View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
-                        Image(systemName: "camera.circle")
+                        Button(action: {
+                            withAnimation {
+                                self.isShowPicker.toggle()
+                            }
+                        }) {
+                            image?
+                                .resizable()
+                                .scaledToFit()
+                                .frame(alignment: .center)
+                                .font(.system(size: UIScreen.imageSelection))
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                .shadow(radius: 10)
+                        }
+                        .foregroundColor(.black)
                             .frame(alignment: .center)
-                            .font(.system(size: geometry.size.width/2))
+                            .padding(.bottom, 3)
                         Text("Add Photo")
+                            .font(.system(size: UIScreen.regTextSize))
+
                             .frame(alignment: .center)
                             .padding(.bottom, 3)
                         HStack{
@@ -39,7 +57,10 @@ struct AddPlantPage: View {
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
-                            .padding(.leading, geometry.size.height/30)
+                        .sheet(isPresented: $isShowPicker) {
+                             ImagePicker(image: self.$image)
+                         }
+                        .padding(.leading, geometry.size.height/30)
                         ZStack{
                             if (plantSelected == "Plant Type"){
                                 Text("\(plantSelected)")
@@ -155,3 +176,48 @@ struct AddPlantPage: View {
     }
 }
 
+struct ImagePicker: UIViewControllerRepresentable {
+
+    @Environment(\.presentationMode)
+    var presentationMode
+
+    @Binding var image: Image?
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+        @Binding var presentationMode: PresentationMode
+        @Binding var image: Image?
+
+        init(presentationMode: Binding<PresentationMode>, image: Binding<Image?>) {
+            _presentationMode = presentationMode
+            _image = image
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            image = Image(uiImage: uiImage)
+            presentationMode.dismiss()
+
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            presentationMode.dismiss()
+        }
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(presentationMode: presentationMode, image: $image)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+
+    }
+
+}

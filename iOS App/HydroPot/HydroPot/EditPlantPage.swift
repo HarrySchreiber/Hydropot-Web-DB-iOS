@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode
@@ -27,15 +28,49 @@ struct EditPlantPage: View {
     @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = ""
     @State var failed: Bool = false
+    @State var isShowPicker: Bool = false
+    @State var image: Image? = Image(systemName: "camera.circle")
+    @State var tempURL: String = ""
 
     var body: some View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
-                        Image(systemName: "camera.circle")
+                        Button(action: {
+                            withAnimation {
+                                self.isShowPicker.toggle()
+                            }
+                        }) {
+                            if (URL(string: tempURL) != nil){
+                                URLImage(url: URL(string: pot.image)!) { image in
+                                    VStack {
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(alignment: .center)
+                                            .font(.system(size: UIScreen.imageSelection))
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                            .shadow(radius: 10)
+                                    }
+                                    .font(.system(size: UIScreen.homePicSize))
+                                }
+                            }
+                            else {
+                                image?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(alignment: .center)
+                                    .font(.system(size: UIScreen.imageSelection))
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                    .shadow(radius: 10)
+                            }
+                        }
+                        .foregroundColor(.black)
                             .frame(alignment: .center)
-                            .font(.system(size: geometry.size.width/2))
+                            .padding(.bottom, 3)
                         Text("Edit Photo")
                             .font(.system(size: UIScreen.regTextSize))
 
@@ -129,6 +164,9 @@ struct EditPlantPage: View {
                         }
                             .padding(.leading, geometry.size.height/30)
                     }
+                    .sheet(isPresented: $isShowPicker) {
+                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL)
+                     }
                     .cornerRadius(6)
                     Spacer()
                 }
@@ -176,6 +214,7 @@ struct EditPlantPage: View {
             idealTemperatureHigh = String(pot.idealTempHigh)
             idealLightLevelLow = String(pot.idealLightLow)
             idealLightLevelHigh = String(pot.idealLightHigh)
+            tempURL = pot.image
         }
         .onDisappear() {
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
@@ -187,3 +226,53 @@ struct EditPlantPage: View {
 }
 
 
+struct ImagePickerTwo: UIViewControllerRepresentable {
+    
+
+    @Environment(\.presentationMode)
+    var presentationMode
+
+    @Binding var image: Image?
+    @Binding var tempURL: String
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+        @Binding var presentationMode: PresentationMode
+        @Binding var image: Image?
+        @Binding var tempURL: String
+
+        init(presentationMode: Binding<PresentationMode>, image: Binding<Image?>, tempURL: Binding<String>) {
+            _presentationMode = presentationMode
+            _image = image
+            _tempURL = tempURL
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            image = Image(uiImage: uiImage)
+            tempURL = ""
+            presentationMode.dismiss()
+
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            presentationMode.dismiss()
+        }
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(presentationMode: presentationMode, image: $image, tempURL: $tempURL)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerTwo>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePickerTwo>) {
+
+    }
+
+}

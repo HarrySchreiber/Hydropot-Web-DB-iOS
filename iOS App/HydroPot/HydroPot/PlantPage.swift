@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct PlantPage: View {
     @Environment(\.presentationMode) var presentationMode
@@ -41,7 +42,7 @@ struct PlantPage: View {
                 }
                     
                 VStack(alignment: .leading) {
-                    HStack {
+                    HStack (){
                         Image(systemName: "photo")
                             .font(.system(size: 90))
                             .foregroundColor(.black)

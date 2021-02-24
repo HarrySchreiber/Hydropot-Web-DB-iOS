@@ -16,6 +16,7 @@ extension UIScreen{
     
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
+    static let homePicSize = screenWidth / 4 //base is 80 (ipod 7gen)
     static let regTextSize = screenWidth / 18.8 // base is 17
     static let title2TextSize = screenWidth / 14.5 //base is 22
     static let subTextSize = screenWidth / 24.6  //base is 13
@@ -35,6 +36,9 @@ extension UIScreen{
     static let zStackHeight = screenWidth / 2.13  //base is 150
     static let panelWidth = screenWidth
     static let panelHeight = screenWidth / 1.4 //base is 225
+    
+    //add edit value
+    static let imageSelection = screenWidth / 3
 
 }
 
@@ -89,7 +93,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            ZStack{
+            ZStack {
                 if(user.pots.count == 0) {
                     ScrollView {
                         PullToRefresh(coordinateSpaceName: "pull") {
@@ -124,19 +128,21 @@ struct HomeView: View {
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
-                                VStack {
+                                VStack (spacing: 0){
                                     HStack(){
-                                        if (URL(string: pot.image != nil)){
+                                        if (URL(string: pot.image) != nil){
                                             URLImage(url: URL(string: pot.image)!) { image in
                                                 image
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
-                                                    .font(.system(size: UIScreen.homeImageSize))
-                                                    .foregroundColor(.black)
+                                                    .clipShape(Circle())
+                                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                    .shadow(radius: 10)
                                             }
                                         }
                                         else {
-                                            
+                                            Image(systemName: "leaf.fill")
+                                                .font(.system(size: UIScreen.homeImageSize))
                                         }
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
