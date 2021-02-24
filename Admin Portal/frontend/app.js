@@ -1,6 +1,8 @@
 // Lambda API URL
 var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web';
 
+var plantTypesLocal = {};
+
 
 // // Working GET exammple
 // var options = { 
@@ -67,10 +69,10 @@ function loadPage(){
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
-        $("#input-fields").empty();
-        $("#plant-table").empty();
+        buildSearchField();
         buildInputFields();
-        buildTable(packageData(data['Items']));
+        plantTypesLocal = packageData(data['Items']);
+        buildTable(plantTypesLocal);
     });
 }
 
@@ -108,7 +110,7 @@ function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
 }
 
 function buildTable(data){
-   
+    $("#plant-table").empty();
     for(var id in data){
         //Declare the json object
         var obj = data[id];
@@ -201,11 +203,26 @@ function buildTable(data){
 }
 
 function buildSearchField(){
+    $("#search-field").empty();
+    var fullRow = document.createElement("div");
+    fullRow.setAttribute("class","row no-gutters");
 
+    var searchBar = document.createElement("input");
+    searchBar.setAttribute("type","text");
+    searchBar.setAttribute("placeholder","Search");
+    searchBar.setAttribute("id","search-bar-input");
+    searchBar.setAttribute("style","width: 100%;");
+    searchBar.addEventListener("keyup", function(){
+        runSearchQuery();
+    });
+
+    fullRow.appendChild(searchBar);
+
+    $("#search-field").append(fullRow);
 }
 
 function buildInputFields(){
-
+    $("#input-fields").empty();
     var fullRow = document.createElement("div");
     fullRow.setAttribute("class","row no-gutters");
 
@@ -648,4 +665,19 @@ function imageUpload(id,action,fileDialogueId){
     };
 
     reader.readAsDataURL(image.files[0]);
+}
+
+function runSearchQuery(){
+    var searchQuerry = document.getElementById("search-bar-input").value.toLowerCase();
+
+    for(var key in plantTypesLocal){
+        var obj = plantTypesLocal[key];
+        if(obj.plantType.toLowerCase().includes(searchQuerry)){
+            obj.display = "flex";
+        }else{
+            obj.display = "none";
+        }
+    }
+
+    buildTable(plantTypesLocal);
 }
