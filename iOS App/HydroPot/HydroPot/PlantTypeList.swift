@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct PlantTypeList: View {
     @State var plants : Plants
@@ -50,7 +51,7 @@ struct PlantTypeList: View {
                                         PlantTypePage(plant: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row]))),
                                     
                                     label: {
-                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row])
+                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
                                             .frame(height: UIScreen.homeImageSize/1.75)
                                             .padding(.top)
                                     })
@@ -84,7 +85,7 @@ struct PlantTypeList: View {
             }
         }
         print("error occured selecting plant type\n_____------_____----_____")
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up") 
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "") 
     }
     
     func filterList(filteredValues: [(Bool,Bool,Bool)]) {
@@ -129,17 +130,23 @@ struct PlantTypeList: View {
 }
 
 struct ListCell: View {
+    
     var text: String
+    @State var url: String
     
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
             ZStack {
                 HStack {
-                    Image(systemName: "photo")
-                        .padding(.leading, 15)
-                        .font(.system(size: UIScreen.homeImageSize/2))
-                        .foregroundColor(.black)
+                    URLImage(url: URL(string: url)!) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(.leading, 15)
+                            .font(.system(size: UIScreen.homeImageSize/2))
+                            .foregroundColor(.black)
+                    }
                     Text(text)
                         .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.black)
