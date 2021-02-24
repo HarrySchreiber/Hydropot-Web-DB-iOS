@@ -38,14 +38,37 @@ function postToLambda(content, actionFunction){
 
 }
 
+function packageData(data){
+    var plantTypes = {}
+    for(var i = 0; i < data.length; i++){
+        var obj = data[i];
+        var plantData = {};
+
+        plantData["plantType"] = obj.plantType;
+        plantData["idealTempHigh"] = Number(obj.idealTempHigh);
+        plantData["idealTempLow"] = Number(obj.idealTempLow);
+        plantData["idealMoistureHigh"] = Number(obj.idealMoistureHigh);
+        plantData["idealMoistureLow"] = Number(obj.idealMoistureLow);
+        plantData["idealLightHigh"] = Number(obj.idealLightHigh);
+        plantData["idealLightLow"] = Number(obj.idealLightLow);
+        plantData["description"] = obj.description;
+        plantData["imageURL"] = obj.imageURL;
+        plantData["hidden"] = false;
+
+
+        plantTypes[obj.id] = plantData;
+    }
+    return plantTypes;
+}
+
 function loadPage(){
     postToLambda(JSON.stringify({
         'operation':'getAll',
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
+        packageData(data['Items']); //TODO this this now packages data but now we have to do stuff with it
         buildTable(data['Items']);
-        console.log("Thats what we like to see");
     });
 }
 
