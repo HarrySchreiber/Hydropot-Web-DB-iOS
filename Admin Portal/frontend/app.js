@@ -18,29 +18,63 @@ var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production
 //     console.log(error);
 // });
 
-function authenticateUser(){
-    var email = document.getElementById("email");
-    var password = document.getElementById("password");
-
+function postToLambda(content, actionFunction){
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'login',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'email':email.value,
-                    'password':password.value
-                }
-            }
-        })
+        body: content
         
     }
     fetch(API_URL,options) 
     .then(res => res.json())
     .then(data => {
         // There was not an error
+        actionFunction(data);
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+
+}
+
+function loadPage(){
+    var options = { 
+        method: 'POST',
+        headers: { 'Content-Type':  'application/json' }, 
+        body: JSON.stringify({
+            'operation':'getAll',
+            'tableName':'HydroPotPlantTypes'
+        })
+    }
+    fetch(API_URL,options) 
+    .then(res => res.json())
+    .then(data => {
+        // There was not an error
+        buildTable(data['Items']);
+        console.log(data);
+    })
+    .catch((error) => {
+        // There was an error
+        console.log(error);
+    });
+}
+
+function authenticateUser(){
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
+
+    postToLambda(JSON.stringify({
+        'operation':'login',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'email':email.value,
+                'password':password.value
+            }
+        }
+    }),
+    function(data){
         if(data['Count'] === 1){
             $("#login").remove();
             loadPage();
@@ -48,11 +82,6 @@ function authenticateUser(){
             warningModal("No account registered with those credentials");
         }
     })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
-    });
-
 }
 
 function loadPage(){
@@ -420,7 +449,6 @@ function deletePlant(id,imageUrl){
     cleanModal();
     var imageKey = imageUrl.split("/");
     imageKey = imageKey[imageKey.length-1];
-    console.log(imageKey);
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
