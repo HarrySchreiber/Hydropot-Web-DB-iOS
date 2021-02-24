@@ -70,8 +70,7 @@ function authenticateUser(){
         }else{
             warningModal("No account registered with those credentials");
         }
-    })
-
+    });
 }
 
 function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
@@ -292,38 +291,25 @@ function addPlant(imageURL){
         return
     }
 
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'add',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'plantType':keyValueStore["plantType"],
-                    'idealTempHigh':keyValueStore["idealTempHigh"],
-                    'idealTempLow':keyValueStore["idealTempLow"],
-                    'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
-                    'idealMoistureLow':keyValueStore["idealMoistureLow"],
-                    'idealLightHigh':keyValueStore["idealLightHigh"],
-                    'idealLightLow':keyValueStore["idealLightLow"],
-                    'description':keyValueStore["description"],
-                    'imageURL':imageURL
-                }
+    postToLambda(JSON.stringify({
+        'operation':'add',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'plantType':keyValueStore["plantType"],
+                'idealTempHigh':keyValueStore["idealTempHigh"],
+                'idealTempLow':keyValueStore["idealTempLow"],
+                'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
+                'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                'idealLightHigh':keyValueStore["idealLightHigh"],
+                'idealLightLow':keyValueStore["idealLightLow"],
+                'description':keyValueStore["description"],
+                'imageURL':imageURL
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+        }
+    }),
+    function(data){
         loadPage();
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
     });
 }
 
