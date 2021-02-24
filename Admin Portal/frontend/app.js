@@ -18,35 +18,18 @@ var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production
 //     console.log(error);
 // });
 
-function authenticateUser(){
-    var email = document.getElementById("email");
-    var password = document.getElementById("password");
-
+function postToLambda(content, actionFunction){
     var options = { 
         method: 'POST',
         headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'login',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'email':email.value,
-                    'password':password.value
-                }
-            }
-        })
+        body: content
         
     }
     fetch(API_URL,options) 
     .then(res => res.json())
     .then(data => {
         // There was not an error
-        if(data['Count'] === 1){
-            $("#login").remove();
-            loadPage();
-        }else{
-            warningModal("No account registered with those credentials");
-        }
+        actionFunction(data);
     })
     .catch((error) => {
         // There was an error
@@ -56,24 +39,37 @@ function authenticateUser(){
 }
 
 function loadPage(){
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'getAll',
-            'tableName':'HydroPotPlantTypes'
-        })
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+    postToLambda(JSON.stringify({
+        'operation':'getAll',
+        'tableName':'HydroPotPlantTypes'
+    }),
+    function(data){
         buildTable(data['Items']);
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
+        console.log("Thats what we like to see");
+    });
+}
+
+function authenticateUser(){
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
+
+    postToLambda(JSON.stringify({
+        'operation':'login',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'email':email.value,
+                'password':password.value
+            }
+        }
+    }),
+    function(data){
+        if(data['Count'] === 1){
+            $("#login").remove();
+            loadPage();
+        }else{
+            warningModal("No account registered with those credentials");
+        }
     });
 }
 
@@ -295,38 +291,25 @@ function addPlant(imageURL){
         return
     }
 
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'add',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'plantType':keyValueStore["plantType"],
-                    'idealTempHigh':keyValueStore["idealTempHigh"],
-                    'idealTempLow':keyValueStore["idealTempLow"],
-                    'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
-                    'idealMoistureLow':keyValueStore["idealMoistureLow"],
-                    'idealLightHigh':keyValueStore["idealLightHigh"],
-                    'idealLightLow':keyValueStore["idealLightLow"],
-                    'description':keyValueStore["description"],
-                    'imageURL':imageURL
-                }
+    postToLambda(JSON.stringify({
+        'operation':'add',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'plantType':keyValueStore["plantType"],
+                'idealTempHigh':keyValueStore["idealTempHigh"],
+                'idealTempLow':keyValueStore["idealTempLow"],
+                'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
+                'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                'idealLightHigh':keyValueStore["idealLightHigh"],
+                'idealLightLow':keyValueStore["idealLightLow"],
+                'description':keyValueStore["description"],
+                'imageURL':imageURL
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+        }
+    }),
+    function(data){
         loadPage();
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
     });
 }
 
@@ -377,40 +360,27 @@ function editPlant(id,imageURL, savedOldURL = ""){
         oldImageKey = oldImageKey[oldImageKey.length-1];
     }
 
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'edit',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'id':id,
-                    'plantType':keyValueStore['plantType'],
-                    'idealTempLow':keyValueStore['idealTempLow'],
-                    'idealTempHigh':keyValueStore['idealTempHigh'],
-                    'idealMoistureLow':keyValueStore['idealMoistureLow'],
-                    'idealMoistureHigh':keyValueStore['idealMoistureHigh'],
-                    'idealLightLow':keyValueStore['idealLightLow'],
-                    'idealLightHigh':keyValueStore['idealLightHigh'],
-                    'description':keyValueStore['description'],
-                    'imageURL':imageURL,
-                    'oldImageKey':oldImageKey
-                }
+    postToLambda(JSON.stringify({
+        'operation':'edit',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'id':id,
+                'plantType':keyValueStore['plantType'],
+                'idealTempLow':keyValueStore['idealTempLow'],
+                'idealTempHigh':keyValueStore['idealTempHigh'],
+                'idealMoistureLow':keyValueStore['idealMoistureLow'],
+                'idealMoistureHigh':keyValueStore['idealMoistureHigh'],
+                'idealLightLow':keyValueStore['idealLightLow'],
+                'idealLightHigh':keyValueStore['idealLightHigh'],
+                'description':keyValueStore['description'],
+                'imageURL':imageURL,
+                'oldImageKey':oldImageKey
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+        }
+    }),
+    function(data){
         loadPage();
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
     });
 }
 
@@ -420,32 +390,19 @@ function deletePlant(id,imageUrl){
     cleanModal();
     var imageKey = imageUrl.split("/");
     imageKey = imageKey[imageKey.length-1];
-    console.log(imageKey);
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
-            'operation':'delete',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'id':id,
-                    'imageKey':imageKey
-                }
+
+    postToLambda(JSON.stringify({
+        'operation':'delete',
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'id':id,
+                'imageKey':imageKey
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
+        }
+    }),
+    function(data){
         loadPage();
-        console.log(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
     });
 }
 
@@ -640,13 +597,10 @@ function imageUpload(id,action,fileDialogueId){
     }
     var reader = new FileReader();
     reader.onload = function(){
-      var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
-      var encodedImage = reader.result.split(",",2)[1];
-
-      var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: JSON.stringify({
+        var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
+        var encodedImage = reader.result.split(",",2)[1];
+        
+        postToLambda(JSON.stringify({
             'operation':'imageUpload',
             'tableName':'HydroPotPlantTypes',
             'payload':{
@@ -655,25 +609,15 @@ function imageUpload(id,action,fileDialogueId){
                     'fileExtension':fileExtension
                 }
             }
-        })
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error
-        console.log(data);
-        if(action === "add"){
-            addPlant(data);
-        }else if(action === "edit"){
-            console.log(savedOldURL);
-            editPlant(id,data, savedOldURL);
-        }
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
-    });
+        }),
+        function(data){
+            if(action === "add"){
+                addPlant(data);
+            }else if(action === "edit"){
+                editPlant(id,data, savedOldURL);
+            }
+        });
     };
+
     reader.readAsDataURL(image.files[0]);
 }
