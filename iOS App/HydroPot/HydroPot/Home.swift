@@ -132,12 +132,16 @@ struct HomeView: View {
                                     HStack(){
                                         if (URL(string: pot.image) != nil){
                                             URLImage(url: URL(string: pot.image)!) { image in
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .clipShape(Circle())
-                                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                                    .shadow(radius: 10)
+                                                VStack {
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(Circle())
+                                                        
+                                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                        .shadow(radius: 10)
+                                                }
+                                                .font(.system(size: UIScreen.homeImageSize))
                                             }
                                         }
                                         else {
