@@ -52,7 +52,7 @@ struct PlantTypeList: View {
                                     
                                     label: {
                                         ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
-                                            .frame(height: UIScreen.homeImageSize/1.75)
+                                            .frame(height: UIScreen.plantTypeListImageSize)
                                             .padding(.top)
                                     })
                                     .simultaneousGesture(TapGesture().onEnded {

@@ -30,7 +30,7 @@ extension UIScreen{
     static let plantTypeImageSize = screenWidth / 1 //base is 200
     
     //plant list page values
-    static let plantTypeListImageSize = screenWidth / 8
+    static let plantTypeListImageSize = screenWidth / 4
     
     //historical Data page values
     static let title3TextSize = screenWidth / 16  //base is 20
