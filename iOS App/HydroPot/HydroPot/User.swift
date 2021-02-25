@@ -646,5 +646,53 @@ class GetUser: ObservableObject {
         session.dataTask(with: request) { data, response, error in}.resume()
         
     }
+    
+    func uploadImage(encoding: String, ext: String, pot: Pot, onEnded: @escaping () -> ()) {
+        
+        let json: [String: Any] =
+            [
+              "operation": "profileUpload",
+              "tableName": "HydroPotUsers",
+              "payload": [
+                "Item": [
+                    "encodedImage": encoding,
+                    "fileExtension": ext
+                ]
+              ]
+            ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in
+            // make sure data is not nil
+            guard let d = data else {
+                print("Unable to load data")
+                return
+            }
+            
+            var str = String(decoding: d, as: UTF8.self)
+            
+            str = str.replacingOccurrences(of: "\"", with: "")
+
+            
+            DispatchQueue.main.async(execute: {
+                pot.image = str
+                onEnded()
+            })
+        }.resume()
+    }
 }

@@ -220,17 +220,18 @@ struct PlantPage: View {
             .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
-                                    Button(action: {
-                                        if (showPopUp != true){
-                                            self.showingDetail.toggle()
-                                        }
-                                    }) {
-                                        Text("Edit")
-                                            .padding(6)
-                                            .foregroundColor(.white)
-                                    }.sheet(isPresented: $showingDetail) {
-                                        EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
-                                    })
+                Button(action: {
+                    if (showPopUp != true){
+                        self.showingDetail.toggle()
+                    }
+                }) {
+                    Text("Edit")
+                        .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
+                        .padding(6)
+                        .foregroundColor(.white)
+                }.sheet(isPresented: $showingDetail) {
+                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
+                })
             if $showPopUp.wrappedValue { 
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }

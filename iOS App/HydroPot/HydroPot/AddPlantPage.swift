@@ -23,7 +23,9 @@ struct AddPlantPage: View {
     @State var failed: Bool = false
     @State var isShowPicker: Bool = false
     @State var image: Image? = Image(systemName: "camera.circle")
-
+    @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle")
+    @State var tempURL = ""
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -60,7 +62,7 @@ struct AddPlantPage: View {
                                 .border(Color.black.opacity(0.5))
                         }
                         .sheet(isPresented: $isShowPicker) {
-                             ImagePicker(image: self.$image)
+                            ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                          }
                         .padding(.leading, geometry.size.height/30)
                         ZStack{
@@ -159,8 +161,18 @@ struct AddPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
-                        user.addPlant(pot: Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 0, curLight: 0, curMoisture: 0, id: UUID().uuidString, automaticWatering: true, image: ""))
+                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != "" && tempURL != ""){
+                        
+                        var encoding = encodePicturePNG(image: userIntefaceImage!)
+                        
+                        if (encoding == ""){
+                            encoding = encodePictureJPEG(image: userIntefaceImage!)
+                            addImage(encodedImage: encoding, ext: "jpeg")
+                        }
+                        else {
+                            addImage(encodedImage: encoding, ext: "png")
+                        }
+
                         self.showModal.toggle()
                     }
                     else {
@@ -176,50 +188,37 @@ struct AddPlantPage: View {
             })
         }
     }
-}
-
-struct ImagePicker: UIViewControllerRepresentable {
-
-    @Environment(\.presentationMode)
-    var presentationMode
-
-    @Binding var image: Image?
-
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
-        @Binding var presentationMode: PresentationMode
-        @Binding var image: Image?
-
-        init(presentationMode: Binding<PresentationMode>, image: Binding<Image?>) {
-            _presentationMode = presentationMode
-            _image = image
+    
+    func addImage(encodedImage: String, ext: String) {
+        
+        let pot = Pot(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], resLevel: 40, curTemp: 0, curLight: 0, curMoisture: 0, id: UUID().uuidString, automaticWatering: true, image: "")
+        
+        user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
+            if user.loggedIn {
+                print(pot.image)
+                user.addPlant(pot: pot)
+            }
         }
-
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            image = Image(uiImage: uiImage)
-            presentationMode.dismiss()
-
+    }
+    
+    func encodePictureJPEG (image: UIImage) -> String{
+        
+        guard let imageData = image.pngData() else {
+            return ""
         }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            presentationMode.dismiss()
+        
+        return imageData.base64EncodedString()
+        
+    }
+    
+    func encodePicturePNG (image: UIImage) -> String{
+        
+        guard let imageDataPNG = image.pngData() else {
+            return ""
         }
-
-    }
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(presentationMode: presentationMode, image: $image)
-    }
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
-
+        
+        return imageDataPNG.base64EncodedString()
+        
     }
 
 }

@@ -197,6 +197,5 @@ class Pot: ObservableObject, Identifiable {
         }
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
     }
-    
 }
 
