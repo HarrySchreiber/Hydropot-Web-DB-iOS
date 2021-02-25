@@ -55,7 +55,7 @@ struct EditPlantPage: View {
                                             .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                             .shadow(radius: 10)
                                     }
-                                    .font(.system(size: UIScreen.homePicSize))
+                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
                                 }
                             }
                             else {
