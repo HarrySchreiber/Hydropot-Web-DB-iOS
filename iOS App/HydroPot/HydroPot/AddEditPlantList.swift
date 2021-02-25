@@ -68,7 +68,8 @@ struct AddEditPlantList: View {
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
                                     ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
-                                        .frame(height: 45)
+                                        .frame(height: UIScreen.plantTypeListImageSize)
+                                        .padding(.top)
                                 }
                                 .simultaneousGesture(TapGesture().onEnded {
                                     // Hide Keyboard after pressing a Cell

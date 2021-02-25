@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode
@@ -27,15 +28,53 @@ struct EditPlantPage: View {
     @State var idealLightLevelLow: String = ""
     @State var plantSelected: String = ""
     @State var failed: Bool = false
+    @State var isShowPicker: Bool = false
+    @State var image: Image? = Image(systemName: "camera.circle")
+    @State var tempURL: String = ""
+    @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle")
 
     var body: some View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
                     VStack(){
-                        Image(systemName: "camera.circle")
+                        Button(action: {
+                            withAnimation {
+                                self.isShowPicker.toggle()
+                            }
+                        }) {
+                            if (URL(string: tempURL) != nil){
+                                URLImage(url: URL(string: pot.image)!) { image in
+                                    VStack {
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(alignment: .center)
+                                            .font(.system(size: UIScreen.imageSelection))
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                            .shadow(radius: 10)
+                                    }
+                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                }
+                            }
+                            else {
+                                VStack {
+                                    image?
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(alignment: .center)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                        .shadow(radius: 10)
+                                }
+                                .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                            }
+                            
+                        }
+                        .foregroundColor(.black)
                             .frame(alignment: .center)
-                            .font(.system(size: geometry.size.width/2))
+                            .padding(.bottom, 3)
                         Text("Edit Photo")
                             .font(.system(size: UIScreen.regTextSize))
 
@@ -129,6 +168,9 @@ struct EditPlantPage: View {
                         }
                             .padding(.leading, geometry.size.height/30)
                     }
+                    .sheet(isPresented: $isShowPicker) {
+                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                     }
                     .cornerRadius(6)
                     Spacer()
                 }
@@ -143,17 +185,33 @@ struct EditPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
+                    
+                    var encoding = encodePicturePNG(image: userIntefaceImage!)
+                    var ext = ""
+                    
+                    if (encoding == ""){
+                        encoding = encodePictureJPEG(image: userIntefaceImage!)
+                        ext = "jpeg"
+                    }
+                    else {
+                        ext = "png"
+                    }
                     if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                         pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
                         
-                        user.editPot(pot: pot)
+                        if (ext != ""){
+                            addImage(encodedImage: encoding, ext: ext)
+                        }
+                        
                         self.showModal.toggle()
                     }
                     else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                         pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
                         
-
-                        user.editPot(pot: pot)
+                        if (ext != ""){
+                            addImage(encodedImage: encoding, ext: ext)
+                        }
+                        
                         self.showModal.toggle()
                     }
                     else {
@@ -176,6 +234,7 @@ struct EditPlantPage: View {
             idealTemperatureHigh = String(pot.idealTempHigh)
             idealLightLevelLow = String(pot.idealLightLow)
             idealLightLevelHigh = String(pot.idealLightHigh)
+            tempURL = pot.image
         }
         .onDisappear() {
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
@@ -184,6 +243,92 @@ struct EditPlantPage: View {
             resGood = pot.resLevel > 20
         }
     }
+    
+    func encodePictureJPEG (image: UIImage) -> String{
+        
+        guard let imageData = image.pngData() else {
+            return ""
+        }
+        
+        return imageData.base64EncodedString()
+        
+    }
+    
+    func encodePicturePNG (image: UIImage) -> String{
+        
+        guard let imageDataPNG = image.pngData() else {
+            return ""
+        }
+        
+        return imageDataPNG.base64EncodedString()
+        
+    }
+
+
+    
+    func addImage(encodedImage: String, ext: String) {
+        
+        user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
+            if user.loggedIn {
+                print(pot.image)
+                user.editPot(pot: pot)
+            }
+        }
+    }
 }
 
 
+struct ImagePickerTwo: UIViewControllerRepresentable {
+    
+
+    @Environment(\.presentationMode)
+    var presentationMode
+
+    @Binding var image: Image?
+    @Binding var tempURL: String
+    @Binding var userIntefaceImage: UIImage?
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+        @Binding var presentationMode: PresentationMode
+        @Binding var image: Image?
+        @Binding var tempURL: String
+        @Binding var userIntefaceImage: UIImage?
+
+        init(presentationMode: Binding<PresentationMode>, image: Binding<Image?>, tempURL: Binding<String>, userIntefaceImage: Binding<UIImage?>) {
+            _presentationMode = presentationMode
+            _image = image
+            _tempURL = tempURL
+            _userIntefaceImage = userIntefaceImage
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            image = Image(uiImage: uiImage)
+            tempURL = ""
+            userIntefaceImage = uiImage
+            presentationMode.dismiss()
+
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            presentationMode.dismiss()
+        }
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(presentationMode: presentationMode, image: $image, tempURL: $tempURL, userIntefaceImage: $userIntefaceImage)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerTwo>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePickerTwo>) {
+
+    }
+
+}

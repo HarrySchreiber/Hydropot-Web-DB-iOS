@@ -14,11 +14,12 @@ struct PlantTypePage: View {
         VStack {
             ScrollView {
                 URLImage(url: URL(string: plant.imageURL)!) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .font(.system(size: UIScreen.homeImageSize/2))
-                        .foregroundColor(.black)
+                    VStack {
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.black)
+                    }.frame(width: UIScreen.plantTypeImageSize, height: UIScreen.plantTypeImageSize)
                 }
                 Divider()
                 Text("\(plant.plantType)")

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct PlantPage: View {
     @Environment(\.presentationMode) var presentationMode
@@ -41,11 +42,24 @@ struct PlantPage: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    HStack {
-                        Image(systemName: "photo")
-                            .font(.system(size: UIScreen.homeImageSize))
-                            .foregroundColor(.black)
-                            .padding(.leading, 5)
+                    HStack (){
+                        if (URL(string: pot.image) != nil){
+                            URLImage(url: URL(string: pot.image)!) { image in
+                                VStack {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                        .shadow(radius: 10)
+                                }
+                                .frame(width: UIScreen.plantImage, height:  UIScreen.plantImage)
+                            }
+                        }
+                        else {
+                            Image(systemName: "leaf.fill")
+                                .font(.system(size: UIScreen.homeImageSize))
+                        }
                         VStack(alignment: .leading){
                             Text(pot.plantName)
                                 .font(.system(size: UIScreen.titleTextSize))
@@ -206,17 +220,18 @@ struct PlantPage: View {
             .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
             .navigationBarItems(trailing:
-                                    Button(action: {
-                                        if (showPopUp != true){
-                                            self.showingDetail.toggle()
-                                        }
-                                    }) {
-                                        Text("Edit")
-                                            .padding(6)
-                                            .foregroundColor(.white)
-                                    }.sheet(isPresented: $showingDetail) {
-                                        EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
-                                    })
+                Button(action: {
+                    if (showPopUp != true){
+                        self.showingDetail.toggle()
+                    }
+                }) {
+                    Text("Edit")
+                        .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
+                        .padding(6)
+                        .foregroundColor(.white)
+                }.sheet(isPresented: $showingDetail) {
+                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
+                })
             if $showPopUp.wrappedValue { 
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
@@ -261,7 +276,7 @@ struct PlantPage: View {
                 for (index, _) in user.pots.enumerated() {
                     if (user.pots[index].id == pot.id){
                         let tempPot = user.pots[index]
-                        pot.editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered)
+                        pot.editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
                         
                         moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
                         lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
