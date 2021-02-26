@@ -122,7 +122,7 @@ function buildTable(data){
         var obj = data[id];
         //Declare Columns and rows
         var fullRow = document.createElement("div");
-        fullRow.setAttribute("class","row no-gutters");
+        fullRow.setAttribute("class","row no-gutters plant-type-row");
         fullRow.setAttribute("id",id);
         fullRow.setAttribute("style", `display:${obj.display}`);
         var pictureCol = document.createElement("div");
@@ -228,7 +228,7 @@ function buildSearchField(){
 function buildInputFields(){
     $("#input-fields").empty();
     var fullRow = document.createElement("div");
-    fullRow.setAttribute("class","row no-gutters");
+    fullRow.setAttribute("class","row no-gutters input-fields-row");
 
 
     var pictureCol = document.createElement("div");
