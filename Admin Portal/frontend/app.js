@@ -208,6 +208,7 @@ function buildSearchField(){
     fullRow.setAttribute("class","row no-gutters");
 
     var searchBar = document.createElement("input");
+    searchBar.setAttribute("class","form-control")
     searchBar.setAttribute("type","text");
     searchBar.setAttribute("placeholder","Search");
     searchBar.setAttribute("id","search-bar-input");
