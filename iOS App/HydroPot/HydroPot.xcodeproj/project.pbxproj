@@ -503,6 +503,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HydroPot/Preview Content\"";
+				DEVELOPMENT_TEAM = 74YMV2J9D7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HydroPot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -510,7 +511,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPot;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.gcc.cs.hydropot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -524,6 +525,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HydroPot/Preview Content\"";
+				DEVELOPMENT_TEAM = 74YMV2J9D7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HydroPot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -531,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = COMP452.HydroPot;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.gcc.cs.hydropot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

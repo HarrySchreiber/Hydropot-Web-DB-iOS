@@ -30,34 +30,34 @@ struct AddPlantPage: View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
-                    VStack(){
-                        Button(action: {
-                            withAnimation {
-                                self.isShowPicker.toggle()
-                            }
-                        }) {
-                            VStack{
-                                VStack {
-                                    image?
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(alignment: .center)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                        .shadow(radius: 10)
+                    VStack{
+                        HStack{
+                            Button(action: {
+                                withAnimation {
+                                    self.isShowPicker.toggle()
                                 }
-                                .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
-                                .padding(.bottom, UIScreen.addPhotoPadding)
-                                Text("Add Photo")
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .frame(alignment: .center)
-                                    .padding(.bottom)
+                            }) {
+                                VStack{
+                                    VStack {
+                                        image?
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(alignment: .center)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                            .shadow(radius: 10)
+                                    }
+                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                    .padding(.bottom, UIScreen.addPhotoPadding)
+                                    Text("Add Photo")
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .frame(alignment: .center)
+                                }
                             }
+                            .foregroundColor(.black)
+                            .padding([.top, .leading])
                         }
-                        .foregroundColor(.black)
-                        .frame(alignment: .center)
-                        .padding(.top)
-                        
+                        .padding(.bottom)
                         HStack{
                             TextField("Plant Name", text: $plantName)
                                 .font(.system(size: UIScreen.regTextSize))
@@ -104,8 +104,7 @@ struct AddPlantPage: View {
                         HStack {
                             Text("Moisture (%)")
                                 .font(.system(size: UIScreen.regTextSize)).bold()
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
-                                .background(Color.blue)
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealMoistureLow)
                                 .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
@@ -127,7 +126,7 @@ struct AddPlantPage: View {
                         HStack{
                             Text("Light (lm)")
                                 .font(.system(size: UIScreen.regTextSize)).bold()
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealLightLevelLow)
                                 .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
@@ -146,10 +145,10 @@ struct AddPlantPage: View {
                             
                         }
                         .padding(.leading, geometry.size.height/30)
-                        HStack{
+                        HStack {
                             Text("Temp (°F)")
                                 .font(.system(size: UIScreen.regTextSize)).bold()
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealTemperatureLow)
                                 .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
@@ -164,50 +163,47 @@ struct AddPlantPage: View {
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
-                            
-                            
                         }
                         .padding(.leading, geometry.size.height/30)
                     }
-                    .cornerRadius(6)
                     Spacer()
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(leading:
-                                    Button(action: {
-                                        self.showModal.toggle()
-                                    }) {
-                                        HStack {
-                                            Text("Cancel")
-                                        }
-                                    }, trailing:
-                                        Button(action: {
-                                            if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != "" && tempURL != ""){
-                                                
-                                                var encoding = encodePicturePNG(image: userIntefaceImage!)
-                                                
-                                                if (encoding == ""){
-                                                    encoding = encodePictureJPEG(image: userIntefaceImage!)
-                                                    addImage(encodedImage: encoding, ext: "jpeg")
-                                                }
-                                                else {
-                                                    addImage(encodedImage: encoding, ext: "png")
-                                                }
-                                                
-                                                self.showModal.toggle()
-                                            }
-                                            else {
-                                                failed = true
-                                            }
-                                        }) {
-                                            HStack {
-                                                Text("Confirm")
-                                            }
-                                            .alert(isPresented: $failed) {
-                                                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
-                                            }
-                                        })
+                Button(action: {
+                    self.showModal.toggle()
+                }) {
+                    HStack {
+                        Text("Cancel")
+                    }
+            }, trailing:
+                Button(action: {
+                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                        
+                        var encoding = encodePicturePNG(image: userIntefaceImage!)
+                        
+                        if (encoding == ""){
+                            encoding = encodePictureJPEG(image: userIntefaceImage!)
+                            addImage(encodedImage: encoding, ext: "jpeg")
+                        }
+                        else {
+                            addImage(encodedImage: encoding, ext: "png")
+                        }
+
+                        self.showModal.toggle()
+                    }
+                    else {
+                        failed = true
+                    }
+                }) {
+                HStack {
+                    Text("Confirm")
+                }
+                .alert(isPresented: $failed) {
+                    Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
+                }
+            })
         }
     }
     

@@ -226,7 +226,6 @@ struct PlantPage: View {
                     }
                 }) {
                     Text("Edit")
-                        .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
                         .padding(6)
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showingDetail) {
