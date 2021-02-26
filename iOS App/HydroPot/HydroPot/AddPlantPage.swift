@@ -152,12 +152,14 @@ struct AddPlantPage: View {
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                 Button(action: {
                     self.showModal.toggle()
                 }) {
                     HStack {
                         Text("Cancel")
+                            .font(.system(size: UIScreen.regTextSize))
                     }
             }, trailing:
                 Button(action: {
@@ -181,6 +183,7 @@ struct AddPlantPage: View {
                 }) {
                 HStack {
                     Text("Confirm")
+                        .font(.system(size: UIScreen.regTextSize))
                 }
                 .alert(isPresented: $failed) {
                     Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))

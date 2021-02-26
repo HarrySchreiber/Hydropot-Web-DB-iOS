@@ -44,18 +44,24 @@ struct EditPlantPage: View {
                             }
                         }) {
                             if (URL(string: tempURL) != nil){
-                                URLImage(url: URL(string: pot.image)!) { image in
-                                    VStack {
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(alignment: .center)
-                                            .font(.system(size: UIScreen.imageSelection))
-                                            .clipShape(Circle())
-                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                            .shadow(radius: 10)
+                                if (URL(string: pot.image) != nil){
+                                    URLImage(url: URL(string: pot.image)!) { image in
+                                        VStack {
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(alignment: .center)
+                                                .font(.system(size: UIScreen.imageSelection))
+                                                .clipShape(Circle())
+                                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                .shadow(radius: 10)
+                                        }
+                                        .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
                                     }
-                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                }
+                                else {
+                                    Image(systemName: "leaf.fill")
+                                        .font(.system(size: UIScreen.homeImageSize))
                                 }
                             }
                             else {
@@ -181,6 +187,7 @@ struct EditPlantPage: View {
                 }) {
                     HStack {
                         Text("Cancel")
+                            .font(.system(size: UIScreen.regTextSize))
                     }
             }, trailing:
                 Button(action: {
@@ -219,6 +226,7 @@ struct EditPlantPage: View {
                 }) {
                 HStack {
                     Text("Confirm")
+                    .font(.system(size: UIScreen.regTextSize))
                 }
             })
             .alert(isPresented: $failed) {

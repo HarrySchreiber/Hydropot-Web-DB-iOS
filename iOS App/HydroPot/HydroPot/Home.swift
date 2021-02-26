@@ -12,6 +12,7 @@ extension UIScreen{
     
     //nav bar values
     static let plusImageSize = screenWidth / 12
+    static let chevImage = screenWidth / 26
     
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)

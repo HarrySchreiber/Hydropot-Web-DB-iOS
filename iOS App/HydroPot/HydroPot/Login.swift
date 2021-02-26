@@ -66,7 +66,7 @@
                                     TextField("Name", text: $name)
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
-                                        .border(Color.black.opacity(0.1))
+                                        .border(Color.black.opacity(0.2))
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                 }
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -74,7 +74,7 @@
                                     TextField("Email", text: $email)
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
-                                        .border(Color.black.opacity(0.1))
+                                        .border(Color.black.opacity(0.2))
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                 }
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -82,7 +82,7 @@
                                     SecureField("Password", text: $password)
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
-                                        .border(Color.black.opacity(0.1))
+                                        .border(Color.black.opacity(0.2))
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                 }
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -90,7 +90,7 @@
                                     SecureField("Confirm Password", text: $passComf)
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
-                                        .border(Color.black.opacity(0.1))
+                                        .border(Color.black.opacity(0.2))
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                 }
                                 .alert(isPresented: $alertTwo) {
