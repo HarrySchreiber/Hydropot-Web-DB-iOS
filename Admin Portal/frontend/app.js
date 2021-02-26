@@ -100,13 +100,19 @@ function authenticateUser(){
     });
 }
 
-function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
+function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder, content){
+
+    var div = document.createElement("div");
+    div.setAttribute("class","fields no-gutters");
+    div.setAttribute("style",`width: ${fieldWidthPercentage}%`);
     var field = document.createElement("input");
     field.setAttribute("id",fieldId);
     field.setAttribute("type",fieldType);
-    field.setAttribute("style",`width: ${fieldWidthPercentage}%`);
+    field.setAttribute("class","form-control");
     field.setAttribute("placeholder", fieldPlaceHolder);
-    return field;
+    field.value = content;
+    div.appendChild(field);
+    return div;
 }
 
 function buildTable(data){
@@ -162,16 +168,13 @@ function buildTable(data){
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
-                    var input = buildField(`${key}-${id}`,"text",22,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"text",22,"",obj[key]);
                     topRow.appendChild(input);
                 }else if(key == "description"){
-                    var input = buildField(`${key}-${id}`,"text",100,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"text",100,"",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
-                    var input = buildField(`${key}-${id}`,"number",13,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"number",13,"",obj[key]);
                     topRow.appendChild(input);
                 }
             }
@@ -259,18 +262,18 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name"));
-    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp"));
+    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name",""));
+    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp",""));
     topRow.appendChild(buildField("add-temp-low","number",13,"Low Temp"));
-    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture"));
-    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture"));
-    topRow.appendChild(buildField("add-light-high","number",13,"High Light"));
-    topRow.appendChild(buildField("add-light-low","number",13,"Low Light"));
+    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture",""));
+    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture",""));
+    topRow.appendChild(buildField("add-light-high","number",13,"High Light",""));
+    topRow.appendChild(buildField("add-light-low","number",13,"Low Light",""));
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
 
-    bottomRow.appendChild(buildField("add-description","text",100,"Description"));
+    bottomRow.appendChild(buildField("add-description","text",100,"Description",""));
 
     contentCol.appendChild(topRow);
     contentCol.appendChild(bottomRow);
