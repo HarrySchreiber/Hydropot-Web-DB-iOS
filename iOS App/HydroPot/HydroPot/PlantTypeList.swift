@@ -52,7 +52,7 @@ struct PlantTypeList: View {
                                     
                                     label: {
                                         ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
-                                            .frame(height: UIScreen.homeImageSize/1.75)
+                                            .frame(height: UIScreen.plantTypeListImageSize)
                                             .padding(.top)
                                     })
                                     .simultaneousGesture(TapGesture().onEnded {
@@ -135,17 +135,19 @@ struct ListCell: View {
     @State var url: String
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack() {
             Spacer()
             ZStack {
-                HStack {
+                HStack (){
                     URLImage(url: URL(string: url)!) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(.leading, 15)
-                            .font(.system(size: UIScreen.homeImageSize/2))
-                            .foregroundColor(.black)
+                        VStack {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .padding(.leading, 15)
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
                     }
                     Text(text)
                         .font(.system(size: UIScreen.regTextSize))

@@ -34,7 +34,6 @@ struct Login: View {
             VStack {
                 if (!user.loggedIn) {
                     VStack {
-                       
                         Picker(selection: $selectedTab, label: Text("Picker")) {
                             Text("Login").tag(1)
                             Text("Sign up").tag(2)

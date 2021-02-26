@@ -5,6 +5,7 @@
 //  Created by David Dray on 1/27/21.
 //
 import SwiftUI
+import URLImage
 
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
@@ -14,6 +15,7 @@ extension UIScreen{
     
     //home values
     static let homeImageSize = screenWidth / 4 //base is 80 (ipod 7gen)
+    static let homePicSize = screenWidth / 4 //base is 80 (ipod 7gen)
     static let regTextSize = screenWidth / 18.8 // base is 17
     static let title2TextSize = screenWidth / 14.5 //base is 22
     static let subTextSize = screenWidth / 24.6  //base is 13
@@ -25,7 +27,10 @@ extension UIScreen{
     
     //plant type page values
     static let titleTextSize = screenWidth / 11.4  //base is 28
-    static let plantTypeImageSize = screenWidth / 1.6 //base is 200
+    static let plantTypeImageSize = screenWidth / 1 //base is 200
+    
+    //plant list page values
+    static let plantTypeListImageSize = screenWidth / 4
     
     //historical Data page values
     static let title3TextSize = screenWidth / 16  //base is 20
@@ -34,6 +39,9 @@ extension UIScreen{
     static let panelWidth = screenWidth
     static let panelHeight = screenWidth / 1.4 //base is 225
     
+    //add edit value
+    static let imageSelection = screenWidth / 1.4
+    
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
     static let plantBoxHeight = homeImageSize
@@ -41,6 +49,7 @@ extension UIScreen{
     static let plantTitleBottom = screenWidth / 16 //base is 20
     static let plantTitleSide = screenWidth / 10.6 //base is 30
     static let resLevelPadding = screenWidth / 5.5  //base is ~57
+    static let plantImage = screenWidth / 2
 
 >>>>>>> main
 }
@@ -84,7 +93,7 @@ struct HomeView: View {
     @ObservedObject var user: GetUser
     @ObservedObject var plants: Plants
     @State private var showPopUp = false
-    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false)
+    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false, image: "")
     @State var showingDetail = false
     
     //temperary date formatting
@@ -96,7 +105,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            ZStack{
+            ZStack {
                 if(user.pots.count == 0) {
                     ScrollView {
                         PullToRefresh(coordinateSpaceName: "pull") {
@@ -131,10 +140,25 @@ struct HomeView: View {
                         ForEach(user.pots) {
                             pot in
                             NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
-                                VStack {
+                                VStack (spacing: 0){
                                     HStack(){
-                                        Image(systemName: "leaf.fill")
-                                            .font(.system(size: UIScreen.homeImageSize))
+                                        if (URL(string: pot.image) != nil){
+                                            URLImage(url: URL(string: pot.image)!) { image in
+                                                VStack {
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(Circle())
+                                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                        .shadow(radius: 10)
+                                                }
+                                                .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
+                                            }
+                                        }
+                                        else {
+                                            Image(systemName: "leaf.fill")
+                                                .font(.system(size: UIScreen.homeImageSize))
+                                        }
                                         VStack(alignment: .leading) {
                                             Text(pot.plantName)
                                                 .fontWeight(.bold)
@@ -229,7 +253,7 @@ struct HomeView: View {
                 print("hey")
                 for (index, _) in user.pots.enumerated() {
                     let tempPot = user.pots[index]
-                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered)
+                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
                 }
             }
         }
