@@ -161,7 +161,7 @@ struct AddPlantPage: View {
                     }
             }, trailing:
                 Button(action: {
-                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != "" && tempURL != ""){
+                    if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                         
                         var encoding = encodePicturePNG(image: userIntefaceImage!)
                         
