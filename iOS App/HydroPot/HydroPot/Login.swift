@@ -17,14 +17,6 @@
         @State var alert = false
         @State var alertTwo = false
         
-        
-        init() {
-            UISegmentedControl.appearance().setTitleTextAttributes(
-                [
-                    .font: UIFont.systemFont(ofSize: UIScreen.regTextSize),
-                ], for: .normal)
-        }
-        
         var body: some View {
             
             ZStack {
