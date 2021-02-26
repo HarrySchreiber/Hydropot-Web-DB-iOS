@@ -162,9 +162,9 @@ function buildTable(data){
 
         //Content Code
         var topRow = document.createElement("div");
-        topRow.setAttribute("class","row no-gutters");
+        topRow.setAttribute("class","row no-gutters top-row");
         var bottomRow = document.createElement("div");
-        bottomRow.setAttribute("class","row no-gutters");
+        bottomRow.setAttribute("class","row no-gutters bottom-row");
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
