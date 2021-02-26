@@ -88,6 +88,7 @@ class GetUser: ObservableObject {
                 return
             }
             DispatchQueue.main.async(execute: {
+                self.pots = []
                 if ((r.Items.count) != 0) {
                     self.userId = r.Items[0].id
                     self.loggedIn = true
@@ -280,7 +281,6 @@ class GetUser: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         
         pots.append(pot)
-        
 
         let json: [String: Any] =
             [
