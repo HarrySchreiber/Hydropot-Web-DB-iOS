@@ -40,7 +40,8 @@ extension UIScreen{
     static let panelHeight = screenWidth / 1.4 //base is 225
     
     //add edit value
-    static let imageSelection = screenWidth / 1.4
+    static let imageSelection = screenWidth / 1.8
+    static let addPhotoPadding = screenWidth / 100
     
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
