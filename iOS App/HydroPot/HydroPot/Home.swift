@@ -51,7 +51,6 @@ extension UIScreen{
     static let resLevelPadding = screenWidth / 5.5  //base is ~57
     static let plantImage = screenWidth / 2
 
->>>>>>> main
 }
 
 struct Home: View {

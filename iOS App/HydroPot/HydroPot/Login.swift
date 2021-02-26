@@ -11,22 +11,12 @@ struct Login: View {
     @State var selectedTab: Int = 1
     @State var name: String = ""
     @State var password: String = ""
+    @State var passComf: String = ""
     @State var email: String = "spencerMoney@gmail.com"
     @StateObject var user = GetUser()
     @State var plants = Plants()
     @State var alert = false
     @State var alertTwo = false
-    @State var confirm: String = ""
-    @State var frameSizeWidth = UIScreen.main.bounds.size.width * 0.8
-    @State var frameSizeHeight = UIScreen.main.bounds.size.height * 0.3
-    @State var fontSize = UIScreen.screenSize/CGFloat(UIScreen.regTextMultiplier)
-    
-    init() {
-        UISegmentedControl.appearance().setTitleTextAttributes(
-            [
-                .font: UIFont.systemFont(ofSize: fontSize),
-            ], for: .normal)
-    }
     
     var body: some View {
         
@@ -97,12 +87,26 @@ struct Login: View {
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
+                            HStack {
+                                SecureField("Confirm Password", text: $passComf)
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .border(Color.black.opacity(0.1))
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                            }
+                            .alert(isPresented: $alertTwo) {
+                                Alert(title: Text(""), message: Text("Passwords do not match").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
+                            }
+                            .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             Button(action: {
                                 if (name == "" || email == "" || password == ""){
                                     alert = true
                                 }
+                                else if (password != passComf){
+                                    alertTwo = true
+                                }
                                 else {
-                                    frameSizeHeight = fontSize * 20
+                                    user.signup(name: name, email: email, password: password)
                                 }
                             }) {
                                 Text("Sign up")
@@ -116,12 +120,8 @@ struct Login: View {
                             .alert(isPresented: $alert) {
                                 Alert(title: Text(""), message: Text("Please fill out all fields").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
                             }
+                            .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                         }
-                        .frame(width: frameSizeWidth, height: frameSizeHeight, alignment: .center)
-                        .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
-                        .cornerRadius(6)
-                    } else {
-                        Home(user: user, plants: plants)
                     }
                     .frame(width: UIScreen.modalWidth, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .background(Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0, opacity: 0.5))
@@ -129,13 +129,12 @@ struct Login: View {
                 } else {
                     Home(user: user, plants: plants)
                 }
-                .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height, alignment: .center)
-                .onAppear(){
-                    plants.getPlantsList()
-                }
-            .font(.system(size:  fontSize))
-            .background(Color.white)
+            }
         }
+        .onAppear(){
+            plants.getPlantsList()
+        }
+        .background(Color.white)
     }
     
     func attemptLogin(email: String, password: String) {
@@ -157,3 +156,4 @@ struct Login_Previews: PreviewProvider {
         Login()
     }
 }
+
