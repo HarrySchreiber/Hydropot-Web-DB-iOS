@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct PlantTypeList: View {
     @State var plants : Plants
@@ -37,6 +38,7 @@ struct PlantTypeList: View {
                     VStack(spacing: 0) {
                         if(plantList.count == 0) {
                             Text("No plant types match your filter(s). \nTry filtering for something else!")
+                                .font(.system(size: UIScreen.regTextSize))
                                 .bold()
                                 .italic()
                                 .padding()
@@ -49,9 +51,9 @@ struct PlantTypeList: View {
                                         PlantTypePage(plant: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row]))),
                                     
                                     label: {
-                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row])
-                                            .frame(height: 45)
-                                        
+                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
+                                            .frame(height: UIScreen.homeImageSize/1.75)
+                                            .padding(.top)
                                     })
                                     .simultaneousGesture(TapGesture().onEnded {
                                         // Hide Keyboard after pressing a Cell
@@ -83,7 +85,7 @@ struct PlantTypeList: View {
             }
         }
         print("error occured selecting plant type\n_____------_____----_____")
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up") 
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "") 
     }
     
     func filterList(filteredValues: [(Bool,Bool,Bool)]) {
@@ -128,18 +130,25 @@ struct PlantTypeList: View {
 }
 
 struct ListCell: View {
+    
     var text: String
+    @State var url: String
     
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
             ZStack {
                 HStack {
-                    Image(systemName: "photo")
-                        .padding(.leading, 15)
-                        .font(.system(size: 30))
-                        .foregroundColor(.black)
+                    URLImage(url: URL(string: url)!) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(.leading, 15)
+                            .font(.system(size: UIScreen.homeImageSize/2))
+                            .foregroundColor(.black)
+                    }
                     Text(text)
+                        .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.black)
                     Spacer()
                 }
@@ -173,6 +182,7 @@ struct SearchBar: View {
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
                             
                         })
+                        .font(.system(size: UIScreen.regTextSize))
                         .modifier(TextFieldClearButton(searchInput: $searchInput, searching: $searching))
                         .accentColor(.black)
                         .foregroundColor(.black)
@@ -186,6 +196,7 @@ struct SearchBar: View {
                 })
                 {
                     Text("Filter")
+                        .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.white)
                         .padding(10)
                         .background(Color(red: 0.142, green: 0.231, blue: 0.498))
@@ -225,9 +236,3 @@ struct TextFieldClearButton: ViewModifier {
         }
     }
 }
-
-//struct PlantTypeList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlantTypeList(plants: Plants())
-//    }
-//}

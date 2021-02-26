@@ -16,11 +16,13 @@ struct plantTypesFilter: View {
     var body: some View {
         VStack{
             Text("Filter Plant Types")
-                .font(.title)
+                .font(.system(size: UIScreen.titleTextSize))
                 .foregroundColor(Color.black)
                 .padding(.top, 32)
             HStack{
                 Text("By Moisture:")
+                    .font(.system(size: UIScreen.regTextSize))
+
                 Spacer()
             }.padding()
             Group {
@@ -31,6 +33,7 @@ struct plantTypesFilter: View {
                         tempValues[0].2 = false
                     }) {
                         Text("Low")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[0].0))
                             .padding(10)
                             .overlay(
@@ -44,6 +47,7 @@ struct plantTypesFilter: View {
                         tempValues[0].2 = false
                     }) {
                         Text("Medium")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[0].1))
                             .padding(10)
                             .overlay(
@@ -57,6 +61,7 @@ struct plantTypesFilter: View {
                         tempValues[0].1 = false
                     }) {
                         Text("High")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[0].2))
                             .padding(10)
                             .overlay(
@@ -69,6 +74,7 @@ struct plantTypesFilter: View {
             Group {
                 HStack{
                     Text("By Light Level:")
+                        .font(.system(size: UIScreen.regTextSize))
                     Spacer()
                 }.padding()
                 HStack {
@@ -78,6 +84,7 @@ struct plantTypesFilter: View {
                         tempValues[1].2 = false
                     }) {
                         Text("Low")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[1].0))
                             .padding(10)
                             .overlay(
@@ -91,6 +98,7 @@ struct plantTypesFilter: View {
                         tempValues[1].2 = false
                     }) {
                         Text("Medium")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[1].1))
                             .padding(10)
                             .overlay(
@@ -104,6 +112,7 @@ struct plantTypesFilter: View {
                         tempValues[1].1 = false
                     }) {
                         Text("High")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor((setButtonColor(selected: tempValues[1].2)))
                             .padding(10)
                             .overlay(
@@ -116,6 +125,7 @@ struct plantTypesFilter: View {
             Group {
                 HStack{
                     Text("By Temperature:")
+                        .font(.system(size: UIScreen.regTextSize))
                     Spacer()
                 }.padding()
                 HStack {
@@ -125,6 +135,7 @@ struct plantTypesFilter: View {
                         tempValues[2].2 = false
                     }) {
                         Text("Low")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[2].0))
                             .padding(10)
                             .overlay(
@@ -138,6 +149,7 @@ struct plantTypesFilter: View {
                         tempValues[2].2 = false
                     }) {
                         Text("Medium")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[2].1))
                             .padding(10)
                             .overlay(
@@ -151,6 +163,7 @@ struct plantTypesFilter: View {
                         tempValues[2].1 = false
                     }) {
                         Text("High")
+                            .font(.system(size: UIScreen.regTextSize))
                             .foregroundColor(setButtonColor(selected: tempValues[2].2))
                             .padding(10)
                             .overlay(
@@ -167,6 +180,7 @@ struct plantTypesFilter: View {
                 }) {
                     HStack {
                         Text("Cancel")
+                            .font(.system(size: UIScreen.regTextSize))
                     }
                     .foregroundColor(.white)
                     .padding(10)
@@ -179,6 +193,7 @@ struct plantTypesFilter: View {
                 }) {
                     HStack {
                         Text("Submit")
+                            .font(.system(size: UIScreen.regTextSize))
                     }
                     .foregroundColor(.white)
                     .padding(10)

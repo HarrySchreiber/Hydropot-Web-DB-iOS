@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,7 +25,6 @@
 		3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD025C202E700AC8D09 /* AccountPage.swift */; };
 		3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */; };
 		3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */; };
-		3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE425C2034300AC8D09 /* FilterModal.swift */; };
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
 		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
@@ -33,6 +32,7 @@
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 		7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929EB25CB128C003F967C /* AddEditPlantList.swift */; };
 		7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */; };
+		7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFBBCAE25E5AC910020CF3E /* URLImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +77,6 @@
 		3949FCD025C202E700AC8D09 /* AccountPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPage.swift; sourceTree = "<group>"; };
 		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; };
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
-		3949FCE425C2034300AC8D09 /* FilterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModal.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -92,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,12 +137,12 @@
 			children = (
 				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
 				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
-				3949FCB225C2025200AC8D09 /* Login.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
 				7F401A6A25C3435E00624B09 /* Pot.swift */,
 				7FA929D925C89F04003F967C /* Record.swift */,
 				7FA929DE25C89F18003F967C /* Notification.swift */,
 				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
+				3949FCB225C2025200AC8D09 /* Login.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
 				7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
@@ -155,7 +155,6 @@
 				3941EAA525D6D33300E37724 /* plantTypesFilter.swift */,
 				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
 				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
-				3949FCE425C2034300AC8D09 /* FilterModal.swift */,
 				3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */,
 				3949FC7825C200DE00AC8D09 /* Assets.xcassets */,
 				3949FC7D25C200DE00AC8D09 /* Info.plist */,
@@ -206,6 +205,9 @@
 			dependencies = (
 			);
 			name = HydroPot;
+			packageProductDependencies = (
+				7FFBBCAE25E5AC910020CF3E /* URLImage */,
+			);
 			productName = HydroPot;
 			productReference = 3949FC7125C200DE00AC8D09 /* HydroPot.app */;
 			productType = "com.apple.product-type.application";
@@ -277,6 +279,9 @@
 				Base,
 			);
 			mainGroup = 3949FC6825C200DE00AC8D09;
+			packageReferences = (
+				7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */,
+			);
 			productRefGroup = 3949FC7225C200DE00AC8D09 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -326,7 +331,6 @@
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
 				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
-				3949FCE525C2034300AC8D09 /* FilterModal.swift in Sources */,
 				3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */,
 				3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */,
 				3949FCB825C2026D00AC8D09 /* Home.swift in Sources */,
@@ -654,6 +658,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7FFBBCAE25E5AC910020CF3E /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3949FC6925C200DE00AC8D09 /* Project object */;
 }

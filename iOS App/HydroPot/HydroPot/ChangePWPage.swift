@@ -20,12 +20,13 @@ struct ChangePWPage: View {
             GeometryReader{ geometry in
                 VStack{
                     Text("Change Password")
-                        .font(.title)
+                        .font(.system(size: UIScreen.titleTextSize))
                         .foregroundColor(Color.black)
                         .padding(.top, 32)
                     Spacer()
                     HStack {
                         SecureField("Current Password", text: $oldPW)
+                            .font(.system(size: UIScreen.regTextSize))
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -35,6 +36,7 @@ struct ChangePWPage: View {
                     .padding(.bottom)
                     HStack {
                         SecureField("New Password", text: $newPW)
+                            .font(.system(size: UIScreen.regTextSize))
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -44,6 +46,7 @@ struct ChangePWPage: View {
                     .padding(.bottom)
                     HStack {
                         SecureField("Confirm New Password", text: $newConfPW)
+                            .font(.system(size: UIScreen.regTextSize))
                             .padding(6)
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .border(Color.black.opacity(0.2))
@@ -62,6 +65,7 @@ struct ChangePWPage: View {
                             HStack {
                                 Spacer()
                                 Text("Confirm")
+                                    .font(.system(size: UIScreen.regTextSize))
                                 Spacer()
                             }
                             .foregroundColor(Color(red: 1, green: 1, blue: 1))
@@ -83,6 +87,7 @@ struct ChangePWPage: View {
                             HStack {
                                 Spacer()
                                 Text("Cancel")
+                                    .font(.system(size: UIScreen.regTextSize))
                                 Spacer()
                             }
                             .foregroundColor(Color(red: 1, green: 1, blue: 1))

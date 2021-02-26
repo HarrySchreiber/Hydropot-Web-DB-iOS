@@ -37,6 +37,8 @@ struct EditPlantPage: View {
                             .frame(alignment: .center)
                             .font(.system(size: geometry.size.width/2))
                         Text("Edit Photo")
+                            .font(.system(size: UIScreen.regTextSize))
+
                             .frame(alignment: .center)
                             .padding(.bottom, 3)
                         HStack{
