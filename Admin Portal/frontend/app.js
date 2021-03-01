@@ -69,6 +69,7 @@ function loadPage(){
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
+        buildHeaderBar();
         buildSearchField();
         buildInputFields();
         plantTypesLocal = packageData(data['Items']);
@@ -203,6 +204,32 @@ function buildTable(data){
         $("#plant-table").append(fullRow);
         
     }
+}
+
+function buildHeaderBar(){
+    $("#header-field").empty();
+    var fullRow = document.createElement("div");
+    fullRow.setAttribute("class","row no-gutters");
+
+    var titleCol = document.createElement("div");
+    titleCol.setAttribute("class","col-md-11 no-gutters");
+    var heading = document.createElement("h2");
+    heading.textContent = "Hydro Pot Admin Portal";
+    titleCol.appendChild(heading);
+
+    var logOutCol = document.createElement("div");
+    logOutCol.setAttribute("class","col-md-1 no-gutters");
+    var logOutButton = document.createElement("input");
+    logOutButton.setAttribute("class","form-control btn btn-primary");
+    logOutButton.setAttribute("type","button");
+    logOutButton.value = "Log Out";
+    logOutButton.setAttribute("onclick","logout()");
+    logOutCol.appendChild(logOutButton);
+
+    fullRow.appendChild(titleCol);
+    fullRow.appendChild(logOutCol);
+
+    $("#header-field").append(fullRow);
 }
 
 function buildSearchField(){
@@ -684,4 +711,8 @@ function runSearchQuery(){
     }
 
     buildTable(plantTypesLocal);
+}
+
+function logout(){
+    location.reload(); //TODO this needs to be a real method
 }

@@ -35,6 +35,7 @@ body{
 }
 
 .holder {
+    margin-top: 20%;
     text-align: left;
     width: 100%;
     max-width: 400px;
@@ -47,4 +48,9 @@ img{
     border-radius: 50%;
     margin: 4px;
     border: 1px solid black;
+}
+
+.sign-in-input{
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
