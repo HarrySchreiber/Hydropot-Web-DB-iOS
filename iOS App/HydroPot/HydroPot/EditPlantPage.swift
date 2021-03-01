@@ -232,51 +232,46 @@ struct EditPlantPage: View {
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(leading:
-                                    Button(action: {
-                                        self.showModal.toggle()
-                                    }) {
-                                        HStack {
-                                            Text("Cancel")
-                                        }
-                                    }, trailing:
-                                        Button(action: {
-                                            
-                                            var encoding = encodePicturePNG(image: userIntefaceImage!)
-                                            var ext = ""
-                                            
-                                            if (encoding == ""){
-                                                encoding = encodePictureJPEG(image: userIntefaceImage!)
-                                                ext = "jpeg"
-                                            }
-                                            else {
-                                                ext = "png"
-                                            }
-                                            if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
-                                                pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
-                                                
-                                                if (ext != ""){
-                                                    addImage(encodedImage: encoding, ext: ext)
-                                                }
-                                                
-                                                self.showModal.toggle()
-                                            }
-                                            else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
-                                                pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
-                                                
-                                                if (ext != ""){
-                                                    addImage(encodedImage: encoding, ext: ext)
-                                                }
-                                                
-                                                self.showModal.toggle()
-                                            }
-                                            else {
-                                                failed = true
-                                            }
-                                        }) {
-                                            HStack {
-                                                Text("Confirm")
-                                            }
-                                        })
+            Button(action: {
+                self.showModal.toggle()
+            }) {
+                HStack {
+                    Text("Cancel")
+                        .font(.system(size: UIScreen.regTextSize))
+                }
+            }, trailing:
+            Button(action: {
+            
+            let encoding = encodePictureJPEG(image: userIntefaceImage!)
+            let ext = "jpeg"
+            
+            if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+            pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+            
+            if (ext != ""){
+            addImage(encodedImage: encoding, ext: ext)
+            }
+            
+            self.showModal.toggle()
+            }
+            else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+            pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+            
+            if (ext != ""){
+            addImage(encodedImage: encoding, ext: ext)
+            }
+            
+            self.showModal.toggle()
+            }
+            else {
+            failed = true
+            }
+            }) {
+                HStack {
+                    Text("Confirm")
+                        .font(.system(size: UIScreen.regTextSize))
+                }
+            })
             .alert(isPresented: $failed) {
                 Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
             }
@@ -314,25 +309,13 @@ struct EditPlantPage: View {
     
     func encodePictureJPEG (image: UIImage) -> String{
         
-        guard let imageData = image.pngData() else {
+        guard let imageData = image.jpeg(UIImage.JPEGQuality(rawValue: 0)!) else {
             return ""
         }
         
         return imageData.base64EncodedString()
         
     }
-    
-    func encodePicturePNG (image: UIImage) -> String{
-        
-        guard let imageDataPNG = image.pngData() else {
-            return ""
-        }
-        
-        return imageDataPNG.base64EncodedString()
-        
-    }
-    
-    
     
     func addImage(encodedImage: String, ext: String) {
         
@@ -381,9 +364,13 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            image = Image(uiImage: uiImage)
-            tempURL = ""
-            userIntefaceImage = uiImage
+            if let imageData = uiImage.jpeg(UIImage.JPEGQuality(rawValue: 0)!) {
+                print(imageData.count)
+                let otherImage = UIImage(data: imageData)
+                image = Image(uiImage: otherImage!)
+                tempURL = ""
+                userIntefaceImage = otherImage
+            }
             presentationMode.dismiss()
             
         }
