@@ -41,7 +41,8 @@ extension UIScreen{
     static let panelHeight = screenWidth / 1.4 //base is 225
     
     //add edit value
-    static let imageSelection = screenWidth / 1.4
+    static let imageSelection = screenWidth / 1.8
+    static let addPhotoPadding = screenWidth / 100
     
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
@@ -190,14 +191,6 @@ struct HomeView: View {
                                 .background(Color.white)
                                 .cornerRadius(6)
                                 .padding([.leading, .top, .trailing],UIScreen.homeCardsSize)
-                                
-                                //eventually can add custom swipe to delete with this drag gesture?
-                                .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
-                                .onEnded { value in
-                                    if value.translation.width < 0 && value.translation.height > -30 && value.translation.height < 30 {
-                                        print("left swipe on \(pot.plantName)")
-                                    }
-                                })
                             }
                         }
                     }
@@ -250,7 +243,6 @@ struct HomeView: View {
         user.reload() {
             // will be received at the login processed
             if user.loggedIn {
-                print("hey")
                 for (index, _) in user.pots.enumerated() {
                     let tempPot = user.pots[index]
                     user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)

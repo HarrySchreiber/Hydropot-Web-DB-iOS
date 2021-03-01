@@ -30,44 +30,50 @@ struct AddPlantPage: View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
-                    VStack(){
-                        Button(action: {
-                            withAnimation {
-                                self.isShowPicker.toggle()
+                    VStack{
+                        HStack{
+                            Button(action: {
+                                withAnimation {
+                                    self.isShowPicker.toggle()
+                                }
+                            }) {
+                                VStack{
+                                    VStack {
+                                        image?
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(alignment: .center)
+                                            .clipped()
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                            .shadow(radius: 10)
+                                    }
+                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                    .padding(.bottom, UIScreen.addPhotoPadding)
+                                    Text("Add Photo")
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .frame(alignment: .center)
+                                }
                             }
-                        }) {
-                            VStack {
-                                image?
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(alignment: .center)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                    .shadow(radius: 10)
-                            }
-                            .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                            .foregroundColor(.black)
+                            .padding([.top, .leading])
                         }
-                        .foregroundColor(.black)
-                            .frame(alignment: .center)
-                            .padding(.bottom, 3)
-                        Text("Add Photo")
-                            .font(.system(size: UIScreen.regTextSize))
-
-                            .frame(alignment: .center)
-                            .padding(.bottom, 3)
+                        .padding(.bottom)
                         HStack{
                             TextField("Plant Name", text: $plantName)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                         }
                         .sheet(isPresented: $isShowPicker) {
                             ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
-                         }
+                        }
                         .padding(.leading, geometry.size.height/30)
                         ZStack{
                             if (plantSelected == "Plant Type"){
                                 Text("\(plantSelected)")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.black)
                                     .opacity(0.3)
                                     .padding(6)
@@ -77,6 +83,7 @@ struct AddPlantPage: View {
                             }
                             else {
                                 Text("\(plantSelected)")
+                                    .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.black)
                                     .padding(6)
                                     .buttonStyle(PlainButtonStyle())
@@ -88,66 +95,78 @@ struct AddPlantPage: View {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.black)
                                     .padding(6)
-                                    .frame(width: 30, height: 30)
+                                    .font(.system(size: UIScreen.title3TextSize))
                                     .clipShape(Circle())
                                     .padding(.leading, geometry.size.width * 0.8)
                             }
                         }
-                            .padding(.leading, geometry.size.height/30)
+                        .padding(.leading, geometry.size.height/30)
                         
                         HStack {
-                            Text("Moisture")
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            Text("Moisture (%)")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealMoistureLow)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
-                            Text(" - ")
+                            Text("-")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                             TextField("High", text: $idealMoistureHigh)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             
                             
                         }
-                            .padding(.leading, geometry.size.height/30)
+                        .padding(.leading, geometry.size.height/30)
                         HStack{
-                            Text("Light")
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                            Text("Light (lm)")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealLightLevelLow)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
-                            Text(" - ")
+                            Text("-")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                             TextField("High", text: $idealLightLevelHigh)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
                             
                             
                         }
-                            .padding(.leading, geometry.size.height/30)
-                        HStack{
-                            Text("Temperature")
-                                .frame(width: geometry.size.width * 0.3, height: geometry.size.height/12, alignment: .leading)
+                        .padding(.leading, geometry.size.height/30)
+                        HStack {
+                            Text("Temp (°F)")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
+                                .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                             TextField("Low", text: $idealTemperatureLow)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
-                            Text(" - ")
+                            Text("-")
+                                .font(.system(size: UIScreen.regTextSize)).bold()
                                 .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                             TextField("High", text: $idealTemperatureHigh)
+                                .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.5))
-                            
-                            
                         }
-                            .padding(.leading, geometry.size.height/30)
+                        .padding(.leading, geometry.size.height/30)
                     }
-                    .cornerRadius(6)
                     Spacer()
                 }
             }
