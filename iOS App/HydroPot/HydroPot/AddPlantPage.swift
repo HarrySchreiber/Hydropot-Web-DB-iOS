@@ -43,6 +43,7 @@ struct AddPlantPage: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(alignment: .center)
+                                            .clipped()
                                             .clipShape(Circle())
                                             .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                             .shadow(radius: 10)
