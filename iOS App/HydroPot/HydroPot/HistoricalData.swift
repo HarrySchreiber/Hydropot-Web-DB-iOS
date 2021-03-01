@@ -137,7 +137,21 @@ struct HistoricalData: View {
                     }
                 }
                 .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-                
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading:
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .resizable()
+                                .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
+                                .clipShape(Circle())
+                                .foregroundColor(.white)
+                            Text("Back")
+                                .font(.system(size: UIScreen.regTextSize))
+                        }
+                    })
             }
         }
     }

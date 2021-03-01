@@ -219,13 +219,28 @@ struct PlantPage: View {
             //end scroll view
             .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
-            .navigationBarItems(trailing:
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading:
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                            .resizable()
+                            .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
+                            .clipShape(Circle())
+                            .foregroundColor(.white)
+                        Text("Back")
+                            .font(.system(size: UIScreen.regTextSize))
+                    }
+                }, trailing:
                 Button(action: {
                     if (showPopUp != true){
                         self.showingDetail.toggle()
                     }
                 }) {
                     Text("Edit")
+                        .font(.system(size: UIScreen.regTextSize))
                         .padding(6)
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showingDetail) {
