@@ -140,7 +140,7 @@ function buildTable(data){
         image.setAttribute("src",obj['imageURL']);
         image.setAttribute("savedURL",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
-        image.setAttribute("style","position: relative; top:0; left:0; width:100px; height:100px;");
+        image.setAttribute("style","position: relative; top:0; left:0; width:75px; height:75px;");
         
         var imageUploadDialogue = document.createElement("input");
         imageUploadDialogue.setAttribute("type","file");
@@ -154,7 +154,7 @@ function buildTable(data){
         imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
         imageOverlay.setAttribute("alt","image overlay");
         imageOverlay.setAttribute("onclick",`document.getElementById('image-button-${id}').click()`);
-        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 100px; height: 100px; cursor:pointer;");
+        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 75px; height: 75px; cursor:pointer;");
 
         
         pictureCol.appendChild(image);
@@ -263,8 +263,8 @@ function buildInputFields(){
     
     var addImageOutput = document.createElement("img");
     addImageOutput.setAttribute("id","add-image-output");
-    addImageOutput.setAttribute("width","100px");
-    addImageOutput.setAttribute("height","100px");
+    addImageOutput.setAttribute("width","75px");
+    addImageOutput.setAttribute("height","75px");
     pictureCol.appendChild(addImageOutput);
 
     var addImageButton = document.createElement("input");
@@ -279,7 +279,7 @@ function buildInputFields(){
     imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
-    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
+    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 75px; width:75px;");
     imageOverlay.setAttribute("onclick","document.getElementById('addImageButton').click()");
     pictureCol.appendChild(imageOverlay);
 
