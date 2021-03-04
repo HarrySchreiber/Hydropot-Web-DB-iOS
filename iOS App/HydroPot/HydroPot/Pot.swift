@@ -19,12 +19,11 @@ struct codePot: Codable, Identifiable {
     let automaticWatering: Bool
     let plantName: String
     let idealTempHigh: Int
-    let resLevel: Int
     let records: [codeRecord]?
     let notifications: [codeNotification]?
     
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, idealTempHigh, idealMoistureHigh, idealLightLow, idealLightHigh, automaticWatering, idealMoistureLow, id, image, records, notifications, resLevel
+        case plantName, plantType, idealTempLow, idealTempHigh, idealMoistureHigh, idealLightLow, idealLightHigh, automaticWatering, idealMoistureLow, id, image, records, notifications
     }
 }
 
@@ -198,4 +197,5 @@ class Pot: ObservableObject, Identifiable {
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
     }
 }
+
 
