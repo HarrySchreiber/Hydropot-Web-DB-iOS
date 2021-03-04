@@ -303,7 +303,6 @@ class GetUser: ObservableObject {
                     "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "resLevel": pot.resLevel,
                     "records": []
                   ]
                 ]
@@ -420,7 +419,6 @@ class GetUser: ObservableObject {
                     "automaticWatering": pot.automaticWatering,
                     "id": pot.id,
                     "idealLightHigh": pot.idealLightHigh,
-                    "resLevel": pot.resLevel,
                     "idealLightLow": pot.idealLightLow,
                     "idealMoistureHigh": pot.idealMoistureHigh,
                     "idealMoistureLow": pot.idealMoistureLow,
@@ -612,7 +610,6 @@ class GetUser: ObservableObject {
                     "automaticWatering": pot.automaticWatering,
                     "id": pot.id,
                     "idealLightHigh": pot.idealLightHigh,
-                    "resLevel": pot.resLevel,
                     "idealLightLow": pot.idealLightLow,
                     "idealMoistureHigh": pot.idealMoistureHigh,
                     "idealMoistureLow": pot.idealMoistureLow,
@@ -696,3 +693,4 @@ class GetUser: ObservableObject {
         }.resume()
     }
 }
+
