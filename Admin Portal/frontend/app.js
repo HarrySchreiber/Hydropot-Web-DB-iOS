@@ -289,13 +289,13 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name",""));
-    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp",""));
-    topRow.appendChild(buildField("add-temp-low","number",13,"Low Temp"));
-    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture",""));
-    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture",""));
-    topRow.appendChild(buildField("add-light-high","number",13,"High Light",""));
-    topRow.appendChild(buildField("add-light-low","number",13,"Low Light",""));
+    topRow.appendChild(buildField("add-plantType","text",22,"Plant Name",""));
+    topRow.appendChild(buildField("add-idealTempHigh","number",13,"High Temp",""));
+    topRow.appendChild(buildField("add-idealTempLow","number",13,"Low Temp"));
+    topRow.appendChild(buildField("add-idealMoistureHigh","number",13,"High Moisture",""));
+    topRow.appendChild(buildField("add-idealMoistureLow","number",13,"Low Moisture",""));
+    topRow.appendChild(buildField("add-idealLightHigh","number",13,"High Light",""));
+    topRow.appendChild(buildField("add-idealLightLow","number",13,"Low Light",""));
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
@@ -324,20 +324,7 @@ function buildInputFields(){
     $("#input-fields").append(fullRow);
 }
 
-function addPlant(imageURL){
-    var keyValueStore = {}
-    keyValueStore["plantType"] = document.getElementById("add-plant-name").value;
-    keyValueStore["idealTempHigh"] = document.getElementById("add-temp-high").value;
-    keyValueStore["idealTempLow"] = document.getElementById("add-temp-low").value;
-    keyValueStore["idealMoistureHigh"] = document.getElementById("add-moisture-high").value;
-    keyValueStore["idealMoistureLow"] = document.getElementById("add-moisture-low").value;
-    keyValueStore["idealLightHigh"] = document.getElementById("add-light-high").value;
-    keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
-    keyValueStore["description"] = document.getElementById("add-description").value;
-
-    if(!validateFieldInput(keyValueStore)){
-        return
-    }
+function addPlant(imageURL, keyValueStore){
 
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
@@ -367,19 +354,8 @@ function addPlant(imageURL){
     });
 }
 
-function editPlant(id,imageURL, savedOldURL = ""){
+function editPlant(id,imageURL, savedOldURL = "", keyValueStore){
     cleanModal();
-    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
-    var keyValueStore = {};
-
-    for(key of keyArray){
-        var fieldValue = document.getElementById(`${key}-${id}`).value;
-        keyValueStore[key] = fieldValue;
-    }
-
-    if(!validateFieldInput(keyValueStore)){
-        return
-    }
 
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
@@ -634,24 +610,42 @@ function imageUpload(id,action,fileDialogueId){
     reader.onload = function(){
         var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
         var encodedImage = reader.result.split(",",2)[1];
+
+
+        var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+        var keyValueStore = {};
+        if(action === "add"){
+            for(key of keyArray){
+                var fieldValue = document.getElementById(`add-${key}`).value;
+                keyValueStore[key] = fieldValue;
+            }
+        }else if(action === "edit"){
+            for(key of keyArray){
+                var fieldValue = document.getElementById(`${key}-${id}`).value;
+                keyValueStore[key] = fieldValue;
+            }
+        }
         
-        postToLambda(JSON.stringify({
-            'operation':'imageUpload',
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'encodedImage':encodedImage,
-                    'fileExtension':fileExtension
+
+        if(validateFieldInput(keyValueStore)){
+            postToLambda(JSON.stringify({
+                'operation':'imageUpload',
+                'tableName':'HydroPotPlantTypes',
+                'payload':{
+                    'Item':{
+                        'encodedImage':encodedImage,
+                        'fileExtension':fileExtension
+                    }
                 }
-            }
-        }),
-        function(data){
-            if(action === "add"){
-                addPlant(data);
-            }else if(action === "edit"){
-                editPlant(id,data, savedOldURL);
-            }
-        });
+            }),
+            function(data){
+                if(action === "add"){
+                    addPlant(data, keyValueStore);
+                }else if(action === "edit"){
+                    editPlant(id,data, savedOldURL, keyValueStore);
+                }
+            });
+        }
     };
 
     reader.readAsDataURL(image.files[0]);
