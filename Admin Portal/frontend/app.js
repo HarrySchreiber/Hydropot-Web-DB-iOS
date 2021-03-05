@@ -583,13 +583,34 @@ function imageUpload(id,action,fileDialogueId){
         savedOldURL = $(`#image-output-${id}`).attr('savedURL');
     }
 
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyValueStore = {};
+    if(action === "add"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`add-${key}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }else if(action === "edit"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`${key}-${id}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }
+
     var image = document.getElementById(fileDialogueId);
     if(image.files.length === 0){
         if(action === "add"){
             warningModal("You cannot add a plant without a picture.");
             return
         }else if(action === "edit"){
-            editPlant(id, savedOldURL);
+            if(validateFieldInput(keyValueStore)){
+                for(var key in keyValueStore){
+                    if(!(key == "plantType"||key == "description")){
+                        keyValueStore[key] = Number(keyValueStore[key]);
+                    }
+                }
+                editPlant(id, savedOldURL,"", keyValueStore);
+            }
             return
         }
     }
@@ -597,22 +618,6 @@ function imageUpload(id,action,fileDialogueId){
     reader.onload = function(){
         var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
         var encodedImage = reader.result.split(",",2)[1];
-
-
-        var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
-        var keyValueStore = {};
-        if(action === "add"){
-            for(key of keyArray){
-                var fieldValue = document.getElementById(`add-${key}`).value;
-                keyValueStore[key] = fieldValue;
-            }
-        }else if(action === "edit"){
-            for(key of keyArray){
-                var fieldValue = document.getElementById(`${key}-${id}`).value;
-                keyValueStore[key] = fieldValue;
-            }
-        }
-        
 
         if(validateFieldInput(keyValueStore)){
             for(var key in keyValueStore){
@@ -680,13 +685,40 @@ function validateFieldInput(keyValueStore){
         }
     }
 
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            keyValueStore[key] = Number(keyValueStore[key]);
+        }
+    }
+
+    console.log(keyValueStore);
     if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
         warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
         return false
     }
 
+    if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
+        warningModal("Ideal Moisture High must be within a 0-100 range");
+        return false
+    }
+
+    if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
+        warningModal("Ideal Moisture Low must be within a 0-100 range");
+        return false
+    }
+
     if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
         warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return false
+    }
+
+    if(keyValueStore["idealLightHigh"] < 0){
+        warningModal("Ideal Light High must not be below 0");
+        return false
+    }
+
+    if(keyValueStore["idealLightLow"] < 0){
+        warningModal("Ideal Light Low must not be below 0");
         return false
     }
 
