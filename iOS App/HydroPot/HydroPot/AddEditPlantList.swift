@@ -25,7 +25,8 @@ struct AddEditPlantList: View {
     //array of boolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
-    
+    @State var urlList : [String] = []
+    @State var fullUrlList : [String] = []
     
     var body: some View {
         let filterBinding = Binding<[(Bool,Bool,Bool)]>(get: {
@@ -34,11 +35,15 @@ struct AddEditPlantList: View {
             self.filteredValues = $0
             filterList(filteredValues: self.filteredValues)
         })
+        let bindUrlList = Binding<[String]>(
+            get:{searching ? self.urlList : fullUrlList},
+            set:{self.urlList = $0}
+        )
         
         NavigationView {
             VStack(spacing: 0) {
                 // SearchBar
-                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding)
+                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding, urlList: $urlList, plants: plants)
                 
                 // List
                 ScrollView {
@@ -67,7 +72,7 @@ struct AddEditPlantList: View {
                                     
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
-                                    ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
+                                    ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: bindUrlList[row])
                                         .frame(height: UIScreen.plantTypeListImageSize)
                                         .padding(.top)
                                 }
@@ -83,6 +88,8 @@ struct AddEditPlantList: View {
         }
         .onAppear(perform: {
             listOfPlants()
+            self.fullUrlList = listOfImages(plantList: plants.plantList)
+            self.urlList = listOfImages(plantList: plants.plantList)
         })
     }
     
@@ -91,6 +98,14 @@ struct AddEditPlantList: View {
         for plant in plants.plantList {
             plantList.append(plant.plantType)
         }
+    }
+    func listOfImages(plantList: [Plant]) -> [String] {
+        var urlList: [String] = []
+        for plant in plantList {
+            urlList.append(plant.imageURL)
+        }
+        print(urlList)
+        return urlList
     }
     func getSelectedPlant(selectedPlant: String) -> Plant {
         for plant in plants.plantList {

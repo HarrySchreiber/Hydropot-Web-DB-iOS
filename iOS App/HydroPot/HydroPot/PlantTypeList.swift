@@ -15,6 +15,8 @@ struct PlantTypeList: View {
     @State private var plantList = [String]()
     @State private var searchedPlantList = [String]()
     @State private var searching = false
+    @State var urlList : [String] = []
+    @State var fullUrlList : [String] = []
     
     //array of boolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
@@ -27,11 +29,15 @@ struct PlantTypeList: View {
             self.filteredValues = $0
             filterList(filteredValues: self.filteredValues)
         })
+        let bindUrlList = Binding<[String]>(
+            get:{searching ? self.urlList : fullUrlList},
+            set:{self.urlList = $0}
+        )
         
         NavigationView {
             VStack(spacing: 0) {
                 // SearchBar
-                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding)
+                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding, urlList: $urlList, plants: plants)
                 
                 // List
                 ScrollView {
@@ -44,14 +50,14 @@ struct PlantTypeList: View {
                                 .padding()
                                 .foregroundColor(.gray)
                                 .navigationBarTitle("Notifications", displayMode: .inline)
-                        }else {
+                        } else {
                             ForEach(searching ? (0..<searchedPlantList.count) : (0..<plantList.count), id: \.self) { row in
                                 NavigationLink(
                                     destination:
                                         PlantTypePage(plant: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row]))),
                                     
                                     label: {
-                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row])).imageURL)
+                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: bindUrlList[row])
                                             .frame(height: UIScreen.plantTypeListImageSize)
                                             .padding(.top)
                                     })
@@ -61,6 +67,7 @@ struct PlantTypeList: View {
                                     })
                             }
                         }
+
                     }
                 }
             }.navigationBarTitleDisplayMode(.inline)
@@ -68,6 +75,7 @@ struct PlantTypeList: View {
         }
         .onAppear(perform: {
             self.plantList = listOfPlants(plantList: plants.plantList)
+            self.fullUrlList = listOfImages(plantList: plants.plantList)
         })
     }
     
@@ -78,6 +86,15 @@ struct PlantTypeList: View {
         }
         return stringList
     }
+    func listOfImages(plantList: [Plant]) -> [String] {
+        var urlList: [String] = []
+        for plant in plantList {
+            urlList.append(plant.imageURL)
+        }
+        print(urlList)
+        return urlList
+    }
+    
     func getSelectedPlant(selectedPlant: String) -> Plant {
         for plant in plants.plantList {
             if(plant.plantType == selectedPlant) {
@@ -132,7 +149,7 @@ struct PlantTypeList: View {
 struct ListCell: View {
     
     var text: String
-    @State var url: String
+    @Binding var url: String
     
     var body: some View {
         VStack() {
@@ -168,30 +185,49 @@ struct SearchBar: View {
     @Binding var searchedList: [String]
     @State var viewFilter: Bool = false
     @Binding var filteredValues: [(Bool,Bool,Bool)]
+    @Binding var urlList: [String]
+    var plants : Plants
     
     var body: some View {
         ZStack {
             HStack {
-                // Search Bar
                 HStack {
-                    // Magnifying Glass Icon
-                    Image(systemName: "magnifyingglass")
                     
                     // Search Area TextField
-                    TextField("", text: $searchInput)
+                    TextField("Search ...", text: $searchInput)
                         .onChange(of: searchInput, perform: { searchText in
                             searching = true
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
-                            
+                            self.urlList = updateImages(searchedList: searchedList, plants: plants)
                         })
                         .font(.system(size: UIScreen.regTextSize))
-                        .modifier(TextFieldClearButton(searchInput: $searchInput, searching: $searching))
-                        .accentColor(.black)
-                        .foregroundColor(.black)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                        .padding(7)
+                        .padding(.horizontal, 25)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                    
                 }
+                .overlay(
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 14)
+                        
+                        if searching {
+                            Button(action: {
+                                self.searchInput = ""
+                            }) {
+                                Image(systemName: "multiply.circle.fill")
+                                    .foregroundColor(.gray)
+                                    .padding(.trailing, 14)
+                            }
+                        }
+                    }
+                )
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+
                 
                 Button(action: {
                     self.viewFilter.toggle()
@@ -212,29 +248,13 @@ struct SearchBar: View {
             .frame(height: 50)
         }
     }
-}
-struct TextFieldClearButton: ViewModifier {
-    @Binding var searchInput: String
-    @Binding var searching: Bool
-    func body(content: Content) -> some View {
-        HStack {
-            content
-            
-            if !searchInput.isEmpty {
-                Button(
-                    action: {
-                        searching = false
-                        searchInput = ""
-                        // Hide Keyboard
-                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        
-                    },
-                    label: {
-                        Image(systemName: "delete.left")
-                            .foregroundColor(Color(UIColor.opaqueSeparator))
-                    }
-                )
+    func updateImages(searchedList: [String], plants: Plants) -> [String] {
+        var urlList: [String] = []
+        for i in 0...plants.plantList.count-1 {
+            if(searchedList.contains(plants.plantList[i].plantType)) {
+                urlList.append(plants.plantList[i].imageURL)
             }
         }
+        return urlList
     }
 }
