@@ -69,6 +69,7 @@ function loadPage(){
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
+        buildHeaderBar();
         buildSearchField();
         buildInputFields();
         plantTypesLocal = packageData(data['Items']);
@@ -100,13 +101,19 @@ function authenticateUser(){
     });
 }
 
-function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder){
+function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder, content){
+
+    var div = document.createElement("div");
+    div.setAttribute("class","fields no-gutters");
+    div.setAttribute("style",`width: ${fieldWidthPercentage}%`);
     var field = document.createElement("input");
     field.setAttribute("id",fieldId);
     field.setAttribute("type",fieldType);
-    field.setAttribute("style",`width: ${fieldWidthPercentage}%`);
+    field.setAttribute("class","form-control");
     field.setAttribute("placeholder", fieldPlaceHolder);
-    return field;
+    field.value = content;
+    div.appendChild(field);
+    return div;
 }
 
 function buildTable(data){
@@ -116,7 +123,7 @@ function buildTable(data){
         var obj = data[id];
         //Declare Columns and rows
         var fullRow = document.createElement("div");
-        fullRow.setAttribute("class","row no-gutters");
+        fullRow.setAttribute("class","row no-gutters plant-type-row");
         fullRow.setAttribute("id",id);
         fullRow.setAttribute("style", `display:${obj.display}`);
         var pictureCol = document.createElement("div");
@@ -133,7 +140,7 @@ function buildTable(data){
         image.setAttribute("src",obj['imageURL']);
         image.setAttribute("savedURL",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
-        image.setAttribute("style","position: relative; top:0; left:0; width:100px; height:100px;");
+        image.setAttribute("style","position: relative; top:0; left:0; width:75px; height:75px;");
         
         var imageUploadDialogue = document.createElement("input");
         imageUploadDialogue.setAttribute("type","file");
@@ -147,7 +154,7 @@ function buildTable(data){
         imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
         imageOverlay.setAttribute("alt","image overlay");
         imageOverlay.setAttribute("onclick",`document.getElementById('image-button-${id}').click()`);
-        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 100px; height: 100px; cursor:pointer;");
+        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 75px; height: 75px; cursor:pointer;");
 
         
         pictureCol.appendChild(image);
@@ -156,22 +163,19 @@ function buildTable(data){
 
         //Content Code
         var topRow = document.createElement("div");
-        topRow.setAttribute("class","row no-gutters");
+        topRow.setAttribute("class","row no-gutters top-row");
         var bottomRow = document.createElement("div");
-        bottomRow.setAttribute("class","row no-gutters");
+        bottomRow.setAttribute("class","row no-gutters bottom-row");
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
-                    var input = buildField(`${key}-${id}`,"text",22,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"text",22,"",obj[key]);
                     topRow.appendChild(input);
                 }else if(key == "description"){
-                    var input = buildField(`${key}-${id}`,"text",100,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"text",100,"",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
-                    var input = buildField(`${key}-${id}`,"number",13,"");
-                    input.value = obj[key];
+                    var input = buildField(`${key}-${id}`,"number",13,"",obj[key]);
                     topRow.appendChild(input);
                 }
             }
@@ -202,12 +206,39 @@ function buildTable(data){
     }
 }
 
+function buildHeaderBar(){
+    $("#header-field").empty();
+    var fullRow = document.createElement("div");
+    fullRow.setAttribute("class","row no-gutters");
+
+    var titleCol = document.createElement("div");
+    titleCol.setAttribute("class","col-md-11 no-gutters");
+    var heading = document.createElement("h2");
+    heading.textContent = "Hydro Pot Admin Portal";
+    titleCol.appendChild(heading);
+
+    var logOutCol = document.createElement("div");
+    logOutCol.setAttribute("class","col-md-1 no-gutters");
+    var logOutButton = document.createElement("input");
+    logOutButton.setAttribute("class","form-control btn btn-primary");
+    logOutButton.setAttribute("type","button");
+    logOutButton.value = "Log Out";
+    logOutButton.setAttribute("onclick","logout()");
+    logOutCol.appendChild(logOutButton);
+
+    fullRow.appendChild(titleCol);
+    fullRow.appendChild(logOutCol);
+
+    $("#header-field").append(fullRow);
+}
+
 function buildSearchField(){
     $("#search-field").empty();
     var fullRow = document.createElement("div");
     fullRow.setAttribute("class","row no-gutters");
 
     var searchBar = document.createElement("input");
+    searchBar.setAttribute("class","form-control")
     searchBar.setAttribute("type","text");
     searchBar.setAttribute("placeholder","Search");
     searchBar.setAttribute("id","search-bar-input");
@@ -224,7 +255,7 @@ function buildSearchField(){
 function buildInputFields(){
     $("#input-fields").empty();
     var fullRow = document.createElement("div");
-    fullRow.setAttribute("class","row no-gutters");
+    fullRow.setAttribute("class","row no-gutters input-fields-row");
 
 
     var pictureCol = document.createElement("div");
@@ -232,8 +263,8 @@ function buildInputFields(){
     
     var addImageOutput = document.createElement("img");
     addImageOutput.setAttribute("id","add-image-output");
-    addImageOutput.setAttribute("width","100px");
-    addImageOutput.setAttribute("height","100px");
+    addImageOutput.setAttribute("width","75px");
+    addImageOutput.setAttribute("height","75px");
     pictureCol.appendChild(addImageOutput);
 
     var addImageButton = document.createElement("input");
@@ -248,7 +279,7 @@ function buildInputFields(){
     imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
-    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 100px; width:100px;");
+    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 75px; width:75px;");
     imageOverlay.setAttribute("onclick","document.getElementById('addImageButton').click()");
     pictureCol.appendChild(imageOverlay);
 
@@ -258,18 +289,18 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name"));
-    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp"));
+    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name",""));
+    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp",""));
     topRow.appendChild(buildField("add-temp-low","number",13,"Low Temp"));
-    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture"));
-    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture"));
-    topRow.appendChild(buildField("add-light-high","number",13,"High Light"));
-    topRow.appendChild(buildField("add-light-low","number",13,"Low Light"));
+    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture",""));
+    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture",""));
+    topRow.appendChild(buildField("add-light-high","number",13,"High Light",""));
+    topRow.appendChild(buildField("add-light-low","number",13,"Low Light",""));
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
 
-    bottomRow.appendChild(buildField("add-description","text",100,"Description"));
+    bottomRow.appendChild(buildField("add-description","text",100,"Description",""));
 
     contentCol.appendChild(topRow);
     contentCol.appendChild(bottomRow);
@@ -680,4 +711,8 @@ function runSearchQuery(){
     }
 
     buildTable(plantTypesLocal);
+}
+
+function logout(){
+    location.reload(); //TODO this needs to be a real method
 }

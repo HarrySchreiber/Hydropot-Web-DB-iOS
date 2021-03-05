@@ -1,0 +1,56 @@
+body{
+    background-color: lightgrey;
+}
+
+#search-bar-input{
+    border-radius: 20px;
+    margin: 2px;
+}
+
+.fields{
+    padding: 2px;
+}
+
+.plant-type-row{
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-fields-row{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.holder {
+    margin-top: 20%;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+img{
+    border-radius: 50%;
+    margin: 4px;
+    border: 1px solid black;
+}
+
+.sign-in-input{
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
