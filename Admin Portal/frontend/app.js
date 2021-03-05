@@ -335,36 +335,14 @@ function addPlant(imageURL){
     keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
     keyValueStore["description"] = document.getElementById("add-description").value;
 
-    for(var key in keyValueStore){
-        if(keyValueStore[key] === ""){
-            warningModal("All fields must have values!");
-            return
-        }
+    if(!validateFieldInput(keyValueStore)){
+        return
     }
 
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
-            if(isNaN(keyValueStore[key])){
-                warningModal("All ideals must be numerical");
-                return
-            }
             keyValueStore[key] = Number(keyValueStore[key]);
         }
-    }
-
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return
-    }
-
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return
-    }
-
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return
     }
 
     postToLambda(JSON.stringify({
@@ -396,36 +374,17 @@ function editPlant(id,imageURL, savedOldURL = ""){
 
     for(key of keyArray){
         var fieldValue = document.getElementById(`${key}-${id}`).value;
+        keyValueStore[key] = fieldValue;
+    }
 
-        if(fieldValue === ""){
-            warningModal("All fields must have values");
-            return
+    if(!validateFieldInput(keyValueStore)){
+        return
+    }
+
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            keyValueStore[key] = Number(keyValueStore[key]);
         }
-
-        if(key == "plantType" || key == "description"){
-            keyValueStore[key] = fieldValue;
-        }else{
-            if(isNaN(fieldValue)){
-                warningModal("All ideals must be numeric");
-                return
-            }
-            keyValueStore[key] = Number(fieldValue);
-        }
-    }
-
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return
-    }
-
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return
-    }
-
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return
     }
 
     var oldImageKey;
@@ -715,4 +674,39 @@ function runSearchQuery(){
 
 function logout(){
     location.reload(); //TODO this needs to be a real method
+}
+
+function validateFieldInput(keyValueStore){
+    for(var key in keyValueStore){
+        if(keyValueStore[key] === ""){
+            warningModal("All fields must have values!");
+            return false
+        }
+    }
+
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            if(isNaN(keyValueStore[key])){
+                warningModal("All ideals must be numerical");
+                return false
+            }
+        }
+    }
+
+    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
+        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
+        return false
+    }
+
+    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
+        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return false
+    }
+
+    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
+        warningModal("Ideal Light High must be greater than Ideal Light Low");
+        return false
+    }
+    
+    return true;
 }
