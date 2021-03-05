@@ -325,13 +325,6 @@ function buildInputFields(){
 }
 
 function addPlant(imageURL, keyValueStore){
-
-    for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
-            keyValueStore[key] = Number(keyValueStore[key]);
-        }
-    }
-
     postToLambda(JSON.stringify({
         'operation':'add',
         'tableName':'HydroPotPlantTypes',
@@ -356,12 +349,6 @@ function addPlant(imageURL, keyValueStore){
 
 function editPlant(id,imageURL, savedOldURL = "", keyValueStore){
     cleanModal();
-
-    for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
-            keyValueStore[key] = Number(keyValueStore[key]);
-        }
-    }
 
     var oldImageKey;
     if(savedOldURL === ""){
@@ -628,6 +615,11 @@ function imageUpload(id,action,fileDialogueId){
         
 
         if(validateFieldInput(keyValueStore)){
+            for(var key in keyValueStore){
+                if(!(key == "plantType"||key == "description")){
+                    keyValueStore[key] = Number(keyValueStore[key]);
+                }
+            }
             postToLambda(JSON.stringify({
                 'operation':'imageUpload',
                 'tableName':'HydroPotPlantTypes',
@@ -671,6 +663,7 @@ function logout(){
 }
 
 function validateFieldInput(keyValueStore){
+
     for(var key in keyValueStore){
         if(keyValueStore[key] === ""){
             warningModal("All fields must have values!");
