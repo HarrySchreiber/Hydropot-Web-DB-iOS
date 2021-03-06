@@ -311,7 +311,7 @@ function buildInputFields(){
     
     var addButton = document.createElement("input");
     addButton.setAttribute("id","add-button");
-    addButton.setAttribute("onclick",`imageUpload('','add','addImageButton')`);
+    addButton.setAttribute("onclick",`prepForDB('','add','addImageButton')`);
     addButton.value = "➕";
     addButton.setAttribute("type","button");
     addButton.setAttribute("style","width: 100%; height: 100%;");
@@ -477,7 +477,7 @@ function confirmActionModal(id, imageUrl, plantType, action){
     }else if(action == "edit"){
         actionButton.setAttribute("class","btn btn-primary");
         actionButton.setAttribute("data-dismiss","modal");
-        actionButton.setAttribute("onclick",`imageUpload("${id}","edit","image-button-${id}")`);
+        actionButton.setAttribute("onclick",`prepForDB("${id}","edit","image-button-${id}")`);
         actionButton.append("Save Changes");
     }
     modalFooter.appendChild(cancelButton);
@@ -576,25 +576,11 @@ function displayCurrentImage(fileUploadId, imageOutputId){
     
 }
 
-function imageUpload(id,action,fileDialogueId){
+function imageUpload(id,action,fileDialogueId,keyValueStore){
     //This bit is just so we can delete things from S3, side effect we can use it to edit if need be
     var savedOldURL;
     if(action === "edit"){
         savedOldURL = $(`#image-output-${id}`).attr('savedURL');
-    }
-
-    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
-    var keyValueStore = {};
-    if(action === "add"){
-        for(key of keyArray){
-            var fieldValue = document.getElementById(`add-${key}`).value;
-            keyValueStore[key] = fieldValue;
-        }
-    }else if(action === "edit"){
-        for(key of keyArray){
-            var fieldValue = document.getElementById(`${key}-${id}`).value;
-            keyValueStore[key] = fieldValue;
-        }
     }
 
     var image = document.getElementById(fileDialogueId);
@@ -603,14 +589,7 @@ function imageUpload(id,action,fileDialogueId){
             warningModal("You cannot add a plant without a picture.");
             return
         }else if(action === "edit"){
-            if(validateFieldInput(keyValueStore)){
-                for(var key in keyValueStore){
-                    if(!(key == "plantType"||key == "description")){
-                        keyValueStore[key] = Number(keyValueStore[key]);
-                    }
-                }
-                editPlant(id, savedOldURL,"", keyValueStore);
-            }
+            editPlant(id, savedOldURL,"", keyValueStore);
             return
         }
     }
@@ -618,31 +597,24 @@ function imageUpload(id,action,fileDialogueId){
     reader.onload = function(){
         var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
         var encodedImage = reader.result.split(",",2)[1];
-
-        if(validateFieldInput(keyValueStore)){
-            for(var key in keyValueStore){
-                if(!(key == "plantType"||key == "description")){
-                    keyValueStore[key] = Number(keyValueStore[key]);
+        postToLambda(JSON.stringify({
+            'operation':'imageUpload',
+            'tableName':'HydroPotPlantTypes',
+            'payload':{
+                'Item':{
+                    'encodedImage':encodedImage,
+                    'fileExtension':fileExtension
                 }
             }
-            postToLambda(JSON.stringify({
-                'operation':'imageUpload',
-                'tableName':'HydroPotPlantTypes',
-                'payload':{
-                    'Item':{
-                        'encodedImage':encodedImage,
-                        'fileExtension':fileExtension
-                    }
-                }
-            }),
-            function(data){
-                if(action === "add"){
-                    addPlant(data, keyValueStore);
-                }else if(action === "edit"){
-                    editPlant(id,data, savedOldURL, keyValueStore);
-                }
-            });
-        }
+        }),
+        function(data){
+            if(action === "add"){
+                addPlant(data, keyValueStore);
+            }else if(action === "edit"){
+                editPlant(id,data, savedOldURL, keyValueStore);
+            }
+        });
+    
     };
 
     reader.readAsDataURL(image.files[0]);
@@ -728,4 +700,29 @@ function validateFieldInput(keyValueStore){
     }
     
     return true;
+}
+
+function prepForDB(id,action,fileDialogueId){
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyValueStore = {};
+    if(action === "add"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`add-${key}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }else if(action === "edit"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`${key}-${id}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }
+
+    if(validateFieldInput(keyValueStore)){
+        for(var key in keyValueStore){
+            if(!(key == "plantType"||key == "description")){
+                keyValueStore[key] = Number(keyValueStore[key]);
+            }
+        }
+        imageUpload(id,action,fileDialogueId,keyValueStore);
+    }
 }
