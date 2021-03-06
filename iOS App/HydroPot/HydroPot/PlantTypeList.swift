@@ -39,11 +39,6 @@ struct PlantTypeList: View {
             }
             filterList(filteredValues: self.filteredValues, displayedList: &self.displayedList, plants: self.plants, searchedList: (searching ? self.searchedPlantList : plantList), urlList: &self.urlList)
         })
-//        let bindSearchList = Binding<[String]>(
-//            get:{searching ? self.searchedPlantList : plantList
-//            },
-//            set:{self.searchedPlantList = $0}
-//        )
         let bindDisplayList = Binding<[String]>(
             get:{(searching || filtering) ? self.displayedList : plantList
             },
@@ -62,8 +57,8 @@ struct PlantTypeList: View {
                 // List
                 ScrollView {
                     VStack(spacing: 0) {
-                        if(plantList.count == 0) {
-                            Text("No plant types match your filter(s). \nTry filtering for something else!")
+                        if((searching || filtering) && displayedList.count == 0) {
+                            Text("No plant types match your query. \nTry filtering for something else!")
                                 .font(.system(size: UIScreen.regTextSize))
                                 .bold()
                                 .italic()
@@ -111,7 +106,6 @@ struct PlantTypeList: View {
         for plant in plantList {
             urlList.append(plant.imageURL)
         }
-        print(urlList)
         return urlList
     }
     
@@ -121,7 +115,7 @@ struct PlantTypeList: View {
                 return plant
             }
         }
-        print("error occured selecting plant type\n_____------_____----_____")
+        print("----- error occured selecting plant type ----")
         return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "") 
     }
     

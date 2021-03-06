@@ -148,6 +148,7 @@ class Plants: ObservableObject, Identifiable {
                             imageURL: plant.imageURL))
                     }
                 }
+                self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
             })
         }.resume()
     }
