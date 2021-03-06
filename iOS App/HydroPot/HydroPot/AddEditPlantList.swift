@@ -35,6 +35,10 @@ struct AddEditPlantList: View {
             self.filteredValues = $0
             filterList(filteredValues: self.filteredValues)
         })
+        let bindStringList = Binding<[String]>(
+            get:{searching ? self.searchedPlantList : plantList},
+            set:{self.urlList = $0}
+        )
         let bindUrlList = Binding<[String]>(
             get:{searching ? self.urlList : fullUrlList},
             set:{self.urlList = $0}
@@ -43,7 +47,7 @@ struct AddEditPlantList: View {
         NavigationView {
             VStack(spacing: 0) {
                 // SearchBar
-                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding, urlList: $urlList, plants: plants)
+                //SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding, urlList: $urlList, plants: plants)
                 
                 // List
                 ScrollView {
@@ -72,7 +76,7 @@ struct AddEditPlantList: View {
                                     
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
-                                    ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: bindUrlList[row])
+                                    ListCell(text: bindStringList[row], url: bindUrlList[row])
                                         .frame(height: UIScreen.plantTypeListImageSize)
                                         .padding(.top)
                                 }

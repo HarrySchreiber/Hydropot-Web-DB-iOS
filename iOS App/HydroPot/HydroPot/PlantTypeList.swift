@@ -14,7 +14,9 @@ struct PlantTypeList: View {
     
     @State private var plantList = [String]()
     @State private var searchedPlantList = [String]()
+    @State private var displayedList = [String]()
     @State private var searching = false
+    @State private var filtering = false
     @State var urlList : [String] = []
     @State var fullUrlList : [String] = []
     
@@ -23,21 +25,39 @@ struct PlantTypeList: View {
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
     
     var body: some View {
-        let filterBinding = Binding<[(Bool,Bool,Bool)]>(get: {
+        let filterBinding = Binding<[(Bool,Bool,Bool)]>(
+            get: {
             self.filteredValues
         }, set: {
             self.filteredValues = $0
-            filterList(filteredValues: self.filteredValues)
+            for val in self.filteredValues {
+                filtering = false
+                if(val.0 || val.1 || val.2) {
+                    filtering = true
+                    break
+                }
+            }
+            filterList(filteredValues: self.filteredValues, displayedList: &self.displayedList, plants: self.plants, searchedList: (searching ? self.searchedPlantList : plantList), urlList: &self.urlList)
         })
+//        let bindSearchList = Binding<[String]>(
+//            get:{searching ? self.searchedPlantList : plantList
+//            },
+//            set:{self.searchedPlantList = $0}
+//        )
+        let bindDisplayList = Binding<[String]>(
+            get:{(searching || filtering) ? self.displayedList : plantList
+            },
+            set:{self.displayedList = $0}
+        )
         let bindUrlList = Binding<[String]>(
-            get:{searching ? self.urlList : fullUrlList},
+            get:{(searching || filtering) ? self.urlList : fullUrlList},
             set:{self.urlList = $0}
         )
         
         NavigationView {
             VStack(spacing: 0) {
                 // SearchBar
-                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, filteredValues: filterBinding, urlList: $urlList, plants: plants)
+                SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, displayedList: $displayedList, filteredValues: filterBinding, urlList: bindUrlList, plants: plants)
                 
                 // List
                 ScrollView {
@@ -51,13 +71,13 @@ struct PlantTypeList: View {
                                 .foregroundColor(.gray)
                                 .navigationBarTitle("Notifications", displayMode: .inline)
                         } else {
-                            ForEach(searching ? (0..<searchedPlantList.count) : (0..<plantList.count), id: \.self) { row in
+                            ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
                                 NavigationLink(
                                     destination:
-                                        PlantTypePage(plant: getSelectedPlant(selectedPlant: (searching ? searchedPlantList[row] : plantList[row]))),
+                                        PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
                                     
                                     label: {
-                                        ListCell(text: searching ? searchedPlantList[row] : plantList[row], url: bindUrlList[row])
+                                        ListCell(text: bindDisplayList[row], url: bindUrlList[row])
                                             .frame(height: UIScreen.plantTypeListImageSize)
                                             .padding(.top)
                                     })
@@ -105,50 +125,71 @@ struct PlantTypeList: View {
         return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "") 
     }
     
-    func filterList(filteredValues: [(Bool,Bool,Bool)]) {
-        plantList = []
-        //moisture values
-        let moistureTuple = (20,35)
-        //light values
-        let lightTuple = (2500,10000)
-        //temperature values
-        let tempTuple = (55,70)
-        let mNotSelected = !filteredValues[0].0 && !filteredValues[0].1 && !filteredValues[0].2
-        let lNotSelected = !filteredValues[1].0 && !filteredValues[1].1 && !filteredValues[1].2
-        let tNotSelected = !filteredValues[2].0 && !filteredValues[2].1 && !filteredValues[2].2
+}
+func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String], plants: Plants, searchedList: [String], urlList: inout [String]) {
+    var list = [String]()
+    //moisture values
+    let moistureTuple = (20,35)
+    //light values
+    let lightTuple = (2500,10000)
+    //temperature values
+    let tempTuple = (55,70)
+    
+    let mNotSelected = !filteredValues[0].0 && !filteredValues[0].1 && !filteredValues[0].2
+    let lNotSelected = !filteredValues[1].0 && !filteredValues[1].1 && !filteredValues[1].2
+    let tNotSelected = !filteredValues[2].0 && !filteredValues[2].1 && !filteredValues[2].2
+    
+    for plant in plants.plantList {
+        //true if plant is in the selected range(s)
+        let lowMoisture = (filteredValues[0].0 && plant.idealMoistureHigh <= moistureTuple.0)
+        let medMoisture = (filteredValues[0].1 && (plant.idealMoistureHigh <= moistureTuple.1 && plant.idealMoistureHigh > moistureTuple.0))
+        let highMoisture = (filteredValues[0].2 && plant.idealMoistureHigh > moistureTuple.1)
         
-        for plant in plants.plantList {
-            //true if plant is in the selected range(s)
-            let lowMoisture = (filteredValues[0].0 && plant.idealMoistureHigh <= moistureTuple.0)
-            let medMoisture = (filteredValues[0].1 && (plant.idealMoistureHigh <= moistureTuple.1 && plant.idealMoistureHigh > moistureTuple.0))
-            let highMoisture = (filteredValues[0].2 && plant.idealMoistureHigh > moistureTuple.1)
-            
-            let lowLight = (filteredValues[1].0 && plant.idealLightHigh <= lightTuple.0)
-            let medLight = (filteredValues[1].1 && (plant.idealLightHigh <= lightTuple.1 && plant.idealLightHigh > lightTuple.0))
-            let highLight = (filteredValues[1].2 && plant.idealLightHigh > lightTuple.1)
-            
-            
-            let lowTemp = (filteredValues[2].0 && plant.idealTempHigh <= tempTuple.0)
-            let medTemp = (filteredValues[2].1 && (plant.idealTempHigh <= tempTuple.1 && plant.idealTempHigh > tempTuple.0))
-            let highTemp = (filteredValues[2].2 && plant.idealTempHigh > tempTuple.1)
-            
-            
-            let inMoistureRange = mNotSelected || lowMoisture || medMoisture || highMoisture
-            let inLightRange = lNotSelected || lowLight || medLight || highLight
-            let inTempRange = tNotSelected || lowTemp || medTemp || highTemp
-            //if the plant matches the moisture filter section
-            if(inMoistureRange && inLightRange && inTempRange) {
-                //add plant to temp list
-                plantList.append(plant.plantType)
-            }
+        let lowLight = (filteredValues[1].0 && plant.idealLightHigh <= lightTuple.0)
+        let medLight = (filteredValues[1].1 && (plant.idealLightHigh <= lightTuple.1 && plant.idealLightHigh > lightTuple.0))
+        let highLight = (filteredValues[1].2 && plant.idealLightHigh > lightTuple.1)
+        
+        
+        let lowTemp = (filteredValues[2].0 && plant.idealTempHigh <= tempTuple.0)
+        let medTemp = (filteredValues[2].1 && (plant.idealTempHigh <= tempTuple.1 && plant.idealTempHigh > tempTuple.0))
+        let highTemp = (filteredValues[2].2 && plant.idealTempHigh > tempTuple.1)
+        
+        
+        let inMoistureRange = mNotSelected || lowMoisture || medMoisture || highMoisture
+        let inLightRange = lNotSelected || lowLight || medLight || highLight
+        let inTempRange = tNotSelected || lowTemp || medTemp || highTemp
+        //if the plant matches the moisture filter section
+        if(inMoistureRange && inLightRange && inTempRange) {
+            //add plant to temp list
+            list.append(plant.plantType)
         }
     }
+    //convert list to set, convert searchedList to set
+    let set1:Set<String> = Set(list)
+    let set2:Set<String> = Set(searchedList)
     
+    //find plants that match the filters and search
+    let displaySet = set1.intersection(set2)
+    
+    //save the combined list
+    displayedList = displaySet.sorted()
+    urlList = updateImages(displayedList: displayedList, plants: plants)
+
+    
+}
+func updateImages(displayedList: [String], plants: Plants) -> [String] {
+    var urlList: [String] = []
+    for i in 0..<plants.plantList.count {
+        if(displayedList.contains(plants.plantList[i].plantType)) {
+            urlList.append(plants.plantList[i].imageURL)
+        }
+    }
+    return urlList
 }
 
 struct ListCell: View {
     
-    var text: String
+    @Binding var text: String
     @Binding var url: String
     
     var body: some View {
@@ -183,6 +224,7 @@ struct SearchBar: View {
     @Binding var searching: Bool
     @Binding var mainList: [String]
     @Binding var searchedList: [String]
+    @Binding var displayedList: [String]
     @State var viewFilter: Bool = false
     @Binding var filteredValues: [(Bool,Bool,Bool)]
     @Binding var urlList: [String]
@@ -198,7 +240,9 @@ struct SearchBar: View {
                         .onChange(of: searchInput, perform: { searchText in
                             searching = true
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
-                            self.urlList = updateImages(searchedList: searchedList, plants: plants)
+                            self.urlList = updateImages(displayedList: displayedList, plants: plants)
+                            
+                            filterList(filteredValues: self.filteredValues, displayedList: &self.displayedList, plants: self.plants, searchedList: self.searchedList, urlList: &self.urlList)
                         })
                         .font(.system(size: UIScreen.regTextSize))
                         .padding(7)
@@ -247,14 +291,5 @@ struct SearchBar: View {
             }
             .frame(height: 50)
         }
-    }
-    func updateImages(searchedList: [String], plants: Plants) -> [String] {
-        var urlList: [String] = []
-        for i in 0...plants.plantList.count-1 {
-            if(searchedList.contains(plants.plantList[i].plantType)) {
-                urlList.append(plants.plantList[i].imageURL)
-            }
-        }
-        return urlList
     }
 }
