@@ -66,6 +66,7 @@ struct AddEditPlantList: View {
                     VStack(spacing: 0) {
                         if((searching || filtering) && displayedList.count == 0) {
                             Text("No plant types match your query. \nTry filtering for something else!")
+                                .font(.system(size: UIScreen.regTextSize))
                                 .bold()
                                 .italic()
                                 .padding()

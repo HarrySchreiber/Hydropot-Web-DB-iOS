@@ -232,7 +232,11 @@ struct SearchBar: View {
                     // Search Area TextField
                     TextField("Search ...", text: $searchInput)
                         .onChange(of: searchInput, perform: { searchText in
-                            searching = true
+                            if(searchInput != "") {
+                                searching = true
+                            } else {
+                                searching = false
+                            }
                             searchedList = mainList.filter { $0.lowercased().prefix(searchText.count) == searchText.lowercased() || $0.contains(searchText) }
                             self.urlList = updateImages(displayedList: displayedList, plants: plants)
                             
