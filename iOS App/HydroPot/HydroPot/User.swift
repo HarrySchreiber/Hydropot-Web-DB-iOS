@@ -48,6 +48,8 @@ class GetUser: ObservableObject {
     
     func login (email: String, password: String, onEnded: @escaping () -> ()) {
         
+        //print(UserDefaults.standard.object(forKey: "deviceToken")!)
+        
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]
         
