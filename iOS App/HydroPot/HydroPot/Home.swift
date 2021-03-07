@@ -32,6 +32,7 @@ extension UIScreen{
     
     //plant list page values
     static let plantTypeListImageSize = screenWidth / 4
+    static let searchPadding = screenWidth / 320
     
     //historical Data page values
     static let title3TextSize = screenWidth / 16  //base is 20

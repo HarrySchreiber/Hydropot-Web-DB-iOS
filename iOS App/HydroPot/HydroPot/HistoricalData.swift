@@ -144,9 +144,8 @@ struct HistoricalData: View {
                     }) {
                         HStack {
                             Image(systemName: "chevron.left")
-                                .resizable()
+                                .font(.system(size: UIScreen.title3TextSize))
                                 .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
-                                .clipShape(Circle())
                                 .foregroundColor(.white)
                             Text("Back")
                                 .font(.system(size: UIScreen.regTextSize))
