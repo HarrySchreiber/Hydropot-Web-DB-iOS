@@ -3,7 +3,6 @@
 //  HydroPot
 //
 //  Created by David Dray on 1/27/21.
-//
 
 import SwiftUI
 import UIKit
@@ -60,3 +59,4 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
         completionHandler(.noData)
     }
 }
+
