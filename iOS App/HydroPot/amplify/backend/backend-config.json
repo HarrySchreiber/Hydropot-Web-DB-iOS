@@ -1,0 +1,15 @@
+{
+  "auth": {
+    "cognito759299f9": {
+      "service": "Cognito",
+      "serviceType": "managed",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "analytics": {
+    "hydropot": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}

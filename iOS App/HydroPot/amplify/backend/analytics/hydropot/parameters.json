@@ -1,0 +1,21 @@
+{
+    "appName": "hydropot",
+    "roleName": "pinpointLambdaRole8c0e475d",
+    "cloudformationPolicyName": "cloudformationPolicy8c0e475d",
+    "cloudWatchPolicyName": "cloudWatchPolicy8c0e475d",
+    "pinpointPolicyName": "pinpointPolicy8c0e475d",
+    "authPolicyName": "pinpoint_amplify_8c0e475d",
+    "unauthPolicyName": "pinpoint_amplify_8c0e475d",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

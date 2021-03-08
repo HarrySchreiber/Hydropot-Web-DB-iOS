@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hydropot-dev-165223-authRole",
+      "UnauthRoleArn": "arn:aws:iam::005536750733:role/amplify-hydropot-dev-165223-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::005536750733:role/amplify-hydropot-dev-165223-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hydropot-dev-165223-deployment",
+      "UnauthRoleName": "amplify-hydropot-dev-165223-unauthRole",
+      "StackName": "amplify-hydropot-dev-165223",
+      "StackId": "arn:aws:cloudformation:us-east-1:005536750733:stack/amplify-hydropot-dev-165223/e24b2b00-7f8f-11eb-ae2f-0a6046b66d41",
+      "AmplifyAppId": "d4uj9t5zr7sxf"
+    },
+    "categories": {
+      "auth": {
+        "cognito759299f9": {}
+      }
+    }
+  }
+}
