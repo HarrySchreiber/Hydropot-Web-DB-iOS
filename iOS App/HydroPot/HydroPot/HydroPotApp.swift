@@ -20,7 +20,7 @@ struct HydroPotApp: App {
     }
 }
 
-class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
+class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     static let shared = AppDelegate()
     private override init() { super.init() }
@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         UIApplication.shared.registerForRemoteNotifications()
+        UNUserNotificationCenter.current().delegate = self
         registerForPushNotifications()
         return true
     }
@@ -70,6 +71,13 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
     ) {
       print("Failed to register: \(error)")
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner, .badge, .sound])
+    }
 
 }
+
+
 

@@ -83,6 +83,7 @@
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		7FA929EB25CB128C003F967C /* AddEditPlantList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantList.swift; sourceTree = "<group>"; };
+		7FD52A3225F6A9D800907392 /* HydroPot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HydroPot.entitlements; sourceTree = "<group>"; };
 		7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +136,7 @@
 		3949FC7325C200DE00AC8D09 /* HydroPot */ = {
 			isa = PBXGroup;
 			children = (
+				7FD52A3225F6A9D800907392 /* HydroPot.entitlements */,
 				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
 				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
@@ -501,6 +503,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HydroPot/HydroPot.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HydroPot/Preview Content\"";
