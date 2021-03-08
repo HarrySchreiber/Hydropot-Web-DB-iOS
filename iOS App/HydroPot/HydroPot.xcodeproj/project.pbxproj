@@ -79,7 +79,6 @@
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
-		7F66490E25F698FD00668223 /* HydroPotRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HydroPotRelease.entitlements; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -136,7 +135,6 @@
 		3949FC7325C200DE00AC8D09 /* HydroPot */ = {
 			isa = PBXGroup;
 			children = (
-				7F66490E25F698FD00668223 /* HydroPotRelease.entitlements */,
 				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
 				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
