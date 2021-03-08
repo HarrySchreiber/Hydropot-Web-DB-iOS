@@ -5,8 +5,13 @@
 //  Created by David Dray on 1/27/21.
 
 import SwiftUI
+<<<<<<< HEAD
 import UIKit
 import Combine
+=======
+import UserNotifications
+
+>>>>>>> parent of 473cbe7... udpates on pinpoint
 
 @main
 struct HydroPotApp: App {
@@ -19,6 +24,7 @@ struct HydroPotApp: App {
     }
 }
 
+<<<<<<< HEAD
 class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
 
     static let shared = AppDelegate()
@@ -58,5 +64,46 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate {
 
         completionHandler(.noData)
     }
+=======
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+
+    func registerForRemoteNotification() {
+        if #available(iOS 10.0, *) {
+            let center  = UNUserNotificationCenter.current()
+
+            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                if error == nil{
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+
+        }
+        else {
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print(token)
+        
+        UserDefaults.standard.set(token, forKey: "deviceToken")
+        UserDefaults.standard.synchronize()
+
+        print(deviceToken.description)
+        if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+            print(uuid)
+        }
+        UserDefaults.standard.setValue(token, forKey: "ApplicationIdentifier")
+        UserDefaults.standard.synchronize()
+
+
+    }
+    
+   
+
+>>>>>>> parent of 473cbe7... udpates on pinpoint
 }
 
