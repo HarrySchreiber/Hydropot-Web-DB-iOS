@@ -1,6 +1,0 @@
-framework module Pods_HydroPotTests {
-  umbrella header "Pods-HydroPotTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

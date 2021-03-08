@@ -1,7 +1,0 @@
-{
-  "dev": {
-    "configLevel": "project",
-    "useProfile": false,
-    "awsConfigFilePath": "/Users/ericlisle/.amplify/awscloudformation/WEA8APgxBe"
-  }
-}
