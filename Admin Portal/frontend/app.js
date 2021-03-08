@@ -289,13 +289,13 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
-    topRow.appendChild(buildField("add-plant-name","text",22,"Plant Name",""));
-    topRow.appendChild(buildField("add-temp-high","number",13,"High Temp",""));
-    topRow.appendChild(buildField("add-temp-low","number",13,"Low Temp"));
-    topRow.appendChild(buildField("add-moisture-high","number",13,"High Moisture",""));
-    topRow.appendChild(buildField("add-moisture-low","number",13,"Low Moisture",""));
-    topRow.appendChild(buildField("add-light-high","number",13,"High Light",""));
-    topRow.appendChild(buildField("add-light-low","number",13,"Low Light",""));
+    topRow.appendChild(buildField("add-plantType","text",22,"Plant Name",""));
+    topRow.appendChild(buildField("add-idealTempHigh","number",13,"High Temp",""));
+    topRow.appendChild(buildField("add-idealTempLow","number",13,"Low Temp"));
+    topRow.appendChild(buildField("add-idealMoistureHigh","number",13,"High Moisture",""));
+    topRow.appendChild(buildField("add-idealMoistureLow","number",13,"Low Moisture",""));
+    topRow.appendChild(buildField("add-idealLightHigh","number",13,"High Light",""));
+    topRow.appendChild(buildField("add-idealLightLow","number",13,"Low Light",""));
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
@@ -311,7 +311,7 @@ function buildInputFields(){
     
     var addButton = document.createElement("input");
     addButton.setAttribute("id","add-button");
-    addButton.setAttribute("onclick",`imageUpload('','add','addImageButton')`);
+    addButton.setAttribute("onclick",`prepForDB('','add','addImageButton')`);
     addButton.value = "➕";
     addButton.setAttribute("type","button");
     addButton.setAttribute("style","width: 100%; height: 100%;");
@@ -324,49 +324,7 @@ function buildInputFields(){
     $("#input-fields").append(fullRow);
 }
 
-function addPlant(imageURL){
-    var keyValueStore = {}
-    keyValueStore["plantType"] = document.getElementById("add-plant-name").value;
-    keyValueStore["idealTempHigh"] = document.getElementById("add-temp-high").value;
-    keyValueStore["idealTempLow"] = document.getElementById("add-temp-low").value;
-    keyValueStore["idealMoistureHigh"] = document.getElementById("add-moisture-high").value;
-    keyValueStore["idealMoistureLow"] = document.getElementById("add-moisture-low").value;
-    keyValueStore["idealLightHigh"] = document.getElementById("add-light-high").value;
-    keyValueStore["idealLightLow"] = document.getElementById("add-light-low").value;
-    keyValueStore["description"] = document.getElementById("add-description").value;
-
-    for(var key in keyValueStore){
-        if(keyValueStore[key] === ""){
-            warningModal("All fields must have values!");
-            return
-        }
-    }
-
-    for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
-            if(isNaN(keyValueStore[key])){
-                warningModal("All ideals must be numerical");
-                return
-            }
-            keyValueStore[key] = Number(keyValueStore[key]);
-        }
-    }
-
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return
-    }
-
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return
-    }
-
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return
-    }
-
+function addPlant(imageURL, keyValueStore){
     postToLambda(JSON.stringify({
         'operation':'add',
         'tableName':'HydroPotPlantTypes',
@@ -389,44 +347,8 @@ function addPlant(imageURL){
     });
 }
 
-function editPlant(id,imageURL, savedOldURL = ""){
+function editPlant(id,imageURL, savedOldURL = "", keyValueStore){
     cleanModal();
-    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
-    var keyValueStore = {};
-
-    for(key of keyArray){
-        var fieldValue = document.getElementById(`${key}-${id}`).value;
-
-        if(fieldValue === ""){
-            warningModal("All fields must have values");
-            return
-        }
-
-        if(key == "plantType" || key == "description"){
-            keyValueStore[key] = fieldValue;
-        }else{
-            if(isNaN(fieldValue)){
-                warningModal("All ideals must be numeric");
-                return
-            }
-            keyValueStore[key] = Number(fieldValue);
-        }
-    }
-
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return
-    }
-
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return
-    }
-
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return
-    }
 
     var oldImageKey;
     if(savedOldURL === ""){
@@ -555,7 +477,7 @@ function confirmActionModal(id, imageUrl, plantType, action){
     }else if(action == "edit"){
         actionButton.setAttribute("class","btn btn-primary");
         actionButton.setAttribute("data-dismiss","modal");
-        actionButton.setAttribute("onclick",`imageUpload("${id}","edit","image-button-${id}")`);
+        actionButton.setAttribute("onclick",`prepForDB("${id}","edit","image-button-${id}")`);
         actionButton.append("Save Changes");
     }
     modalFooter.appendChild(cancelButton);
@@ -654,7 +576,7 @@ function displayCurrentImage(fileUploadId, imageOutputId){
     
 }
 
-function imageUpload(id,action,fileDialogueId){
+function imageUpload(id,action,fileDialogueId,keyValueStore){
     //This bit is just so we can delete things from S3, side effect we can use it to edit if need be
     var savedOldURL;
     if(action === "edit"){
@@ -667,7 +589,7 @@ function imageUpload(id,action,fileDialogueId){
             warningModal("You cannot add a plant without a picture.");
             return
         }else if(action === "edit"){
-            editPlant(id, savedOldURL);
+            editPlant(id, savedOldURL,"", keyValueStore);
             return
         }
     }
@@ -675,7 +597,6 @@ function imageUpload(id,action,fileDialogueId){
     reader.onload = function(){
         var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];
         var encodedImage = reader.result.split(",",2)[1];
-        
         postToLambda(JSON.stringify({
             'operation':'imageUpload',
             'tableName':'HydroPotPlantTypes',
@@ -688,11 +609,12 @@ function imageUpload(id,action,fileDialogueId){
         }),
         function(data){
             if(action === "add"){
-                addPlant(data);
+                addPlant(data, keyValueStore);
             }else if(action === "edit"){
-                editPlant(id,data, savedOldURL);
+                editPlant(id,data, savedOldURL, keyValueStore);
             }
         });
+    
     };
 
     reader.readAsDataURL(image.files[0]);
@@ -715,4 +637,92 @@ function runSearchQuery(){
 
 function logout(){
     location.reload(); //TODO this needs to be a real method
+}
+
+function validateFieldInput(keyValueStore){
+
+    for(var key in keyValueStore){
+        if(keyValueStore[key] === ""){
+            warningModal("All fields must have values!");
+            return false
+        }
+    }
+
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            if(isNaN(keyValueStore[key])){
+                warningModal("All ideals must be numerical");
+                return false
+            }
+        }
+    }
+
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            keyValueStore[key] = Number(keyValueStore[key]);
+        }
+    }
+
+    console.log(keyValueStore);
+    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
+        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
+        return false
+    }
+
+    if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
+        warningModal("Ideal Moisture High must be within a 0-100 range");
+        return false
+    }
+
+    if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
+        warningModal("Ideal Moisture Low must be within a 0-100 range");
+        return false
+    }
+
+    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
+        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+        return false
+    }
+
+    if(keyValueStore["idealLightHigh"] < 0){
+        warningModal("Ideal Light High must not be below 0");
+        return false
+    }
+
+    if(keyValueStore["idealLightLow"] < 0){
+        warningModal("Ideal Light Low must not be below 0");
+        return false
+    }
+
+    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
+        warningModal("Ideal Light High must be greater than Ideal Light Low");
+        return false
+    }
+    
+    return true;
+}
+
+function prepForDB(id,action,fileDialogueId){
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];
+    var keyValueStore = {};
+    if(action === "add"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`add-${key}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }else if(action === "edit"){
+        for(key of keyArray){
+            var fieldValue = document.getElementById(`${key}-${id}`).value;
+            keyValueStore[key] = fieldValue;
+        }
+    }
+
+    if(validateFieldInput(keyValueStore)){
+        for(var key in keyValueStore){
+            if(!(key == "plantType"||key == "description")){
+                keyValueStore[key] = Number(keyValueStore[key]);
+            }
+        }
+        imageUpload(id,action,fileDialogueId,keyValueStore);
+    }
 }
