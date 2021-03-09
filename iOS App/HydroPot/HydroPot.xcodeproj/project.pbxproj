@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0863844436C8AA0014D9206E /* Pods_HydroPot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ABBFEABD40FF5F60AAC9D6 /* Pods_HydroPot.framework */; };
+		186A85E3E62943739524B407 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */; };
 		3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906C9AC25C5DE3C005FEF79 /* Plants.swift */; };
 		3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */; };
 		3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3941EAA525D6D33300E37724 /* plantTypesFilter.swift */; };
@@ -26,13 +28,16 @@
 		3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */; };
 		3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */; };
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
+		3FCDB1680DD682719D432297 /* Pods_HydroPot_HydroPotUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F8D019A83CA44D00E97D19 /* Pods_HydroPot_HydroPotUITests.framework */; };
+		58A777692081496286F9BB53 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
 		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
 		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 		7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929EB25CB128C003F967C /* AddEditPlantList.swift */; };
 		7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */; };
-		7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFBBCAE25E5AC910020CF3E /* URLImage */; };
+		7FFBBCAF25E5AC910020CF3E /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */; };
+		EAA438191925A4C4C61A3E54 /* Pods_HydroPotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5E2743480A14781D3FD8231 /* Pods_HydroPotTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00F8D019A83CA44D00E97D19 /* Pods_HydroPot_HydroPotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPot_HydroPotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		26BAC30AEC30FF4ACEB87A03 /* Pods-HydroPot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot.release.xcconfig"; path = "Target Support Files/Pods-HydroPot/Pods-HydroPot.release.xcconfig"; sourceTree = "<group>"; };
 		3906C9AC25C5DE3C005FEF79 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
 		3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePWPage.swift; sourceTree = "<group>"; };
 		3941EAA525D6D33300E37724 /* plantTypesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plantTypesFilter.swift; sourceTree = "<group>"; };
@@ -78,6 +85,12 @@
 		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; };
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.release.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.release.xcconfig"; sourceTree = "<group>"; };
+		43ABBFEABD40FF5F60AAC9D6 /* Pods_HydroPot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyconfiguration.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		77D972ECF2DF4E48A17DA4FF /* amplifytools.xcconfig */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.xcconfig; name = amplifytools.xcconfig; path = amplifytools.xcconfig; sourceTree = "<group>"; };
+		7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.release.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -85,6 +98,10 @@
 		7FA929EB25CB128C003F967C /* AddEditPlantList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantList.swift; sourceTree = "<group>"; };
 		7FD52A3225F6A9D800907392 /* HydroPot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HydroPot.entitlements; sourceTree = "<group>"; };
 		7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterModal.swift; sourceTree = "<group>"; };
+		84FB96CDC985BA9831A106DE /* Pods-HydroPotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.debug.xcconfig"; sourceTree = "<group>"; };
+		89B835178BB6413F2BB6E582 /* Pods-HydroPot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot/Pods-HydroPot.debug.xcconfig"; sourceTree = "<group>"; };
+		9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		C5E2743480A14781D3FD8231 /* Pods_HydroPotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +109,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */,
+				7FFBBCAF25E5AC910020CF3E /* BuildFile in Frameworks */,
+				0863844436C8AA0014D9206E /* Pods_HydroPot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAA438191925A4C4C61A3E54 /* Pods_HydroPotTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,19 +126,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FCDB1680DD682719D432297 /* Pods_HydroPot_HydroPotUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D293AA73DDE5AC3325BD017 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				89B835178BB6413F2BB6E582 /* Pods-HydroPot.debug.xcconfig */,
+				26BAC30AEC30FF4ACEB87A03 /* Pods-HydroPot.release.xcconfig */,
+				52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */,
+				43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */,
+				84FB96CDC985BA9831A106DE /* Pods-HydroPotTests.debug.xcconfig */,
+				7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		3949FC6825C200DE00AC8D09 = {
 			isa = PBXGroup;
 			children = (
+				CF58AE81805A49A6B882732E /* AmplifyConfig */,
 				3949FC7325C200DE00AC8D09 /* HydroPot */,
 				3949FC8525C200DE00AC8D09 /* HydroPotTests */,
 				3949FC9025C200DE00AC8D09 /* HydroPotUITests */,
 				3949FC7225C200DE00AC8D09 /* Products */,
+				1D293AA73DDE5AC3325BD017 /* Pods */,
+				9252ADAC253E7F9628FB6F55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +228,27 @@
 			path = HydroPotUITests;
 			sourceTree = "<group>";
 		};
+		9252ADAC253E7F9628FB6F55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				43ABBFEABD40FF5F60AAC9D6 /* Pods_HydroPot.framework */,
+				00F8D019A83CA44D00E97D19 /* Pods_HydroPot_HydroPotUITests.framework */,
+				C5E2743480A14781D3FD8231 /* Pods_HydroPotTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF58AE81805A49A6B882732E /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				77D972ECF2DF4E48A17DA4FF /* amplifytools.xcconfig */,
+				5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */,
+				9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */,
+			);
+			name = AmplifyConfig;
+			path = .;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,9 +256,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3949FC9625C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPot" */;
 			buildPhases = (
+				DC241C84E445515055058DE3 /* [CP] Check Pods Manifest.lock */,
 				3949FC6D25C200DE00AC8D09 /* Sources */,
 				3949FC6E25C200DE00AC8D09 /* Frameworks */,
 				3949FC6F25C200DE00AC8D09 /* Resources */,
+				AC0E6C14AA68F442EC9811BD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,7 +268,7 @@
 			);
 			name = HydroPot;
 			packageProductDependencies = (
-				7FFBBCAE25E5AC910020CF3E /* URLImage */,
+				7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */,
 			);
 			productName = HydroPot;
 			productReference = 3949FC7125C200DE00AC8D09 /* HydroPot.app */;
@@ -218,6 +278,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3949FC9925C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotTests" */;
 			buildPhases = (
+				789EE64960AB7EDF9F5420C2 /* [CP] Check Pods Manifest.lock */,
 				3949FC7E25C200DE00AC8D09 /* Sources */,
 				3949FC7F25C200DE00AC8D09 /* Frameworks */,
 				3949FC8025C200DE00AC8D09 /* Resources */,
@@ -236,9 +297,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3949FC9C25C200DE00AC8D09 /* Build configuration list for PBXNativeTarget "HydroPotUITests" */;
 			buildPhases = (
+				C5018343690ED0E76D657516 /* [CP] Check Pods Manifest.lock */,
 				3949FC8925C200DE00AC8D09 /* Sources */,
 				3949FC8A25C200DE00AC8D09 /* Frameworks */,
 				3949FC8B25C200DE00AC8D09 /* Resources */,
+				8CBC2FE9ADACF90253B6D405 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -282,7 +345,7 @@
 			);
 			mainGroup = 3949FC6825C200DE00AC8D09;
 			packageReferences = (
-				7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */,
+				7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 3949FC7225C200DE00AC8D09 /* Products */;
 			projectDirPath = "";
@@ -302,6 +365,8 @@
 			files = (
 				3949FC7C25C200DE00AC8D09 /* Preview Assets.xcassets in Resources */,
 				3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */,
+				186A85E3E62943739524B407 /* amplifyconfiguration.json in Resources */,
+				58A777692081496286F9BB53 /* awsconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +385,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		789EE64960AB7EDF9F5420C2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HydroPotTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8CBC2FE9ADACF90253B6D405 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC0E6C14AA68F442EC9811BD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HydroPot/Pods-HydroPot-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HydroPot/Pods-HydroPot-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HydroPot/Pods-HydroPot-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C5018343690ED0E76D657516 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HydroPot-HydroPotUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC241C84E445515055058DE3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HydroPot-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3949FC6D25C200DE00AC8D09 /* Sources */ = {
@@ -500,6 +668,7 @@
 		};
 		3949FC9725C200DE00AC8D09 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89B835178BB6413F2BB6E582 /* Pods-HydroPot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -525,6 +694,7 @@
 		};
 		3949FC9825C200DE00AC8D09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26BAC30AEC30FF4ACEB87A03 /* Pods-HydroPot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -550,6 +720,7 @@
 		};
 		3949FC9A25C200DE00AC8D09 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84FB96CDC985BA9831A106DE /* Pods-HydroPotTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -571,6 +742,7 @@
 		};
 		3949FC9B25C200DE00AC8D09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -592,6 +764,7 @@
 		};
 		3949FC9D25C200DE00AC8D09 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -611,6 +784,7 @@
 		};
 		3949FC9E25C200DE00AC8D09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -670,7 +844,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */ = {
+		7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
@@ -681,9 +855,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7FFBBCAE25E5AC910020CF3E /* URLImage */ = {
+		7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */;
+			package = 7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */;
 			productName = URLImage;
 		};
 /* End XCSwiftPackageProductDependency section */
