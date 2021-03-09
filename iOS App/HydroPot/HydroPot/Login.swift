@@ -48,6 +48,9 @@
                                 .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                                 Button(action: {
                                     attemptLogin(email: email, password: password)
+                                    if (user.deviceToken != ""){
+                                        user.changeDeviceToken()
+                                    }
                                 }) {
                                     Text("Login")
                                         .font(.system(size: UIScreen.regTextSize))

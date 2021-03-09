@@ -73,7 +73,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         print("Device Token: \(token)")
-
+        
+        UserDefaults.standard.set(token, forKey: "deviceToken")
+        
         // Register the device token with Pinpoint as the endpoint for this user
         pinpoint?.notificationManager
             .interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
