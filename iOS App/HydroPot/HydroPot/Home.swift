@@ -56,6 +56,9 @@ extension UIScreen{
 
 }
 
+/*
+    view for home tab bar
+ */
 struct Home: View {
     @ObservedObject var user: GetUser //user observed obj
     @ObservedObject var plants: Plants //plant list observed obj
@@ -110,6 +113,9 @@ struct Home: View {
     }
 }
 
+/*
+    view for homepage
+ */
 struct HomeView: View {
     @ObservedObject var user: GetUser //user already made
     @ObservedObject var plants: Plants //plant list already made

@@ -8,6 +8,9 @@
 import Foundation
 import SwiftUI
 
+/*
+    view for water modal
+ */
 struct waterModal: View {
     
     @Binding var showPopUp: Bool //bool to dismiss modal

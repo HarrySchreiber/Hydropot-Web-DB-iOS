@@ -4,23 +4,26 @@ import AWSPinpoint
 
 @main
 struct HydroPotApp: App {
+    //allows for app delegate use
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
+            //call the app
             ContentView()
         }
     }
 }
 
+/*
+    app delegate class for dealing with notis
+ */
 class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-    var pinpoint: AWSPinpoint?
+    var pinpoint: AWSPinpoint? //allows contact through Pinpoint
 
-    internal func application(
-        _: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+    //starting up Pinpoint on open
+    internal func application( _: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Instantiate Pinpoint
         let pinpointConfiguration = AWSPinpointConfiguration
             .defaultPinpointConfiguration(launchOptions: launchOptions)
@@ -34,8 +37,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         return true
     }
 
-    // MARK: Push Notification methods
-
+    /*
+        registering for notifications
+     */
     func registerForPushNotifications() {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current()
@@ -48,6 +52,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
             }
     }
 
+    /*
+        getting settings for notifications if not already registered
+     */
     func getNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             print("Notification settings: \(settings)")
@@ -60,7 +67,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         }
     }
     
-    // MARK: Remote Notifications Lifecycle
+    /*
+        getting device token if registered for notifications
+     */
     func application(_: UIApplication,
                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
@@ -74,15 +83,17 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
             .interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
     }
 
-    func application(_: UIApplication,
-                    didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    /*
+        alert if failed to register notifications
+     */
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register: \(error)")
     }
     
-    func application(_ application: UIApplication,
-                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
-                        -> Void) {
+    /*
+        recieving remote notifications from pinpoint
+     */
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // if the app is in the foreground, create an alert modal with the contents
         if application.applicationState == .active {
             let alert = UIAlertController(title: "Notification Received",
@@ -102,6 +113,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         completionHandler(.newData)
     }
     
+    /*
+        recieving notifications from poinpoint foreground
+     */
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
          // Handle foreground push notifications
          pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(notification.request.content.userInfo)
@@ -109,6 +123,9 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
          completionHandler(.badge)
       }
 
+     /*
+        recieving notifications from pinpoint background
+     */
      func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void)  {
          // Handle background and closed push notifications
          pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(response.notification.request.content.userInfo)

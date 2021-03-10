@@ -30,6 +30,7 @@
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
 		3FCDB1680DD682719D432297 /* Pods_HydroPot_HydroPotUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F8D019A83CA44D00E97D19 /* Pods_HydroPot_HydroPotUITests.framework */; };
 		58A777692081496286F9BB53 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */; };
+		7F171D5625F936E200372249 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F171D5525F936E200372249 /* Plant.swift */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
 		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
 		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
@@ -90,6 +91,7 @@
 		52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.release.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.release.xcconfig"; sourceTree = "<group>"; };
+		7F171D5525F936E200372249 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				7FA929D925C89F04003F967C /* Record.swift */,
 				7FA929DE25C89F18003F967C /* Notification.swift */,
 				3906C9AC25C5DE3C005FEF79 /* Plants.swift */,
+				7F171D5525F936E200372249 /* Plant.swift */,
 				3949FCB225C2025200AC8D09 /* Login.swift */,
 				3949FCB725C2026D00AC8D09 /* Home.swift */,
 				7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */,
@@ -494,6 +497,7 @@
 				3949FCB325C2025200AC8D09 /* Login.swift in Sources */,
 				3949FCC225C2029F00AC8D09 /* HistoricalData.swift in Sources */,
 				3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */,
+				7F171D5625F936E200372249 /* Plant.swift in Sources */,
 				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
 				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,

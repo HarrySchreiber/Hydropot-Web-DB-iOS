@@ -7,112 +7,101 @@
 
 import Foundation
 
-
-
-class Plant: ObservableObject, Identifiable {
-    @Published var plantType: String
-    @Published var idealTempLow: Int
-    @Published var idealTempHigh: Int
-    @Published var idealMoistureLow: Int
-    @Published var idealMoistureHigh: Int
-    @Published var idealLightLow: Int
-    @Published var idealLightHigh: Int
-    @Published var description: String
-    @Published var imageURL: String
-    
-    init(plantType: String, idealTempLow: Int, idealTempHigh: Int, idealMoistureLow: Int, idealMoistureHigh: Int,
-         idealLightLow: Int, idealLightHigh: Int, description: String, imageURL: String) {
-        self.plantType = plantType
-        self.idealTempLow = idealTempLow
-        self.idealTempHigh = idealTempHigh
-        self.idealMoistureLow = idealMoistureLow
-        self.idealMoistureHigh = idealMoistureHigh
-        self.idealLightLow = idealLightLow
-        self.idealLightHigh = idealLightHigh
-        self.description = description
-        self.imageURL = imageURL
-    }
-    
-}
-
-
+/*
+    codable struct for plantResults used to recieve json data
+ */
 struct PlantResults: Codable {
-    let Items: [codePlant]
-    let Count: Int
-    let ScannedCount: Int
-}
-
-struct codePlant: Codable, Identifiable {
-    let id: String
-    let description: String
-    let idealLightHigh: Int
-    let idealLightLow: Int
-    let idealMoistureHigh: Int
-    let idealMoistureLow: Int
-    let idealTempHigh: Int
-    let idealTempLow: Int
-    let plantType: String
-    let imageURL: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, description, idealLightHigh, idealLightLow, idealMoistureHigh, idealMoistureLow,
-             idealTempHigh, idealTempLow, plantType, imageURL
-    }
+    let Items: [codePlant] //values of plants
+    let Count: Int //count of plants
+    let ScannedCount: Int //num of plants scanned
 }
 
 
+/*
+    class of all of the individual plants
+ */
 class Plants: ObservableObject, Identifiable {
-    @Published var plantList: [Plant]
+    @Published var plantList: [Plant] //list of individual plants
     
+    /// constructor for plants
+    ///
+    /// - Parameters:
+    ///     - plantList: list of individual plants
     init() {
         self.plantList = []
     }
     
+    /// allows for determining if the plant list contains a given plant
+    ///
+    /// - Parameters:
+    ///     - plantName: name of the plant we want
+    /// - Returns:
+    ///     - a bool that represents if the plant is within the list
+    ///
     func contains(plantName: String) -> Bool {
+        //for all the plants
         for (index, _) in plantList.enumerated() {
+            //if we find our plant
             if (self.plantList[index].plantType == plantName){
+                //success
                 return true
             }
         }
+        //failure
         return false
     }
     
-    /* DO NOT USE UNLESS YOU HAVE CALLED CONTAINS FIRST*/
+    /// allows for getting a plant by it's name
+    ///
+    /// - Parameters:
+    ///     - plantName: name of the plant we want
+    /// - Returns:
+    ///     - the plant with the given name
+    ///
     func getPlant(plantName: String) -> Plant {
+        //for ever plant type
         for (index, _) in plantList.enumerated() {
+            //if we found our plant
             if (self.plantList[index].plantType == plantName){
+                //return that plant
                 return plantList[index]
             }
         }
+        //return garabge plant
         return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "")
     }
     
+    /// gets all of the plant types from the db and adds to this class' plant list
     func getPlantsList() {
         
-        plantList = []
+        plantList = [] //empty the current list
         
+        //operation for the request
         let json: [String: Any] =
             ["operation": "getAll", "tableName": "HydroPotPlantTypes"]
         
+        //serlialize our payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
+        //url for lambda function
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
         
+        //make the request
         var request = URLRequest(url: url)
         
+        //post the request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // insert json data to the request
         request.httpBody = jsonData
         
-        
+        //accept results
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
+        
         // start a data task to download the data from the URL
-        
-        
         session.dataTask(with: request) { data, response, error in
             // make sure data is not nil
             guard let d = data else {
@@ -123,19 +112,26 @@ class Plants: ObservableObject, Identifiable {
             // decode the returned data into Codable structs
             let results: PlantResults?
             do {
+                //decode results
                 let decoder = JSONDecoder()
                 results = try decoder.decode(PlantResults.self, from: d)
             } catch {
+                //if failure
                 print(error)
                 results = nil
             }
+            //if not able to parse with codable
             guard let r = results else {
                 print("Unable to parse JSON")
                 return
             }
+            //execute the async call
             DispatchQueue.main.async(execute: {
+                //if items were returned
                 if ((r.Items.count) != 0) {
+                    //for each plant type
                     for plant in r.Items {
+                        //append the new plant type to the list of plants
                         self.plantList.append(Plant(
                             plantType: plant.plantType,
                             idealTempLow: plant.idealTempLow,
@@ -148,6 +144,7 @@ class Plants: ObservableObject, Identifiable {
                             imageURL: plant.imageURL))
                     }
                 }
+                //sort the plant list by type
                 self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
             })
         }.resume()
