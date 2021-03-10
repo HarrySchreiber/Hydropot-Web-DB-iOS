@@ -36,7 +36,7 @@
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
 		7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929EB25CB128C003F967C /* AddEditPlantList.swift */; };
 		7FFBBC9725D6F1EE0020CF3E /* waterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */; };
-		7FFBBCAF25E5AC910020CF3E /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */; };
+		7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFBBCAE25E5AC910020CF3E /* URLImage */; };
 		EAA438191925A4C4C61A3E54 /* Pods_HydroPotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5E2743480A14781D3FD8231 /* Pods_HydroPotTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,8 +88,7 @@
 		43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.release.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.release.xcconfig"; sourceTree = "<group>"; };
 		43ABBFEABD40FF5F60AAC9D6 /* Pods_HydroPot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyconfiguration.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
-		77D972ECF2DF4E48A17DA4FF /* amplifytools.xcconfig */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.xcconfig; name = amplifytools.xcconfig; path = amplifytools.xcconfig; sourceTree = "<group>"; };
+		5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.release.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -100,7 +99,7 @@
 		7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterModal.swift; sourceTree = "<group>"; };
 		84FB96CDC985BA9831A106DE /* Pods-HydroPotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.debug.xcconfig"; sourceTree = "<group>"; };
 		89B835178BB6413F2BB6E582 /* Pods-HydroPot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot/Pods-HydroPot.debug.xcconfig"; sourceTree = "<group>"; };
-		9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; path = awsconfiguration.json; sourceTree = "<group>"; };
 		C5E2743480A14781D3FD8231 /* Pods_HydroPotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FFBBCAF25E5AC910020CF3E /* BuildFile in Frameworks */,
+				7FFBBCAF25E5AC910020CF3E /* URLImage in Frameworks */,
 				0863844436C8AA0014D9206E /* Pods_HydroPot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +142,6 @@
 				84FB96CDC985BA9831A106DE /* Pods-HydroPotTests.debug.xcconfig */,
 				7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -241,7 +239,6 @@
 		CF58AE81805A49A6B882732E /* AmplifyConfig */ = {
 			isa = PBXGroup;
 			children = (
-				77D972ECF2DF4E48A17DA4FF /* amplifytools.xcconfig */,
 				5895B4558FF043D4ABC8C8A2 /* amplifyconfiguration.json */,
 				9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */,
 			);
@@ -268,7 +265,7 @@
 			);
 			name = HydroPot;
 			packageProductDependencies = (
-				7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */,
+				7FFBBCAE25E5AC910020CF3E /* URLImage */,
 			);
 			productName = HydroPot;
 			productReference = 3949FC7125C200DE00AC8D09 /* HydroPot.app */;
@@ -345,7 +342,7 @@
 			);
 			mainGroup = 3949FC6825C200DE00AC8D09;
 			packageReferences = (
-				7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */,
+				7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 3949FC7225C200DE00AC8D09 /* Products */;
 			projectDirPath = "";
@@ -844,7 +841,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */ = {
+		7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
@@ -855,9 +852,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7FFBBCAE25E5AC910020CF3E /* SwiftPackageProductDependency */ = {
+		7FFBBCAE25E5AC910020CF3E /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7FFBBCAD25E5AC900020CF3E /* RemoteSwiftPackageReference */;
+			package = 7FFBBCAD25E5AC900020CF3E /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
 /* End XCSwiftPackageProductDependency section */
