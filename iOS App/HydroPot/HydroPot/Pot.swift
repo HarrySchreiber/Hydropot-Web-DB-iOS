@@ -7,46 +7,71 @@
 
 import Foundation
 
+/*
+    codable to handle JSON from db
+ */
 struct codePot: Codable, Identifiable {
-    let image: String
-    let idealLightHigh: Int
-    let plantType: String
-    let idealMoistureHigh : Int
-    let idealMoistureLow: Int
-    let idealTempLow: Int
-    let idealLightLow: Int
-    let id: String
-    let automaticWatering: Bool
-    let plantName: String
-    let idealTempHigh: Int
-    let records: [codeRecord]?
-    let notifications: [codeNotification]?
+    let image: String //image for the pot
+    let plantType: String //type of plant it is
+    let idealTempHigh: Int //high temperature for the pot
+    let idealTempLow: Int //low temperature for the pot
+    let idealMoistureHigh : Int //high moisture for the pot
+    let idealMoistureLow: Int //low moisture for the pot
+    let idealLightHigh: Int //high light for the pot
+    let idealLightLow: Int //low light for the pot
+    let id: String //id of the pot
+    let automaticWatering: Bool //automatic watering bool for the pot
+    let plantName: String //name of the pot
+    let records: [codeRecord]? //records for the pot
+    let notifications: [codeNotification]? //notifications for the pot
     
+    //confomrs to codable
     enum CodingKeys: String, CodingKey {
         case plantName, plantType, idealTempLow, idealTempHigh, idealMoistureHigh, idealLightLow, idealLightHigh, automaticWatering, idealMoistureLow, id, image, records, notifications
     }
 }
 
 class Pot: ObservableObject, Identifiable {
-    @Published var plantName: String
-    @Published var plantType: String
-    @Published var idealTempLow: Int
-    @Published var curTemp: Int
-    @Published var idealTempHigh: Int
-    @Published var idealMoistureLow: Int
-    @Published var curMoisture: Int
-    @Published var idealMoistureHigh: Int
-    @Published var idealLightLow: Int
-    @Published var curLight: Int
-    @Published var idealLightHigh: Int
-    @Published var lastWatered: Date
-    @Published var automaticWatering: Bool
-    @Published var records: [Record]
-    @Published var notifications: [Notification]
-    @Published var image: String
-    @Published var id: String
-    @Published var resLevel: Int
+    @Published var image: String //image for the pot
+    @Published var plantType: String //type of plant it is
+    @Published var idealTempHigh: Int //high temperature for the pot
+    @Published var idealTempLow: Int //low temperature for the pot
+    @Published var curTemp: Int //the current temp of the pot
+    @Published var idealMoistureHigh : Int //high moisture for the pot
+    @Published var idealMoistureLow: Int //low moisture for the pot
+    @Published var curMoisture: Int //the current moisture of the pot
+    @Published var idealLightHigh: Int //high light for the pot
+    @Published var idealLightLow: Int //low light for the pot
+    @Published var curLight: Int //the current light of the pot
+    @Published var resLevel: Int //the resLevel of the pot
+    @Published var id: String //id of the pot
+    @Published var automaticWatering: Bool //automatic watering bool for the pot
+    @Published var lastWatered: Date //the last date the pot was waterd
+    @Published var plantName: String //name of the pot
+    @Published var records: [Record] //records for the pot
+    @Published var notifications: [Notification] //notifications for the pot
     
+    /// constructor for pot
+    ///
+    /// - Parameters:
+    ///     - image: Image for the pot
+    ///     - plantType: Type of plant it is
+    ///     - idealTempHigh: High temp for the pot
+    ///     - idealTempLow: Low temperature for the pot
+    ///     - curTemp: The current temp of the pot
+    ///     - idealMoistureHigh: High moisture for the pot
+    ///     - idealMoistureLow: Low moisture for the pot
+    ///     - curMoisture: The current moisture for the pot
+    ///     - idealLightHigh: High light for the pot
+    ///     - idealLightLow: Low light for the pot
+    ///     - curLight: The current light of the pot
+    ///     - resLevel: The resLevel of the pot
+    ///     - id: The pot id
+    ///     - automaticWatering: Automatic watering bool for the pot
+    ///     - lastWatered: The last date the pot was watered
+    ///     - plantName: The name of the pot
+    ///     - records: The records for the pot
+    ///     - Notifications: The notifications for the pot
     init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String) {
         self.plantName = plantName
         self.plantType = plantType
@@ -69,18 +94,32 @@ class Pot: ObservableObject, Identifiable {
         self.image = image
     }
     
+    /// editing the pott
+    ///
+    /// - Parameters:
+    ///     - plantType: Type of plant it is
+    ///     - idealTempHigh: High temp for the pot
+    ///     - idealTempLow: Low temperature for the pot
+    ///     - curTemp: The current temp of the pot
+    ///     - idealMoistureHigh: High moisture for the pot
+    ///     - idealMoistureLow: Low moisture for the pot
+    ///     - curMoisture: The current moisture for the pot
+    ///     - idealLightHigh: High light for the pot
+    ///     - idealLightLow: Low light for the pot
+    ///     - curLight: The current light of the pot
+    ///     - plantName: The name of the pot
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
         self.plantName = plantName
         self.plantType = plantType
-        self.curTemp = 0
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
+        self.curTemp = 0
         self.idealMoistureLow = idealMoistureLow
-        self.curMoisture = 0
         self.idealMoistureHigh = idealMoistureHigh
+        self.curMoisture = 0
         self.idealLightLow = idealLightLow
-        self.curLight = 0
         self.idealLightHigh = idealLightHigh
+        self.curLight = 0
     }
     
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool, lastWatered: Date, image: String) {
