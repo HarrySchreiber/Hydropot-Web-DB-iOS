@@ -223,6 +223,9 @@ struct HomeView: View {
                     .resizable()
                     .opacity(0.50)
             )
+            .onAppear() {
+                attemptReload()
+            }
         }
     }
     

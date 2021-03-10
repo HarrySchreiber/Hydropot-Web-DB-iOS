@@ -249,6 +249,7 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }.onAppear {
+            attemptReload()
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
             tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)

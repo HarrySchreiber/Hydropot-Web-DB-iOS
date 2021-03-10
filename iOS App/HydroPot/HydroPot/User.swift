@@ -225,6 +225,8 @@ class GetUser: ObservableObject {
                         }
                     }
                     
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    
                     
                 }
                 onEnded()
