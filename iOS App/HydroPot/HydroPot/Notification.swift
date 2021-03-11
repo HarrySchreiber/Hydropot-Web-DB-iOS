@@ -7,19 +7,32 @@
 
 import Foundation
 
+/*
+    codable struct for notifications used to recieve json data
+ */
 struct codeNotification: Codable {
 
-    let type: String
-    let timeStamp: String
+    let type: String //type of notification
+    let timeStamp: String //when notification occured
     
+    //required for codable
     enum CodingKeys: String, CodingKey {
         case type, timeStamp
     }
 }
+
+/*
+    class to hold notification objects
+ */
 class Notification: ObservableObject, Identifiable {
-    @Published var type: String
-    @Published var timeStamp: Date
+    @Published var type: String //type of notification
+    @Published var timeStamp: Date //when notification occured
     
+    /// constructor for notifications
+    ///
+    /// - Parameters:
+    ///     - type: What type of notification is it
+    ///     - timeStamp: When the notification occured
     init(type: String, timeStamp: Date) {
         self.type = type
         self.timeStamp = timeStamp

@@ -48,6 +48,9 @@ struct NotificationsPage: View {
                 .navigationBarTitle("Notifications", displayMode: .inline)
             }
         }
+        .onAppear() {
+            attemptReload()
+        }
     }
     func getMessage(type: String, pot: Pot) -> String {
         switch type {
@@ -69,6 +72,18 @@ struct NotificationsPage: View {
             return "Hey \(user.name)! Your plant, \(pot.plantName), is receiving too much sun! Move it somewhere darker!"
         default:
             return "Hey \(user.name)! Your plant, \(pot.plantName), could use some attention"
+        }
+    }
+    
+    func attemptReload() {
+        user.reload() {
+            // will be received at the login processed
+            if user.loggedIn {
+                for (index, _) in user.pots.enumerated() {
+                    let tempPot = user.pots[index]
+                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
+                }
+            }
         }
     }
 }

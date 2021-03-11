@@ -19,10 +19,11 @@ struct User: Codable, Identifiable {
     let hashedPW: String
     let userName: String
     let notifications: Bool
+    let deviceToken: String
     let pots: [codePot]?
     
     enum CodingKeys: String, CodingKey {
-        case id, email, hashedPW, userName, pots, notifications
+        case id, email, hashedPW, userName, pots, notifications, deviceToken
     }
 }
 
@@ -33,6 +34,7 @@ class GetUser: ObservableObject {
     @Published var email: String
     @Published var password: String
     @Published var notifications: Bool
+    @Published var deviceToken: String
     @Published var pots: [Pot]
 
 
@@ -44,6 +46,7 @@ class GetUser: ObservableObject {
         self.password = ""
         self.pots = []
         self.notifications = true
+        self.deviceToken =   UserDefaults.standard.string(forKey: "deviceToken") ?? ""
     }
     
     func login (email: String, password: String, onEnded: @escaping () -> ()) {
@@ -134,7 +137,6 @@ class GetUser: ObservableObject {
                             }
                         }
                     }
-                    
                 }
                 onEnded()
             })
@@ -221,6 +223,8 @@ class GetUser: ObservableObject {
                         }
                     }
                     
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    
                     
                 }
                 onEnded()
@@ -246,7 +250,7 @@ class GetUser: ObservableObject {
         
         let tempID = UUID()
         
-        let json: [String: Any] = ["operation": "signup", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": email, "password": password, "id": tempID.uuidString, "notifications": notifications]]]
+        let json: [String: Any] = ["operation": "signup", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": email, "password": password, "id": tempID.uuidString, "notifications": notifications, "deviceToken": deviceToken]]]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
@@ -510,6 +514,30 @@ class GetUser: ObservableObject {
         self.name = name
         
         let json: [String: Any] = ["operation": "changeName", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": self.email, "password": password, "id": self.userId]]]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        session.dataTask(with: request) { data, response, error in }.resume()
+
+    }
+    
+    func changeDeviceToken() {
+                
+        let json: [String: Any] = ["operation": "changeName", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId, "deviceToken": self.deviceToken]]]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
