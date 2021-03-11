@@ -9,30 +9,30 @@ import SwiftUI
 import URLImage
 
 struct EditPlantPage: View {
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var user: GetUser
-    @ObservedObject var plants: Plants
-    @ObservedObject var pot: Pot
-    @Binding var showModal: Bool
-    @Binding var moistureGood: Bool
-    @Binding var lightGood: Bool
-    @Binding var tempGood: Bool
-    @Binding var resGood: Bool
-    @State var plantName = ""
-    @State var plantType = ""
-    @State var idealTemperatureHigh: String = ""
-    @State var idealMoistureHigh: String = ""
-    @State var idealLightLevelHigh: String = ""
-    @State var idealTemperatureLow: String = ""
-    @State var idealMoistureLow: String = ""
-    @State var idealLightLevelLow: String = ""
-    @State var plantSelected: String = ""
-    @State var failed: Bool = false
-    @State var isShowPicker: Bool = false
-    @State var image: Image? = Image(systemName: "camera.circle")
-    @State var tempURL: String = ""
-    @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle")
-    @State var deletePressed = false
+    @Environment(\.presentationMode) var presentationMode //to be dismissed
+    @ObservedObject var user: GetUser //user that has been passed
+    @ObservedObject var plants: Plants //plant list that has been passed
+    @ObservedObject var pot: Pot //pot to be edited
+    @Binding var showModal: Bool //toggles being dismissed
+    @Binding var moistureGood: Bool //is moisture in the green
+    @Binding var lightGood: Bool //is light in the green
+    @Binding var tempGood: Bool //is temperature in the green
+    @Binding var resGood: Bool //is the res level in the green
+    @State var plantName = "" //name of the plant
+    @State var plantType = "" //type of the plant
+    @State var idealTemperatureHigh: String = "" //ideal temperature high for the pot
+    @State var idealMoistureHigh: String = "" //ideal moisture high for the pot
+    @State var idealLightLevelHigh: String = "" //ideal light level high for the pot
+    @State var idealTemperatureLow: String = "" //ideal temperature low for the pot
+    @State var idealMoistureLow: String = "" //ideal moisture low for the pot
+    @State var idealLightLevelLow: String = "" //ideal light low for the pot
+    @State var plantSelected: String = "" //plant selected by the user
+    @State var failed: Bool = false //if failed edit alert
+    @State var isShowPicker: Bool = false //showing the picture picker
+    @State var image: Image? = Image(systemName: "camera.circle") //default image
+    @State var tempURL: String = "" //backstop for the user image
+    @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //default image
+    @State var deletePressed = false //deleting the pot
     
     var body: some View {
         NavigationView {

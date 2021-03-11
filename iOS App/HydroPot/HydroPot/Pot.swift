@@ -170,10 +170,12 @@ class Pot: ObservableObject, Identifiable {
             var maxMoisture = Int.min
             var minMoisture = Int.max
             
+            //lists
             var listForAvgLight : [Int] = []
             var listForAvgTemp : [Int] = []
             var listForAvgMoisture : [Int] = []
             
+            //records being sorted by date
             var recordsList = records
             recordsList = recordsList.sorted(by: {
                 $0.dateRecorded.compare($1.dateRecorded) == .orderedDescending
@@ -240,10 +242,12 @@ class Pot: ObservableObject, Identifiable {
             //temp
             let sumTemp = listForAvgTemp.reduce(0, +)
             let avgTemp = sumTemp / listForAvgTemp.count
+            
             //moisture
             let sumMoisture = listForAvgMoisture.reduce(0, +)
             let avgMoisture = sumMoisture / listForAvgMoisture.count
             
+            //tuples
             let lightTuple = (high: maxLight, avg: avgLight, low: minLight)
             let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
             let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)
