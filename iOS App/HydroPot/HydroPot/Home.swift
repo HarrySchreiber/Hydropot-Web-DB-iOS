@@ -313,15 +313,23 @@ struct HomeView: View {
     ///
     func getLastWatered(pot: Pot) -> String {
         
+        //date of last watered
         let date1 = pot.lastWatered
+        
+        //todays date
         let date2 = Date()
         
+        //differenes between the dates
         let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //either days or no difference and so optional
         let days = diffs.day ?? 0
         
+        //return if it was a singular day
         if days == 1 {
             return String(days) +  " day ago"
         }
+        //return if it was multiple days
         return String(days) + " days ago"
     }
     

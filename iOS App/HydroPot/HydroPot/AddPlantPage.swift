@@ -262,7 +262,7 @@ struct AddPlantPage: View {
         }
     }
     
-    /// add encode encoded image to the dp
+    /// add encode encoded image to the db
     ///
     /// - Parameters:
     ///     - encodedImage: image encoding to be uploaded

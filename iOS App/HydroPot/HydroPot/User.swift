@@ -8,7 +8,7 @@
 import Foundation
 
 /*
-    codable to hold results from aws api call
+    Codable to hold results from aws api call
  */
 struct UserResults: Codable {
     let Items: [User] //items/users returned
@@ -17,7 +17,7 @@ struct UserResults: Codable {
 }
 
 /*
-    cadable to convert user json into struct to place in class
+    Codable to convert user json into struct to place in class
  */
 struct User: Codable, Identifiable {
     let id: String //user id
@@ -35,7 +35,7 @@ struct User: Codable, Identifiable {
 }
 
 /*
-    user object to store users
+    User object to store users
  */
 class GetUser: ObservableObject {
     @Published var userId: String //id of the user
@@ -47,17 +47,17 @@ class GetUser: ObservableObject {
     @Published var deviceToken: String //current device token
     @Published var pots: [Pot] //pots the user owns
 
-    /// constructor for user
+    /// Constructor for user
     ///
     /// - Parameters:
-    ///     - userID: id of the user
-    ///     - loggedIn: is the user logged in
-    ///     - name: name of the user
-    ///     - email: email of the user
-    ///     - password: password of the user
-    ///     - pots: pots the owns
-    ///     - notifications: does the user want notifications
-    ///     - deviceToken: device token of current device
+    ///     - userID: Id of the user
+    ///     - loggedIn: Is the user logged in
+    ///     - name: Name of the user
+    ///     - email: Email of the user
+    ///     - password: Password of the user
+    ///     - pots: Pots the owns
+    ///     - notifications: Does the user want notifications
+    ///     - deviceToken: Device token of current device
     init() {
         self.userId = ""
         self.loggedIn = false
@@ -69,12 +69,12 @@ class GetUser: ObservableObject {
         self.deviceToken =   UserDefaults.standard.string(forKey: "deviceToken") ?? ""
     }
     
-    /// login function for loading up everything and checking credentials
+    /// Login function for loading up everything and checking credentials
     ///
     /// - Parameters:
-    ///     - email: email of the user
-    ///     - password: password of the user
-    ///     - onEnded: callback to function
+    ///     - email: Email of the user
+    ///     - password: Password of the user
+    ///     - onEnded: Callback to function
     func login (email: String, password: String, onEnded: @escaping () -> ()) {
         
         //payload to send to aws
@@ -207,10 +207,10 @@ class GetUser: ObservableObject {
         }.resume()
     }
     
-    /// reload function to reload data from aws
+    /// Reload function to reload data from aws
     ///
     /// - Parameters:
-    ///     - onEnded: callback to function
+    ///     - onEnded: Callback to function
     func reload (onEnded: @escaping () -> ()) {
 
         let json: [String: Any] =
@@ -342,7 +342,7 @@ class GetUser: ObservableObject {
     }
     
  
-    /// logout function to reset the user
+    /// Logout function to reset the user
     func logout() {
         self.userId = ""
         self.loggedIn = false
@@ -352,12 +352,12 @@ class GetUser: ObservableObject {
         self.pots = []
     }
     
-    /// signing up the user to aws
+    /// Signing up the user to aws
     ///
     /// - Parameters:
-    ///     - name: name of the user
-    ///     - email: email of the user
-    ///     - password: password of the user
+    ///     - name: Name of the user
+    ///     - email: Email of the user
+    ///     - password: Password of the user
     func signup(name: String, email: String, password: String) {
         
         //create the users ID
@@ -399,10 +399,10 @@ class GetUser: ObservableObject {
 
     }
     
-    /// adding pot to user through aws
+    /// Adding pot to user through aws
     ///
     /// - Parameters:
-    ///     - pot: the user's pot to be added
+    ///     - pot: The user's pot to be added
     func addPlant(pot: Pot) {
         
         //date formatter for various dates
@@ -573,12 +573,14 @@ class GetUser: ObservableObject {
             //for date on record
             let dateString = dateFormatter.string(from: record.dateRecorded)
             
+            //values for the records
             recDict["dateRecorded"] = dateString //date recorded
             recDict["light"] = record.light //light of record
             recDict["moisture"] = record.moisture //moisture of record
             recDict["reservoir"] = record.reservoir //res level of record
             recDict["temperature"] = record.temperature //temperature of record
             recDict["watering"] = record.watering //watering of record
+            
             //append our single record
             recJsonArray.append(recDict)
         }
