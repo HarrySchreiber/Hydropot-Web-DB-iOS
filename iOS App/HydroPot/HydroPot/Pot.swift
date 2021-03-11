@@ -31,6 +31,9 @@ struct codePot: Codable, Identifiable {
     }
 }
 
+/*
+    class to hold pot objects
+ */
 class Pot: ObservableObject, Identifiable {
     @Published var image: String //image for the pot
     @Published var plantType: String //type of plant it is
@@ -122,6 +125,23 @@ class Pot: ObservableObject, Identifiable {
         self.curLight = 0
     }
     
+    /// editing the pott another way
+    ///
+    /// - Parameters:
+    ///     - plantType: Type of plant it is
+    ///     - idealTempHigh: High temp for the pot
+    ///     - idealTempLow: Low temperature for the pot
+    ///     - curTemp: The current temp of the pot
+    ///     - idealMoistureHigh: High moisture for the pot
+    ///     - idealMoistureLow: Low moisture for the pot
+    ///     - curMoisture: The current moisture for the pot
+    ///     - idealLightHigh: High light for the pot
+    ///     - idealLightLow: Low light for the pot
+    ///     - curLight: The current light of the pot
+    ///     - plantName: The name of the pot
+    ///     - automaticWatering: Automatic watering bool for the pot
+    ///     - lastWatered: The last date the pot was watered
+    ///     - image: Image for the pot
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool, lastWatered: Date, image: String) {
         self.plantName = plantName
         self.plantType = plantType
