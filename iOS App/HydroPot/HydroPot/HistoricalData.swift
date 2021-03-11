@@ -42,7 +42,7 @@ struct HistoricalData: View {
                 PagesContainer(contentCount: 2) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.blue.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Soil Moisture")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -50,7 +50,7 @@ struct HistoricalData: View {
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.blue.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Soil Moisture")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -75,7 +75,7 @@ struct HistoricalData: View {
                 PagesContainer(contentCount: 2) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.red.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Light Level")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -83,7 +83,7 @@ struct HistoricalData: View {
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.red.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Light Level")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -108,7 +108,7 @@ struct HistoricalData: View {
                 PagesContainer(contentCount: 2) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.green.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Temperature")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -116,7 +116,7 @@ struct HistoricalData: View {
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.green.opacity(0.3))
+                            .foregroundColor(Color.white.opacity(0.9))
                             .padding()
                         Text("Temperature")
                             .font(.system(size: UIScreen.title3TextSize))
@@ -153,6 +153,12 @@ struct HistoricalData: View {
                     })
             }
         }
+        //background image for the home page
+        .background(
+            Image("plant2")
+                .resizable()
+                .opacity(0.50)
+        )
     }
 }
 
