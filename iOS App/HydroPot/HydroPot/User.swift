@@ -661,149 +661,219 @@ class GetUser: ObservableObject {
         
     }
     
+    /// changing password client and server side
+    ///
+    /// - Parameters:
+    ///     - password: the password to be changed
     func changePass(password: String) {
         
+        //update pasword client side
         self.password = password
         
+        //payload to send to aws
         let json: [String: Any] = ["operation": "changePass", "tableName": "HydroPotUsers", "payload": ["Item": ["name": self.name, "email": self.email, "password": password, "id": self.userId]]]
         
+        //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        //url to send request to
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure and submit request
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //error response
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
     
+    /// changing username client and server side
+    ///
+    /// - Parameters:
+    ///     - name: the name to be changed
     func changeName(name: String) {
         
+        //change name client side
         self.name = name
         
+        //payload to send to aws lambda
         let json: [String: Any] = ["operation": "changeName", "tableName": "HydroPotUsers", "payload": ["Item": ["name": name, "email": self.email, "password": password, "id": self.userId]]]
         
+        //jsonify the payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        //the url we are sending the request to
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure and submit request
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //error response
         session.dataTask(with: request) { data, response, error in }.resume()
-
     }
     
+    /// changing device token server side
+    ///
     func changeDeviceToken() {
                 
+        //payload to send to aws lambda
         let json: [String: Any] = ["operation": "changeName", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId, "deviceToken": self.deviceToken]]]
         
+        //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        //the url to submit the request
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure and submit the request
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //error response
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
     
+    /// changing whether the user wants notifications
+    ///
+    /// - Parameters:
+    ///     - notifications: whether the user wants notifications or not
     func toggleNotifications(notifications: Bool) {
         
+        //change client side
         self.notifications = notifications
         
+        //json payload to send to aws lambda
         let json: [String: Any] = ["operation": "toggleNotis", "tableName": "HydroPotUsers", "payload": ["Item": ["name": self.name, "email": self.email, "notifications": notifications, "id": self.userId]]]
         
+        //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        //url to send to aws lambda
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure and submit the request
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //error response
         session.dataTask(with: request) { data, response, error in }.resume()
 
     }
     
+    /// water the pot server side
+    ///
+    /// - Parameters:
+    ///     - pot: the pot to be watered
+    ///     - waterAmount: the amount to water the pot
     func waterPot(pot: Pot, waterAmount: Int){
         
+        //replace the pot with the new request server side
         replacePot(pot: pot)
         
+        //if we have records then update the last record to let pot know
         if (pot.records.count != 0){
             pot.records[pot.records.count-1].watering = waterAmount
             pot.records[pot.records.count-1].dateRecorded = Date()
             pot.lastWatered = Date()
         }
+        //if we don't have records then we create a dummy record for the pot to know we want to water
         else {
             pot.records.append(Record(dateRecorded: Date(), moisture: 0, temperature: 0, light: 0, reservoir: 0, watering: waterAmount))
         }
                 
+       //format for dates
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         
         
+        //making array for notis json
         var notieJsonArray : [Dictionary<String, Any>] = []
 
+        //for every noti
         for notification in pot.notifications {
+            //make noti dict
             var notieDict : [String: String] = [:]
+            //format timestamp
             let dateString = dateFormatter.string(from: notification.timeStamp)
             
+            //our values
             notieDict["timeStamp"] = dateString
             notieDict["type"] = notification.type
+            
+            //append json to noti array
             notieJsonArray.append(notieDict)
         }
         
+        //records json array
         var recJsonArray : [Dictionary<String, Any>] = []
+        //for each record
         for record in pot.records {
+            //make new records dict
             var recDict : [String: Any] = [:]
+            //for date on record
             let dateString = dateFormatter.string(from: record.dateRecorded)
             
-            recDict["dateRecorded"] = dateString
-            recDict["light"] = record.light
-            recDict["moisture"] = record.moisture
-            recDict["reservoir"] = record.reservoir
-            recDict["temperature"] = record.temperature
-            recDict["watering"] = record.watering
+            recDict["dateRecorded"] = dateString //date recorded
+            recDict["light"] = record.light //light of record
+            recDict["moisture"] = record.moisture //moisture of record
+            recDict["reservoir"] = record.reservoir //res level of record
+            recDict["temperature"] = record.temperature //temperature of record
+            recDict["watering"] = record.watering //watering of record
+            //append our single record
             recJsonArray.append(recDict)
         }
+        //json payload to submit
         let json: [String: Any] =
             [
               "operation": "editPot",
@@ -830,28 +900,44 @@ class GetUser: ObservableObject {
                 ]
               ]
             ]
+        
+        //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
+        //url to send to aws
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure and submit the request
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //error response
         session.dataTask(with: request) { data, response, error in}.resume()
         
     }
     
+    /// water the pot server side
+    ///
+    /// - Parameters:
+    ///     - encoding: the image data
+    ///     - ext: the extension format the image is in
+    ///     - pot: the pot the image belongs to
+    ///     - onEnded: callback
     func uploadImage(encoding: String, ext: String, pot: Pot, onEnded: @escaping () -> ()) {
         
+        //json payload for aws lambda
         let json: [String: Any] =
             [
               "operation": "profileUpload",
@@ -864,22 +950,29 @@ class GetUser: ObservableObject {
               ]
             ]
         
+        //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
+        //the aws lambda url to send request
         let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
+        //make the request
         var request = URLRequest(url: url)
         
+        //post request
         request.httpMethod = "POST"
         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // insert json data to the request
         request.httpBody = jsonData
 
+        //configure the request and submit
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Accept": "Application/json"]
         let session = URLSession(configuration: config)
         
+        //on recieve
         session.dataTask(with: request) { data, response, error in
             // make sure data is not nil
             guard let d = data else {
@@ -887,13 +980,15 @@ class GetUser: ObservableObject {
                 return
             }
             
+            //get url where image resides
             var str = String(decoding: d, as: UTF8.self)
-            
             str = str.replacingOccurrences(of: "\"", with: "")
 
-            
+            //async queue
             DispatchQueue.main.async(execute: {
+                //pot image is at the string
                 pot.image = str
+                //go back
                 onEnded()
             })
         }.resume()
