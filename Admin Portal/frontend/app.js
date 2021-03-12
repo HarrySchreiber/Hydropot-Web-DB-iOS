@@ -92,10 +92,12 @@ function authenticateUser(){
         }
     }),
     function(data){
-        if(data['Count'] === 1){
+        console.log();
+        try{
+            var id = data["Items"][0]["id"];
             $("#login").remove();
             loadPage();
-        }else{
+        }catch(err){
             warningModal("No account registered with those credentials");
         }
     });
