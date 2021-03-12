@@ -92,9 +92,9 @@ struct AddPlantPage: View {
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
-                            }
-                            .sheet(isPresented: $isShowPicker) {
-                                ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                    .sheet(isPresented: $isShowPicker) {
+                                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                    }
                             }
                             HStack{
                                 TextField("Pot ID", text: $potID)
