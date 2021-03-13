@@ -75,7 +75,7 @@ class Pot: ObservableObject, Identifiable {
     ///     - plantName: The name of the pot
     ///     - records: The records for the pot
     ///     - Notifications: The notifications for the pot
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -93,7 +93,7 @@ class Pot: ObservableObject, Identifiable {
         self.notifications = notifications
         self.image = ""
         self.resLevel = resLevel
-        self.id = id
+        self.id = potId
         self.image = image
     }
     
