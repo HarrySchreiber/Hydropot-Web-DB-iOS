@@ -27,86 +27,74 @@ struct AddPlantPage: View {
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //other default user image
     @State var tempURL = "" //temp url to know if the image has been selected by user
     @State var potID = "" //id of the pot
-    
     var body: some View {
         NavigationView {
             VStack{
                 GeometryReader{ geometry in
-                    VStack{
-                        HStack{
-                            //image picker button
-                            Button(action: {
-                                withAnimation {
-                                    //displays the image picker
-                                    self.isShowPicker.toggle()
-                                }
-                            }) {
-                                VStack{
-                                    VStack {
-                                        //image to be displayed
-                                        image?
-                                            //styling
-                                            .resizable()
-                                            .scaledToFit()
+                    ScrollView {
+                        VStack{
+                            HStack{
+                                Button(action: {
+                                    withAnimation {
+                                        //show image picker
+                                        self.isShowPicker.toggle()
+                                    }
+                                }) {
+                                    VStack{
+                                        VStack {
+                                            //image to be displayed
+                                            image?
+                                                //styling
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(alignment: .center)
+                                                .clipped()
+                                                .clipShape(Circle())
+                                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                .shadow(radius: 10)
+                                        }
+                                        //styling
+                                        .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                        .padding(.bottom, UIScreen.addPhotoPadding)
+                                        //letting user know to add
+                                        Text("Add Photo")
+                                            .font(.system(size: UIScreen.regTextSize))
                                             .frame(alignment: .center)
                                     }
-                                    //frame for the image
-                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
-                                    .padding(.bottom, UIScreen.addPhotoPadding)
-                                    //text below image to tell user to add a photo
-                                    Text("Add Photo")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .frame(alignment: .center)
                                 }
+                                //styling
                                 .foregroundColor(.black)
                                 .padding(.top)
                             }
-                            //styling
-                            .foregroundColor(.black)
-                            .padding([.top, .leading])
-                        }
-                        .padding(.bottom)
-                        HStack{
-                            //text field to enter plants name
-                            TextField("Plant Name", text: $plantName)
-                                //styling
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.5))
-                        }
-                        //if picker has been toggled
-                        .sheet(isPresented: $isShowPicker) {
-                            //display the image picker
-                            ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        ZStack{
-                            //if the user has not selected the plant type
-                            if (plantSelected == "Plant Type"){
-                                Text("\(plantSelected)")
+                            .padding(.bottom)
+                            HStack{
+                                //name of the plant
+                                TextField("Plant Name", text: $plantName)
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
-                                    .sheet(isPresented: $isShowPicker) {
-                                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
-                                    }
+                            }
+                            //show the image picker when toggled
+                            .sheet(isPresented: $isShowPicker) {
+                                ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                             }
                             HStack{
+                                //pot id for user to input
                                 TextField("Pot ID", text: $potID)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
                             }
-                            
                             ZStack{
+                                //if defualt plant type
                                 if (plantSelected == "Plant Type"){
+                                    //display empty
                                     Text("\(plantSelected)")
+                                        //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .foregroundColor(.black)
                                         .opacity(0.3)
@@ -115,7 +103,9 @@ struct AddPlantPage: View {
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
                                 }
+                                //if not default
                                 else {
+                                    //display actual plant type
                                     Text("\(plantSelected)")
                                         .font(.system(size: UIScreen.regTextSize))
                                         .foregroundColor(.black)
@@ -124,9 +114,11 @@ struct AddPlantPage: View {
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
                                 }
-                                
+                                //link the plant type field to the adding page
                                 NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                                    //chev image to let user know to press
                                     Image(systemName: "chevron.right")
+                                        //styling
                                         .foregroundColor(.black)
                                         .padding(6)
                                         .font(.system(size: UIScreen.title3TextSize))
@@ -134,63 +126,82 @@ struct AddPlantPage: View {
                                         .padding(.leading, geometry.size.width * 0.8)
                                 }
                             }
-                            
                             HStack {
+                                //moisture to be entered
                                 Text("Moisture (%)")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                //low moisture
                                 TextField("Low", text: $idealMoistureLow)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                //seperator
                                 Text("-")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                     .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high moisture
                                 TextField("High", text: $idealMoistureHigh)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
-                                
-                                
                             }
                             HStack{
+                                //light to be entered
                                 Text("Light (lm)")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                //low light
                                 TextField("Low", text: $idealLightLevelLow)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                //seperator
                                 Text("-")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                     .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high to be entered
                                 TextField("High", text: $idealLightLevelHigh)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
-                                
-                                
                             }
                             HStack {
+                                //temperature to be entered
                                 Text("Temp (°F)")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                //low temp to be entered
                                 TextField("Low", text: $idealTemperatureLow)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                //seperator
                                 Text("-")
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                     .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high temp to be entered
                                 TextField("High", text: $idealTemperatureHigh)
+                                    //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
@@ -280,10 +291,12 @@ struct AddPlantPage: View {
     ///     the encoded image data
     func encodePictureJPEG (image: UIImage) -> String{
         
+        //if we can't return encoded
         guard let imageData = image.jpeg(UIImage.JPEGQuality(rawValue: 0)!) else {
             return ""
         }
         
+        //else return encoded
         return imageData.base64EncodedString()
         
     }

@@ -659,6 +659,7 @@ class GetUser: ObservableObject {
         notiesTupleList = notiesTupleList.sorted(by: {
             $0.notiesTuple.notification.timeStamp.compare($1.notiesTuple.notification.timeStamp) == .orderedDescending
         })
+        //return
         return notiesTupleList
         
     }
@@ -993,7 +994,7 @@ class GetUser: ObservableObject {
                 //go back
                 onEnded()
             })
+        //resume
         }.resume()
     }
 }
-
