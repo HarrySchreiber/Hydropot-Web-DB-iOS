@@ -431,9 +431,21 @@ struct EditPlantPage: View {
     ///     - encodedImage: the encoding of the image
     ///     - ext: the extension of the image
     func addImage(encodedImage: String, ext: String) {
-        user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
+        
+        //if we do have image
+        if (tempURL != ""){
+            //upload image
+            user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
+                if user.loggedIn {
+                    //edit the pot
+                    user.editPot(pot: pot)
+                }
+            }
+        }
+        //if we don't have an image
+        else {
             if user.loggedIn {
-                print(pot.image)
+                //edit the pot
                 user.editPot(pot: pot)
             }
         }
@@ -444,8 +456,11 @@ struct EditPlantPage: View {
     /// - Parameters:
     ///     - pot: pot to be deleted
     func deletePot(pot: Pot) {
+        //for each pot
         for i in 0...user.pots.count {
+            //if we found our pot
             if (user.pots[i].id == pot.id) {
+                //delete the pot
                 user.deletePot(Index: i)
                 break
             }
