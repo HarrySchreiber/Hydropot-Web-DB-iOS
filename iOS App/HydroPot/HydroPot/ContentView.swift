@@ -8,7 +8,7 @@
 import SwiftUI
 
 /*
-    start at login
+    Start at login
  */
 struct ContentView: View {
     var body: some View {
@@ -18,7 +18,7 @@ struct ContentView: View {
 }
 
 /*
-    preview
+    Preview
  */
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

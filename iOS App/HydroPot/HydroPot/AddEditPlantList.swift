@@ -9,27 +9,27 @@
 import SwiftUI
 
 struct AddEditPlantList: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State var plants: Plants
-    @Binding var plantSelected: String
-    @Binding var idealTemperatureHigh: String
-    @Binding var idealMoistureHigh: String
-    @Binding var idealLightLevelHigh: String
-    @Binding var idealTemperatureLow: String
-    @Binding var idealMoistureLow: String
-    @Binding var idealLightLevelLow: String
+    @Environment(\.presentationMode) var presentationMode //presentation mode to dismiss
+    @State var plants: Plants //plants passed in
+    @Binding var plantSelected: String //the plant we have selected
+    @Binding var idealTemperatureHigh: String //idea temp high
+    @Binding var idealMoistureHigh: String //ideal mois high
+    @Binding var idealLightLevelHigh: String //ideal light high
+    @Binding var idealTemperatureLow: String //ideal temp low
+    @Binding var idealMoistureLow: String //ideal mois low
+    @Binding var idealLightLevelLow: String //ideal light low
     
-    @State private var searchQuery: String = ""
-    @State private var plantList = [String]()
-    @State private var searchedPlantList = [String]()
-    @State private var displayedList = [String]()
-    @State private var searching = false
-    @State private var filtering = false
+    @State private var searchQuery: String = "" //search of user
+    @State private var plantList = [String]() //list of plants
+    @State private var searchedPlantList = [String]() //plants returned by search
+    @State private var displayedList = [String]() //list displayed to user
+    @State private var searching = false //are we searching
+    @State private var filtering = false //are we filtering
     //array of boolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
-    @State var urlList : [String] = []
-    @State var fullUrlList : [String] = []
+    @State var urlList : [String] = [] //list of images
+    @State var fullUrlList : [String] = [] //full list of images combined with the 2 filters
     
     var body: some View {
         let filterBinding = Binding<[(Bool,Bool,Bool)]>(
