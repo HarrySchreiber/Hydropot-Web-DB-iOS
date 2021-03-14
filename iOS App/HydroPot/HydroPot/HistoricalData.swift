@@ -47,6 +47,34 @@ struct HistoricalData: View {
                         Text("Soil Moisture")
                             .font(.system(size: UIScreen.title3TextSize))
                             .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                        // 1
+                        HStack {
+                          // 2
+                            ForEach(1..<9) { month in
+                            // 3
+                            VStack {
+                              // 4
+                              Spacer()
+                                Text("\(String(format: "%.2f", Double(month)))")
+                                    
+                                  .font(.footnote)
+                                  .rotationEffect(.degrees(-90))
+                                  .offset(y: 35)
+                                  .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+
+                              // 5
+                              Rectangle()
+                                .fill(Color.green)
+                                .frame(width: 20, height: CGFloat(Double(month)) * 15.0)
+                              // 6
+                              Text("\(month)")
+                                .font(.footnote)
+                                .frame(height: 20)
+                            }
+                            .padding(.bottom)
+                          }
+                        }
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
