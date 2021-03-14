@@ -55,18 +55,18 @@ struct HistoricalData: View {
                             VStack {
                               // 4
                               Spacer()
-                                Text("\(String(format: "%.2f", Double(month)))")
+                                Text("\(month*10)")
                                     
                                   .font(.footnote)
                                   .rotationEffect(.degrees(-90))
-                                  .offset(y: 35)
+                                  .offset(y: 40)
                                   .zIndex(1)
                                     .offset(y: Double(month) < 2.4 ? -35 : 0)
 
                               // 5
                               Rectangle()
-                                .fill(Color.green)
-                                .frame(width: 20, height: CGFloat(Double(month)) * 15.0)
+                                .fill(getTextColor(bool: ((month*10 >= pot.idealMoistureLow) && (month*10 <= pot.idealMoistureHigh))))
+                                .frame(width: 20, height: CGFloat(Double(month)) * 14.0)
                               // 6
                               Text("\(month)")
                                 .font(.footnote)
@@ -108,6 +108,34 @@ struct HistoricalData: View {
                         Text("Light Level")
                             .font(.system(size: UIScreen.title3TextSize))
                             .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                        // 1
+                        HStack {
+                          // 2
+                            ForEach(1..<9) { month in
+                            // 3
+                            VStack {
+                              // 4
+                              Spacer()
+                                Text("\(month*100)")
+                                    
+                                  .font(.footnote)
+                                  .rotationEffect(.degrees(-90))
+                                  .offset(y: 40)
+                                  .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+
+                              // 5
+                              Rectangle()
+                                .fill(getTextColor(bool: ((month*100 >= pot.idealLightLow) && (month*100 <= pot.idealLightHigh))))
+                                .frame(width: 25, height: CGFloat(Double(month)) * 14.0)
+                              // 6
+                              Text("\(month)")
+                                .font(.footnote)
+                                .frame(height: 20)
+                            }
+                            .padding(.bottom)
+                          }
+                        }
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
@@ -141,6 +169,34 @@ struct HistoricalData: View {
                         Text("Temperature")
                             .font(.system(size: UIScreen.title3TextSize))
                             .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                        // 1
+                        HStack {
+                          // 2
+                            ForEach(1..<9) { month in
+                            // 3
+                            VStack {
+                              // 4
+                              Spacer()
+                                Text("\(month*10)")
+                                    
+                                  .font(.footnote)
+                                  .rotationEffect(.degrees(-90))
+                                  .offset(y: 40)
+                                  .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+
+                              // 5
+                              Rectangle()
+                                .fill(getTextColor(bool: ((month*10 >= pot.idealTempLow) && (month*10 <= pot.idealTempHigh))))
+                                .frame(width: 20, height: CGFloat(Double(month)) * 14.0)
+                              // 6
+                              Text("\(month)")
+                                .font(.footnote)
+                                .frame(height: 20)
+                            }
+                            .padding(.bottom)
+                          }
+                        }
                     }
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
@@ -187,6 +243,13 @@ struct HistoricalData: View {
                 .resizable()
                 .opacity(0.50)
         )
+    }
+    
+    func getTextColor(bool: Bool) -> Color{
+        if(bool) {
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        return Color.red
     }
 }
 

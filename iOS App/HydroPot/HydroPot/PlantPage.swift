@@ -115,7 +115,7 @@ struct PlantPage: View {
                             VStack (alignment: .trailing) {
                                 Text("\(pot.curMoisture)%")                                        .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: moistureGood))
                                 Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.gray)
@@ -178,7 +178,7 @@ struct PlantPage: View {
                                 Text("\(pot.curTemp)°F")
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: tempGood))
                                 Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.gray)
