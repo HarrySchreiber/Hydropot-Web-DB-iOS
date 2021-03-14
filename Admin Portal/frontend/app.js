@@ -66,12 +66,14 @@ function packageData(data){
 function loadPage(){
     postToLambda(JSON.stringify({
         'operation':'getAll',
+        'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes'
     }),
     function(data){
         buildHeaderBar();
         buildSearchField();
         buildInputFields();
+        console.log(data)
         plantTypesLocal = packageData(data['Items']);
         buildTable(plantTypesLocal);
     });
@@ -83,6 +85,7 @@ function authenticateUser(){
 
     postToLambda(JSON.stringify({
         'operation':'login',
+        'userID':'',
         'tableName':'HydroPotPlantTypes',
         'payload':{
             'Item':{
@@ -92,9 +95,10 @@ function authenticateUser(){
         }
     }),
     function(data){
-        console.log();
+        console.log(data);
         try{
             var id = data["Items"][0]["id"];
+            setCached("userID",id);
             $("#login").remove();
             loadPage();
         }catch(err){
@@ -329,6 +333,7 @@ function buildInputFields(){
 function addPlant(imageURL, keyValueStore){
     postToLambda(JSON.stringify({
         'operation':'add',
+        'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
         'payload':{
             'Item':{
@@ -362,6 +367,7 @@ function editPlant(id,imageURL, savedOldURL = "", keyValueStore){
 
     postToLambda(JSON.stringify({
         'operation':'edit',
+        'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
         'payload':{
             'Item':{
@@ -393,6 +399,7 @@ function deletePlant(id,imageUrl){
 
     postToLambda(JSON.stringify({
         'operation':'delete',
+        'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
         'payload':{
             'Item':{
@@ -601,6 +608,7 @@ function imageUpload(id,action,fileDialogueId,keyValueStore){
         var encodedImage = reader.result.split(",",2)[1];
         postToLambda(JSON.stringify({
             'operation':'imageUpload',
+            'userID': checkCookie(),
             'tableName':'HydroPotPlantTypes',
             'payload':{
                 'Item':{
@@ -638,7 +646,8 @@ function runSearchQuery(){
 }
 
 function logout(){
-    location.reload(); //TODO this needs to be a real method
+    setCached("userID","");
+    location.reload();
 }
 
 function validateFieldInput(keyValueStore){
@@ -727,4 +736,43 @@ function prepForDB(id,action,fileDialogueId){
         }
         imageUpload(id,action,fileDialogueId,keyValueStore);
     }
+}
+
+function checkCookie(){
+    var cachedResult = retrieveCached("userID", 86400); //86400 number seconds in a day
+    return cachedResult;
+}
+
+function setCached(key, val){
+    var now = (new Date()).getTime();
+    var stringVal = JSON.stringify({time: now, value: val } );
+    sessionStorage.setItem(key,stringVal);
+    
+}
+
+// Get Chached
+function retrieveCached(key, ttl){
+    if (key in sessionStorage) {
+        var x = JSON.parse(sessionStorage.getItem(key));
+        var now = (new Date()).getTime();
+        var cachedTime = x.time;
+        if(cachedTime && (now - cachedTime < (ttl*1000))){
+            return x.value;
+        }
+    }
+    return null;
+}
+
+function checkLoggedIn(){
+    postToLambda(JSON.stringify({
+        'operation':'savedLogin',
+        'userID':checkCookie()
+    }),
+    function(data){
+        //Checks to see if the user has already been logged in in the past day
+        if(data){
+            $("#login").remove();
+            loadPage();
+        }
+    });
 }
