@@ -31,7 +31,7 @@ struct AddEditPlantList: View {
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
     @State var urlList : [String] = []  //list of urls for images (what is displayed)
     @State var fullUrlList : [String] = []  //complete list of urls
-    
+
     var body: some View {
         //binding variable for tracking filtered values (set in the filter page)
         let filterBinding = Binding<[(Bool,Bool,Bool)]>(

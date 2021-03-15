@@ -126,7 +126,7 @@ struct HomeView: View {
     @ObservedObject var plants: Plants //plant list already made
     @State private var showPopUp = false //allows add plants modal to pop up
     //default pot for the user to select
-    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false, image: "")
+    @State var potSelected = Pot(plantName: "", plantType: "", idealTempHigh: 0, idealTempLow: 0, idealMoistureHigh: 0, idealMoistureLow: 0, idealLightHigh: 0, idealLightLow: 0, lastWatered: Date(), records: [], notifications: [], resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: "", automaticWatering: false, image: "", potId: "")
     //toggled to change add plants modal
     @State var showingDetail = false
     
@@ -318,15 +318,23 @@ struct HomeView: View {
     ///
     func getLastWatered(pot: Pot) -> String {
         
+        //date of last watered
         let date1 = pot.lastWatered
+        
+        //todays date
         let date2 = Date()
         
+        //differenes between the dates
         let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //either days or no difference and so optional
         let days = diffs.day ?? 0
         
+        //return if it was a singular day
         if days == 1 {
             return String(days) +  " day ago"
         }
+        //return if it was multiple days
         return String(days) + " days ago"
     }
     

@@ -31,6 +31,9 @@ struct codePot: Codable, Identifiable {
     }
 }
 
+/*
+    class to hold pot objects
+ */
 class Pot: ObservableObject, Identifiable {
     @Published var image: String //image for the pot
     @Published var plantType: String //type of plant it is
@@ -72,7 +75,7 @@ class Pot: ObservableObject, Identifiable {
     ///     - plantName: The name of the pot
     ///     - records: The records for the pot
     ///     - Notifications: The notifications for the pot
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -90,7 +93,7 @@ class Pot: ObservableObject, Identifiable {
         self.notifications = notifications
         self.image = ""
         self.resLevel = resLevel
-        self.id = id
+        self.id = potId
         self.image = image
     }
     
@@ -122,6 +125,23 @@ class Pot: ObservableObject, Identifiable {
         self.curLight = 0
     }
     
+    /// editing the pott another way
+    ///
+    /// - Parameters:
+    ///     - plantType: Type of plant it is
+    ///     - idealTempHigh: High temp for the pot
+    ///     - idealTempLow: Low temperature for the pot
+    ///     - curTemp: The current temp of the pot
+    ///     - idealMoistureHigh: High moisture for the pot
+    ///     - idealMoistureLow: Low moisture for the pot
+    ///     - curMoisture: The current moisture for the pot
+    ///     - idealLightHigh: High light for the pot
+    ///     - idealLightLow: Low light for the pot
+    ///     - curLight: The current light of the pot
+    ///     - plantName: The name of the pot
+    ///     - automaticWatering: Automatic watering bool for the pot
+    ///     - lastWatered: The last date the pot was watered
+    ///     - image: Image for the pot
     func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, curLight: Int, curMoisture: Int, curTemp: Int, automaticWatering: Bool, lastWatered: Date, image: String) {
         self.plantName = plantName
         self.plantType = plantType
@@ -150,10 +170,12 @@ class Pot: ObservableObject, Identifiable {
             var maxMoisture = Int.min
             var minMoisture = Int.max
             
+            //lists
             var listForAvgLight : [Int] = []
             var listForAvgTemp : [Int] = []
             var listForAvgMoisture : [Int] = []
             
+            //records being sorted by date
             var recordsList = records
             recordsList = recordsList.sorted(by: {
                 $0.dateRecorded.compare($1.dateRecorded) == .orderedDescending
@@ -220,10 +242,12 @@ class Pot: ObservableObject, Identifiable {
             //temp
             let sumTemp = listForAvgTemp.reduce(0, +)
             let avgTemp = sumTemp / listForAvgTemp.count
+            
             //moisture
             let sumMoisture = listForAvgMoisture.reduce(0, +)
             let avgMoisture = sumMoisture / listForAvgMoisture.count
             
+            //tuples
             let lightTuple = (high: maxLight, avg: avgLight, low: minLight)
             let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
             let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)

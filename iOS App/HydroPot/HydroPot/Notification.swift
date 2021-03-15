@@ -39,4 +39,10 @@ class Notification: ObservableObject, Identifiable {
     }
 }
 
-    
+/*
+    struct for notis and pot
+ */
+struct notiePots: Identifiable {
+    var id: Int //id to conform to identifiable
+    var notiesTuple : (pot: Pot, notification: Notification) //tuple for data
+}
