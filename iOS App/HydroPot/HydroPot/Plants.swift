@@ -78,7 +78,9 @@ class Plants: ObservableObject, Identifiable {
         
         //operation for the request
         let json: [String: Any] =
-            ["operation": "getAll", "tableName": "HydroPotPlantTypes"]
+            ["operation": "getAll",
+             "userID": "",
+             "tableName": "HydroPotPlantTypes"]
         
         //serlialize our payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)

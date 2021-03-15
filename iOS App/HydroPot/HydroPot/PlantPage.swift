@@ -155,7 +155,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: moistureGood))
                                 //display ideals for moisture
                                 Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
                                     //styling
@@ -239,7 +239,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: tempGood))
                                 //ideal for temp of pot
                                 Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
                                     .font(.system(size: UIScreen.regTextSize))

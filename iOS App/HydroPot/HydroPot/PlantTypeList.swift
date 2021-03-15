@@ -10,21 +10,22 @@ import URLImage
 
 struct PlantTypeList: View {
     @State var plants : Plants
-    @State private var searchQuery: String = ""
     
-    @State private var plantList = [String]()
-    @State private var searchedPlantList = [String]()
-    @State private var displayedList = [String]()
-    @State private var searching = false
-    @State private var filtering = false
-    @State var urlList : [String] = []
-    @State var fullUrlList : [String] = []
+    @State private var searchQuery: String = "" //string searched by the user
+    @State private var plantList = [String]()   //a string list of all the plants (for displaying)
+    @State private var searchedPlantList = [String]()   //list of plants that match search criteria
+    @State private var displayedList = [String]()       //list of plants that match search and filter - what is displayed
+    @State private var searching = false        //boolean for if user is searching
+    @State private var filtering = false        //boolean for if user is filtering
     
     //array of boolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
+    @State var urlList : [String] = []  //list of urls for images (what is displayed)
+    @State var fullUrlList : [String] = []  //complete list of urls
     
     var body: some View {
+        //binding variable for tracking filtered values (set in the filter page)
         let filterBinding = Binding<[(Bool,Bool,Bool)]>(
             get: {
             self.filteredValues
@@ -39,11 +40,13 @@ struct PlantTypeList: View {
             }
             filterList(filteredValues: self.filteredValues, displayedList: &self.displayedList, plants: self.plants, searchedList: (searching ? self.searchedPlantList : plantList), urlList: &self.urlList)
         })
+        //binding variable for the display list of plants (strings)
         let bindDisplayList = Binding<[String]>(
             get:{(searching || filtering) ? self.displayedList : plantList
             },
             set:{self.displayedList = $0}
         )
+        //binding variable for the display list of plant images
         let bindUrlList = Binding<[String]>(
             get:{(searching || filtering) ? self.urlList : fullUrlList},
             set:{self.urlList = $0}
@@ -54,9 +57,10 @@ struct PlantTypeList: View {
                 // SearchBar
                 SearchBar(searching: $searching, mainList: $plantList, searchedList: $searchedPlantList, displayedList: $displayedList, filteredValues: filterBinding, urlList: bindUrlList, plants: plants)
                 
-                // List
+                // List of plants
                 ScrollView {
                     VStack(spacing: 0) {
+                        //inform user if no plants match their filter/search criteria
                         if((searching || filtering) && displayedList.count == 0) {
                             Text("No plant types match your query. \nTry filtering for something else!")
                                 .font(.system(size: UIScreen.regTextSize))
@@ -66,7 +70,10 @@ struct PlantTypeList: View {
                                 .foregroundColor(.gray)
                                 .navigationBarTitle("Notifications", displayMode: .inline)
                         } else {
+                            //if the user is searching or filtering, loop through the trimmed down list of plants,
+                            //otherwise show the complete list of plants
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
+                                //setup nav link
                                 NavigationLink(
                                     destination:
                                         PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
@@ -88,12 +95,14 @@ struct PlantTypeList: View {
             }.navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Plant Types") // Navigation Bar Title
         }
+        //retrieve the list of plants from the plants object and setup the list of image urls
         .onAppear(perform: {
             self.plantList = listOfPlants(plantList: plants.plantList)
             self.fullUrlList = listOfImages(plantList: plants.plantList)
         })
     }
     
+    //get a string list of plants from the plants object
     func listOfPlants(plantList: [Plant]) -> [String] {
         var stringList : [String] = []
         for plant in plantList {
@@ -101,6 +110,8 @@ struct PlantTypeList: View {
         }
         return stringList
     }
+    
+    //get list of image urls from the plants object
     func listOfImages(plantList: [Plant]) -> [String] {
         var urlList: [String] = []
         for plant in plantList {
@@ -109,6 +120,7 @@ struct PlantTypeList: View {
         return urlList
     }
     
+    //function to find a correspond plant object given a plant type string
     func getSelectedPlant(selectedPlant: String) -> Plant {
         for plant in plants.plantList {
             if(plant.plantType == selectedPlant) {
@@ -120,7 +132,10 @@ struct PlantTypeList: View {
     }
     
 }
+
+//function for filtering list of plants based off users input (stored in array of boolean tuples
 func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String], plants: Plants, searchedList: [String], urlList: inout [String]) {
+    //setup temporary list
     var list = [String]()
     //moisture values
     let moistureTuple = (20,35)
@@ -129,29 +144,33 @@ func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String
     //temperature values
     let tempTuple = (55,70)
     
+    //boolean logic for if moisture, light or temperature are not selected
     let mNotSelected = !filteredValues[0].0 && !filteredValues[0].1 && !filteredValues[0].2
     let lNotSelected = !filteredValues[1].0 && !filteredValues[1].1 && !filteredValues[1].2
     let tNotSelected = !filteredValues[2].0 && !filteredValues[2].1 && !filteredValues[2].2
     
+    //loop through each plant
     for plant in plants.plantList {
-        //true if plant is in the selected range(s)
+        //true if plant is in the selected moisture range(s)
         let lowMoisture = (filteredValues[0].0 && plant.idealMoistureHigh <= moistureTuple.0)
         let medMoisture = (filteredValues[0].1 && (plant.idealMoistureHigh <= moistureTuple.1 && plant.idealMoistureHigh > moistureTuple.0))
         let highMoisture = (filteredValues[0].2 && plant.idealMoistureHigh > moistureTuple.1)
         
+        //true if plant is in the selected light range(s)
         let lowLight = (filteredValues[1].0 && plant.idealLightHigh <= lightTuple.0)
         let medLight = (filteredValues[1].1 && (plant.idealLightHigh <= lightTuple.1 && plant.idealLightHigh > lightTuple.0))
         let highLight = (filteredValues[1].2 && plant.idealLightHigh > lightTuple.1)
         
-        
+        //true if plant is in the selected temperature range(s)
         let lowTemp = (filteredValues[2].0 && plant.idealTempHigh <= tempTuple.0)
         let medTemp = (filteredValues[2].1 && (plant.idealTempHigh <= tempTuple.1 && plant.idealTempHigh > tempTuple.0))
         let highTemp = (filteredValues[2].2 && plant.idealTempHigh > tempTuple.1)
         
-        
+        //setup if the values are in any of the ranges
         let inMoistureRange = mNotSelected || lowMoisture || medMoisture || highMoisture
         let inLightRange = lNotSelected || lowLight || medLight || highLight
         let inTempRange = tNotSelected || lowTemp || medTemp || highTemp
+        
         //if the plant matches the moisture filter section
         if(inMoistureRange && inLightRange && inTempRange) {
             //add plant to temp list
@@ -171,6 +190,8 @@ func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String
 
     
 }
+
+//update the image list based on searching/filtering
 func updateImages(displayedList: [String], plants: Plants) -> [String] {
     var urlList: [String] = []
     for i in 0..<plants.plantList.count {
@@ -183,14 +204,15 @@ func updateImages(displayedList: [String], plants: Plants) -> [String] {
 
 struct ListCell: View {
     
-    @Binding var text: String
-    @Binding var url: String
+    @Binding var text: String   //text to display in list
+    @Binding var url: String    //image to display alongside text
     
     var body: some View {
         VStack() {
             Spacer()
             ZStack {
                 HStack (){
+                    //display the plant image
                     URLImage(url: URL(string: url)!) { image in
                         VStack {
                             image
@@ -201,6 +223,7 @@ struct ListCell: View {
                         }
                         .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
                     }
+                    //display the plant type name
                     Text(text)
                         .font(.system(size: UIScreen.regTextSize))
                         .foregroundColor(.black)
@@ -212,16 +235,17 @@ struct ListCell: View {
         }
     }
 }
+
 struct SearchBar: View {
-    @State private var searchInput: String = ""
+    @State private var searchInput: String = "" //user's search input
     
-    @Binding var searching: Bool
-    @Binding var mainList: [String]
-    @Binding var searchedList: [String]
-    @Binding var displayedList: [String]
-    @State var viewFilter: Bool = false
-    @Binding var filteredValues: [(Bool,Bool,Bool)]
-    @Binding var urlList: [String]
+    @Binding var searching: Bool    //boolean for if user is searching or not
+    @Binding var mainList: [String] //the main list that is not altered
+    @Binding var searchedList: [String] //the subset of the main list that is altered according to searches
+    @Binding var displayedList: [String]    //the displayed list (altered from filter and search)
+    @State var viewFilter: Bool = false     //variable for showing/hiding filter page
+    @Binding var filteredValues: [(Bool,Bool,Bool)] //tuples for storing filtered values
+    @Binding var urlList: [String]      //list of image urls
     var plants : Plants
     
     var body: some View {
@@ -250,6 +274,7 @@ struct SearchBar: View {
                         .padding(.horizontal, 10)
                     
                 }
+                //include the magnifying glass and the clear button on the search
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
@@ -270,7 +295,7 @@ struct SearchBar: View {
                 )
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
 
-                
+                //include filter button in the search bar region
                 Button(action: {
                     self.viewFilter.toggle()
                 })
@@ -283,6 +308,7 @@ struct SearchBar: View {
                         .cornerRadius(6)
                     
                 }.sheet(isPresented: $viewFilter) {
+                    //when pressed, go to the filter page
                     plantTypesFilter(showFilter: $viewFilter, filteredValues: $filteredValues)
                 }
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
