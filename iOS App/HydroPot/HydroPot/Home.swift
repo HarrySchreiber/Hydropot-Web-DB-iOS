@@ -40,6 +40,11 @@ extension UIScreen{
     static let zStackHeight = screenWidth / 2.13  //base is 150
     static let panelWidth = screenWidth
     static let panelHeight = screenWidth / 1.4 //base is 225
+    static let graphWidth = screenWidth / 16 // base is 20
+    static let textOffset = screenWidth / 9.14 //base is 30
+    static let graphTextLen = screenWidth / 133 // base is 2.4
+    static let graphMultiplier = screenWidth / 22.9 //base is 14
+    static let graphPadding = screenWidth / 64 //base is 5
     
     //add edit value
     static let imageSelection = screenWidth / 3

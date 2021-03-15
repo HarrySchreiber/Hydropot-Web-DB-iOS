@@ -56,23 +56,23 @@ struct HistoricalData: View {
                               // 4
                               Spacer()
                                 Text("\(month*10)")
-                                    
-                                  .font(.footnote)
-                                  .rotationEffect(.degrees(-90))
-                                  .offset(y: 40)
-                                  .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+                                    .font(.system(size: UIScreen.subTextSize))
+                                    .rotationEffect(.degrees(-90))
+                                    .offset(y: UIScreen.textOffset)
+                                    .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
 
                               // 5
                               Rectangle()
                                 .fill(getTextColor(bool: ((month*10 >= pot.idealMoistureLow) && (month*10 <= pot.idealMoistureHigh))))
-                                .frame(width: 20, height: CGFloat(Double(month)) * 14.0)
+                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
                               // 6
                               Text("\(month)")
-                                .font(.footnote)
-                                .frame(height: 20)
+                                .font(.system(size: UIScreen.subTextSize))
+                                .frame(height: UIScreen.graphWidth)
                             }
                             .padding(.bottom)
+                            .padding(.trailing, UIScreen.graphPadding)
                           }
                         }
                     }
@@ -117,23 +117,23 @@ struct HistoricalData: View {
                               // 4
                               Spacer()
                                 Text("\(month*100)")
-                                    
-                                  .font(.footnote)
-                                  .rotationEffect(.degrees(-90))
-                                  .offset(y: 40)
-                                  .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+                                    .font(.system(size: UIScreen.subTextSize))
+                                    .rotationEffect(.degrees(-90))
+                                    .offset(y: UIScreen.textOffset)
+                                    .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
 
                               // 5
                               Rectangle()
                                 .fill(getTextColor(bool: ((month*100 >= pot.idealLightLow) && (month*100 <= pot.idealLightHigh))))
-                                .frame(width: 25, height: CGFloat(Double(month)) * 14.0)
+                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
                               // 6
                               Text("\(month)")
-                                .font(.footnote)
-                                .frame(height: 20)
+                                .font(.system(size: UIScreen.subTextSize))
+                                .frame(height: UIScreen.graphWidth)
                             }
                             .padding(.bottom)
+                            //.padding(.trailing, UIScreen.graphPadding)
                           }
                         }
                     }
@@ -178,23 +178,23 @@ struct HistoricalData: View {
                               // 4
                               Spacer()
                                 Text("\(month*10)")
-                                    
-                                  .font(.footnote)
-                                  .rotationEffect(.degrees(-90))
-                                  .offset(y: 40)
-                                  .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -35 : 0)
+                                    .font(.system(size: UIScreen.subTextSize))
+                                    .rotationEffect(.degrees(-90))
+                                    .offset(y: UIScreen.textOffset)
+                                    .zIndex(1)
+                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
 
                               // 5
                               Rectangle()
                                 .fill(getTextColor(bool: ((month*10 >= pot.idealTempLow) && (month*10 <= pot.idealTempHigh))))
-                                .frame(width: 20, height: CGFloat(Double(month)) * 14.0)
-                              // 6
-                              Text("\(month)")
-                                .font(.footnote)
-                                .frame(height: 20)
+                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
+                                // 6
+                                Text("\(month)")
+                                  .font(.system(size: UIScreen.subTextSize))
+                                  .frame(height: UIScreen.graphWidth)
                             }
                             .padding(.bottom)
+                            .padding(.trailing, UIScreen.graphPadding)
                           }
                         }
                     }
@@ -247,7 +247,8 @@ struct HistoricalData: View {
     
     func getTextColor(bool: Bool) -> Color{
         if(bool) {
-            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+            return Color.green
+            //return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
         }
         return Color.red
     }
