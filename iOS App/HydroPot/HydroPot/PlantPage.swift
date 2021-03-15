@@ -75,10 +75,18 @@ struct PlantPage: View {
                         }
                         //if we don't have an image
                         else {
-                            //default image
-                            Image(systemName: "leaf.fill")
-                                //styling
-                                .font(.system(size: UIScreen.homeImageSize))
+                            VStack {
+                                //default image
+                                Image(systemName: "leaf.fill")
+                                    //styling
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                    .shadow(radius: 10)
+                            }
+                            //styling
+                            .frame(width: UIScreen.plantImage, height:  UIScreen.plantImage)
                         }
                         VStack(alignment: .leading){
                             //text of the pot name
@@ -288,24 +296,7 @@ struct PlantPage: View {
             //end scroll view
             .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                Button(action: {
-                    //dismiss the button
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        //image for back button
-                        Image(systemName: "chevron.left")
-                            //styling
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
-                            .foregroundColor(.white)
-                        //other part of button
-                        Text("Back")
-                            .font(.system(size: UIScreen.regTextSize))
-                    }
-                }, trailing:
+            .navigationBarItems(trailing:
                 Button(action: {
                     //edit button
                     if (showPopUp != true){
@@ -330,10 +321,9 @@ struct PlantPage: View {
                 //display water modal
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
-        }.onAppear {
-            //reload the data
-            attemptReload()
-            
+        }
+        .onAppear(perform: attemptReload)
+        .onAppear {
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             

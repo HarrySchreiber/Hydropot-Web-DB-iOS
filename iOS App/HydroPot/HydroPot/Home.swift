@@ -205,7 +205,6 @@ struct HomeView: View {
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .clipShape(Circle())
-                                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                                         .shadow(radius: 10)
                                                 }
                                                 //set frame of the image
@@ -214,9 +213,18 @@ struct HomeView: View {
                                         }
                                         //if we don't have a db image
                                         else {
-                                            //default leaf image
-                                            Image(systemName: "leaf.fill")
-                                                .font(.system(size: UIScreen.homeImageSize))
+                                            VStack {
+                                                //default leaf image
+                                                Image(systemName: "leaf.fill")
+                                                    //styling for image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .clipShape(Circle())
+                                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                    .shadow(radius: 10)
+                                            }
+                                            //set frame of the image
+                                            .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
                                         }
                                         //plant name and temp stack
                                         VStack(alignment: .leading) {
@@ -302,9 +310,7 @@ struct HomeView: View {
                     .opacity(0.50)
             )
             //when page is presented
-            .onAppear() {
-                attemptReload()
-            }
+            .onAppear(perform: attemptReload)
         }
     }
     
