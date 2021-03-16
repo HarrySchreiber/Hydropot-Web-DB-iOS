@@ -986,7 +986,8 @@ class GetUser: ObservableObject {
             //get url where image resides
             var str = String(decoding: d, as: UTF8.self)
             str = str.replacingOccurrences(of: "\"", with: "")
-
+            
+            print(str)
             //async queue
             DispatchQueue.main.async(execute: {
                 //pot image is at the string
