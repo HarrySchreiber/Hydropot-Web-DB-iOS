@@ -33,6 +33,7 @@ struct EditPlantPage: View {
     @State var tempURL: String = "" //backstop for the user image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //UI image to encode/decode
     @State var deletePressed = false //deleting the pot
+    @State var filledSelected = "One Week"
     
     var body: some View {
         NavigationView {
@@ -276,6 +277,7 @@ struct EditPlantPage: View {
                                 .cornerRadius(6)
                                 .padding()
                                 .padding(.leading)
+                                
                             }
                             //present image picker on toggle
                             .sheet(isPresented: $isShowPicker) {
@@ -467,6 +469,41 @@ struct EditPlantPage: View {
         }
     }
 }
+
+/*
+    form for selecting the frequency of filling notifications
+ */
+/*
+struct notiSelection: View {
+    
+    @Binding var filledSelected: String //passing what the user selected
+    
+    //how often the user wants to be notified about filling the pot
+    let filledFrequency = ["One Week", "Two Weeks", "Three Weeks", "One Month"]
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    //inform user what picker is for
+                    Text("I would like to be reminded to water my pot once every:")
+                    
+                    //picker for notification alerts
+                    Picker(selection: $filledSelected, label: Text("Notification Frequency")) {
+                        //each picker componenet
+                        ForEach(filledFrequency, id: \.self) {
+                            Text($0).tag($0)
+                                .font(.system(size: UIScreen.regTextSize))
+                        }
+                    }
+                    //style of picker
+                    .pickerStyle(WheelPickerStyle())
+                }
+            }
+        }
+    }
+}
+ */
 
 /*
     image picker for the add/edit pages

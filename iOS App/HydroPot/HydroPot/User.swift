@@ -187,12 +187,22 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
+                                
+                                //format date
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                
+                                //todays string
+                                let todayString = dateFormatter.string(from: Date())
+                                //get last date
+                                let lastDate = dateFormatter.date(from: pot.lastFilled ?? todayString)
+                                
                                 //append the newly created pot with our record
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: lastDate!, notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
                             }
                         }
                     }
@@ -321,12 +331,22 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
+                                
+                                //date formatter
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                
+                                //todays string
+                                let todayString = dateFormatter.string(from: Date())
+                                //get last date
+                                let lastDate = dateFormatter.date(from: pot.lastFilled ?? todayString)
+                                
                                 //append the newly created pot with our record
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: lastDate!, notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
                             }
                         }
                     }
