@@ -550,7 +550,7 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
             if let imageData = uiImage.jpeg(UIImage.JPEGQuality(rawValue: 0)!) {
                 let otherImage = UIImage(data: imageData) //keep ui image
                 image = Image(uiImage: otherImage!) //regular image
-                tempURL = "" //user stuff
+                tempURL = "not empty" //user stuff
                 userIntefaceImage = otherImage //save the UI image to be passed back
             }
             //dismiss the modal

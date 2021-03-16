@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current()
             .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-                print("Permission granted: \(granted)")
                 guard granted else { return }
 
                 // Only get the notification settings if user has granted permissions
@@ -57,7 +56,6 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
      */
     func getNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            print("Notification settings: \(settings)")
             guard settings.authorizationStatus == .authorized else { return }
 
             DispatchQueue.main.async {
@@ -74,20 +72,12 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
-        print("Device Token: \(token)")
         
         UserDefaults.standard.set(token, forKey: "deviceToken")
         
         // Register the device token with Pinpoint as the endpoint for this user
         pinpoint?.notificationManager
             .interceptDidRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-    }
-
-    /*
-        alert if failed to register notifications
-     */
-    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register: \(error)")
     }
     
     /*
