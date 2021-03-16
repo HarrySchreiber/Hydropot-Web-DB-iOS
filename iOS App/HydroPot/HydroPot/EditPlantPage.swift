@@ -317,7 +317,7 @@ struct EditPlantPage: View {
                     pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
                 
                     //if the extension is not empty
-                    if (ext != ""){
+                    if (ext != "" && tempURL != pot.image){
                         //add the encoded image
                         addImage(encodedImage: encoding, ext: ext)
                     }
@@ -332,7 +332,7 @@ struct EditPlantPage: View {
                     pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
                     
                     //if the extension exists
-                    if (ext != ""){
+                    if (ext != "" && tempURL != pot.image){
                         //add the image
                         addImage(encodedImage: encoding, ext: ext)
                     }
@@ -435,7 +435,7 @@ struct EditPlantPage: View {
     func addImage(encodedImage: String, ext: String) {
         
         //if we do have image
-        if (tempURL != ""){
+        if (tempURL != pot.image){
             //upload image
             user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
                 if user.loggedIn {
