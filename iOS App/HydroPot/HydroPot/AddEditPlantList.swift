@@ -132,7 +132,6 @@ struct AddEditPlantList: View {
         for plant in plantList {
             urlList.append(plant.imageURL)
         }
-        print(urlList)
         return urlList
     }
     //function to find a correspond plant object given a plant type string
