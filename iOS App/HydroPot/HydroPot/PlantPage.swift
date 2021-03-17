@@ -324,6 +324,7 @@ struct PlantPage: View {
         }
         .onAppear(perform: attemptReload)
         .onAppear {
+            
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             
@@ -398,22 +399,22 @@ struct PlantPage: View {
     func attemptReload() {
         //do the reload
         user.reload() {
-            
-            //moisture in the ranges
-            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-            
-            //light in the ranges
-            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-            
-            //temperature in the ranges
-            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            
-            //auto watering is set
-            autoWatering = pot.automaticWatering
-            
-            //is res too low
-            resGood = pot.resLevel > 20
-            
         }
+        
+        
+        //moisture in the ranges
+        moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
+        
+        //light in the ranges
+        lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
+        
+        //temperature in the ranges
+        tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+        
+        //auto watering is set
+        autoWatering = pot.automaticWatering
+        
+        //is res too low
+        resGood = pot.resLevel > 20
     }
 }
