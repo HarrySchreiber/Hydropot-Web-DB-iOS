@@ -349,16 +349,6 @@ struct HomeView: View {
     func attemptReload() {
         //call reaload function
         user.reload() {
-            // will be received at the login processed
-            if user.loggedIn {
-                //for every pot
-                for (index, _) in user.pots.enumerated() {
-                    //temp pot
-                    let tempPot = user.pots[index]
-                    //change the current pot to the tempPot values
-                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
-                }
-            }
         }
     }
 }

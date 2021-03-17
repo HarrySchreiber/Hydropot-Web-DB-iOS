@@ -43,6 +43,7 @@ struct HistoricalData: View {
                         .foregroundColor(.gray)
                         
                 }
+                /*
                 //moisture box
                 PagesContainer(contentCount: 2) {
                     //show title and graph
@@ -230,6 +231,7 @@ struct HistoricalData: View {
                 }
                 .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
                 //setup the header (back button)
+                */
             }
         }
         //background image for the home page

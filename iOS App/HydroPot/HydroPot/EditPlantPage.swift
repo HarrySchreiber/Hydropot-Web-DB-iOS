@@ -310,12 +310,13 @@ struct EditPlantPage: View {
                 let encoding = encodePictureJPEG(image: userIntefaceImage!)
                 let ext = "jpeg"
                 
+                
                 //if all the fields are not blank and the user changed the plant type
                 if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                     
-                    //do the edit plant
-                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
-                
+                    //edit pot client side
+                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow:  Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                    
                     //if the extension is not empty
                     if (ext != "" && tempURL != pot.image){
                         //add the encoded image
@@ -399,6 +400,13 @@ struct EditPlantPage: View {
         }
         //on dismissal of the page
         .onDisappear() {
+            
+            //reslevel
+            pot.curTemp = pot.records[pot.records.count-1].temperature
+            pot.curLight = pot.records[pot.records.count-1].light
+            pot.curMoisture = pot.records[pot.records.count-1].moisture
+            pot.resLevel = pot.records[pot.records.count-1].reservoir
+            
             //boolean for moisture level being in the green
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             //boolean for light level being in the green

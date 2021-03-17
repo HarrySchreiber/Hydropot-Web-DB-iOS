@@ -561,6 +561,7 @@ class GetUser: ObservableObject {
         
         //replace the pot client side with our new one
         replacePot(pot: pot)
+        
                 
         //format our date
         let dateFormatter = DateFormatter()
@@ -600,6 +601,7 @@ class GetUser: ObservableObject {
             recDict["reservoir"] = record.reservoir //res level of record
             recDict["temperature"] = record.temperature //temperature of record
             recDict["watering"] = record.watering //watering of record
+            
             
             //append our single record
             recJsonArray.append(recDict)

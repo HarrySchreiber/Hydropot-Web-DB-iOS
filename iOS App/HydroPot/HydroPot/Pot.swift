@@ -123,13 +123,10 @@ class Pot: ObservableObject, Identifiable {
         self.plantType = plantType
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
-        self.curTemp = 0
         self.idealMoistureLow = idealMoistureLow
         self.idealMoistureHigh = idealMoistureHigh
-        self.curMoisture = 0
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
-        self.curLight = 0
     }
     
     /// editing the pott another way
