@@ -407,8 +407,7 @@ struct EditPlantPage: View {
             lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
             //boolean for temperature level being in the green
             tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            //boolean for res level being in the green
-            resGood = pot.resLevel > 20
+            
         }
     }
     
