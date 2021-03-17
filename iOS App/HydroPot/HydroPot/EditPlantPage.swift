@@ -401,12 +401,6 @@ struct EditPlantPage: View {
         //on dismissal of the page
         .onDisappear() {
             
-            //reslevel
-            pot.curTemp = pot.records[pot.records.count-1].temperature
-            pot.curLight = pot.records[pot.records.count-1].light
-            pot.curMoisture = pot.records[pot.records.count-1].moisture
-            pot.resLevel = pot.records[pot.records.count-1].reservoir
-            
             //boolean for moisture level being in the green
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             //boolean for light level being in the green
