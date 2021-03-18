@@ -58,6 +58,10 @@ class Pot: ObservableObject, Identifiable {
     @Published var lastFilledDays: String //last time the pot was filled in days
     @Published var lastWateredDays: String //last time the pot was watered in days
     @Published var notiFilledFrequency: Int //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
+    @Published var moistureGood: Bool //is moisture in the ranges
+    @Published var lightGood: Bool //is light in the ranges
+    @Published var tempGood: Bool //is temperature in the ranges
+    
     
     /// constructor for pot
     ///
@@ -103,6 +107,12 @@ class Pot: ObservableObject, Identifiable {
         self.notiFilledFrequency = notiFilledFrequency
         self.lastWateredDays = ""
         self.lastFilledDays = ""
+        moistureGood = false
+        lightGood = false
+        tempGood = false
+        moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
         setLastWatered(lastWatered: lastWatered)
         setLastFilled(lastFilled: lastFilled)
     }
@@ -130,6 +140,9 @@ class Pot: ObservableObject, Identifiable {
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
+        self.moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        self.lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        self.tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
     }
     
     /// editing the pott another way
@@ -165,6 +178,9 @@ class Pot: ObservableObject, Identifiable {
         self.lastWatered = lastWatered
         setLastWatered(lastWatered: lastWatered)
         self.image = image
+        self.moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        self.lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        self.tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
     }
     
     

@@ -14,10 +14,6 @@ struct EditPlantPage: View {
     @ObservedObject var plants: Plants //plant list that has been passed
     @ObservedObject var pot: Pot //pot to be edited
     @Binding var showModal: Bool //toggles being dismissed
-    @Binding var moistureGood: Bool //is moisture in the green
-    @Binding var lightGood: Bool //is light in the green
-    @Binding var tempGood: Bool //is temperature in the green
-    @Binding var resGood: Bool //is the res level in the green
     @State var plantName = "" //name of the plant
     @State var plantType = "" //type of the plant
     @State var idealTemperatureHigh: String = "" //ideal temperature high for the pot
@@ -397,16 +393,6 @@ struct EditPlantPage: View {
             idealLightLevelHigh = String(pot.idealLightHigh)
             //if we have selected an image
             tempURL = pot.image
-        }
-        //on dismissal of the page
-        .onDisappear() {
-            //boolean for moisture level being in the green
-            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-            //boolean for light level being in the green
-            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-            //boolean for temperature level being in the green
-            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            
         }
     }
     

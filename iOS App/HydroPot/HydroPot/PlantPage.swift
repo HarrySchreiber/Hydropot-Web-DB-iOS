@@ -30,11 +30,7 @@ struct PlantPage: View {
     }
     
     @State private var showPopUp = false //toggle boi
-    @State var moistureGood = false //is moisture in the ranges
-    @State var lightGood = true //is light in the ranges
-    @State var tempGood = true //is temperature in the ranges
-    @State var resGood = true //is res level in the ranges
-    
+
     var body: some View {
         
         //sent to another page
@@ -140,7 +136,6 @@ struct PlantPage: View {
                         Button("Filled Res!") {
                             //set the last filled
                             pot.setLastFilled(lastFilled: Date())
-                            
                             //showing modal
                             user.editPot(pot: pot)
                         }
@@ -194,7 +189,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: moistureGood))
+                                    .foregroundColor(getTextColor(bool: pot.moistureGood))
                                 //display ideals for moisture
                                 Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
                                     //styling
@@ -236,7 +231,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: pot.lightGood))
                                 //ideals for light level of plant type
                                 Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
                                     //styling
@@ -278,7 +273,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: tempGood))
+                                    .foregroundColor(getTextColor(bool: pot.tempGood))
                                 //ideal for temp of pot
                                 Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
                                     .font(.system(size: UIScreen.regTextSize))
@@ -322,7 +317,7 @@ struct PlantPage: View {
                 //edit plant displayed
                 .sheet(isPresented: $showingDetail) {
                     //call edit plant page
-                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
+                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
                 })
             //if water modal was toggled
             if $showPopUp.wrappedValue {
@@ -332,15 +327,6 @@ struct PlantPage: View {
         }
         .onAppear(perform: attemptReload)
         .onAppear {
-            //moisture in the ranges
-            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-            
-            //light in the ranges
-            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-            
-            //temperature in the ranges
-            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            
             //auto watering is set
             autoWatering = pot.automaticWatering
 
@@ -353,6 +339,7 @@ struct PlantPage: View {
                 .opacity(0.50)
         )
     }
+    
     /// function to encode jpeg images
     ///
     /// - Parameters:
@@ -377,17 +364,5 @@ struct PlantPage: View {
         //do the reload
         user.reload() {
         }
-        
-        //moisture in the ranges
-        moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-        
-        //light in the ranges
-        lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-        
-        //temperature in the ranges
-        tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-        
-        //auto watering is set
-        autoWatering = pot.automaticWatering
     }
 }

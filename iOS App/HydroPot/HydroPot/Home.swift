@@ -237,6 +237,7 @@ struct HomeView: View {
                                             Text("Temperature: \(pot.curTemp)°F")
                                                 //styling
                                                 .font(.system(size: UIScreen.subTextSize))
+                                                .foregroundColor(getTextColor(bool: pot.tempGood))
                                         }
                                         .padding(.leading)
                                     }
@@ -321,6 +322,24 @@ struct HomeView: View {
         user.reload() {
         }
     }
+    
+    /// function to encode jpeg images
+    ///
+    /// - Parameters:
+    ///     - bool: if supposed to be red or green
+    ///
+    /// - Returns:
+    ///     the correct color of the text
+    func getTextColor(bool: Bool) -> Color{
+        //if we are supposed to be green
+        if(bool) {
+            //return green
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        //return red
+        return Color.red
+    }
+    
 }
 
 /*
