@@ -51,7 +51,18 @@ struct PlantPage: View {
                 //refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                     //reload
-                    attemptReload()
+                    let timer = DispatchSource.makeTimerSource()
+
+                    //timer ensures some wait for api call to be made
+                    timer.schedule(deadline: .now() + .seconds(1))
+
+                    timer.setEventHandler {
+                        //reload
+                        attemptReload()
+                    }
+
+                    //activate code
+                    timer.activate()
                 }
                 
                 VStack(alignment: .leading) {
@@ -299,9 +310,7 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }
-        .onAppear(perform: attemptReload)
         .onAppear {
-            
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             
@@ -313,6 +322,7 @@ struct PlantPage: View {
             
             //auto watering is set
             autoWatering = pot.automaticWatering
+
         }
         .background(
             //background image default

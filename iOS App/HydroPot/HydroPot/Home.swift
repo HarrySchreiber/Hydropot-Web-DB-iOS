@@ -145,8 +145,19 @@ struct HomeView: View {
                     //scroll view for updated
                     ScrollView {
                         PullToRefresh(coordinateSpaceName: "pull") {
-                            //callback to reload data from db
-                            attemptReload()
+                            //reload
+                            let timer = DispatchSource.makeTimerSource()
+
+                            //timer ensures some wait for api call to be made
+                            timer.schedule(deadline: .now() + .seconds(1))
+
+                            timer.setEventHandler {
+                                //reload
+                                attemptReload()
+                            }
+
+                            //activate code
+                            timer.activate()
                         }
                         //tell the user they don't have plants
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
