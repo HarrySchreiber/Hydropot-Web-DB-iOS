@@ -400,15 +400,13 @@ struct EditPlantPage: View {
         }
         //on dismissal of the page
         .onDisappear() {
-            
             //boolean for moisture level being in the green
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             //boolean for light level being in the green
             lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
             //boolean for temperature level being in the green
             tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            //boolean for res level being in the green
-            resGood = pot.resLevel > 20
+            
         }
     }
     

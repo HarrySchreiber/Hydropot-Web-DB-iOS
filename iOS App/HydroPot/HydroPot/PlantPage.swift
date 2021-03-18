@@ -51,7 +51,18 @@ struct PlantPage: View {
                 //refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                     //reload
-                    attemptReload()
+                    let timer = DispatchSource.makeTimerSource()
+
+                    //timer ensures some wait for api call to be made
+                    timer.schedule(deadline: .now() + .seconds(1))
+
+                    timer.setEventHandler {
+                        //reload
+                        attemptReload()
+                    }
+
+                    //activate code
+                    timer.activate()
                 }
                 
                 VStack(alignment: .leading) {
@@ -268,29 +279,6 @@ struct PlantPage: View {
                         .cornerRadius(6)
                         .padding([.leading, .bottom, .trailing])
                     }
-                    ZStack {
-                        //res level text
-                        Text("Reservoir Level")
-                            //styling
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.title3TextSize * 3, alignment: .leading)
-                            .foregroundColor(.black)
-                            .padding(.leading, UIScreen.plantTitleSide)
-                        //pots current res level
-                        Text("\(pot.resLevel)%")
-                            //styling
-                            .font(.system(size: UIScreen.titleTextSize))
-                            .foregroundColor(getTextColor(bool: resGood))
-                            .bold()
-                            .foregroundColor(getTextColor(bool: resGood))
-                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.title3TextSize * 3, alignment: .trailing)
-                            .padding(.trailing, UIScreen.resLevelPadding)
-                    }
-                    //styling
-                    .frame(maxWidth: UIScreen.plantBoxWidth)
-                    .background(Color.white.opacity(0.85))
-                    .cornerRadius(6)
-                    .padding([.leading, .bottom, .trailing])
                 }
             }
             //end scroll view
@@ -322,9 +310,7 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }
-        .onAppear(perform: attemptReload)
         .onAppear {
-            
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             
@@ -336,9 +322,7 @@ struct PlantPage: View {
             
             //auto watering is set
             autoWatering = pot.automaticWatering
-            
-            //is res too low
-            resGood = pot.resLevel > 20
+
         }
         .background(
             //background image default
@@ -413,8 +397,5 @@ struct PlantPage: View {
         
         //auto watering is set
         autoWatering = pot.automaticWatering
-        
-        //is res too low
-        resGood = pot.resLevel > 20
     }
 }

@@ -48,7 +48,6 @@ class Pot: ObservableObject, Identifiable {
     @Published var idealLightHigh: Int //high light for the pot
     @Published var idealLightLow: Int //low light for the pot
     @Published var curLight: Int //the current light of the pot
-    @Published var resLevel: Int //the resLevel of the pot
     @Published var id: String //id of the pot
     @Published var automaticWatering: Bool //automatic watering bool for the pot
     @Published var lastWatered: Date //the last date the pot was waterd
@@ -72,7 +71,6 @@ class Pot: ObservableObject, Identifiable {
     ///     - idealLightHigh: High light for the pot
     ///     - idealLightLow: Low light for the pot
     ///     - curLight: The current light of the pot
-    ///     - resLevel: The resLevel of the pot
     ///     - id: The pot id
     ///     - automaticWatering: Automatic watering bool for the pot
     ///     - lastWatered: The last date the pot was watered
@@ -81,7 +79,7 @@ class Pot: ObservableObject, Identifiable {
     ///     - Notifications: The notifications for the pot
     ///     - lastFilled: The last time the pot recieved a notification
     ///     - notiFilledFrequency: The frequency of notis to be filled
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String, lastFilled: Date, notiFilledFrequency: Int) {
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String, lastFilled: Date, notiFilledFrequency: Int) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -97,7 +95,6 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = automaticWatering
         self.records = records
         self.notifications = notifications
-        self.resLevel = resLevel
         self.id = potId
         self.image = image
         self.lastFilled = lastFilled
