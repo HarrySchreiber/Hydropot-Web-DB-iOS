@@ -50,19 +50,7 @@ struct PlantPage: View {
             ScrollView {
                 //refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                    //reload
-                    let timer = DispatchSource.makeTimerSource()
-
-                    //timer ensures some wait for api call to be made
-                    timer.schedule(deadline: .now() + .seconds(1))
-
-                    timer.setEventHandler {
-                        //reload
-                        attemptReload()
-                    }
-
-                    //activate code
-                    timer.activate()
+                    attemptReload()
                 }
                 
                 VStack(alignment: .leading) {
@@ -113,7 +101,7 @@ struct PlantPage: View {
                     }
                     ZStack {
                         //last watered in days ago
-                        Text("Last watered: \n\(getLastWatered(pot: pot))")
+                        Text("Last watered: \n\(pot.lastWateredDays)")
                             //styling
                             .font(.system(size: UIScreen.regTextSize))
                             .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)
@@ -123,6 +111,38 @@ struct PlantPage: View {
                         Button("Water Plant") {
                             //showing modal
                             showPopUp = true
+                        }
+                        //styling
+                        .font(.system(size: UIScreen.regTextSize))
+                        .buttonStyle(BorderlessButtonStyle())
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .cornerRadius(6)
+                        .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .trailing)
+                        .padding(.trailing, UIScreen.plantTitleSide)
+                    }
+                    //styling
+                    .frame(maxWidth: UIScreen.plantBoxWidth)
+                    .background(Color.white.opacity(0.85))
+                    .cornerRadius(6)
+                    .padding([.leading, .bottom, .trailing])
+                    
+                    ZStack {
+                        //last watered in days ago
+                        Text("Last Filled: \n\(pot.lastFilledDays)")
+                            //styling
+                            .font(.system(size: UIScreen.regTextSize))
+                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)
+                            .foregroundColor(.black)
+                            .padding(.leading, UIScreen.plantTitleSide)
+                        //filled res button modal
+                        Button("Filled Res!") {
+                            //set the last filled
+                            pot.setLastFilled(lastFilled: Date())
+                            
+                            //showing modal
+                            user.editPot(pot: pot)
                         }
                         //styling
                         .font(.system(size: UIScreen.regTextSize))
@@ -310,6 +330,7 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }
+        .onAppear(perform: attemptReload)
         .onAppear {
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
@@ -335,34 +356,6 @@ struct PlantPage: View {
     /// function to encode jpeg images
     ///
     /// - Parameters:
-    ///     - pot: the pot to get the data from
-    ///
-    /// - Returns:
-    ///     the appropriate last watered in terms of days
-    func getLastWatered(pot: Pot) -> String {
-        
-        //get last watered
-        let date1 = pot.lastWatered
-        //get todays date
-        let date2 = Date()
-        
-        //get difference in days
-        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        
-        //optional if same day
-        let days = diffs.day ?? 0
-        
-        //special case for 1 day
-        if days == 1 {
-            return String(days) +  " day ago"
-        }
-        //return multiple days
-        return String(days) + " days ago"
-    }
-    
-    /// function to encode jpeg images
-    ///
-    /// - Parameters:
     ///     - bool: if supposed to be red or green
     ///
     /// - Returns:
@@ -384,7 +377,6 @@ struct PlantPage: View {
         //do the reload
         user.reload() {
         }
-        
         
         //moisture in the ranges
         moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))

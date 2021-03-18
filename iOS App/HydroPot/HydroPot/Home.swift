@@ -146,18 +146,7 @@ struct HomeView: View {
                     ScrollView {
                         PullToRefresh(coordinateSpaceName: "pull") {
                             //reload
-                            let timer = DispatchSource.makeTimerSource()
-
-                            //timer ensures some wait for api call to be made
-                            timer.schedule(deadline: .now() + .seconds(1))
-
-                            timer.setEventHandler {
-                                //reload
-                                attemptReload()
-                            }
-
-                            //activate code
-                            timer.activate()
+                            attemptReload()
                         }
                         //tell the user they don't have plants
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
@@ -254,7 +243,7 @@ struct HomeView: View {
                                     //stack for last watered and water button
                                     HStack() {
                                         //last watered from function
-                                        Text("Last watered: \n\(getLastWatered(pot: pot))")
+                                        Text("Last watered: \n\(pot.lastWateredDays)")
                                             //styling
                                             .padding(.top, 2)
                                             .frame(maxWidth: UIScreen.lastWateredSize)
@@ -323,36 +312,6 @@ struct HomeView: View {
             //when page is presented
             .onAppear(perform: attemptReload)
         }
-    }
-    
-    /// allows for the getting the last watered and converting it into a
-    /// format for the homescreen cards
-    ///
-    /// - Parameters:
-    ///     - pot: the pot that we want to get the last watered date from
-    /// - Returns:
-    ///     - the string that we want to display
-    ///
-    func getLastWatered(pot: Pot) -> String {
-        
-        //date of last watered
-        let date1 = pot.lastWatered
-        
-        //todays date
-        let date2 = Date()
-        
-        //differenes between the dates
-        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        
-        //either days or no difference and so optional
-        let days = diffs.day ?? 0
-        
-        //return if it was a singular day
-        if days == 1 {
-            return String(days) +  " day ago"
-        }
-        //return if it was multiple days
-        return String(days) + " days ago"
     }
     
     /// callback for the login functon designed to reload data dynamically

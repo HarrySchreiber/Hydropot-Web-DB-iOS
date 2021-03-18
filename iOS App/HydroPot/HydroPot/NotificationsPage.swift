@@ -114,16 +114,6 @@ struct NotificationsPage: View {
     /// callback for reload function
     func attemptReload() {
         user.reload() {
-            // will be received at the login processed
-            if user.loggedIn {
-                //for all pots
-                for (index, _) in user.pots.enumerated() {
-                    //assign temppot
-                    let tempPot = user.pots[index]
-                    //reload this views pots
-                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
-                }
-            }
         }
     }
 }

@@ -55,6 +55,8 @@ class Pot: ObservableObject, Identifiable {
     @Published var records: [Record] //records for the pot
     @Published var notifications: [Notification] //notifications for the pot
     @Published var lastFilled: Date //last time the pot recieved a notification
+    @Published var lastFilledDays: String //last time the pot was filled in days
+    @Published var lastWateredDays: String //last time the pot was watered in days
     @Published var notiFilledFrequency: Int //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
     
     /// constructor for pot
@@ -99,6 +101,10 @@ class Pot: ObservableObject, Identifiable {
         self.image = image
         self.lastFilled = lastFilled
         self.notiFilledFrequency = notiFilledFrequency
+        self.lastWateredDays = ""
+        self.lastFilledDays = ""
+        setLastWatered(lastWatered: lastWatered)
+        setLastFilled(lastFilled: lastFilled)
     }
     
     /// editing the pott
@@ -157,6 +163,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.automaticWatering = automaticWatering
         self.lastWatered = lastWatered
+        setLastWatered(lastWatered: lastWatered)
         self.image = image
     }
     
@@ -260,6 +267,65 @@ class Pot: ObservableObject, Identifiable {
         }
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
     }
+    
+    /// function to get last watered in days
+    ///
+    /// - Parameters
+    ///     - lastWatered //the date of the last watering
+    ///
+    func setLastWatered(lastWatered: Date) {
+        
+        //set last watered
+        self.lastWatered = lastWatered
+        
+        //get last watered
+        let date1 = lastWatered
+        //get todays date
+        let date2 = Date()
+        
+        //get difference in days
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //optional if same day
+        let days = diffs.day ?? 0
+        
+        //special case for 1 day
+        if days == 1 {
+            self.lastWateredDays = String(days) +  " day ago"
+        }
+        //return multiple days
+        self.lastWateredDays = String(days) + " days ago"
+    }
+    
+    /// function to get last filled in days
+    ///
+    /// - Parameters:
+    ///     - lastFilled: the last time the pot was filled
+    ///
+    func setLastFilled(lastFilled: Date) {
+        
+        //set last filled
+        self.lastFilled = lastFilled
+        
+        //get last watered
+        let date1 = lastFilled
+        //get todays date
+        let date2 = Date()
+        
+        //get difference in days
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //optional if same day
+        let days = diffs.day ?? 0
+        
+        //special case for 1 day
+        if days == 1 {
+            lastFilledDays = String(days) +  " day ago"
+        }
+        //return multiple days
+        lastFilledDays = String(days) + " days ago"
+    }
+    
 }
 
 

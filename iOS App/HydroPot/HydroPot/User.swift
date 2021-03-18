@@ -853,7 +853,8 @@ class GetUser: ObservableObject {
         if (pot.records.count != 0){
             pot.records[pot.records.count-1].watering = waterAmount
             pot.records[pot.records.count-1].dateRecorded = Date()
-            pot.lastWatered = Date()
+            pot.setLastWatered(lastWatered: Date())
+            
         }
         //if we don't have records then we create a dummy record for the pot to know we want to water
         else {
