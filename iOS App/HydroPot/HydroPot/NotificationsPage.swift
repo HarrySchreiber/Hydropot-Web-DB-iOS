@@ -85,8 +85,8 @@ struct NotificationsPage: View {
         case "just watered":
             return "Hey \(user.name)! Your plant, \(pot.plantName), was just watered by your Hydro Pot!"
         //reservoir low string
-        case "reservoir low":
-            return "Hey \(user.name)! The water reservoir on your plant, \(pot.plantName), is running low! Add some water before it runs out!"
+        case "reservoir":
+            return "Hey \(user.name)! Remember to fill up the reservoir in you plant, \(pot.plantName)!"
         //temperature low string
         case "temperature low":
             return "Hey \(user.name)! Your plant, \(pot.plantName), is too cold! Move it to a warmer location!"

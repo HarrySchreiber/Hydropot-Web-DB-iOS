@@ -78,8 +78,8 @@ struct PlantTypePage: View {
 
                     //ideal temperature values
                     (Text("Ideal Temperature: ").bold() + Text("\(plant.idealTempLow) - \(plant.idealTempHigh)°F"))
-                        .font(.system(size: UIScreen.subTextSize))
                         //styling
+                        .font(.system(size: UIScreen.subTextSize))
                         .padding(.bottom, 0.5)
                         .padding(.leading, 5)
                 }
