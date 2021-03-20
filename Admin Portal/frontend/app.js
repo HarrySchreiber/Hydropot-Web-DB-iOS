@@ -108,22 +108,22 @@ function authenticateUser(){
 
 /**
  * Creates input fields for user input
+ * @param {string} divClass                 the class of the div 
  * @param {string} fieldId                  the html id of the field
  * @param {string} fieldType                the input type of the field
- * @param {number} fieldWidthPercentage     the percentage of the screen the field will take up
  * @param {string} fieldPlaceHolder         the placeholder text for the field
  * @param {string} content                  the actual content in the field
  * @returns                                 an html div enclosing a field
  */
-function buildField(fieldId, fieldType, fieldWidthPercentage, fieldPlaceHolder, content){
+function buildField(divClass, fieldId, fieldType, fieldPlaceHolder, content){
     var div = document.createElement("div");
-    div.setAttribute("class","fields no-gutters");
-    div.setAttribute("style",`width: ${fieldWidthPercentage}%`);    //TODO: Update this with bootstrap probably
+    div.setAttribute("class",divClass);
     var field = document.createElement("input");
     field.setAttribute("id",fieldId);
     field.setAttribute("type",fieldType);
     field.setAttribute("class","form-control");
     field.setAttribute("placeholder", fieldPlaceHolder);
+    field.setAttribute("style","font-size:14px;");
     field.value = content;
     div.appendChild(field);
     return div;
@@ -183,22 +183,59 @@ function buildTable(data){
         //Content Code
         var topRow = document.createElement("div");
         topRow.setAttribute("class","row no-gutters top-row");
+
+        //Set up four buckets for the proper div col/rows
+        var s1Col = document.createElement("div");
+        s1Col.setAttribute("class","col-md-3 no-gutters");
+        var s1Row = document.createElement("div");
+        s1Row.setAttribute("class","row no-gutters");
+        s1Col.appendChild(s1Row);
+        var s2Col = document.createElement("div");
+        s2Col.setAttribute("class","col-md-3 no-gutters");
+        var s2Row = document.createElement("div");
+        s2Row.setAttribute("class","row no-gutters");
+        s2Col.appendChild(s2Row);
+        var s3Col = document.createElement("div");
+        s3Col.setAttribute("class","col-md-3 no-gutters");
+        var s3Row = document.createElement("div");
+        s3Row.setAttribute("class","row no-gutters");
+        s3Col.appendChild(s3Row);
+        var s4Col = document.createElement("div");
+        s4Col.setAttribute("class","col-md-3 no-gutters");
+        var s4Row = document.createElement("div");
+        s4Row.setAttribute("class","row no-gutters");
+        s4Col.appendChild(s4Row);
+
+
         var bottomRow = document.createElement("div");
         bottomRow.setAttribute("class","row no-gutters bottom-row");
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
-                    var input = buildField(`${key}-${id}`,"text",22,"",obj[key]);
-                    topRow.appendChild(input);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
+                    s1Row.appendChild(input);
                 }else if(key == "description"){
-                    var input = buildField(`${key}-${id}`,"text",100,"",obj[key]);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
-                    var input = buildField(`${key}-${id}`,"number",13,"",obj[key]);
-                    topRow.appendChild(input);
+                    var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number","",obj[key]);
+                    if(key == "idealTempHigh" || key == "idealTempLow"){
+                        s2Row.appendChild(input);
+                    }else if(key == "idealMoistureHigh" || key == "idealMoistureLow"){
+                        s3Row.appendChild(input);
+                    }else if(key == "idealLightHigh" || key == "idealLightLow"){
+                        s4Row.appendChild(input);
+                    }
+                        
                 }
             }
         }
+
+        topRow.appendChild(s1Col);
+        topRow.appendChild(s2Col);
+        topRow.appendChild(s3Col);
+        topRow.appendChild(s4Col);
+
         contentCol.appendChild(topRow);
         contentCol.appendChild(bottomRow);
 
@@ -326,19 +363,49 @@ function buildInputFields(){
     var topRow = document.createElement("div");
     topRow.setAttribute("class","row no-gutters");
 
+    //Set up four buckets for the proper div col/rows
+    var s1Col = document.createElement("div");
+    s1Col.setAttribute("class","col-md-3 no-gutters");
+    var s1Row = document.createElement("div");
+    s1Row.setAttribute("class","row no-gutters");
+    s1Col.appendChild(s1Row);
+    var s2Col = document.createElement("div");
+    s2Col.setAttribute("class","col-md-3 no-gutters");
+    var s2Row = document.createElement("div");
+    s2Row.setAttribute("class","row no-gutters");
+    s2Col.appendChild(s2Row);
+    var s3Col = document.createElement("div");
+    s3Col.setAttribute("class","col-md-3 no-gutters");
+    var s3Row = document.createElement("div");
+    s3Row.setAttribute("class","row no-gutters");
+    s3Col.appendChild(s3Row);
+    var s4Col = document.createElement("div");
+    s4Col.setAttribute("class","col-md-3 no-gutters");
+    var s4Row = document.createElement("div");
+    s4Row.setAttribute("class","row no-gutters");
+    s4Col.appendChild(s4Row);
+    
     //Create and add the fields to the row
-    topRow.appendChild(buildField("add-plantType","text",22,"Plant Name",""));
-    topRow.appendChild(buildField("add-idealTempHigh","number",13,"High Temp",""));
-    topRow.appendChild(buildField("add-idealTempLow","number",13,"Low Temp"));
-    topRow.appendChild(buildField("add-idealMoistureHigh","number",13,"High Moisture",""));
-    topRow.appendChild(buildField("add-idealMoistureLow","number",13,"Low Moisture",""));
-    topRow.appendChild(buildField("add-idealLightHigh","number",13,"High Light",""));
-    topRow.appendChild(buildField("add-idealLightLow","number",13,"Low Light",""));
+    s1Row.appendChild(buildField("fields col-12 no-gutters","add-plantType","text","Plant Name",""));
+    s2Row.appendChild(buildField("fields col-6 no-gutters","add-idealTempHigh","number","High Temp",""));
+    s2Row.appendChild(buildField("fields col-6 no-gutters","add-idealTempLow","number","Low Temp"));
+    s3Row.appendChild(buildField("fields col-6 no-gutters","add-idealMoistureHigh","number","High Moisture",""));
+    s3Row.appendChild(buildField("fields col-6 no-gutters","add-idealMoistureLow","number","Low Moisture",""));
+    s4Row.appendChild(buildField("fields col-6 no-gutters","add-idealLightHigh","number","High Light",""));
+    s4Row.appendChild(buildField("fields col-6 no-gutters","add-idealLightLow","number","Low Light",""));
+
+    topRow.appendChild(s1Col);
+    topRow.appendChild(s2Col);
+    topRow.appendChild(s3Col);
+    topRow.appendChild(s4Col);
+    
+
+    
 
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
 
-    bottomRow.appendChild(buildField("add-description","text",100,"Description",""));
+    bottomRow.appendChild(buildField("fields col-12 no-gutters","add-description","text","Description",""));
 
     contentCol.appendChild(topRow);
     contentCol.appendChild(bottomRow);
