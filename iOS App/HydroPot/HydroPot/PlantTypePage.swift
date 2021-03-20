@@ -17,11 +17,26 @@ struct PlantTypePage: View {
         VStack {
             //scroll view
             ScrollView {
-                //image displayed for the given plant
-                URLImage(url: URL(string: plant.imageURL)!) { image in
+                //if there is a plant type image
+                if (plant.imageURL != "") {
+                    //image displayed for the given plant
+                    URLImage(url: URL(string: plant.imageURL)!) { image in
+                        VStack {
+                            //image
+                            image
+                                //styling
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.black)
+                        }
+                        //styling
+                        .frame(width: UIScreen.plantTypeImageSize, height: UIScreen.plantTypeImageSize)
+                    }
+                }
+                else {
                     VStack {
-                        //image
-                        image
+                        //default image
+                        Image(systemName: "photo")
                             //styling
                             .resizable()
                             .aspectRatio(contentMode: .fit)

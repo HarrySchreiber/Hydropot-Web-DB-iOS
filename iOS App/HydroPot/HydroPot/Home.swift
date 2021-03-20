@@ -53,6 +53,8 @@ extension UIScreen{
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
     static let plantBoxHeight = homeImageSize
+    static let plantButtonWidth = screenWidth / 2 //base is 300
+    static let plantButtonHeight = homeImageSize / 2
     static let plantBoxIdealsDistance = screenWidth / 5.4 //base is 60
     static let plantTitleBottom = screenWidth / 16 //base is 20
     static let plantTitleSide = screenWidth / 10.6 //base is 30

@@ -212,15 +212,35 @@ struct ListCell: View {
             Spacer()
             ZStack {
                 HStack (){
-                    //display the plant image
-                    URLImage(url: URL(string: url)!) { image in
+                    //if there is a photo for this plant
+                    if (url != "" ){
+                        //display the plant image
+                        URLImage(url: URL(string: url)!) { image in
+                            VStack {
+                                //plant image
+                                image
+                                    //styling
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(.leading, 15)
+                                    .foregroundColor(.black)
+                            }
+                            //styling
+                            .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
+                        }
+                    }
+                    //if there is not a photo for this plant
+                    else {
                         VStack {
-                            image
+                            //default image
+                            Image(systemName: "photo")
+                                //styling
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .padding(.leading, 15)
                                 .foregroundColor(.black)
                         }
+                        //styling
                         .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
                     }
                     //display the plant type name

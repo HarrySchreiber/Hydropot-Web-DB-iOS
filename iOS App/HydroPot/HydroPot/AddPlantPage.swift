@@ -213,6 +213,32 @@ struct AddPlantPage: View {
                     .padding(.leading, geometry.size.height/30)
                 }
             }
+            .onAppear() {
+                //handling no ideal moist low
+                if (idealMoistureLow == "-1"){
+                    idealMoistureLow = ""
+                }
+                //handling no ideal moist high
+                if (idealMoistureHigh == "-1"){
+                    idealMoistureHigh = ""
+                }
+                //handling no ideal temp low
+                if (idealTemperatureLow == "-1"){
+                    idealTemperatureLow = ""
+                }
+                //handling no ideal temp high
+                if (idealTemperatureHigh == "-1"){
+                    idealTemperatureHigh = ""
+                }
+                //handling no ideal light low
+                if (idealLightLevelLow == "-1"){
+                    idealLightLevelLow = ""
+                }
+                //handling no ideal light high
+                if (idealLightLevelHigh == "-1"){
+                    idealLightLevelHigh = ""
+                }
+            }
             //nav bar things
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
@@ -332,3 +358,4 @@ extension UIImage {
         return jpegData(compressionQuality: jpegQuality.rawValue)
     }
 }
+

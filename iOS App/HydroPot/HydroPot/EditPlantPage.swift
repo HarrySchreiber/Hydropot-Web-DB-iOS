@@ -29,7 +29,9 @@ struct EditPlantPage: View {
     @State var tempURL: String = "" //backstop for the user image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //UI image to encode/decode
     @State var deletePressed = false //deleting the pot
-    @State var filledSelected = "One Week"
+    @State var filledSelected = "One Week" //selection for menu
+    @State var isExpanded = false //if menu drops
+    let filledFrequency = ["One Week", "Two Weeks", "Three Weeks", "One Month"] //the options withing the menu
     
     var body: some View {
         NavigationView {
@@ -250,7 +252,8 @@ struct EditPlantPage: View {
                                 }
                                 //styling
                                 .padding(.leading, geometry.size.height/30)
-                                
+                                .padding(.bottom, 6)
+                            
                                 //delete button
                                 Button(action: {
                                     //toggle delete alert
@@ -457,41 +460,6 @@ struct EditPlantPage: View {
 }
 
 /*
-    form for selecting the frequency of filling notifications
- */
-/*
-struct notiSelection: View {
-    
-    @Binding var filledSelected: String //passing what the user selected
-    
-    //how often the user wants to be notified about filling the pot
-    let filledFrequency = ["One Week", "Two Weeks", "Three Weeks", "One Month"]
-    
-    var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    //inform user what picker is for
-                    Text("I would like to be reminded to water my pot once every:")
-                    
-                    //picker for notification alerts
-                    Picker(selection: $filledSelected, label: Text("Notification Frequency")) {
-                        //each picker componenet
-                        ForEach(filledFrequency, id: \.self) {
-                            Text($0).tag($0)
-                                .font(.system(size: UIScreen.regTextSize))
-                        }
-                    }
-                    //style of picker
-                    .pickerStyle(WheelPickerStyle())
-                }
-            }
-        }
-    }
-}
- */
-
-/*
     image picker for the add/edit pages
  */
 struct ImagePickerTwo: UIViewControllerRepresentable {
@@ -578,3 +546,75 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
     }
     
 }
+
+
+
+/*
+ HStack {
+     //inform user what picker is for
+     Text("Reminders every:")
+         //styling
+         .font(.system(size: UIScreen.regTextSize)).bold()
+         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+     
+     //drop down menu
+     DisclosureGroup("\(filledSelected)", isExpanded: $isExpanded) {
+         //each option to select
+         VStack {
+         ForEach(filledFrequency, id: \.self) { freq in
+             //display option
+             Text(freq)
+                 //styling
+                 .font(.system(size: UIScreen.regTextSize))
+                 .bold()
+                 .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                 .onTapGesture {
+                     filledSelected = freq
+                     withAnimation {
+                         self.isExpanded.toggle()
+                     }
+                 }
+             }
+         }
+     }
+     //styling
+     .font(.system(size: UIScreen.regTextSize))
+     .padding(6)
+     .frame(width: geometry.size.width * 0.52, height: geometry.size.height/12, alignment: .leading)
+     .border(Color.black.opacity(0.5))
+ }
+ //styling
+ .padding(.leading, geometry.size.height/30)
+ 
+ Form {
+     Section {
+         Picker(selection: $filledSelected, label: Text("hellooo")){
+             ForEach(filledFrequency, id: \.self) { freq in
+                 //display option
+                 Text(freq)
+                     .font(.system(size: UIScreen.regTextSize))
+                     .bold()
+                     .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+             }
+         }
+     }
+ }
+ 
+ HStack {
+     Text("I would like to be reminded every: ")
+         //styling
+         .font(.system(size: UIScreen.regTextSize)).bold()
+         .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+     Menu {
+         ForEach(filledFrequency, id: \.self) { freq in
+             //display option
+             Button("\(freq)", action: {
+                 filledSelected = freq
+             })
+         }
+    } label: {
+        Label("\(filledSelected)", systemImage: "plus.circle")
+    }
+ }
+ */

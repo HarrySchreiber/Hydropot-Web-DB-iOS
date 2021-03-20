@@ -77,7 +77,8 @@ struct AddEditPlantList: View {
                                 .padding()
                                 .foregroundColor(.gray)
                                 .navigationBarTitle("Notifications", displayMode: .inline)
-                        }else {
+                        }
+                        else {
                             //if the user is searching or filtering, loop through the trimmed down list of plants,
                             //otherwise show the complete list of plants
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
