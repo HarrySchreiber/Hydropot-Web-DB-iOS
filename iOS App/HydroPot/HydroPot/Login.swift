@@ -208,20 +208,32 @@ struct Login: View {
         }
     }
     
+    //Evaluates to true when the login fields are not properly formatted
     var loginDisabled: Bool {
         email.isEmpty ||
         !isValidEmail(email: email) ||
-        password.isEmpty
+        password.isEmpty ||
+        password.count < 5 ||
+        !isValidPassword(password: password)
     }
     
+    //Evaluates to true when the sign up fields are not properly formatted
     var signupDisabled: Bool {
         name.isEmpty ||
         email.isEmpty ||
         !isValidEmail(email: email) ||
         password.isEmpty ||
-        passComf.isEmpty
+        passComf.isEmpty ||
+        password.count < 5 ||
+        passComf.count < 5 ||
+        !isValidPassword(password: password) ||
+        !isValidPassword(password: passComf)
     }
     
+    /// Function to evaluate email addresses against regex's
+    ///
+    /// - Parameters:
+    ///     - email: The email to check against the regex
     func isValidEmail(email: String) -> Bool{
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
@@ -229,6 +241,16 @@ struct Login: View {
         return emailPred.evaluate(with: email)
     }
     
+    /// Function to evaluate passwords against regex's
+    ///
+    /// - Parameters:
+    ///     - password: The password to check against the regex
+    func isValidPassword(password: String) -> Bool{
+        let passwordRegEx = "^[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~]{5,20}$"
+
+        let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
+        return passwordPred.evaluate(with: password)
+    }
 }
 
 struct Login_Previews: PreviewProvider {
