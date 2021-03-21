@@ -13,26 +13,33 @@ struct HistoricalData: View {
     @State private var selectedUnit = 0 //variable for storing which picker value is selected
     var units = ["Hourly", "Daily", "Weekly"]   //3 picker values available
     @State var tuples : [(high: Int, avg: Int, low: Int)]   //array of high low and average values to display
-
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
+        //binding variable for the display list of plants (strings)
+        let bindingUnit = Binding(
+            get: { self.selectedUnit },
+            set: { self.selectedUnit = $0
+                self.tuples = pot.getValues(unit: units[selectedUnit])
+            }
+        )
         ScrollView {
             VStack {
                 VStack {
                     //picker for hourly, daily, and weekly views
-                    Picker(selection: $selectedUnit, label: Text("")) {
+                    Picker(selection: bindingUnit, label: Text("")) {
                         ForEach(0..<units.count) { index in
                             Text(self.units[index]).tag(index)
                         }
                     }.pickerStyle(SegmentedPickerStyle())
                     .padding(.top, 10)
-
-//                    Text("Value: \(units[selectedUnit])")
+                    
+                    //                    Text("Value: \(units[selectedUnit])")
                 }
-                .onReceive([self.selectedUnit].publisher.first()) { (value) in
-//                    self.tuples = pot.getValues(unit: units[selectedUnit])
-                }
+//                .onReceive([self.selectedUnit].publisher.first()) { (value) in
+//                    //                    self.tuples = pot.getValues(unit: units[selectedUnit])
+//                }
                 //if there isnt any data stored, inform user
                 if tuples[0].high == 0 && tuples[0].low == 0 {
                     Text("There is no historical data for this plant yet")
@@ -41,7 +48,6 @@ struct HistoricalData: View {
                         .italic()
                         .padding()
                         .foregroundColor(.gray)
-                        
                 }
                 //moisture box
                 PagesContainer(contentCount: 2) {
@@ -55,28 +61,28 @@ struct HistoricalData: View {
                             .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                         HStack {
                             ForEach(1..<9) { month in
-                            VStack {
-                              Spacer()
-                                //data values shown on graph
-                                Text("\(month*10)")
-                                    .font(.system(size: UIScreen.subTextSize))
-                                    .rotationEffect(.degrees(-90))
-                                    .offset(y: UIScreen.textOffset)
-                                    .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
-
-                              // bars of the graph
-                              Rectangle()
-                                .fill(getTextColor(bool: ((month*10 >= pot.idealMoistureLow) && (month*10 <= pot.idealMoistureHigh))))
-                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
-                              // x values of bar graph
-                              Text("\(month)")
-                                .font(.system(size: UIScreen.subTextSize))
-                                .frame(height: UIScreen.graphWidth)
+                                VStack {
+                                    Spacer()
+                                    //data values shown on graph
+                                    Text("\(month*10)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .rotationEffect(.degrees(-90))
+                                        .offset(y: UIScreen.textOffset)
+                                        .zIndex(1)
+                                        .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
+                                    
+                                    // bars of the graph
+                                    Rectangle()
+                                        .fill(getTextColor(bool: ((month*10 >= pot.idealMoistureLow) && (month*10 <= pot.idealMoistureHigh))))
+                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
+                                    // x values of bar graph
+                                    Text("\(month)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .frame(height: UIScreen.graphWidth)
+                                }
+                                .padding(.bottom)
+                                .padding(.trailing, UIScreen.graphPadding)
                             }
-                            .padding(.bottom)
-                            .padding(.trailing, UIScreen.graphPadding)
-                          }
                         }
                     }
                     //2nd card, showing high, average, and low values
@@ -117,28 +123,28 @@ struct HistoricalData: View {
                         //graph
                         HStack {
                             ForEach(1..<9) { month in
-                            VStack {
-                              Spacer()
-                                //graph data values
-                                Text("\(month*100)")
-                                    .font(.system(size: UIScreen.subTextSize))
-                                    .rotationEffect(.degrees(-90))
-                                    .offset(y: UIScreen.textOffset)
-                                    .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
-
-                              // graph bars
-                              Rectangle()
-                                .fill(getTextColor(bool: ((month*100 >= pot.idealLightLow) && (month*100 <= pot.idealLightHigh))))
-                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
-                              // graph's x values
-                              Text("\(month)")
-                                .font(.system(size: UIScreen.subTextSize))
-                                .frame(height: UIScreen.graphWidth)
+                                VStack {
+                                    Spacer()
+                                    //graph data values
+                                    Text("\(month*100)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .rotationEffect(.degrees(-90))
+                                        .offset(y: UIScreen.textOffset)
+                                        .zIndex(1)
+                                        .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
+                                    
+                                    // graph bars
+                                    Rectangle()
+                                        .fill(getTextColor(bool: ((month*100 >= pot.idealLightLow) && (month*100 <= pot.idealLightHigh))))
+                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
+                                    // graph's x values
+                                    Text("\(month)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .frame(height: UIScreen.graphWidth)
+                                }
+                                .padding(.bottom)
+                                //.padding(.trailing, UIScreen.graphPadding)
                             }
-                            .padding(.bottom)
-                            //.padding(.trailing, UIScreen.graphPadding)
-                          }
                         }
                     }
                     //2nd card - shows high, average, and low values
@@ -180,28 +186,28 @@ struct HistoricalData: View {
                         //graph
                         HStack {
                             ForEach(1..<9) { month in
-                            VStack {
-                              Spacer()
-                                //data values
-                                Text("\(month*10)")
-                                    .font(.system(size: UIScreen.subTextSize))
-                                    .rotationEffect(.degrees(-90))
-                                    .offset(y: UIScreen.textOffset)
-                                    .zIndex(1)
-                                    .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
-
-                              // graph bars
-                              Rectangle()
-                                .fill(getTextColor(bool: ((month*10 >= pot.idealTempLow) && (month*10 <= pot.idealTempHigh))))
-                                .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
-                                // graph x values
-                                Text("\(month)")
-                                  .font(.system(size: UIScreen.subTextSize))
-                                  .frame(height: UIScreen.graphWidth)
+                                VStack {
+                                    Spacer()
+                                    //data values
+                                    Text("\(month*10)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .rotationEffect(.degrees(-90))
+                                        .offset(y: UIScreen.textOffset)
+                                        .zIndex(1)
+                                        .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
+                                    
+                                    // graph bars
+                                    Rectangle()
+                                        .fill(getTextColor(bool: ((month*10 >= pot.idealTempLow) && (month*10 <= pot.idealTempHigh))))
+                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
+                                    // graph x values
+                                    Text("\(month)")
+                                        .font(.system(size: UIScreen.subTextSize))
+                                        .frame(height: UIScreen.graphWidth)
+                                }
+                                .padding(.bottom)
+                                .padding(.trailing, UIScreen.graphPadding)
                             }
-                            .padding(.bottom)
-                            .padding(.trailing, UIScreen.graphPadding)
-                          }
                         }
                     }
                     //2nd card - show high, low, and average values
@@ -317,9 +323,9 @@ struct PagesContainer <Content : View> : View {
 }
 
 /*
-struct HistoricalData_Previews: PreviewProvider {
-    static var previews: some View {
-        HistoricalData(pot: Pot(plantName: "bob", plantType: "type", idealTempHigh: 80, idealTempLow: 20, idealMoistureHigh: 30, idealMoistureLow: 20, idealLightHigh: 3200, idealLightLow: 2300, lastWatered: Date(), records: [], notifications: []), tuples: [(high: 0, avg: 2, low: 0),(high: 1, avg: 2, low: 3),(high: 1, avg: 2, low: 3)])
-        
-    }
-}*/
+ struct HistoricalData_Previews: PreviewProvider {
+ static var previews: some View {
+ HistoricalData(pot: Pot(plantName: "bob", plantType: "type", idealTempHigh: 80, idealTempLow: 20, idealMoistureHigh: 30, idealMoistureLow: 20, idealLightHigh: 3200, idealLightLow: 2300, lastWatered: Date(), records: [], notifications: []), tuples: [(high: 0, avg: 2, low: 0),(high: 1, avg: 2, low: 3),(high: 1, avg: 2, low: 3)])
+ 
+ }
+ }*/

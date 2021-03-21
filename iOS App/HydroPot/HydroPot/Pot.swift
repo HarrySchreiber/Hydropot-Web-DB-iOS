@@ -162,7 +162,6 @@ class Pot: ObservableObject, Identifiable {
     
     func getValues(unit: String) -> [(high: Int, avg: Int, low: Int)] {
         if records.count != 0 {
-            //print(self.plantName)
             var maxLight = Int.min
             var minLight = Int.max
             var maxTemp = Int.min
@@ -177,30 +176,33 @@ class Pot: ObservableObject, Identifiable {
             
             //records being sorted by date
             var recordsList = records
+            print("-_-_-_-")
+            print(recordsList)
+            print("==============")
             recordsList = recordsList.sorted(by: {
                 $0.dateRecorded.compare($1.dateRecorded) == .orderedDescending
             })
             
             for record in recordsList {
-                //let date1 = record.dateRecorded
-                //let date2 = Date()
+                let date1 = record.dateRecorded
+                let date2 = Date()
                 
-                //let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
-                //let days = diffs.day ?? 0
-                //let hours = diffs.hour ?? 0
-                //print("days and hours behind: \(days), \(hours)")
+                let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+                let days = diffs.day ?? 0
+                let hours = diffs.hour ?? 0
+                print("days and hours behind: \(days), \(hours)")
                 //if not in range anymore
-                //            if unit == "Hourly" && hours >= 12 {
-                //                break
-                //            }
-                //
-                //            if unit == "Daily" && days >= 7 {
-                //                break
-                //            }
-                //
-                //            if unit == "Weekly" && days >= 35 {
-                //                break
-                //            }
+                            if unit == "Hourly" && hours >= 8 {
+                                break
+                            }
+                
+                            if unit == "Daily" && days >= 7 {
+                                break
+                            }
+                
+                            if unit == "Weekly" && days >= 35 {
+                                break
+                            }
                 
                 //if still in range
                 //get min/max for light
@@ -219,10 +221,111 @@ class Pot: ObservableObject, Identifiable {
                 if record.temperature > maxTemp {
                     maxTemp = record.temperature
                 }
-//                print("----------")
-//                print(record.moisture)
-//                print(record.light)
-//                print(record.temperature)
+                print("----------")
+                print(record.moisture)
+                print(record.light)
+                print(record.temperature)
+                listForAvgTemp.append(record.temperature)
+                
+                //get min/max for moisture
+                if record.moisture < minMoisture {
+                    minMoisture = record.moisture
+                }
+                if record.moisture > maxMoisture {
+                    maxMoisture = record.moisture
+                }
+                listForAvgMoisture.append(record.moisture)
+            }//end for loop through records
+            
+            //get averages
+            if(listForAvgLight.count != 0 || listForAvgTemp.count != 0 || listForAvgMoisture.count != 0) {
+                //light
+                let sumLight = listForAvgLight.reduce(0, +)
+                let avgLight = sumLight / listForAvgLight.count
+                //temp
+                let sumTemp = listForAvgTemp.reduce(0, +)
+                let avgTemp = sumTemp / listForAvgTemp.count
+                
+                //moisture
+                let sumMoisture = listForAvgMoisture.reduce(0, +)
+                let avgMoisture = sumMoisture / listForAvgMoisture.count
+                
+                //tuples
+                let lightTuple = (high: maxLight, avg: avgLight, low: minLight)
+                let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
+                let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)
+                
+                print("\n\n\n")
+                return [moistureTuple, lightTuple, tempTuple]
+            }
+        }
+        return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
+    }
+    
+    /*
+    func getGraphData(unit: String) -> [(high: Int, avg: Int, low: Int)] {
+        return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
+
+    }
+    
+    /*
+     function that calculates graph data on historical page appear, and only then
+     
+     returns an array [(graphInteger, graphDisplayValue)]
+        where graphInteger is the bar graph value
+     */
+    func calculateGraphData(unit: String){
+        if records.count != 0 {
+            //lists
+            var listForAvgLight : [Int] = []
+            var listForAvgTemp : [Int] = []
+            var listForAvgMoisture : [Int] = []
+            
+            //records being sorted by date
+            var recordsList = records
+            recordsList = recordsList.sorted(by: {
+                $0.dateRecorded.compare($1.dateRecorded) == .orderedDescending
+            })
+            
+            for record in recordsList {
+                let date1 = record.dateRecorded
+                let date2 = Date()
+                
+                let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+                let days = diffs.day ?? 0
+                let hours = diffs.hour ?? 0
+                print("days and hours behind: \(days), \(hours)")
+                //if not in range anymore
+                            if unit == "Hourly" && hours >= 8 {
+                                break
+                            }
+                
+                            if unit == "Daily" && days >= 7 {
+                                break
+                            }
+                
+                            if unit == "Weekly" && days >= 35 {
+                                break
+                            }
+                
+                //if still in range
+                //get min/max for light
+                if record.light < minLight {
+                    minLight = record.light
+                }
+                if record.light > maxLight {
+                    maxLight = record.light
+                }
+                listForAvgLight.append(record.light)
+                
+                //get min/max for temp
+                if record.temperature < minTemp {
+                    minTemp = record.temperature
+                }
+                if record.temperature > maxTemp {
+                    maxTemp = record.temperature
+                }
+
                 listForAvgTemp.append(record.temperature)
                 
                 //get min/max for moisture
@@ -252,13 +355,11 @@ class Pot: ObservableObject, Identifiable {
             let tempTuple = (high: maxTemp, avg: avgTemp, low: minTemp)
             let moistureTuple = (high: maxMoisture, avg: avgMoisture, low: minMoisture)
             
-//            print(lightTuple)
-//            print("------------")
-//            print([moistureTuple, lightTuple, tempTuple])
-            return [moistureTuple, lightTuple, tempTuple]
+            //return [moistureTuple, lightTuple, tempTuple]
         }
-        return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
+        //return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
     }
+        */
 }
 
 
