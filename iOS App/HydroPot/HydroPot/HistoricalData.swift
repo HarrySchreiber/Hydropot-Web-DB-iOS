@@ -34,12 +34,7 @@ struct HistoricalData: View {
                         }
                     }.pickerStyle(SegmentedPickerStyle())
                     .padding(.top, 10)
-                    
-                    //                    Text("Value: \(units[selectedUnit])")
                 }
-//                .onReceive([self.selectedUnit].publisher.first()) { (value) in
-//                    //                    self.tuples = pot.getValues(unit: units[selectedUnit])
-//                }
                 //if there isnt any data stored, inform user
                 if tuples[0].high == 0 && tuples[0].low == 0 {
                     Text("There is no historical data for this plant yet")
@@ -244,6 +239,9 @@ struct HistoricalData: View {
                 .resizable()
                 .opacity(0.50)
         )
+        .onAppear {
+            pot.calculateGraphData()
+        }
     }
     
     //return the corresponding color for if the value was in the pot's ideal range
