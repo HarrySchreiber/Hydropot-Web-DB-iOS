@@ -51,7 +51,18 @@ struct PlantPage: View {
                 //refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                     //reload
-                    attemptReload()
+                    let timer = DispatchSource.makeTimerSource()
+
+                    //timer ensures some wait for api call to be made
+                    timer.schedule(deadline: .now() + .seconds(1))
+
+                    timer.setEventHandler {
+                        //reload
+                        attemptReload()
+                    }
+
+                    //activate code
+                    timer.activate()
                 }
                 
                 VStack(alignment: .leading) {
@@ -75,10 +86,18 @@ struct PlantPage: View {
                         }
                         //if we don't have an image
                         else {
-                            //default image
-                            Image(systemName: "leaf.fill")
-                                //styling
-                                .font(.system(size: UIScreen.homeImageSize))
+                            VStack {
+                                //default image
+                                Image(systemName: "leaf.fill")
+                                    //styling
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                    .shadow(radius: 10)
+                            }
+                            //styling
+                            .frame(width: UIScreen.plantImage, height:  UIScreen.plantImage)
                         }
                         VStack(alignment: .leading){
                             //text of the pot name
@@ -260,52 +279,12 @@ struct PlantPage: View {
                         .cornerRadius(6)
                         .padding([.leading, .bottom, .trailing])
                     }
-                    ZStack {
-                        //res level text
-                        Text("Reservoir Level")
-                            //styling
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.title3TextSize * 3, alignment: .leading)
-                            .foregroundColor(.black)
-                            .padding(.leading, UIScreen.plantTitleSide)
-                        //pots current res level
-                        Text("\(pot.resLevel)%")
-                            //styling
-                            .font(.system(size: UIScreen.titleTextSize))
-                            .foregroundColor(getTextColor(bool: resGood))
-                            .bold()
-                            .foregroundColor(getTextColor(bool: resGood))
-                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.title3TextSize * 3, alignment: .trailing)
-                            .padding(.trailing, UIScreen.resLevelPadding)
-                    }
-                    //styling
-                    .frame(maxWidth: UIScreen.plantBoxWidth)
-                    .background(Color.white.opacity(0.85))
-                    .cornerRadius(6)
-                    .padding([.leading, .bottom, .trailing])
                 }
             }
             //end scroll view
             .allowsHitTesting(!showPopUp)
             .coordinateSpace(name: "pullToRefresh")
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                Button(action: {
-                    //dismiss the button
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        //image for back button
-                        Image(systemName: "chevron.left")
-                            //styling
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
-                            .foregroundColor(.white)
-                        //other part of button
-                        Text("Back")
-                            .font(.system(size: UIScreen.regTextSize))
-                    }
-                }, trailing:
+            .navigationBarItems(trailing:
                 Button(action: {
                     //edit button
                     if (showPopUp != true){
@@ -330,10 +309,8 @@ struct PlantPage: View {
                 //display water modal
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
-        }.onAppear {
-            //reload the data
-            attemptReload()
-            
+        }
+        .onAppear {
             //moisture in the ranges
             moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             
@@ -345,9 +322,7 @@ struct PlantPage: View {
             
             //auto watering is set
             autoWatering = pot.automaticWatering
-            
-            //is res too low
-            resGood = pot.resLevel > 20
+
         }
         .background(
             //background image default
@@ -408,26 +383,19 @@ struct PlantPage: View {
     func attemptReload() {
         //do the reload
         user.reload() {
-            // will be received at the login processed
-            if user.loggedIn {
-                //for each pot
-                for (index, _) in user.pots.enumerated() {
-                    //if we find a pot that was updated
-                    if (user.pots[index].id == pot.id){
-                        //make a new tempPot
-                        let tempPot = user.pots[index]
-                        //edit the pot client side
-                        pot.editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
-                        
-                        //upadte our green/red values
-                        moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-                        lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-                        tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-                        autoWatering = pot.automaticWatering
-                        resGood = pot.resLevel > 20
-                    }
-                }
-            }
         }
+        
+        
+        //moisture in the ranges
+        moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
+        
+        //light in the ranges
+        lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
+        
+        //temperature in the ranges
+        tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+        
+        //auto watering is set
+        autoWatering = pot.automaticWatering
     }
 }

@@ -33,6 +33,7 @@ struct EditPlantPage: View {
     @State var tempURL: String = "" //backstop for the user image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //UI image to encode/decode
     @State var deletePressed = false //deleting the pot
+    @State var filledSelected = "One Week"
     
     var body: some View {
         NavigationView {
@@ -276,6 +277,7 @@ struct EditPlantPage: View {
                                 .cornerRadius(6)
                                 .padding()
                                 .padding(.leading)
+                                
                             }
                             //present image picker on toggle
                             .sheet(isPresented: $isShowPicker) {
@@ -308,14 +310,15 @@ struct EditPlantPage: View {
                 let encoding = encodePictureJPEG(image: userIntefaceImage!)
                 let ext = "jpeg"
                 
+                
                 //if all the fields are not blank and the user changed the plant type
                 if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
                     
-                    //do the edit plant
-                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
-                
+                    //edit pot client side
+                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow:  Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                    
                     //if the extension is not empty
-                    if (ext != ""){
+                    if (ext != "" && tempURL != pot.image){
                         //add the encoded image
                         addImage(encodedImage: encoding, ext: ext)
                     }
@@ -330,7 +333,7 @@ struct EditPlantPage: View {
                     pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
                     
                     //if the extension exists
-                    if (ext != ""){
+                    if (ext != "" && tempURL != pot.image){
                         //add the image
                         addImage(encodedImage: encoding, ext: ext)
                     }
@@ -403,8 +406,7 @@ struct EditPlantPage: View {
             lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
             //boolean for temperature level being in the green
             tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-            //boolean for res level being in the green
-            resGood = pot.resLevel > 20
+            
         }
     }
     
@@ -433,7 +435,7 @@ struct EditPlantPage: View {
     func addImage(encodedImage: String, ext: String) {
         
         //if we do have image
-        if (tempURL != ""){
+        if (tempURL != pot.image){
             //upload image
             user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
                 if user.loggedIn {
@@ -467,6 +469,41 @@ struct EditPlantPage: View {
         }
     }
 }
+
+/*
+    form for selecting the frequency of filling notifications
+ */
+/*
+struct notiSelection: View {
+    
+    @Binding var filledSelected: String //passing what the user selected
+    
+    //how often the user wants to be notified about filling the pot
+    let filledFrequency = ["One Week", "Two Weeks", "Three Weeks", "One Month"]
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    //inform user what picker is for
+                    Text("I would like to be reminded to water my pot once every:")
+                    
+                    //picker for notification alerts
+                    Picker(selection: $filledSelected, label: Text("Notification Frequency")) {
+                        //each picker componenet
+                        ForEach(filledFrequency, id: \.self) {
+                            Text($0).tag($0)
+                                .font(.system(size: UIScreen.regTextSize))
+                        }
+                    }
+                    //style of picker
+                    .pickerStyle(WheelPickerStyle())
+                }
+            }
+        }
+    }
+}
+ */
 
 /*
     image picker for the add/edit pages
@@ -513,7 +550,7 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
             if let imageData = uiImage.jpeg(UIImage.JPEGQuality(rawValue: 0)!) {
                 let otherImage = UIImage(data: imageData) //keep ui image
                 image = Image(uiImage: otherImage!) //regular image
-                tempURL = "" //user stuff
+                tempURL = "not empty" //user stuff
                 userIntefaceImage = otherImage //save the UI image to be passed back
             }
             //dismiss the modal

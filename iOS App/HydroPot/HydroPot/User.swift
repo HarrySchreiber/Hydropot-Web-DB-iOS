@@ -154,7 +154,7 @@ class GetUser: ObservableObject {
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
                                 //make record
-                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir, watering: rec.watering)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, watering: rec.watering)
                                 //append record
                                 records.append(record)
                             }
@@ -187,12 +187,22 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
+                                
+                                //format date
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                
+                                //todays string
+                                let todayString = dateFormatter.string(from: Date())
+                                //get last date
+                                let lastDate = dateFormatter.date(from: pot.lastFilled ?? todayString)
+                                
                                 //append the newly created pot with our record
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: lastDate!, notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
                             }
                         }
                     }
@@ -288,7 +298,7 @@ class GetUser: ObservableObject {
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
                                 //make record
-                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, reservoir: rec.reservoir, watering: rec.watering)
+                                let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, watering: rec.watering)
                                 //append record
                                 records.append(record)
                             }
@@ -321,12 +331,22 @@ class GetUser: ObservableObject {
                                         break
                                     }
                                 }
+                                
+                                //date formatter
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                
+                                //todays string
+                                let todayString = dateFormatter.string(from: Date())
+                                //get last date
+                                let lastDate = dateFormatter.date(from: pot.lastFilled ?? todayString)
+                                
                                 //append the newly created pot with our record
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, resLevel: records[records.count-1].reservoir, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: lastWatered, records: records, notifications: notifications, curTemp: records[records.count-1].temperature, curLight: records[records.count-1].light, curMoisture: records[records.count-1].moisture, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: lastDate!, notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, resLevel: 0, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
                             }
                         }
                     }
@@ -434,7 +454,9 @@ class GetUser: ObservableObject {
                     "notifications": [],
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "records": []
+                    "records": [],
+                    "lastFilled":  dateFormatter.string(from: pot.lastFilled),
+                    "notiFilledFrequency": pot.notiFilledFrequency
                   ]
                 ]
               ]
@@ -541,6 +563,7 @@ class GetUser: ObservableObject {
         
         //replace the pot client side with our new one
         replacePot(pot: pot)
+        
                 
         //format our date
         let dateFormatter = DateFormatter()
@@ -577,9 +600,9 @@ class GetUser: ObservableObject {
             recDict["dateRecorded"] = dateString //date recorded
             recDict["light"] = record.light //light of record
             recDict["moisture"] = record.moisture //moisture of record
-            recDict["reservoir"] = record.reservoir //res level of record
             recDict["temperature"] = record.temperature //temperature of record
             recDict["watering"] = record.watering //watering of record
+            
             
             //append our single record
             recJsonArray.append(recDict)
@@ -606,7 +629,9 @@ class GetUser: ObservableObject {
                     "notifications": notieJsonArray,
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "records": recJsonArray
+                    "records": recJsonArray,
+                    "lastFilled":  dateFormatter.string(from: pot.lastFilled),
+                    "notiFilledFrequency": pot.notiFilledFrequency
                   ]
                 ]
               ]
@@ -832,7 +857,7 @@ class GetUser: ObservableObject {
         }
         //if we don't have records then we create a dummy record for the pot to know we want to water
         else {
-            pot.records.append(Record(dateRecorded: Date(), moisture: 0, temperature: 0, light: 0, reservoir: 0, watering: waterAmount))
+            pot.records.append(Record(dateRecorded: Date(), moisture: 0, temperature: 0, light: 0, watering: waterAmount))
         }
                 
        //format for dates
@@ -870,7 +895,6 @@ class GetUser: ObservableObject {
             recDict["dateRecorded"] = dateString //date recorded
             recDict["light"] = record.light //light of record
             recDict["moisture"] = record.moisture //moisture of record
-            recDict["reservoir"] = record.reservoir //res level of record
             recDict["temperature"] = record.temperature //temperature of record
             recDict["watering"] = record.watering //watering of record
             //append our single record
@@ -898,7 +922,9 @@ class GetUser: ObservableObject {
                     "notifications": notieJsonArray,
                     "plantName": pot.plantName,
                     "plantType": pot.plantType,
-                    "records": recJsonArray
+                    "records": recJsonArray,
+                    "lastFilled":  dateFormatter.string(from: pot.lastFilled),
+                    "notiFilledFrequency": pot.notiFilledFrequency
                   ]
                 ]
               ]
@@ -986,7 +1012,8 @@ class GetUser: ObservableObject {
             //get url where image resides
             var str = String(decoding: d, as: UTF8.self)
             str = str.replacingOccurrences(of: "\"", with: "")
-
+            
+            print(str)
             //async queue
             DispatchQueue.main.async(execute: {
                 //pot image is at the string

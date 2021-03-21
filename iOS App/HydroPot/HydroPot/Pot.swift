@@ -22,12 +22,14 @@ struct codePot: Codable, Identifiable {
     let id: String //id of the pot
     let automaticWatering: Bool //automatic watering bool for the pot
     let plantName: String //name of the pot
+    let lastFilled: String? //last time the pot recieved a notification
+    let notiFilledFrequency: Int? //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
     let records: [codeRecord]? //records for the pot
     let notifications: [codeNotification]? //notifications for the pot
     
     //confomrs to codable
     enum CodingKeys: String, CodingKey {
-        case plantName, plantType, idealTempLow, idealTempHigh, idealMoistureHigh, idealLightLow, idealLightHigh, automaticWatering, idealMoistureLow, id, image, records, notifications
+        case plantName, plantType, idealTempLow, idealTempHigh, idealMoistureHigh, idealLightLow, idealLightHigh, automaticWatering, idealMoistureLow, id, image, records, notifications, lastFilled, notiFilledFrequency
     }
 }
 
@@ -46,13 +48,14 @@ class Pot: ObservableObject, Identifiable {
     @Published var idealLightHigh: Int //high light for the pot
     @Published var idealLightLow: Int //low light for the pot
     @Published var curLight: Int //the current light of the pot
-    @Published var resLevel: Int //the resLevel of the pot
     @Published var id: String //id of the pot
     @Published var automaticWatering: Bool //automatic watering bool for the pot
     @Published var lastWatered: Date //the last date the pot was waterd
     @Published var plantName: String //name of the pot
     @Published var records: [Record] //records for the pot
     @Published var notifications: [Notification] //notifications for the pot
+    @Published var lastFilled: Date //last time the pot recieved a notification
+    @Published var notiFilledFrequency: Int //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
     
     /// constructor for pot
     ///
@@ -68,14 +71,15 @@ class Pot: ObservableObject, Identifiable {
     ///     - idealLightHigh: High light for the pot
     ///     - idealLightLow: Low light for the pot
     ///     - curLight: The current light of the pot
-    ///     - resLevel: The resLevel of the pot
     ///     - id: The pot id
     ///     - automaticWatering: Automatic watering bool for the pot
     ///     - lastWatered: The last date the pot was watered
     ///     - plantName: The name of the pot
     ///     - records: The records for the pot
     ///     - Notifications: The notifications for the pot
-    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], resLevel: Int, curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String) {
+    ///     - lastFilled: The last time the pot recieved a notification
+    ///     - notiFilledFrequency: The frequency of notis to be filled
+    init(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, lastWatered: Date, records: [Record], notifications: [Notification], curTemp: Int, curLight: Int, curMoisture: Int, id: String, automaticWatering: Bool, image: String, potId: String, lastFilled: Date, notiFilledFrequency: Int) {
         self.plantName = plantName
         self.plantType = plantType
         self.curTemp = curTemp
@@ -91,10 +95,10 @@ class Pot: ObservableObject, Identifiable {
         self.automaticWatering = automaticWatering
         self.records = records
         self.notifications = notifications
-        self.image = ""
-        self.resLevel = resLevel
         self.id = potId
         self.image = image
+        self.lastFilled = lastFilled
+        self.notiFilledFrequency = notiFilledFrequency
     }
     
     /// editing the pott
@@ -116,13 +120,10 @@ class Pot: ObservableObject, Identifiable {
         self.plantType = plantType
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
-        self.curTemp = 0
         self.idealMoistureLow = idealMoistureLow
         self.idealMoistureHigh = idealMoistureHigh
-        self.curMoisture = 0
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
-        self.curLight = 0
     }
     
     /// editing the pott another way

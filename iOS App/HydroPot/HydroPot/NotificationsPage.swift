@@ -66,9 +66,7 @@ struct NotificationsPage: View {
             }
         }
         //reload on the appearence of the page
-        .onAppear() {
-            attemptReload()
-        }
+        .onAppear(perform: attemptReload)
     }
     
     /// function to get the message behind a given noti

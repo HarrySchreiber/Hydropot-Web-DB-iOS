@@ -83,7 +83,7 @@
 		3949FCC625C202B100AC8D09 /* PlantTypePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypePage.swift; sourceTree = "<group>"; };
 		3949FCCB25C202CE00AC8D09 /* PlantTypeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeList.swift; sourceTree = "<group>"; };
 		3949FCD025C202E700AC8D09 /* AccountPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPage.swift; sourceTree = "<group>"; };
-		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; };
+		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.release.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.release.xcconfig"; sourceTree = "<group>"; };

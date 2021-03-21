@@ -235,21 +235,7 @@ struct HistoricalData: View {
                     }
                 }
                 .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-                .navigationBarBackButtonHidden(true)
                 //setup the header (back button)
-                .navigationBarItems(leading:
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: UIScreen.title3TextSize))
-                                .frame(width: UIScreen.chevImage, height: UIScreen.chevImage)
-                                .foregroundColor(.white)
-                            Text("Back")
-                                .font(.system(size: UIScreen.regTextSize))
-                        }
-                    })
             }
         }
         //background image for the home page

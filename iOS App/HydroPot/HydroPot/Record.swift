@@ -14,13 +14,12 @@ struct codeRecord: Codable {
     let dateRecorded: String //date the record was recorded
     let light: Int //light value of record
     let moisture: Int //moisture value of record
-    let reservoir: Int //reservoir value of record
     let temperature: Int //temperature value of record
     let watering: Int //watering value of record
     
     //required for conforming to codable
     enum CodingKeys: String, CodingKey {
-        case light, moisture, reservoir, temperature, dateRecorded, watering
+        case light, moisture, temperature, dateRecorded, watering
     }
 }
 
@@ -31,7 +30,6 @@ class Record: ObservableObject, Identifiable {
     @Published var dateRecorded: Date //date the record was recorded
     @Published var  light: Int //light value of record
     @Published var  moisture: Int //moisture value of record
-    @Published var  reservoir: Int //reservoir value of record
     @Published var  temperature: Int //temperature value of record
     @Published var  watering: Int //watering value of record
     
@@ -41,15 +39,13 @@ class Record: ObservableObject, Identifiable {
     ///     - dateRecorded: Date the record was recorded
     ///     - light: Light value of record
     ///     - moisture: Moisture value of record
-    ///     - reservoir: Reservoir value of record
     ///     - temperature: Temperature value of record
     ///     - watering: Watering value of record
-    init(dateRecorded: Date, moisture: Int, temperature: Int, light: Int, reservoir: Int, watering: Int) {
+    init(dateRecorded: Date, moisture: Int, temperature: Int, light: Int, watering: Int) {
         self.dateRecorded = dateRecorded
         self.moisture = moisture
         self.temperature = temperature
         self.light = light
-        self.reservoir = reservoir
         self.watering = watering
     }
 }
