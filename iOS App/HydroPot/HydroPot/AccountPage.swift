@@ -110,9 +110,10 @@ struct AccountPage: View {
                             //styling
                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                             .foregroundColor(.white)
-                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                            .background(saveNameDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                             .cornerRadius(6)
                             .padding(3)
+                            .disabled(saveNameDisabled)
                         }
                         //styling
                         .padding(.leading, geometry.size.height/30)
@@ -201,6 +202,11 @@ struct AccountPage: View {
             //set to user notis actually
             noties = user.notifications
         }
+    }
+    
+    //Evaluates to true when the name field is not properly formatted
+    var saveNameDisabled: Bool{
+        name.isEmpty
     }
 }
 
