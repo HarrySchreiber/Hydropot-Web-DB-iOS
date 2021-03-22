@@ -22,6 +22,7 @@ struct PlantResults: Codable {
  */
 class Plants: ObservableObject, Identifiable {
     @Published var plantList: [Plant] //list of individual plants
+    @Published var url: URL
     
     /// constructor for plants
     ///
@@ -29,6 +30,7 @@ class Plants: ObservableObject, Identifiable {
     ///     - plantList: list of individual plants
     init() {
         self.plantList = []
+        self.url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
     }
     
     /// allows for determining if the plant list contains a given plant
@@ -84,10 +86,7 @@ class Plants: ObservableObject, Identifiable {
         
         //serlialize our payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-        //url for lambda function
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
-        
+
         //make the request
         var request = URLRequest(url: url)
         

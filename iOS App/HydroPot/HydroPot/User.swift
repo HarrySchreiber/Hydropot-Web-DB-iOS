@@ -26,7 +26,7 @@ struct User: Codable, Identifiable {
     let userName: String //username of the user
     let notifications: Bool //is notifications on
     let deviceToken: String //device token on device registered
-    let pots: [codePot]? //pots the user has
+    let pots: [CodePot]? //pots the user has
     
     //conform to codable
     enum CodingKeys: String, CodingKey {
@@ -46,6 +46,7 @@ class GetUser: ObservableObject {
     @Published var notifications: Bool //does the user want notifications
     @Published var deviceToken: String //current device token
     @Published var pots: [Pot] //pots the user owns
+    @Published var url: URL
 
     /// Constructor for user
     ///
@@ -67,6 +68,8 @@ class GetUser: ObservableObject {
         self.pots = []
         self.notifications = true
         self.deviceToken =   UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+        self.url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+        
     }
     
     /// Login function for loading up everything and checking credentials
@@ -83,9 +86,6 @@ class GetUser: ObservableObject {
         
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-
-        //access url for lambda
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
         //make request
         var request = URLRequest(url: url)
@@ -229,9 +229,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //access url for lambda
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make request
         var request = URLRequest(url: url)
         
@@ -389,9 +386,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //url to send to lambda
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //create request
         var request = URLRequest(url: url)
         
@@ -465,9 +459,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //url to send to aws
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make request
         var request = URLRequest(url: url)
         
@@ -531,9 +522,6 @@ class GetUser: ObservableObject {
         
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-        //where we are sending it to
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
         
         //make request
         var request = URLRequest(url: url)
@@ -639,10 +627,7 @@ class GetUser: ObservableObject {
         
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-        //url to send to aws
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
+
         //make request
         var request = URLRequest(url: url)
         
@@ -668,24 +653,24 @@ class GetUser: ObservableObject {
     ///
     /// - Returns:
     ///     - array of notiePots
-    func getOrderedNotifications() ->  [notiePots] {
+    func getOrderedNotifications() ->  [NotificationPots] {
         //make list of tuples, pot : notification
         //for each pot, add notification
-        var notiesTupleList : [notiePots] = []
+        var notificationsTupleList : [NotificationPots] = []
         var counter = 0
         for pot in pots {
             for notie in pot.notifications {
                 counter += 1
-                let notiePot = notiePots(id: counter, notiesTuple: (pot, notie))
-                notiesTupleList.append(notiePot)
+                let NotificationPot = NotificationPots(id: counter, notiesTuple: (pot, notie))
+                notificationsTupleList.append(NotificationPot)
             }
         }
         //sort list of tuples
-        notiesTupleList = notiesTupleList.sorted(by: {
+        notificationsTupleList = notificationsTupleList.sorted(by: {
             $0.notiesTuple.notification.timeStamp.compare($1.notiesTuple.notification.timeStamp) == .orderedDescending
         })
         //return
-        return notiesTupleList
+        return notificationsTupleList
         
     }
     
@@ -704,9 +689,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //url to send request to
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make request
         var request = URLRequest(url: url)
         
@@ -743,9 +725,6 @@ class GetUser: ObservableObject {
         //jsonify the payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //the url we are sending the request to
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make request
         var request = URLRequest(url: url)
         
@@ -815,9 +794,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //url to send to aws lambda
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make request
         var request = URLRequest(url: url)
         
@@ -933,10 +909,7 @@ class GetUser: ObservableObject {
         
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-        //url to send to aws
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
+
         //make request
         var request = URLRequest(url: url)
         
@@ -983,9 +956,6 @@ class GetUser: ObservableObject {
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
-        //the aws lambda url to send request
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
-        
         //make the request
         var request = URLRequest(url: url)
         

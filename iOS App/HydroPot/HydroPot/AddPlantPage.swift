@@ -78,7 +78,7 @@ struct AddPlantPage: View {
                             }
                             //show the image picker when toggled
                             .sheet(isPresented: $isShowPicker) {
-                                ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                             }
                             HStack{
                                 //pot id for user to input

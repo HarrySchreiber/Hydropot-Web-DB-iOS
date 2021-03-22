@@ -10,7 +10,7 @@ import Foundation
 /*
     codable to handle JSON from db
  */
-struct codePot: Codable, Identifiable {
+struct CodePot: Codable, Identifiable {
     let image: String //image for the pot
     let plantType: String //type of plant it is
     let idealTempHigh: Int //high temperature for the pot
@@ -24,8 +24,8 @@ struct codePot: Codable, Identifiable {
     let plantName: String //name of the pot
     let lastFilled: String? //last time the pot recieved a notification
     let notiFilledFrequency: Int? //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
-    let records: [codeRecord]? //records for the pot
-    let notifications: [codeNotification]? //notifications for the pot
+    let records: [CodeRecord]? //records for the pot
+    let notifications: [CodeNotifications]? //notifications for the pot
     
     //confomrs to codable
     enum CodingKeys: String, CodingKey {

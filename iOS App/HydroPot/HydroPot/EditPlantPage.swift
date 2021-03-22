@@ -281,7 +281,7 @@ struct EditPlantPage: View {
                             //present image picker on toggle
                             .sheet(isPresented: $isShowPicker) {
                                 //display image picker
-                                ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                             }
                             //styling
                             .padding(.trailing)
@@ -462,7 +462,7 @@ struct EditPlantPage: View {
 /*
     image picker for the add/edit pages
  */
-struct ImagePickerTwo: UIViewControllerRepresentable {
+struct ImagePicker: UIViewControllerRepresentable {
     
     
     @Environment(\.presentationMode)
@@ -532,7 +532,7 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
     /*
         make the picker controlled
      */
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerTwo>) -> UIImagePickerController {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         return picker
@@ -541,7 +541,7 @@ struct ImagePickerTwo: UIViewControllerRepresentable {
     /*
         update the controller
      */
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePickerTwo>) {
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
         
     }
     

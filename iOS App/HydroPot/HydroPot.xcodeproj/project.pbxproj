@@ -13,7 +13,6 @@
 		3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */; };
 		3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3941EAA525D6D33300E37724 /* plantTypesFilter.swift */; };
 		3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */; };
-		3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC7625C200DE00AC8D09 /* ContentView.swift */; };
 		3949FC7925C200DE00AC8D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7825C200DE00AC8D09 /* Assets.xcassets */; };
 		3949FC7C25C200DE00AC8D09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3949FC7B25C200DE00AC8D09 /* Preview Assets.xcassets */; };
 		3949FC8725C200DE00AC8D09 /* HydroPotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FC8625C200DE00AC8D09 /* HydroPotTests.swift */; };
@@ -66,7 +65,6 @@
 		3941EAA525D6D33300E37724 /* plantTypesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plantTypesFilter.swift; sourceTree = "<group>"; };
 		3949FC7125C200DE00AC8D09 /* HydroPot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroPotApp.swift; sourceTree = "<group>"; };
-		3949FC7625C200DE00AC8D09 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3949FC7825C200DE00AC8D09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3949FC7B25C200DE00AC8D09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3949FC7D25C200DE00AC8D09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 			children = (
 				7FD52A3225F6A9D800907392 /* HydroPot.entitlements */,
 				3949FC7425C200DE00AC8D09 /* HydroPotApp.swift */,
-				3949FC7625C200DE00AC8D09 /* ContentView.swift */,
 				7F8E298C25C228E8004EBC61 /* User.swift */,
 				7F401A6A25C3435E00624B09 /* Pot.swift */,
 				7FA929D925C89F04003F967C /* Record.swift */,
@@ -500,7 +497,6 @@
 				7F171D5625F936E200372249 /* Plant.swift in Sources */,
 				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
-				3949FC7725C200DE00AC8D09 /* ContentView.swift in Sources */,
 				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
 				3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */,
 				3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */,
