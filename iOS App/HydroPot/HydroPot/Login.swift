@@ -74,7 +74,7 @@ struct Login: View {
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(loginDisabled ? Color(red: 0.211, green: 0.250, blue: 0.368) : Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .background(loginDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
@@ -159,7 +159,7 @@ struct Login: View {
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(signupDisabled ? Color(red: 0.211, green: 0.250, blue: 0.368) : Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .background(signupDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .frame(maxWidth: .infinity)
                             }
@@ -224,8 +224,6 @@ struct Login: View {
         !isValidEmail(email: email) ||
         password.isEmpty ||
         passComf.isEmpty ||
-        password.count < 5 ||
-        passComf.count < 5 ||
         !isValidPassword(password: password) ||
         !isValidPassword(password: passComf)
     }
