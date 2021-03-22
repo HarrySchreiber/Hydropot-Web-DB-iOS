@@ -88,9 +88,4 @@ struct PlantTypePage: View {
         }
     }
 }
-//
-//struct PlantTypePage_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlantTypePage(plant: Plant())
-//    }
-//}
+
