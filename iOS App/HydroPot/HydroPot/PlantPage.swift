@@ -133,7 +133,7 @@ struct PlantPage: View {
                             .foregroundColor(.black)
                             .padding(.leading, UIScreen.plantTitleSide)
                         //filled res button modal
-                        Button("Filled Res!") {
+                        Button("Filled Water") {
                             //set the last filled
                             pot.setLastFilled(lastFilled: Date())
                             //showing modal
