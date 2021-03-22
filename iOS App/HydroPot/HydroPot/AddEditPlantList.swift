@@ -78,6 +78,7 @@ struct AddEditPlantList: View {
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
                                 //if a plant is clicked, set the plant selected and store its ideals
                                 Button(action: {
+                                    print("hello \(ideals.plantSelected) ")
                                     ideals.plantSelected = (filtering || searching) ? displayedList[row] : plantList[row]
                                     if (plants.contains(plantName: ideals.plantSelected)){
                                         let tempPlant = plants.getPlant(plantName: ideals.plantSelected)

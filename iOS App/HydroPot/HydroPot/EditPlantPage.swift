@@ -12,7 +12,7 @@ struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //to be dismissed
     @ObservedObject var user: GetUser //user that has been passed
     @ObservedObject var plants: Plants //plant list that has been passed
-    @State var ideals: Ideals = Ideals()// ideal values for pages
+    @ObservedObject var ideals: Ideals = Ideals()// ideal values for pages
     @ObservedObject var pot: Pot //pot to be edited
     @Binding var showModal: Bool //toggles being dismissed
     @State var failed: Bool = false //if failed edit alert

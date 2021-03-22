@@ -12,7 +12,7 @@ struct AddPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //presentation mode for dismissal
     @ObservedObject var user: GetUser //user that was passed
     @ObservedObject var plants: Plants //plants list
-    @State var ideals: Ideals = Ideals()// ideal values for pages
+    @ObservedObject var ideals: Ideals = Ideals()// ideal values for pages
     @Binding var showModal: Bool //modal being shown or not
     @State var failed: Bool = false //failed boolean for displaying alert
     @State var isShowPicker: Bool = false //showing the picture picker
