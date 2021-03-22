@@ -31,6 +31,7 @@
 		58A777692081496286F9BB53 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */; };
 		7F171D5625F936E200372249 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F171D5525F936E200372249 /* Plant.swift */; };
 		7F401A6B25C3435F00624B09 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F401A6A25C3435E00624B09 /* Pot.swift */; };
+		7F6BA6692608F5FB00B770B1 /* Ideals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6BA6682608F5FB00B770B1 /* Ideals.swift */; };
 		7F8E298D25C228E8004EBC61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E298C25C228E8004EBC61 /* User.swift */; };
 		7FA929DA25C89F04003F967C /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929D925C89F04003F967C /* Record.swift */; };
 		7FA929DF25C89F18003F967C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA929DE25C89F18003F967C /* Notification.swift */; };
@@ -91,6 +92,7 @@
 		7C23EEB6069EAA9102A755F6 /* Pods-HydroPotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPotTests.release.xcconfig"; path = "Target Support Files/Pods-HydroPotTests/Pods-HydroPotTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F171D5525F936E200372249 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
+		7F6BA6682608F5FB00B770B1 /* Ideals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ideals.swift; sourceTree = "<group>"; };
 		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */,
 				3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */,
 				3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */,
+				7F6BA6682608F5FB00B770B1 /* Ideals.swift */,
 				3949FC7825C200DE00AC8D09 /* Assets.xcassets */,
 				3949FC7D25C200DE00AC8D09 /* Info.plist */,
 				3949FC7A25C200DE00AC8D09 /* Preview Content */,
@@ -504,6 +507,7 @@
 				7F401A6B25C3435F00624B09 /* Pot.swift in Sources */,
 				3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */,
 				7F8E298D25C228E8004EBC61 /* User.swift in Sources */,
+				7F6BA6692608F5FB00B770B1 /* Ideals.swift in Sources */,
 				3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */,
 				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,
 				3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */,

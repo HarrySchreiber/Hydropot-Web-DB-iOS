@@ -12,17 +12,9 @@ struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //to be dismissed
     @ObservedObject var user: GetUser //user that has been passed
     @ObservedObject var plants: Plants //plant list that has been passed
+    @State var ideals: Ideals = Ideals()// ideal values for pages
     @ObservedObject var pot: Pot //pot to be edited
     @Binding var showModal: Bool //toggles being dismissed
-    @State var plantName = "" //name of the plant
-    @State var plantType = "" //type of the plant
-    @State var idealTemperatureHigh: String = "" //ideal temperature high for the pot
-    @State var idealMoistureHigh: String = "" //ideal moisture high for the pot
-    @State var idealLightLevelHigh: String = "" //ideal light level high for the pot
-    @State var idealTemperatureLow: String = "" //ideal temperature low for the pot
-    @State var idealMoistureLow: String = "" //ideal moisture low for the pot
-    @State var idealLightLevelLow: String = "" //ideal light low for the pot
-    @State var plantSelected: String = "" //plant selected by the user
     @State var failed: Bool = false //if failed edit alert
     @State var isShowPicker: Bool = false //showing the picture picker
     @State var image: Image? = Image(systemName: "camera.circle") //default image
@@ -108,11 +100,11 @@ struct EditPlantPage: View {
                                 .padding(.bottom)
                                 HStack{
                                     //textfield to edit plant name
-                                    TextField("Plant Name", text: $plantName).onAppear() {
+                                    TextField("Plant Name", text: $ideals.plantName).onAppear() {
                                         //auto fill plant name if there is one
-                                        if (plantName == ""){
+                                        if (ideals.plantName == ""){
                                             //display plant name
-                                            plantName = pot.plantName
+                                            ideals.plantName = pot.plantName
                                         }
                                     }
                                     //styling
@@ -125,7 +117,7 @@ struct EditPlantPage: View {
                                 .padding(.leading, geometry.size.height/30)
                                 ZStack{
                                     //if there is not a plant already selected
-                                    if (plantSelected == ""){
+                                    if (ideals.plantSelected == ""){
                                         //display that plant
                                         Text("\(pot.plantType)")
                                             //styling
@@ -140,7 +132,7 @@ struct EditPlantPage: View {
                                     //if there is a plant selected
                                     else {
                                         //display new plant type
-                                        Text("\(plantSelected)")
+                                        Text("\(ideals.plantSelected)")
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .foregroundColor(.black)
@@ -149,8 +141,9 @@ struct EditPlantPage: View {
                                             .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                             .border(Color.black.opacity(0.5))
                                     }
+                                    
                                     //nav link to the add edit plant list to select the plant type
-                                    NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                                     NavigationLink(destination: AddEditPlantList(ideals: ideals, plants: plants))  {
                                         //display the cheveron to let user know to click
                                         Image(systemName: "chevron.right")
                                             //styling
@@ -160,6 +153,7 @@ struct EditPlantPage: View {
                                             .clipShape(Circle())
                                             .padding(.leading, geometry.size.width * 0.8)
                                     }
+ 
                                 }
                                 //styling
                                 .padding(.leading, geometry.size.height/30)
@@ -170,7 +164,7 @@ struct EditPlantPage: View {
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low moisture edit
-                                    TextField("Low", text: $idealMoistureLow)
+                                    TextField("Low", text: $ideals.idealMoistureLow)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -183,7 +177,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high moisture edit
-                                    TextField("High", text: $idealMoistureHigh)
+                                    TextField("High", text: $ideals.idealMoistureHigh)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -201,7 +195,7 @@ struct EditPlantPage: View {
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low light to be edited
-                                    TextField("Low", text: $idealLightLevelLow)
+                                    TextField("Low", text: $ideals.idealLightLevelLow)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -214,7 +208,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high light to be edited
-                                    TextField("High", text: $idealLightLevelHigh)
+                                    TextField("High", text: $ideals.idealLightLevelHigh)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -230,7 +224,7 @@ struct EditPlantPage: View {
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low temperature to be edited
-                                    TextField("Low", text: $idealTemperatureLow)
+                                    TextField("Low", text: $ideals.idealTemperatureLow)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -243,7 +237,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high temperature to be edited
-                                    TextField("High", text: $idealTemperatureHigh)
+                                    TextField("High", text: $ideals.idealTemperatureHigh)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -311,10 +305,10 @@ struct EditPlantPage: View {
                 
                 
                 //if all the fields are not blank and the user changed the plant type
-                if (plantName != "" && plantSelected != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                if (ideals.plantName != "" && ideals.plantSelected != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != ""){
                     
                     //edit pot client side
-                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow:  Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow:  Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0)
                     
                     //if the extension is not empty
                     if (ext != "" && tempURL != pot.image){
@@ -326,10 +320,10 @@ struct EditPlantPage: View {
                     self.showModal.toggle()
                 }
                 //if the fields are not blank and the user did change the plant type
-                else if (plantName != "" && pot.plantType != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                else if (ideals.plantName != "" && pot.plantType != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != ""){
                     
                     //edit the plant
-                    pot.editPlant(plantName: plantName, plantType: plantSelected, idealTempHigh: Int(idealTemperatureHigh) ?? 0, idealTempLow: Int(idealTemperatureLow) ?? 0, idealMoistureHigh: Int(idealMoistureHigh) ?? 0, idealMoistureLow: Int(idealMoistureLow) ?? 0, idealLightHigh: Int(idealLightLevelHigh) ?? 0, idealLightLow: Int(idealLightLevelLow) ?? 0)
+                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0)
                     
                     //if the extension exists
                     if (ext != "" && tempURL != pot.image){
@@ -381,19 +375,19 @@ struct EditPlantPage: View {
             
         }.onAppear() {
             //what plant type the user has selected
-            plantSelected = pot.plantType
+            ideals.plantSelected = pot.plantType
             //stringify the moisture low
-            idealMoistureLow = String(pot.idealMoistureLow)
+            ideals.idealMoistureLow = String(pot.idealMoistureLow)
             //stringify the moisture high
-            idealMoistureHigh = String(pot.idealMoistureHigh)
+            ideals.idealMoistureHigh = String(pot.idealMoistureHigh)
             //stringify the temperature low
-            idealTemperatureLow = String(pot.idealTempLow)
+            ideals.idealTemperatureLow = String(pot.idealTempLow)
             //stringify the temperature high
-            idealTemperatureHigh = String(pot.idealTempHigh)
+            ideals.idealTemperatureHigh = String(pot.idealTempHigh)
             //stringify the light low
-            idealLightLevelLow = String(pot.idealLightLow)
+            ideals.idealLightLevelLow = String(pot.idealLightLow)
             //stringify the light high
-            idealLightLevelHigh = String(pot.idealLightHigh)
+            ideals.idealLightLevelHigh = String(pot.idealLightHigh)
             //if we have selected an image
             tempURL = pot.image
         }
