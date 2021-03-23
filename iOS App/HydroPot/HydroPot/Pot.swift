@@ -254,37 +254,22 @@ class Pot: ObservableObject, Identifiable {
     }
     
     
-    func getGraphData(unit: String) -> [(high: Int, avg: Int, low: Int)] {
-        return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
-
-    }
-    
     /*
      function that calculates graph data on historical page appear, and only then
      
-     returns a map dataType -> [graphValue]
+     returns a tuple of lists of averages values
         where dataType is moisture, light, or temp
-        where graphValue is the value shown on top of the bar graph
+        returned tuple is arrays: (array 1  = 8 averages for hourly, array 2 = 7 avgs for daily, array 3 = 5 avgs for weekly)
      */
-    func calculateGraphData(dataType: String){
-        var returnMap : [[Int]: (String, String)]
+    func calculateGraphData(dataType: String) -> ([Int],[Int],[Int]){
+        //lists for each of the units
+        var hourlySums : [Int] = [0,0,0,0,0,0,0,0]
+        var dailySums : [Int] = [0,0,0,0,0,0,0]
+        var weeklySums : [Int] = [0,0,0,0,0]
         if records.count != 0 {
-            //lists for hourly values
-            var hourlyLightSums : [Int] = [0,0,0,0,0,0,0,0]
-            var hourlyTempSums : [Int] = [0,0,0,0,0,0,0,0]
-            var hourlyMoistureSums : [Int] = [0,0,0,0,0,0,0,0]
+            //lists for tracking total number of records for each unit (to average later)
             var hourlyRecordCount = [0,0,0,0,0,0,0,0]
-            
-            //lists for daily values
-            var dailyLightSums : [Int] = [0,0,0,0,0,0,0]
-            var dailyTempSums : [Int] = [0,0,0,0,0,0,0]
-            var dailyMoistureSums : [Int] = [0,0,0,0,0,0,0]
             var dailyRecordCount = [0,0,0,0,0,0,0]
-            
-            //lists for weekly values
-            var weeklyLightSums : [Int] = [0,0,0,0,0]
-            var weeklyTempSums : [Int] = [0,0,0,0,0]
-            var weeklyMoistureSums : [Int] = [0,0,0,0,0]
             var weeklyRecordCount = [0,0,0,0,0]
             
             
@@ -295,6 +280,13 @@ class Pot: ObservableObject, Identifiable {
             })
             
             for record in recordsList {
+                var input = record.light
+                if dataType == "temperature" {
+                    input = record.temperature
+                }
+                if dataType == "moisture" {
+                    input = record.moisture
+                }
                 let date1 = record.dateRecorded
                 let date2 = Date()
                 
@@ -308,80 +300,49 @@ class Pot: ObservableObject, Identifiable {
                 }
                 //if in range, add to corresponding weekly column
                 if days >= 28 {
-                    weeklyLightSums[4] += record.light
-                    weeklyTempSums[4] += record.temperature
-                    weeklyMoistureSums[4] += record.moisture
+                    weeklySums[4] += input
                     weeklyRecordCount[4] += 1
                 }
                 else if days >= 21 {
-                    weeklyLightSums[3] += record.light
-                    weeklyTempSums[3] += record.temperature
-                    weeklyMoistureSums[3] += record.moisture
+                    weeklySums[3] += input
                     weeklyRecordCount[3] += 1
                 }
                 else if days >= 14 {
-                    weeklyLightSums[2] += record.light
-                    weeklyTempSums[2] += record.temperature
-                    weeklyMoistureSums[2] += record.moisture
+                    weeklySums[2] += input
                     weeklyRecordCount[2] += 1
                 }
                 else if days >= 7 {
-                    weeklyLightSums[1] += record.light
-                    weeklyTempSums[1] += record.temperature
-                    weeklyMoistureSums[1] += record.moisture
+                    weeklySums[1] += input
                     weeklyRecordCount[1] += 1
                 }
                 //if in day range, add to weekly as well as daily lists
                 if days < 7 {
-                    weeklyLightSums[0] += record.light
-                    weeklyTempSums[0] += record.temperature
-                    weeklyMoistureSums[0] += record.moisture
+                    weeklySums[0] += input
                     weeklyRecordCount[0] += 1
                     
-                    dailyLightSums[days] += record.light
-                    dailyTempSums[days] += record.temperature
-                    dailyMoistureSums[days] += record.moisture
+                    dailySums[days] += input
                     dailyRecordCount[days] += 1
                 }
                 if days == 0 && hours < 8 {
-                    hourlyLightSums[hours] += record.light
-                    hourlyTempSums[hours] += record.temperature
-                    hourlyMoistureSums[hours] += record.moisture
+                    hourlySums[hours] += input
                     hourlyRecordCount[hours] += 1
                 }
                 
             }//end for loop through records
             
             //convert list of sums into list of averages
-            for index in 0...weeklyLightSums.count {
-                weeklyLightSums[index] = weeklyLightSums[index] / weeklyRecordCount[index]
-                weeklyTempSums[index] = weeklyTempSums[index] / weeklyRecordCount[index]
-                weeklyMoistureSums[index] = weeklyMoistureSums[index] / weeklyRecordCount[index]
+            for index in 0..<weeklySums.count {
+                weeklySums[index] = weeklySums[index] / ((weeklyRecordCount[index] != 0) ? weeklyRecordCount[index] : 1)
             }
-            for index in 0...dailyLightSums.count {
-                dailyLightSums[index] = dailyLightSums[index] / dailyRecordCount[index]
-                dailyTempSums[index] = dailyTempSums[index] / dailyRecordCount[index]
-                dailyMoistureSums[index] = dailyMoistureSums[index] / dailyRecordCount[index]
+            for index in 0..<dailySums.count {
+                dailySums[index] = dailySums[index] / ((dailyRecordCount[index] != 0) ? dailyRecordCount[index] : 1)
             }
-            for index in 0...hourlyLightSums.count {
-                hourlyLightSums[index] = hourlyLightSums[index] / hourlyRecordCount[index]
-                hourlyTempSums[index] = hourlyTempSums[index] / hourlyRecordCount[index]
-                hourlyMoistureSums[index] = hourlyMoistureSums[index] / hourlyRecordCount[index]
+            for index in 0..<hourlySums.count {
+                hourlySums[index] = hourlySums[index] / ((hourlyRecordCount[index] != 0) ? hourlyRecordCount[index] : 1)
             }
-            returnMap = [
-                hourlyLightSums : ("Hourly", "light"),
-                hourlyTempSums : ("Hourly", "temp"),
-                hourlyMoistureSums : ("Hourly", "moisture"),
-                
-                dailyLightSums : ("Daily", "light"),
-                dailyTempSums : ("Daily", "temp"),
-                dailyMoistureSums : ("Daily", "moisture"),
-                
-                weeklyLightSums : ("Weekly", "light"),
-                weeklyTempSums : ("Weekly", "temp"),
-                weeklyMoistureSums : ("Weekly", "moisture"),
-            ]
         }
+        return (hourlySums,dailySums,weeklySums)
+
     }
 }
 

@@ -14,6 +14,10 @@ struct HistoricalData: View {
     var units = ["Hourly", "Daily", "Weekly"]   //3 picker values available
     @State var tuples : [(high: Int, avg: Int, low: Int)]   //array of high low and average values to display
     
+    @State var moistureGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for moisture (hourly, daily, weekly)
+    @State var lightGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for light (hourly, daily, weekly)
+    @State var tempGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for temperature (hourly, daily, weekly)
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -240,7 +244,13 @@ struct HistoricalData: View {
                 .opacity(0.50)
         )
         .onAppear {
-            pot.calculateGraphData()
+            moistureGraphArrays = pot.calculateGraphData(dataType: "moisture")
+            lightGraphArrays = pot.calculateGraphData(dataType: "light")
+            tempGraphArrays = pot.calculateGraphData(dataType: "temperature")
+            print("____________________________\n")
+            print(moistureGraphArrays)
+            print(lightGraphArrays)
+            print(tempGraphArrays)
         }
     }
     
