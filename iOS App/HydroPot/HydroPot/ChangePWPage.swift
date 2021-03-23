@@ -97,9 +97,10 @@ struct ChangePWPage: View {
                         //styling
                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                         .foregroundColor(.white)
-                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .background(confirmPasswordDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                         .cornerRadius(6)
                         .padding(3)
+                        .disabled(confirmPasswordDisabled)
                     }
                     //styling
                     .padding(.leading, geometry.size.height/30)
@@ -135,5 +136,26 @@ struct ChangePWPage: View {
                 }
             }
         }
+    }
+    
+    //Evaluates to true when the confirm password fields are not properly formatted
+    var confirmPasswordDisabled: Bool{
+        oldPW.isEmpty ||
+        newPW.isEmpty ||
+        newConfPW.isEmpty ||
+        !isValidPassword(password: oldPW) ||
+        !isValidPassword(password: newPW) ||
+        !isValidPassword(password: newConfPW)
+    }
+    
+    /// Function to evaluate passwords against regex's
+    ///
+    /// - Parameters:
+    ///     - password: The password to check against the regex
+    func isValidPassword(password: String) -> Bool{
+        let passwordRegEx = "^[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~]{5,20}$"
+
+        let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
+        return passwordPred.evaluate(with: password)
     }
 }
