@@ -131,7 +131,7 @@ class Pot: ObservableObject, Identifiable {
     ///     - idealLightLow: Low light for the pot
     ///     - curLight: The current light of the pot
     ///     - plantName: The name of the pot
-    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, notificationFrequency: Int) {
         self.plantName = plantName
         self.plantType = plantType
         self.idealTempLow = idealTempLow
@@ -140,6 +140,7 @@ class Pot: ObservableObject, Identifiable {
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
+        self.notiFilledFrequency = notificationFrequency
         self.moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
         self.lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
         self.tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)

@@ -88,6 +88,31 @@ struct AddEditPlantList: View {
                                         ideals.idealTemperatureLow = String(tempPlant.idealTempLow)
                                         ideals.idealLightLevelLow = String(tempPlant.idealLightLow)
                                         ideals.idealLightLevelHigh = String(tempPlant.idealLightHigh)
+                                        
+                                        //handling no ideal moist low
+                                        if (ideals.idealMoistureLow == "-1"){
+                                            ideals.idealMoistureLow = ""
+                                        }
+                                        //handling no ideal moist high
+                                        if (ideals.idealMoistureHigh == "-1"){
+                                            ideals.idealMoistureHigh = ""
+                                        }
+                                        //handling no ideal temp low
+                                        if (ideals.idealTemperatureLow == "-1"){
+                                            ideals.idealTemperatureLow = ""
+                                        }
+                                        //handling no ideal temp high
+                                        if (ideals.idealTemperatureHigh == "-1"){
+                                            ideals.idealTemperatureHigh = ""
+                                        }
+                                        //handling no ideal light low
+                                        if (ideals.idealLightLevelLow == "-1"){
+                                            ideals.idealLightLevelLow = ""
+                                        }
+                                        //handling no ideal light high
+                                        if (ideals.idealLightLevelHigh == "-1"){
+                                            ideals.idealLightLevelHigh = ""
+                                        }
                                     }
                                     
                                     self.presentationMode.wrappedValue.dismiss()

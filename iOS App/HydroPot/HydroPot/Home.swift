@@ -191,8 +191,10 @@ struct HomeView: View {
                         //for every pot the user has
                         ForEach(user.pots) {
                             pot in
+                            //creating ideals to pass
+                            let ideals = Ideals(idealTemperatureHigh: String(pot.idealTempHigh), idealTemperatureLow: String(pot.idealTempLow), idealMoistureHigh: String(pot.idealMoistureHigh), idealMoistureLow: String(pot.idealMoistureLow), idealLightLevelLow: String(pot.idealLightLow), idealLightLevelHigh: String(pot.idealLightHigh), plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
                             //nav link to plant page for each pot
-                            NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
+                            NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants, ideals: ideals)) {
                                 VStack (spacing: 0){
                                     //image stack
                                     HStack(){

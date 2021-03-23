@@ -12,13 +12,14 @@ struct AddPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //presentation mode for dismissal
     @ObservedObject var user: GetUser //user that was passed
     @ObservedObject var plants: Plants //plants list
-    @ObservedObject var ideals: Ideals = Ideals()// ideal values for pages
+    @ObservedObject var ideals: Ideals = Ideals(idealTemperatureHigh: "", idealTemperatureLow: "", idealMoistureHigh: "", idealMoistureLow: "", idealLightLevelLow: "", idealLightLevelHigh: "", plantName: "", plantSelected: "", notificationFrequency: 2)// ideal values for pages
     @Binding var showModal: Bool //modal being shown or not
     @State var failed: Bool = false //failed boolean for displaying alert
     @State var isShowPicker: Bool = false //showing the picture picker
     @State var image: Image? = Image(systemName: "camera.circle") //default image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //other default user image
     @State var tempURL = "" //temp url to know if the image has been selected by user
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -118,6 +119,13 @@ struct AddPlantPage: View {
                                         .padding(.leading, geometry.size.width * 0.8)
                                 }
                             }
+                            HStack{
+                                Stepper("I fill my reservoir every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
                             HStack {
                                 //moisture to be entered
                                 Text("Moisture (%)")
@@ -206,6 +214,7 @@ struct AddPlantPage: View {
                 }
             }
             .onAppear() {
+                //handling blank plant type
                 if (ideals.plantSelected == ""){
                     ideals.plantSelected = "Plant Types"
                 }
@@ -295,7 +304,7 @@ struct AddPlantPage: View {
     func addImage(encodedImage: String, ext: String) {
         
         //assign a new pot
-        let pot = Pot(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], curTemp: 0, curLight: 0, curMoisture: 0, id: UUID().uuidString, automaticWatering: true, image: "", potId: ideals.potID, lastFilled: Date(), notiFilledFrequency: 2)
+        let pot = Pot(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], curTemp: 0, curLight: 0, curMoisture: 0, id: UUID().uuidString, automaticWatering: true, image: "", potId: ideals.potID, lastFilled: Date(), notiFilledFrequency: ideals.notificationFrequency)
         
         //if we do have an image
         if (tempURL != ""){
@@ -335,27 +344,27 @@ struct AddPlantPage: View {
     
     //Evaluates to true when the add fields are not properly formatted
     var confirmDisabled: Bool{
-        plantName.isEmpty ||
-        potID.isEmpty ||
-        idealTemperatureHigh.isEmpty ||
-        idealTemperatureLow.isEmpty ||
-        !isInt(num: idealTemperatureHigh) ||
-        !isInt(num: idealTemperatureLow) ||
-        Int(idealTemperatureHigh) ?? 0 < Int(idealTemperatureLow) ?? 0 ||
-        idealMoistureHigh.isEmpty ||
-        idealMoistureLow.isEmpty ||
-        !isInt(num: idealMoistureHigh) ||
-        !isInt(num: idealMoistureLow) ||
-        Int(idealMoistureHigh) ?? 0 < Int(idealMoistureLow) ?? 0 ||
-        Int(idealMoistureHigh) ?? 0 > 100 ||
-        Int(idealMoistureHigh) ?? 0 < 0 ||
-        Int(idealMoistureLow) ?? 0 > 100 ||
-        Int(idealMoistureLow) ?? 0 < 0 ||
-        idealLightLevelHigh.isEmpty ||
-        idealLightLevelLow.isEmpty ||
-        !isInt(num: idealLightLevelHigh) ||
-        !isInt(num: idealLightLevelLow) ||
-        Int(idealLightLevelHigh) ?? 0 < Int(idealLightLevelLow) ?? 0
+        ideals.plantName.isEmpty ||
+        ideals.potID.isEmpty ||
+        ideals.idealTemperatureHigh.isEmpty ||
+        ideals.idealTemperatureLow.isEmpty ||
+            !isInt(num: ideals.idealTemperatureHigh) ||
+            !isInt(num: ideals.idealTemperatureLow) ||
+            Int(ideals.idealTemperatureHigh) ?? 0 < Int(ideals.idealTemperatureLow) ?? 0 ||
+            ideals.idealMoistureHigh.isEmpty ||
+            ideals.idealMoistureLow.isEmpty ||
+            !isInt(num: ideals.idealMoistureHigh) ||
+            !isInt(num: ideals.idealMoistureLow) ||
+            Int(ideals.idealMoistureHigh) ?? 0 < Int(ideals.idealMoistureLow) ?? 0 ||
+            Int(ideals.idealMoistureHigh) ?? 0 > 100 ||
+            Int(ideals.idealMoistureHigh) ?? 0 < 0 ||
+            Int(ideals.idealMoistureLow) ?? 0 > 100 ||
+            Int(ideals.idealMoistureLow) ?? 0 < 0 ||
+            ideals.idealLightLevelHigh.isEmpty ||
+            ideals.idealLightLevelLow.isEmpty ||
+            !isInt(num: ideals.idealLightLevelHigh) ||
+            !isInt(num: ideals.idealLightLevelLow) ||
+            Int(ideals.idealLightLevelHigh) ?? 0 < Int(ideals.idealLightLevelLow) ?? 0
     }
     
     ///Evalueates if a string is an integer

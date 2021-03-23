@@ -12,7 +12,7 @@ struct EditPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //to be dismissed
     @ObservedObject var user: GetUser //user that has been passed
     @ObservedObject var plants: Plants //plant list that has been passed
-    @ObservedObject var ideals: Ideals = Ideals()// ideal values for pages
+    @ObservedObject var ideals: Ideals
     @ObservedObject var pot: Pot //pot to be edited
     @Binding var showModal: Bool //toggles being dismissed
     @State var failed: Bool = false //if failed edit alert
@@ -21,10 +21,6 @@ struct EditPlantPage: View {
     @State var tempURL: String = "" //backstop for the user image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //UI image to encode/decode
     @State var deletePressed = false //deleting the pot
-    @State var filledSelected = "One Week" //selection for menu
-    @State var isExpanded = false //if menu drops
-    let filledFrequency = ["One Week", "Two Weeks", "Three Weeks", "One Month"] //the options withing the menu
-    
     var body: some View {
         NavigationView {
             VStack{
@@ -154,6 +150,15 @@ struct EditPlantPage: View {
                                             .padding(.leading, geometry.size.width * 0.8)
                                     }
  
+                                }
+                                //styling
+                                .padding(.leading, geometry.size.height/30)
+                                HStack{
+                                    Stepper("I fill my reservoir every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency)
+                                        //styling
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .padding(6)
+                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 }
                                 //styling
                                 .padding(.leading, geometry.size.height/30)
@@ -308,7 +313,7 @@ struct EditPlantPage: View {
                 if (ideals.plantName != "" && ideals.plantSelected != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != ""){
                     
                     //edit pot client side
-                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow:  Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0)
+                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow:  Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, notificationFrequency: ideals.notificationFrequency)
                     
                     //if the extension is not empty
                     if (ext != "" && tempURL != pot.image){
@@ -323,7 +328,7 @@ struct EditPlantPage: View {
                 else if (ideals.plantName != "" && pot.plantType != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != ""){
                     
                     //edit the plant
-                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0)
+                    pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, notificationFrequency: ideals.notificationFrequency)
                     
                     //if the extension exists
                     if (ext != "" && tempURL != pot.image){
@@ -392,6 +397,31 @@ struct EditPlantPage: View {
             ideals.idealLightLevelHigh = String(pot.idealLightHigh)
             //if we have selected an image
             tempURL = pot.image
+            
+            //handling no ideal moist low
+            if (ideals.idealMoistureLow == "-1"){
+                ideals.idealMoistureLow = ""
+            }
+            //handling no ideal moist high
+            if (ideals.idealMoistureHigh == "-1"){
+                ideals.idealMoistureHigh = ""
+            }
+            //handling no ideal temp low
+            if (ideals.idealTemperatureLow == "-1"){
+                ideals.idealTemperatureLow = ""
+            }
+            //handling no ideal temp high
+            if (ideals.idealTemperatureHigh == "-1"){
+                ideals.idealTemperatureHigh = ""
+            }
+            //handling no ideal light low
+            if (ideals.idealLightLevelLow == "-1"){
+                ideals.idealLightLevelLow = ""
+            }
+            //handling no ideal light high
+            if (ideals.idealLightLevelHigh == "-1"){
+                ideals.idealLightLevelHigh = ""
+            }
         }
     }
     
@@ -456,26 +486,26 @@ struct EditPlantPage: View {
     
     //Evaluates to true when the edit fields are not properly formatted
     var confirmDisabled: Bool{
-        plantName.isEmpty ||
-        idealTemperatureHigh.isEmpty ||
-        idealTemperatureLow.isEmpty ||
-        !isInt(num: idealTemperatureHigh) ||
-        !isInt(num: idealTemperatureLow) ||
-        Int(idealTemperatureHigh) ?? 0 < Int(idealTemperatureLow) ?? 0 ||
-        idealMoistureHigh.isEmpty ||
-        idealMoistureLow.isEmpty ||
-        !isInt(num: idealMoistureHigh) ||
-        !isInt(num: idealMoistureLow) ||
-        Int(idealMoistureHigh) ?? 0 < Int(idealMoistureLow) ?? 0 ||
-        Int(idealMoistureHigh) ?? 0 > 100 ||
-        Int(idealMoistureHigh) ?? 0 < 0 ||
-        Int(idealMoistureLow) ?? 0 > 100 ||
-        Int(idealMoistureLow) ?? 0 < 0 ||
-        idealLightLevelHigh.isEmpty ||
-        idealLightLevelLow.isEmpty ||
-        !isInt(num: idealLightLevelHigh) ||
-        !isInt(num: idealLightLevelLow) ||
-        Int(idealLightLevelHigh) ?? 0 < Int(idealLightLevelLow) ?? 0
+        ideals.plantName.isEmpty ||
+        ideals.idealTemperatureHigh.isEmpty ||
+        ideals.idealTemperatureLow.isEmpty ||
+            !isInt(num: ideals.idealTemperatureHigh) ||
+            !isInt(num: ideals.idealTemperatureLow) ||
+            Int(ideals.idealTemperatureHigh) ?? 0 < Int(ideals.idealTemperatureLow) ?? 0 ||
+            ideals.idealMoistureHigh.isEmpty ||
+            ideals.idealMoistureLow.isEmpty ||
+            !isInt(num: ideals.idealMoistureHigh) ||
+            !isInt(num: ideals.idealMoistureLow) ||
+            Int(ideals.idealMoistureHigh) ?? 0 < Int(ideals.idealMoistureLow) ?? 0 ||
+            Int(ideals.idealMoistureHigh) ?? 0 > 100 ||
+            Int(ideals.idealMoistureHigh) ?? 0 < 0 ||
+            Int(ideals.idealMoistureLow) ?? 0 > 100 ||
+            Int(ideals.idealMoistureLow) ?? 0 < 0 ||
+            ideals.idealLightLevelHigh.isEmpty ||
+            ideals.idealLightLevelLow.isEmpty ||
+            !isInt(num: ideals.idealLightLevelHigh) ||
+            !isInt(num: ideals.idealLightLevelLow) ||
+            Int(ideals.idealLightLevelHigh) ?? 0 < Int(ideals.idealLightLevelLow) ?? 0
     }
     
     ///Evalueates if a string is an integer

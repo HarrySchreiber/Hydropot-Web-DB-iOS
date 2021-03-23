@@ -16,9 +16,9 @@ struct PlantPage: View {
     @ObservedObject var user: GetUser //user to be passed into
     @ObservedObject var pot: Pot //pot that is displayed
     @ObservedObject var plants: Plants //plant type list
+    @ObservedObject var ideals: Ideals
     @State var screenChange = false //toggle thing
     @State var showingDetail = false //toggle thing
-    
     //on set
     @State var autoWatering = false {
         didSet{
@@ -32,7 +32,6 @@ struct PlantPage: View {
     @State private var showPopUp = false //toggle boi
 
     var body: some View {
-        
         //sent to another page
         let bind = Binding<Bool>(
             //getting it
@@ -303,6 +302,9 @@ struct PlantPage: View {
                 Button(action: {
                     //edit button
                     if (showPopUp != true){
+                        
+                        ideals.editIdeals(idealTemperatureHigh: pot.idealTempHigh, idealTemperatureLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightLevelHigh: pot.idealLightHigh, idealLightLevelLow: pot.idealLightLow, plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
+                        
                         //display edit modal
                         self.showingDetail.toggle()
                     }
@@ -317,7 +319,7 @@ struct PlantPage: View {
                 //edit plant displayed
                 .sheet(isPresented: $showingDetail) {
                     //call edit plant page
-                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail)
+                    EditPlantPage(user: user, plants: plants, ideals: ideals, pot: pot, showModal: $showingDetail)
                 })
             //if water modal was toggled
             if $showPopUp.wrappedValue {
@@ -327,6 +329,9 @@ struct PlantPage: View {
         }
         .onAppear(perform: attemptReload)
         .onAppear {
+            
+            ideals.editIdeals(idealTemperatureHigh: pot.idealTempHigh, idealTemperatureLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightLevelHigh: pot.idealLightHigh, idealLightLevelLow: pot.idealLightLow, plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
+            
             //auto watering is set
             autoWatering = pot.automaticWatering
 

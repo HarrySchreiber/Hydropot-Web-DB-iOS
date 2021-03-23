@@ -149,7 +149,7 @@ class Plants: ObservableObject, Identifiable {
                 //sort the plant list by type
                 self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
 
-                self.plantList.insert(Plant(plantType: "other", idealTempLow: -1, idealTempHigh: -1, idealMoistureLow: -1, idealMoistureHigh: -1, idealLightLow: -1, idealLightHigh:  -1,description: "", imageURL: ""), at: 0)
+                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1, idealTempHigh: -1, idealMoistureLow: -1, idealMoistureHigh: -1, idealLightLow: -1, idealLightHigh:  -1,description: "", imageURL: ""), at: 0)
             })
         }.resume()
     }

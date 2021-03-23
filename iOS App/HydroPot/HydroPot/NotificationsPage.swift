@@ -41,8 +41,11 @@ struct NotificationsPage: View {
                     //get the ordered notifications
                     ForEach(user.getOrderedNotifications()) {
                         notiePots in
+                        //creating ideals and pot to pass
+                        let tempPot = notiePots.notiesTuple.pot
+                        let ideals = Ideals(idealTemperatureHigh: String(tempPot.idealTempHigh), idealTemperatureLow: String(tempPot.idealTempLow), idealMoistureHigh: String(tempPot.idealMoistureHigh), idealMoistureLow: String(tempPot.idealMoistureLow), idealLightLevelLow: String(tempPot.idealLightLow), idealLightLevelHigh: String(tempPot.idealLightHigh), plantName: tempPot.plantName, plantSelected: tempPot.plantType, notificationFrequency: tempPot.notiFilledFrequency)
                         //each notification goes to it's specific pot
-                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)) {
                             //card
                             VStack(alignment: .leading){
                                 //get the message of the noti
