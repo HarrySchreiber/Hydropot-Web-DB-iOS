@@ -12,7 +12,7 @@ struct AddPlantPage: View {
     @Environment(\.presentationMode) var presentationMode //presentation mode for dismissal
     @ObservedObject var user: GetUser //user that was passed
     @ObservedObject var plants: Plants //plants list
-    @ObservedObject var ideals: Ideals = Ideals(idealTemperatureHigh: "", idealTemperatureLow: "", idealMoistureHigh: "", idealMoistureLow: "", idealLightLevelLow: "", idealLightLevelHigh: "", plantName: "", plantSelected: "", notificationFrequency: 2)// ideal values for pages
+    @ObservedObject var ideals: Ideals = Ideals(idealTemperatureHigh: "", idealTemperatureLow: "", idealMoistureHigh: "", idealMoistureLow: "", idealLightLevelLow: "", idealLightLevelHigh: "", plantName: "", plantSelected: "Plant Types", notificationFrequency: 2)// ideal values for pages
     @Binding var showModal: Bool //modal being shown or not
     @State var failed: Bool = false //failed boolean for displaying alert
     @State var isShowPicker: Bool = false //showing the picture picker
@@ -72,7 +72,7 @@ struct AddPlantPage: View {
                                     .padding(.bottom)
                                     HStack{
                                         //name of the plant
-                                        TextField("Plant Name", text: $plantName)
+                                        TextField("Plant Name", text: $ideals.plantName)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -81,11 +81,11 @@ struct AddPlantPage: View {
                                     }
                                     //show the image picker when toggled
                                     .sheet(isPresented: $isShowPicker) {
-                                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                        ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                                     }
                                     HStack{
                                         //pot id for user to input
-                                        TextField("Pot ID", text: $potID)
+                                        TextField("Pot ID", text: $ideals.potID)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -94,9 +94,9 @@ struct AddPlantPage: View {
                                     }
                                     ZStack{
                                         //if defualt plant type
-                                        if (plantSelected == "Plant Type"){
+                                        if (ideals.plantSelected == "Plant Types"){
                                             //display empty
-                                            Text("\(plantSelected)")
+                                            Text("\(ideals.plantSelected)")
                                                 //styling
                                                 .font(.system(size: UIScreen.regTextSize))
                                                 .foregroundColor(.black)
@@ -109,7 +109,7 @@ struct AddPlantPage: View {
                                         //if not default
                                         else {
                                             //display actual plant type
-                                            Text("\(plantSelected)")
+                                            Text("\(ideals.plantSelected)")
                                                 .font(.system(size: UIScreen.regTextSize))
                                                 .foregroundColor(.black)
                                                 .padding(6)
@@ -118,7 +118,7 @@ struct AddPlantPage: View {
                                                 .border(Color.black.opacity(0.5))
                                         }
                                         //link the plant type field to the adding page
-                                        NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                                        NavigationLink(destination: AddEditPlantList(ideals: ideals, plants: plants)){
                                             //chev image to let user know to press
                                             Image(systemName: "chevron.right")
                                                 //styling
@@ -145,7 +145,7 @@ struct AddPlantPage: View {
                                             .font(.system(size: UIScreen.regTextSize)).bold()
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low moisture
-                                        TextField("Low", text: $idealMoistureLow)
+                                        TextField("Low", text: $ideals.idealMoistureLow)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -158,7 +158,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high moisture
-                                        TextField("High", text: $idealMoistureHigh)
+                                        TextField("High", text: $ideals.idealMoistureHigh)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -172,7 +172,7 @@ struct AddPlantPage: View {
                                             .font(.system(size: UIScreen.regTextSize)).bold()
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low light
-                                        TextField("Low", text: $idealLightLevelLow)
+                                        TextField("Low", text: $ideals.idealLightLevelLow)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -185,7 +185,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high to be entered
-                                        TextField("High", text: $idealLightLevelHigh)
+                                        TextField("High", text: $ideals.idealLightLevelHigh)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -199,7 +199,7 @@ struct AddPlantPage: View {
                                             .font(.system(size: UIScreen.regTextSize)).bold()
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low temp to be entered
-                                        TextField("Low", text: $idealTemperatureLow)
+                                        TextField("Low", text: $ideals.idealTemperatureLow)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -212,7 +212,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high temp to be entered
-                                        TextField("High", text: $idealTemperatureHigh)
+                                        TextField("High", text: $ideals.idealTemperatureHigh)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -243,7 +243,7 @@ struct AddPlantPage: View {
                         //confirm button
                         Button(action: {
                             //if all values are entered
-                            if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                            if (ideals.plantName != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != ""){
                                 
                                 //encode the image
                                 let encoding = encodePictureJPEG(image: userIntefaceImage!)
@@ -286,7 +286,6 @@ struct AddPlantPage: View {
     ///     - ext: extension of the image
     ///
     func addImage(encodedImage: String, ext: String) {
-        
         //assign a new pot
         let pot = Pot(plantName: ideals.plantName, plantType: ideals.plantSelected,
                       idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0,
@@ -335,6 +334,7 @@ struct AddPlantPage: View {
     var confirmDisabled: Bool{
         ideals.plantName.isEmpty ||
         ideals.potID.isEmpty ||
+        (ideals.plantSelected == "Plant Types") ||
         ideals.idealTemperatureHigh.isEmpty ||
         ideals.idealTemperatureLow.isEmpty ||
             !isInt(num: ideals.idealTemperatureHigh) ||

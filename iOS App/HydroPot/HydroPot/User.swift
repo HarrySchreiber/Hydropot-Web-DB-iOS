@@ -202,7 +202,7 @@ class GetUser: ObservableObject {
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                         }
                     }
@@ -343,7 +343,7 @@ class GetUser: ObservableObject {
                             }
                             //if we don't have a record create this pot
                             else {
-                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: 2))
+                                self.pots.append(Pot(plantName: pot.plantName, plantType: pot.plantType, idealTempHigh: pot.idealTempHigh, idealTempLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightHigh: pot.idealLightHigh, idealLightLow: pot.idealLightLow, lastWatered: Date(), records: records, notifications: notifications, curTemp: 0, curLight: 0, curMoisture: 0, id: pot.id, automaticWatering: pot.automaticWatering, image: pot.image, potId: pot.id, lastFilled: Date(), notiFilledFrequency: pot.notiFilledFrequency ?? 2))
                             }
                         }
                     }
@@ -594,7 +594,6 @@ class GetUser: ObservableObject {
             
             //append our single record
             recJsonArray.append(recDict)
-            print(pot.notiFilledFrequency)
         }
         //json payload to submit
         let json: [String: Any] =
@@ -984,8 +983,7 @@ class GetUser: ObservableObject {
             //get url where image resides
             var str = String(decoding: d, as: UTF8.self)
             str = str.replacingOccurrences(of: "\"", with: "")
-            
-            print(str)
+        
             //async queue
             DispatchQueue.main.async(execute: {
                 //pot image is at the string
