@@ -117,6 +117,9 @@ struct AddEditPlantList: View {
             listOfPlants()
             self.fullUrlList = listOfImages(plantList: plants.plantList)
         })
+        .gesture(DragGesture().onChanged {_ in
+            hideKeyboard()
+        })
     }
     
     //get a string list of plants from the plants object

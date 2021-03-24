@@ -42,6 +42,9 @@ struct EditPlantPage: View {
                     ScrollView {
                         ZStack {
                             Color.white
+                                .onTapGesture {
+                                    hideKeyboard()
+                                }
                             VStack{
                                 HStack {
                                     //button for image picker

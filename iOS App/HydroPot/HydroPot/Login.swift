@@ -22,6 +22,10 @@ struct Login: View {
     
     var body: some View {
         ZStack {
+            Color.white
+                .onTapGesture {
+                    hideKeyboard()
+                }
             VStack {
                 //if we are not logged in
                 if (!user.loggedIn) {
@@ -186,7 +190,6 @@ struct Login: View {
         .onAppear(){
             plants.getPlantsList()
         }
-        .background(Color.white)
     }
     
     /// callback for the login function designed to perform alert and load from db correctly
@@ -207,7 +210,6 @@ struct Login: View {
             }
         }
     }
-    
     //Evaluates to true when the login fields are not properly formatted
     var loginDisabled: Bool {
         email.isEmpty ||
@@ -249,6 +251,13 @@ struct Login: View {
         let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
         return passwordPred.evaluate(with: password)
     }
+}
+
+/*
+ function called (often with tap gesture) so that the keyboard hides when the user selects outside
+ */
+func hideKeyboard() {
+     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),to: nil, from: nil, for: nil)
 }
 
 struct Login_Previews: PreviewProvider {
