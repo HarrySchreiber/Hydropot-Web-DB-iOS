@@ -8,6 +8,9 @@
 import SwiftUI
 import URLImage
 
+/*
+    list for plant type struct
+ */
 struct PlantTypeList: View {
     @State var plants : Plants
     
@@ -74,19 +77,21 @@ struct PlantTypeList: View {
                             //otherwise show the complete list of plants
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
                                 //setup nav link
-                                NavigationLink(
-                                    destination:
-                                        PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
-                                    
-                                    label: {
-                                        ListCell(text: bindDisplayList[row], url: bindUrlList[row])
-                                            .frame(height: UIScreen.plantTypeListImageSize)
-                                            .padding(.top)
-                                    })
-                                    .simultaneousGesture(TapGesture().onEnded {
-                                        // Hide Keyboard after pressing a Cell
-                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                    })
+                                if (getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row])).plantType != "Other"){
+                                    NavigationLink(
+                                        destination:
+                                            PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
+                                        
+                                        label: {
+                                            ListCell(text: bindDisplayList[row], url: bindUrlList[row])
+                                                .frame(height: UIScreen.plantTypeListImageSize)
+                                                .padding(.top)
+                                        })
+                                        .simultaneousGesture(TapGesture().onEnded {
+                                            // Hide Keyboard after pressing a Cell
+                                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                        })
+                                }
                             }
                         }
 

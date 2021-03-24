@@ -120,11 +120,13 @@ struct AddPlantPage: View {
                                 }
                             }
                             HStack{
-                                Stepper("I fill my reservoir every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency)
+                                Stepper("Reservoir reminder every: \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
                                     //styling
-                                    .font(.system(size: UIScreen.regTextSize))
+                                    .font(.system(size: UIScreen.regTextSize * 0.72))
+                                    .foregroundColor(.black)
                                     .padding(6)
                                     .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
                             }
                             HStack {
                                 //moisture to be entered
@@ -304,7 +306,12 @@ struct AddPlantPage: View {
     func addImage(encodedImage: String, ext: String) {
         
         //assign a new pot
-        let pot = Pot(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, lastWatered: Date(), records: [], notifications: [], curTemp: 0, curLight: 0, curMoisture: 0, id: UUID().uuidString, automaticWatering: true, image: "", potId: ideals.potID, lastFilled: Date(), notiFilledFrequency: ideals.notificationFrequency)
+        let pot = Pot(plantName: ideals.plantName, plantType: ideals.plantSelected,
+                      idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0,
+                      idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0,
+                      idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0,
+                      lastWatered: Date(), records: [], notifications: [], curTemp: 0, curLight: 0, curMoisture: 0,
+                      id: ideals.potID, automaticWatering: true, image: "", potId: ideals.potID, lastFilled: Date(), notiFilledFrequency: ideals.notificationFrequency)
         
         //if we do have an image
         if (tempURL != ""){

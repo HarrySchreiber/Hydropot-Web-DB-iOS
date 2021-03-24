@@ -154,11 +154,13 @@ struct EditPlantPage: View {
                                 //styling
                                 .padding(.leading, geometry.size.height/30)
                                 HStack{
-                                    Stepper("I fill my reservoir every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency)
+                                    Stepper("Reservoir reminder every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
                                         //styling
-                                        .font(.system(size: UIScreen.regTextSize))
+                                        .font(.system(size: UIScreen.regTextSize * 0.72))
+                                        .foregroundColor(.black)
                                         .padding(6)
                                         .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                        .border(Color.black.opacity(0.5))
                                 }
                                 //styling
                                 .padding(.leading, geometry.size.height/30)
@@ -314,12 +316,10 @@ struct EditPlantPage: View {
                     
                     //edit pot client side
                     pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow:  Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, notificationFrequency: ideals.notificationFrequency)
-                    
-                    //if the extension is not empty
-                    if (ext != "" && tempURL != pot.image){
-                        //add the encoded image
-                        addImage(encodedImage: encoding, ext: ext)
-                    }
+
+                    //add the encoded image and the pot or just the pot
+                    addImage(encodedImage: encoding, ext: ext)
+  
                     
                     //dismiss the modal
                     self.showModal.toggle()
@@ -329,12 +329,11 @@ struct EditPlantPage: View {
                     
                     //edit the plant
                     pot.editPlant(plantName: ideals.plantName, plantType: ideals.plantSelected, idealTempHigh: Int(ideals.idealTemperatureHigh) ?? 0, idealTempLow: Int(ideals.idealTemperatureLow) ?? 0, idealMoistureHigh: Int(ideals.idealMoistureHigh) ?? 0, idealMoistureLow: Int(ideals.idealMoistureLow) ?? 0, idealLightHigh: Int(ideals.idealLightLevelHigh) ?? 0, idealLightLow: Int(ideals.idealLightLevelLow) ?? 0, notificationFrequency: ideals.notificationFrequency)
-                    
-                    //if the extension exists
-                    if (ext != "" && tempURL != pot.image){
-                        //add the image
-                        addImage(encodedImage: encoding, ext: ext)
-                    }
+
+
+                    //add the image and the pot or just the pot
+                    addImage(encodedImage: encoding, ext: ext)
+   
                     
                     //dismiss the modal
                     self.showModal.toggle()
@@ -396,7 +395,9 @@ struct EditPlantPage: View {
             //stringify the light high
             ideals.idealLightLevelHigh = String(pot.idealLightHigh)
             //if we have selected an image
-            tempURL = pot.image
+            if (tempURL == ""){
+                tempURL = pot.image
+            }
             
             //handling no ideal moist low
             if (ideals.idealMoistureLow == "-1"){
@@ -604,75 +605,3 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
 }
-
-
-
-/*
- HStack {
-     //inform user what picker is for
-     Text("Reminders every:")
-         //styling
-         .font(.system(size: UIScreen.regTextSize)).bold()
-         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-     
-     //drop down menu
-     DisclosureGroup("\(filledSelected)", isExpanded: $isExpanded) {
-         //each option to select
-         VStack {
-         ForEach(filledFrequency, id: \.self) { freq in
-             //display option
-             Text(freq)
-                 //styling
-                 .font(.system(size: UIScreen.regTextSize))
-                 .bold()
-                 .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                 .onTapGesture {
-                     filledSelected = freq
-                     withAnimation {
-                         self.isExpanded.toggle()
-                     }
-                 }
-             }
-         }
-     }
-     //styling
-     .font(.system(size: UIScreen.regTextSize))
-     .padding(6)
-     .frame(width: geometry.size.width * 0.52, height: geometry.size.height/12, alignment: .leading)
-     .border(Color.black.opacity(0.5))
- }
- //styling
- .padding(.leading, geometry.size.height/30)
- 
- Form {
-     Section {
-         Picker(selection: $filledSelected, label: Text("hellooo")){
-             ForEach(filledFrequency, id: \.self) { freq in
-                 //display option
-                 Text(freq)
-                     .font(.system(size: UIScreen.regTextSize))
-                     .bold()
-                     .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-             }
-         }
-     }
- }
- 
- HStack {
-     Text("I would like to be reminded every: ")
-         //styling
-         .font(.system(size: UIScreen.regTextSize)).bold()
-         .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-     Menu {
-         ForEach(filledFrequency, id: \.self) { freq in
-             //display option
-             Button("\(freq)", action: {
-                 filledSelected = freq
-             })
-         }
-    } label: {
-        Label("\(filledSelected)", systemImage: "plus.circle")
-    }
- }
- */

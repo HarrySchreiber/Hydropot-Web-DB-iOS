@@ -594,6 +594,7 @@ class GetUser: ObservableObject {
             
             //append our single record
             recJsonArray.append(recDict)
+            print(pot.notiFilledFrequency)
         }
         //json payload to submit
         let json: [String: Any] =
