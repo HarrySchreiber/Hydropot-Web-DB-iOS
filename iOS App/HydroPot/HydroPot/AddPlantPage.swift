@@ -252,13 +252,15 @@ struct AddPlantPage: View {
                     Text("Confirm")
                         //styling
                         .font(.system(size: UIScreen.regTextSize))
+                        .foregroundColor(confirmDisabled ? .gray : .white)
                 }
                 //present alert if toggled
                 .alert(isPresented: $failed) {
                     //alert 
                     Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
                 }
-            })
+            }
+            .disabled(confirmDisabled))
         }
     }
     
@@ -309,6 +311,38 @@ struct AddPlantPage: View {
         
     }
     
+    //Evaluates to true when the add fields are not properly formatted
+    var confirmDisabled: Bool{
+        plantName.isEmpty ||
+        potID.isEmpty ||
+        idealTemperatureHigh.isEmpty ||
+        idealTemperatureLow.isEmpty ||
+        !isInt(num: idealTemperatureHigh) ||
+        !isInt(num: idealTemperatureLow) ||
+        Int(idealTemperatureHigh) ?? 0 < Int(idealTemperatureLow) ?? 0 ||
+        idealMoistureHigh.isEmpty ||
+        idealMoistureLow.isEmpty ||
+        !isInt(num: idealMoistureHigh) ||
+        !isInt(num: idealMoistureLow) ||
+        Int(idealMoistureHigh) ?? 0 < Int(idealMoistureLow) ?? 0 ||
+        Int(idealMoistureHigh) ?? 0 > 100 ||
+        Int(idealMoistureHigh) ?? 0 < 0 ||
+        Int(idealMoistureLow) ?? 0 > 100 ||
+        Int(idealMoistureLow) ?? 0 < 0 ||
+        idealLightLevelHigh.isEmpty ||
+        idealLightLevelLow.isEmpty ||
+        !isInt(num: idealLightLevelHigh) ||
+        !isInt(num: idealLightLevelLow) ||
+        Int(idealLightLevelHigh) ?? 0 < Int(idealLightLevelLow) ?? 0
+    }
+    
+    ///Evalueates if a string is an integer
+    ///
+    /// - Parameters:
+    ///     - num: String of the number to be evaluated
+    func isInt(num: String) -> Bool{
+        return Int(num) != nil
+    }
     
 }
 

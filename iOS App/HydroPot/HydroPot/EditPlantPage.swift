@@ -352,8 +352,10 @@ struct EditPlantPage: View {
                     Text("Confirm")
                         //styling
                         .font(.system(size: UIScreen.regTextSize))
+                        .foregroundColor(confirmDisabled ? .gray : .white)
                 }
-            })
+            }
+            .disabled(confirmDisabled))
             //if the edit has failed
             .alert(isPresented: $failed) {
                 //inform user why
@@ -467,6 +469,38 @@ struct EditPlantPage: View {
                 break
             }
         }
+    }
+    
+    //Evaluates to true when the edit fields are not properly formatted
+    var confirmDisabled: Bool{
+        plantName.isEmpty ||
+        idealTemperatureHigh.isEmpty ||
+        idealTemperatureLow.isEmpty ||
+        !isInt(num: idealTemperatureHigh) ||
+        !isInt(num: idealTemperatureLow) ||
+        Int(idealTemperatureHigh) ?? 0 < Int(idealTemperatureLow) ?? 0 ||
+        idealMoistureHigh.isEmpty ||
+        idealMoistureLow.isEmpty ||
+        !isInt(num: idealMoistureHigh) ||
+        !isInt(num: idealMoistureLow) ||
+        Int(idealMoistureHigh) ?? 0 < Int(idealMoistureLow) ?? 0 ||
+        Int(idealMoistureHigh) ?? 0 > 100 ||
+        Int(idealMoistureHigh) ?? 0 < 0 ||
+        Int(idealMoistureLow) ?? 0 > 100 ||
+        Int(idealMoistureLow) ?? 0 < 0 ||
+        idealLightLevelHigh.isEmpty ||
+        idealLightLevelLow.isEmpty ||
+        !isInt(num: idealLightLevelHigh) ||
+        !isInt(num: idealLightLevelLow) ||
+        Int(idealLightLevelHigh) ?? 0 < Int(idealLightLevelLow) ?? 0
+    }
+    
+    ///Evalueates if a string is an integer
+    ///
+    /// - Parameters:
+    ///     - num: String of the number to be evaluated
+    func isInt(num: String) -> Bool{
+        return Int(num) != nil
     }
 }
 

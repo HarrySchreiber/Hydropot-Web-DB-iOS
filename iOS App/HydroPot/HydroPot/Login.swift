@@ -74,7 +74,7 @@ struct Login: View {
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .background(loginDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
@@ -84,6 +84,7 @@ struct Login: View {
                                 Alert(title: Text(""), message: Text("Invalid Login Credentials").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Try Again").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
+                            .disabled(loginDisabled)
                         }
                         //if we are trying to signup
                         else {
@@ -158,7 +159,7 @@ struct Login: View {
                                     .font(.system(size: UIScreen.regTextSize))
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(Color(red: 0.142, green: 0.231, blue: 0.498))
+                                    .background(signupDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
                                     .frame(maxWidth: .infinity)
                             }
@@ -167,6 +168,7 @@ struct Login: View {
                                 Alert(title: Text(""), message: Text("Please fill out all fields").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
+                            .disabled(signupDisabled)
                         }
                     }
                     //styling
@@ -206,6 +208,47 @@ struct Login: View {
         }
     }
     
+    //Evaluates to true when the login fields are not properly formatted
+    var loginDisabled: Bool {
+        email.isEmpty ||
+        !isValidEmail(email: email) ||
+        password.isEmpty ||
+        password.count < 5 ||
+        !isValidPassword(password: password)
+    }
+    
+    //Evaluates to true when the sign up fields are not properly formatted
+    var signupDisabled: Bool {
+        name.isEmpty ||
+        email.isEmpty ||
+        !isValidEmail(email: email) ||
+        password.isEmpty ||
+        passComf.isEmpty ||
+        !isValidPassword(password: password) ||
+        !isValidPassword(password: passComf)
+    }
+    
+    /// Function to evaluate email addresses against regex's
+    ///
+    /// - Parameters:
+    ///     - email: The email to check against the regex
+    func isValidEmail(email: String) -> Bool{
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    /// Function to evaluate passwords against regex's
+    ///
+    /// - Parameters:
+    ///     - password: The password to check against the regex
+    func isValidPassword(password: String) -> Bool{
+        let passwordRegEx = "^[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_`{|}~]{5,20}$"
+
+        let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
+        return passwordPred.evaluate(with: password)
+    }
 }
 
 struct Login_Previews: PreviewProvider {
