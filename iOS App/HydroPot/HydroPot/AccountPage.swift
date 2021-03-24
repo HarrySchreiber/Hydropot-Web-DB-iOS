@@ -7,7 +7,7 @@
 
 import SwiftUI
 /*
-    page to change account information
+ page to change account information
  */
 struct AccountPage: View {
     @ObservedObject var user: GetUser //user passed from other views
@@ -34,170 +34,175 @@ struct AccountPage: View {
         )
         
         NavigationView {
-            VStack{
-                GeometryReader{ geometry in
-                    VStack(){
-                        HStack {
-                            //email for user to see
-                            Text("Email: ")
-                                //styling
-                                .font(.system(size: UIScreen.regTextSize))
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //email displayed to user
-                            Text(user.email)
+            ZStack {
+                Color.white
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
+                VStack{
+                    GeometryReader{ geometry in
+                        VStack(){
+                            HStack {
+                                //email for user to see
+                                Text("Email: ")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //email displayed to user
+                                Text(user.email)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .border(Color.black.opacity(0.2))
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //name for user to know to edit
+                                Text("Name: ")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //field for user to edit name
+                                TextField(user.name, text: $name).onAppear() {
+                                    name = user.name
+                                }
                                 //styling
                                 .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
                                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
                                 .border(Color.black.opacity(0.2))
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //name for user to know to edit
-                            Text("Name: ")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //field for user to edit name
-                            TextField(user.name, text: $name).onAppear() {
-                                name = user.name
                             }
                             //styling
-                            .font(.system(size: UIScreen.regTextSize))
-                            .padding(6)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .border(Color.black.opacity(0.2))
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //button to submit name
-                            Button(action: {
-                                //if name is not same
-                                if (user.name != name) {
-                                    //change name db
-                                    user.changeName(name: name)
-                                    //display alert to notify user
-                                    alert = true
-                                }
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    //save name button
-                                    Text("Save Name")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                    Spacer()
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            }
-                            //present alert that name was changed
-                            .alert(isPresented: $alert) {
-                                Alert(title: Text(""), message: Text("Username successfully changed")                            .font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Ok")                            .font(.system(size: UIScreen.regTextSize))))
-                            }
-                            //styling
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .foregroundColor(.white)
-                            .background(saveNameDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
-                            .cornerRadius(6)
-                            .padding(3)
-                            .disabled(saveNameDisabled)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //button to change password
-                            Button(action: {
-                                //toggle button to display modal
-                                self.showingDetail.toggle()
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    //change password display on button
-                                    Text("Change Password")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                    Spacer()
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            //presenting the password modal
-                            }.sheet(isPresented: $showingDetail) {
-                                ChangePWPage(user: user, showModal: $showingDetail)
-                            }
-                            //styling
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .foregroundColor(.white)
-                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                            .cornerRadius(6)
-                            .padding(3)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //button to let user logout
-                            Button(action: {
-                                //logout
-                                user.logout()
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    //sign out text
-                                    Text("Sign out")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                    Spacer()
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            }
-                            //styling
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .foregroundColor(.white)
-                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                            .cornerRadius(6)
-                            .padding(3)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            //toggle for notis
-                            Toggle(isOn: bind) {
-                                //label for toggle
-                                Text("Toggle Notifications")
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //button to submit name
+                                Button(action: {
+                                    //if name is not same
+                                    if (user.name != name) {
+                                        //change name db
+                                        user.changeName(name: name)
+                                        //display alert to notify user
+                                        alert = true
+                                    }
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        //save name button
+                                        Text("Save Name")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                        Spacer()
+                                    }
                                     //styling
-                                    .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                    .multilineTextAlignment(.center)
+                                    .padding(10)
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                }
+                                //present alert that name was changed
+                                .alert(isPresented: $alert) {
+                                    Alert(title: Text(""), message: Text("Username successfully changed")                            .font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Ok")                            .font(.system(size: UIScreen.regTextSize))))
+                                }
+                                //styling
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .foregroundColor(.white)
+                                .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                                .cornerRadius(6)
+                                .padding(3)
                             }
                             //styling
-                            .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
-                            .foregroundColor(Color.black)
-                            .multilineTextAlignment(.center)
-                            .padding(10)
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //button to change password
+                                Button(action: {
+                                    //toggle button to display modal
+                                    self.showingDetail.toggle()
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        //change password display on button
+                                        Text("Change Password")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                        Spacer()
+                                    }
+                                    //styling
+                                    .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                    .multilineTextAlignment(.center)
+                                    .padding(10)
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    //presenting the password modal
+                                }.sheet(isPresented: $showingDetail) {
+                                    ChangePWPage(user: user, showModal: $showingDetail)
+                                }
+                                //styling
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .foregroundColor(.white)
+                                .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                                .cornerRadius(6)
+                                .padding(3)
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //button to let user logout
+                                Button(action: {
+                                    //logout
+                                    user.logout()
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        //sign out text
+                                        Text("Sign out")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                        Spacer()
+                                    }
+                                    //styling
+                                    .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                    .multilineTextAlignment(.center)
+                                    .padding(10)
+                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                }
+                                //styling
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                .foregroundColor(.white)
+                                .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                                .cornerRadius(6)
+                                .padding(3)
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
+                            HStack {
+                                //toggle for notis
+                                Toggle(isOn: bind) {
+                                    //label for toggle
+                                    Text("Toggle Notifications")
+                                        //styling
+                                        .font(.system(size: UIScreen.regTextSize))
+                                }
+                                //styling
+                                .toggleStyle(SwitchToggleStyle(tint: ((Color(red: 24/255, green: 57/255, blue: 163/255)))))
+                                .foregroundColor(Color.black)
+                                .multilineTextAlignment(.center)
+                                .padding(10)
+                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                            }
+                            //styling
+                            .padding(.leading, geometry.size.height/30)
                         }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
                     }
-                }
-            }.navigationBarTitle("Account", displayMode: .inline)
+                }.navigationBarTitle("Account", displayMode: .inline)
+            }
         }.onAppear {
             //set to user notis actually
             noties = user.notifications
@@ -211,7 +216,7 @@ struct AccountPage: View {
 }
 
 /*
-    preview for sim
+ preview for sim
  */
 struct AccountPage_Previews: PreviewProvider {
     static var previews: some View {
