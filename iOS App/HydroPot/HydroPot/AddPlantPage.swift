@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddPlantPage: View {
-
+    
     @Environment(\.presentationMode) var presentationMode //presentation mode for dismissal
     @ObservedObject var user: GetUser //user that was passed
     @ObservedObject var plants: Plants //plants list
@@ -22,278 +22,260 @@ struct AddPlantPage: View {
     
     var body: some View {
         NavigationView {
-            VStack{
-                GeometryReader{ geometry in
-                    ScrollView {
-                        VStack{
-                            HStack{
-                                Button(action: {
-                                    withAnimation {
-                                        //show image picker
-                                        self.isShowPicker.toggle()
+            ZStack {
+                Color.white
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
+                VStack{
+                    GeometryReader{ geometry in
+                        ScrollView {
+                            ZStack {
+                                Color.white
+                                    .onTapGesture {
+                                        hideKeyboard()
                                     }
-                                }) {
-                                    VStack{
-                                        VStack {
-                                            //image to be displayed
-                                            image?
+                                VStack{
+                                    HStack{
+                                        Button(action: {
+                                            withAnimation {
+                                                //show image picker
+                                                self.isShowPicker.toggle()
+                                            }
+                                        }) {
+                                            VStack{
+                                                VStack {
+                                                    //image to be displayed
+                                                    image?
+                                                        //styling
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(alignment: .center)
+                                                        .clipped()
+                                                        .clipShape(Circle())
+                                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                        .shadow(radius: 10)
+                                                }
                                                 //styling
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(alignment: .center)
-                                                .clipped()
-                                                .clipShape(Circle())
-                                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                                .shadow(radius: 10)
+                                                .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                                .padding(.bottom, UIScreen.addPhotoPadding)
+                                                //letting user know to add
+                                                Text("Add Photo")
+                                                    .font(.system(size: UIScreen.regTextSize))
+                                                    .frame(alignment: .center)
+                                            }
                                         }
                                         //styling
-                                        .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
-                                        .padding(.bottom, UIScreen.addPhotoPadding)
-                                        //letting user know to add
-                                        Text("Add Photo")
+                                        .foregroundColor(.black)
+                                        .padding(.top)
+                                    }
+                                    .padding(.bottom)
+                                    HStack{
+                                        //name of the plant
+                                        TextField("Plant Name", text: $plantName)
+                                            //styling
                                             .font(.system(size: UIScreen.regTextSize))
-                                            .frame(alignment: .center)
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                    }
+                                    //show the image picker when toggled
+                                    .sheet(isPresented: $isShowPicker) {
+                                        ImagePickerTwo(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                                    }
+                                    HStack{
+                                        //pot id for user to input
+                                        TextField("Pot ID", text: $potID)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                    }
+                                    ZStack{
+                                        //if defualt plant type
+                                        if (plantSelected == "Plant Type"){
+                                            //display empty
+                                            Text("\(plantSelected)")
+                                                //styling
+                                                .font(.system(size: UIScreen.regTextSize))
+                                                .foregroundColor(.black)
+                                                .opacity(0.3)
+                                                .padding(6)
+                                                .buttonStyle(PlainButtonStyle())
+                                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                                .border(Color.black.opacity(0.5))
+                                        }
+                                        //if not default
+                                        else {
+                                            //display actual plant type
+                                            Text("\(plantSelected)")
+                                                .font(.system(size: UIScreen.regTextSize))
+                                                .foregroundColor(.black)
+                                                .padding(6)
+                                                .buttonStyle(PlainButtonStyle())
+                                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                                .border(Color.black.opacity(0.5))
+                                        }
+                                        //link the plant type field to the adding page
+                                        NavigationLink(destination: AddEditPlantList(plants: plants, plantSelected: $plantSelected, idealTemperatureHigh: $idealTemperatureHigh, idealMoistureHigh: $idealMoistureHigh, idealLightLevelHigh: $idealLightLevelHigh, idealTemperatureLow: $idealTemperatureLow, idealMoistureLow: $idealMoistureLow, idealLightLevelLow: $idealLightLevelLow)) {
+                                            //chev image to let user know to press
+                                            Image(systemName: "chevron.right")
+                                                //styling
+                                                .foregroundColor(.black)
+                                                .padding(6)
+                                                .font(.system(size: UIScreen.title3TextSize))
+                                                .clipShape(Circle())
+                                                .padding(.leading, geometry.size.width * 0.8)
+                                        }
+                                    }
+                                    HStack{
+                                        Stepper("Reservoir reminder every: \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize * 0.72))
+                                            .foregroundColor(.black)
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                    }
+                                    HStack {
+                                        //moisture to be entered
+                                        Text("Moisture (%)")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                        //low moisture
+                                        TextField("Low", text: $idealMoistureLow)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                        //seperator
+                                        Text("-")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                            .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                        //high moisture
+                                        TextField("High", text: $idealMoistureHigh)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                    }
+                                    HStack{
+                                        //light to be entered
+                                        Text("Light (lm)")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                        //low light
+                                        TextField("Low", text: $idealLightLevelLow)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                        //seperator
+                                        Text("-")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                            .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                        //high to be entered
+                                        TextField("High", text: $idealLightLevelHigh)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                    }
+                                    HStack {
+                                        //temperature to be entered
+                                        Text("Temp (°F)")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
+                                        //low temp to be entered
+                                        TextField("Low", text: $idealTemperatureLow)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
+                                        //seperator
+                                        Text("-")
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize)).bold()
+                                            .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
+                                            .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                        //high temp to be entered
+                                        TextField("High", text: $idealTemperatureHigh)
+                                            //styling
+                                            .font(.system(size: UIScreen.regTextSize))
+                                            .padding(6)
+                                            .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
+                                            .border(Color.black.opacity(0.5))
                                     }
                                 }
-                                //styling
-                                .foregroundColor(.black)
-                                .padding(.top)
-                            }
-                            .padding(.bottom)
-                            HStack{
-                                //name of the plant
-                                TextField("Plant Name", text: $ideals.plantName)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                            }
-                            //show the image picker when toggled
-                            .sheet(isPresented: $isShowPicker) {
-                                ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
-                            }
-                            HStack{
-                                //pot id for user to input
-                                TextField("Pot ID", text: $ideals.potID)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                            }
-                            ZStack{
-                                //if defualt plant type
-                                if (ideals.plantSelected == "Plant Type"){
-                                    //display empty
-                                    Text("\(ideals.plantSelected)")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .foregroundColor(.black)
-                                        .opacity(0.3)
-                                        .padding(6)
-                                        .buttonStyle(PlainButtonStyle())
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                }
-                                //if not default
-                                else {
-                                    //display actual plant type
-                                    Text("\(ideals.plantSelected)")
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .foregroundColor(.black)
-                                        .padding(6)
-                                        .buttonStyle(PlainButtonStyle())
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                }
-                                //link the plant type field to the adding page
-                                NavigationLink(destination: AddEditPlantList(ideals: ideals, plants: plants)) {
-                                    //chev image to let user know to press
-                                    Image(systemName: "chevron.right")
-                                        //styling
-                                        .foregroundColor(.black)
-                                        .padding(6)
-                                        .font(.system(size: UIScreen.title3TextSize))
-                                        .clipShape(Circle())
-                                        .padding(.leading, geometry.size.width * 0.8)
-                                }
-                            }
-                            HStack{
-                                Stepper("Reservoir reminder every: \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize * 0.72))
-                                    .foregroundColor(.black)
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                            }
-                            HStack {
-                                //moisture to be entered
-                                Text("Moisture (%)")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                //low moisture
-                                TextField("Low", text: $ideals.idealMoistureLow)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                                //seperator
-                                Text("-")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                //high moisture
-                                TextField("High", text: $ideals.idealMoistureHigh)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                            }
-                            HStack{
-                                //light to be entered
-                                Text("Light (lm)")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                //low light
-                                TextField("Low", text: $ideals.idealLightLevelLow)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                                //seperator
-                                Text("-")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                //high to be entered
-                                TextField("High", text: $ideals.idealLightLevelHigh)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                            }
-                            HStack {
-                                //temperature to be entered
-                                Text("Temp (°F)")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                //low temp to be entered
-                                TextField("Low", text: $ideals.idealTemperatureLow)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
-                                //seperator
-                                Text("-")
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize)).bold()
-                                    .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                //high temp to be entered
-                                TextField("High", text: $ideals.idealTemperatureHigh)
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .padding(6)
-                                    .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                    .border(Color.black.opacity(0.5))
+                                Spacer()
                             }
                         }
-                        Spacer()
+                        .padding(.leading, geometry.size.height/30)
                     }
-                    .padding(.leading, geometry.size.height/30)
                 }
-            }
-            .onAppear() {
-                //handling blank plant type
-                if (ideals.plantSelected == ""){
-                    ideals.plantSelected = "Plant Types"
-                }
-                
-                //handling no ideal moist low
-                if (ideals.idealMoistureLow == "-1"){
-                    ideals.idealMoistureLow = ""
-                }
-                //handling no ideal moist high
-                if (ideals.idealMoistureHigh == "-1"){
-                    ideals.idealMoistureHigh = ""
-                }
-                //handling no ideal temp low
-                if (ideals.idealTemperatureLow == "-1"){
-                    ideals.idealTemperatureLow = ""
-                }
-                //handling no ideal temp high
-                if (ideals.idealTemperatureHigh == "-1"){
-                    ideals.idealTemperatureHigh = ""
-                }
-                //handling no ideal light low
-                if (ideals.idealLightLevelLow == "-1"){
-                    ideals.idealLightLevelLow = ""
-                }
-                //handling no ideal light high
-                if (ideals.idealLightLevelHigh == "-1"){
-                    ideals.idealLightLevelHigh = ""
-                }
-            }
-            //nav bar things
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                Button(action: {
-                    //dismiss the modal
-                    self.showModal.toggle()
-                }) {
-                    HStack {
-                        //cancer text
-                        Text("Cancel")
-                            .font(.system(size: UIScreen.regTextSize))
-                    }
-            }, trailing:
-                //confirm button
-                Button(action: {
-                    //if all values are entered
-                    if (ideals.plantName != "" && ideals.idealTemperatureHigh != "" && ideals.idealTemperatureLow != "" && ideals.idealMoistureHigh != "" && ideals.idealMoistureLow != "" && ideals.idealLightLevelHigh != "" && ideals.idealLightLevelLow != "" && ideals.plantSelected != "Plant Types"){
-                        
-                        //encode the image
-                        let encoding = encodePictureJPEG(image: userIntefaceImage!)
-                        
-                        //add the image
-                        addImage(encodedImage: encoding, ext: "jpeg")
-
+                //nav bar things
+                .navigationBarTitle("", displayMode: .inline)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading:
+                    Button(action: {
                         //dismiss the modal
                         self.showModal.toggle()
-                    }
-                    //else
-                    else {
-                        //display alert
-                        failed = true
-                    }
-                }) {
-                HStack {
-                    //confirm text for button
-                    Text("Confirm")
-                        //styling
-                        .font(.system(size: UIScreen.regTextSize))
-                        .foregroundColor(confirmDisabled ? .gray : .white)
-                }
-                //present alert if toggled
-                .alert(isPresented: $failed) {
-                    //alert 
-                    Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
-                }
+                    }) {
+                        HStack {
+                            //cancer text
+                            Text("Cancel")
+                                .font(.system(size: UIScreen.regTextSize))
+                        }
+                    }, trailing:
+                        //confirm button
+                        Button(action: {
+                            //if all values are entered
+                            if (plantName != "" && idealTemperatureHigh != "" && idealTemperatureLow != "" && idealMoistureHigh != "" && idealMoistureLow != "" && idealLightLevelHigh != "" && idealLightLevelLow != ""){
+                                
+                                //encode the image
+                                let encoding = encodePictureJPEG(image: userIntefaceImage!)
+                                
+                                //add the image
+                                addImage(encodedImage: encoding, ext: "jpeg")
+                                
+                                //dismiss the modal
+                                self.showModal.toggle()
+                            }
+                            //else
+                            else {
+                                //display alert
+                                failed = true
+                            }
+                        }) {
+                            HStack {
+                                //confirm text for button
+                                Text("Confirm")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(confirmDisabled ? .gray : .white)
+                            }
+                            //present alert if toggled
+                            .alert(isPresented: $failed) {
+                                //alert
+                                Alert(title: Text(""), message: Text("Please fill out all fields"), dismissButton: .default(Text("Got it!")))
+                            }
+                        }
+                        .disabled(confirmDisabled))
             }
-            .disabled(confirmDisabled))
+            
         }
     }
     
@@ -385,7 +367,7 @@ struct AddPlantPage: View {
 }
 
 /*
-    extention for the ui image styling
+ extention for the ui image styling
  */
 extension UIImage {
     enum JPEGQuality: CGFloat {

@@ -105,6 +105,9 @@ struct PlantTypeList: View {
             self.plantList = listOfPlants(plantList: plants.plantList)
             self.fullUrlList = listOfImages(plantList: plants.plantList)
         })
+        .gesture(DragGesture().onChanged {_ in 
+            hideKeyboard()
+        })
     }
     
     //get a string list of plants from the plants object
