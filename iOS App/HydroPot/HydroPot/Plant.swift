@@ -54,14 +54,14 @@ class Plant: ObservableObject, Identifiable {
 struct codePlant: Codable, Identifiable {
     let id: String //id to conform to identifiable
     let plantType: String //type of the plant
-    let idealTempLow: Int //ideal low temp of the plant
-    let idealTempHigh: Int //ideal high temp of the plant
-    let idealMoistureLow: Int //ideal moisture low of the plant
-    let idealMoistureHigh: Int //ideal moisture high of the plant
-    let idealLightLow: Int //ideal light low of the plant
-    let idealLightHigh: Int //ideal light high of the plant
-    let description: String //description of the plant type
-    let imageURL: String //image string (s3) of the plant type
+    let idealTempLow: Int? //ideal low temp of the plant
+    let idealTempHigh: Int? //ideal high temp of the plant
+    let idealMoistureLow: Int? //ideal moisture low of the plant
+    let idealMoistureHigh: Int? //ideal moisture high of the plant
+    let idealLightLow: Int? //ideal light low of the plant
+    let idealLightHigh: Int? //ideal light high of the plant
+    let description: String? //description of the plant type
+    let imageURL: String? //image string (s3) of the plant type
     
     //to conform to codable
     enum CodingKeys: String, CodingKey {

@@ -8,6 +8,9 @@
 import SwiftUI
 import URLImage
 
+/*
+    list for plant type struct
+ */
 struct PlantTypeList: View {
     @State var plants : Plants
     
@@ -74,19 +77,21 @@ struct PlantTypeList: View {
                             //otherwise show the complete list of plants
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
                                 //setup nav link
-                                NavigationLink(
-                                    destination:
-                                        PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
-                                    
-                                    label: {
-                                        ListCell(text: bindDisplayList[row], url: bindUrlList[row])
-                                            .frame(height: UIScreen.plantTypeListImageSize)
-                                            .padding(.top)
-                                    })
-                                    .simultaneousGesture(TapGesture().onEnded {
-                                        // Hide Keyboard after pressing a Cell
-                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                    })
+                                if (getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row])).plantType != "Other"){
+                                    NavigationLink(
+                                        destination:
+                                            PlantTypePage(plant: getSelectedPlant(selectedPlant: ((filtering || searching) ? displayedList[row] : plantList[row]))),
+                                        
+                                        label: {
+                                            ListCell(text: bindDisplayList[row], url: bindUrlList[row])
+                                                .frame(height: UIScreen.plantTypeListImageSize)
+                                                .padding(.top)
+                                        })
+                                        .simultaneousGesture(TapGesture().onEnded {
+                                            // Hide Keyboard after pressing a Cell
+                                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                        })
+                                }
                             }
                         }
 
@@ -155,17 +160,17 @@ func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String
     //loop through each plant
     for plant in plants.plantList {
         //true if plant is in the selected moisture range(s)
-        let lowMoisture = (filteredValues[0].0 && plant.idealMoistureHigh <= moistureTuple.0)
+        let lowMoisture = (filteredValues[0].0 && plant.idealMoistureHigh <= moistureTuple.0 && plant.idealMoistureHigh != -1)
         let medMoisture = (filteredValues[0].1 && (plant.idealMoistureHigh <= moistureTuple.1 && plant.idealMoistureHigh > moistureTuple.0))
         let highMoisture = (filteredValues[0].2 && plant.idealMoistureHigh > moistureTuple.1)
         
         //true if plant is in the selected light range(s)
-        let lowLight = (filteredValues[1].0 && plant.idealLightHigh <= lightTuple.0)
+        let lowLight = (filteredValues[1].0 && plant.idealLightHigh <= lightTuple.0 && plant.idealMoistureHigh != -1)
         let medLight = (filteredValues[1].1 && (plant.idealLightHigh <= lightTuple.1 && plant.idealLightHigh > lightTuple.0))
         let highLight = (filteredValues[1].2 && plant.idealLightHigh > lightTuple.1)
         
         //true if plant is in the selected temperature range(s)
-        let lowTemp = (filteredValues[2].0 && plant.idealTempHigh <= tempTuple.0)
+        let lowTemp = (filteredValues[2].0 && plant.idealTempHigh <= tempTuple.0 && plant.idealMoistureHigh != -1)
         let medTemp = (filteredValues[2].1 && (plant.idealTempHigh <= tempTuple.1 && plant.idealTempHigh > tempTuple.0))
         let highTemp = (filteredValues[2].2 && plant.idealTempHigh > tempTuple.1)
         
@@ -215,15 +220,35 @@ struct ListCell: View {
             Spacer()
             ZStack {
                 HStack (){
-                    //display the plant image
-                    URLImage(url: URL(string: url)!) { image in
+                    //if there is a photo for this plant
+                    if (url != "" ){
+                        //display the plant image
+                        URLImage(url: URL(string: url)!) { image in
+                            VStack {
+                                //plant image
+                                image
+                                    //styling
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(.leading, 15)
+                                    .foregroundColor(.black)
+                            }
+                            //styling
+                            .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
+                        }
+                    }
+                    //if there is not a photo for this plant
+                    else {
                         VStack {
-                            image
+                            //default image
+                            Image(systemName: "photo")
+                                //styling
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .padding(.leading, 15)
                                 .foregroundColor(.black)
                         }
+                        //styling
                         .frame(width: UIScreen.plantTypeListImageSize, height: UIScreen.plantTypeListImageSize)
                     }
                     //display the plant type name

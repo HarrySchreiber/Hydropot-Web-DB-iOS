@@ -10,7 +10,7 @@ import Foundation
 /*
     codable struct for notifications used to recieve json data
  */
-struct codeNotification: Codable {
+struct CodeNotifications: Codable {
 
     let type: String //type of notification
     let timeStamp: String //when notification occured
@@ -42,7 +42,7 @@ class Notification: ObservableObject, Identifiable {
 /*
     struct for notis and pot
  */
-struct notiePots: Identifiable {
+struct NotificationPots: Identifiable {
     var id: Int //id to conform to identifiable
     var notiesTuple : (pot: Pot, notification: Notification) //tuple for data
 }

@@ -10,7 +10,7 @@ import Foundation
 /*
     codable to handle JSON from db
  */
-struct codePot: Codable, Identifiable {
+struct CodePot: Codable, Identifiable {
     let image: String //image for the pot
     let plantType: String //type of plant it is
     let idealTempHigh: Int //high temperature for the pot
@@ -24,8 +24,8 @@ struct codePot: Codable, Identifiable {
     let plantName: String //name of the pot
     let lastFilled: String? //last time the pot recieved a notification
     let notiFilledFrequency: Int? //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
-    let records: [codeRecord]? //records for the pot
-    let notifications: [codeNotification]? //notifications for the pot
+    let records: [CodeRecord]? //records for the pot
+    let notifications: [CodeNotifications]? //notifications for the pot
     
     //confomrs to codable
     enum CodingKeys: String, CodingKey {
@@ -55,7 +55,13 @@ class Pot: ObservableObject, Identifiable {
     @Published var records: [Record] //records for the pot
     @Published var notifications: [Notification] //notifications for the pot
     @Published var lastFilled: Date //last time the pot recieved a notification
+    @Published var lastFilledDays: String //last time the pot was filled in days
+    @Published var lastWateredDays: String //last time the pot was watered in days
     @Published var notiFilledFrequency: Int //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
+    @Published var moistureGood: Bool //is moisture in the ranges
+    @Published var lightGood: Bool //is light in the ranges
+    @Published var tempGood: Bool //is temperature in the ranges
+    
     
     /// constructor for pot
     ///
@@ -99,6 +105,16 @@ class Pot: ObservableObject, Identifiable {
         self.image = image
         self.lastFilled = lastFilled
         self.notiFilledFrequency = notiFilledFrequency
+        self.lastWateredDays = ""
+        self.lastFilledDays = ""
+        moistureGood = false
+        lightGood = false
+        tempGood = false
+        moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
+        setLastWatered(lastWatered: lastWatered)
+        setLastFilled(lastFilled: lastFilled)
     }
     
     /// editing the pott
@@ -115,7 +131,7 @@ class Pot: ObservableObject, Identifiable {
     ///     - idealLightLow: Low light for the pot
     ///     - curLight: The current light of the pot
     ///     - plantName: The name of the pot
-    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int) {
+    func editPlant(plantName: String, plantType: String, idealTempHigh: Int, idealTempLow: Int, idealMoistureHigh: Int, idealMoistureLow: Int, idealLightHigh: Int, idealLightLow: Int, notificationFrequency: Int) {
         self.plantName = plantName
         self.plantType = plantType
         self.idealTempLow = idealTempLow
@@ -124,6 +140,10 @@ class Pot: ObservableObject, Identifiable {
         self.idealMoistureHigh = idealMoistureHigh
         self.idealLightLow = idealLightLow
         self.idealLightHigh = idealLightHigh
+        self.notiFilledFrequency = notificationFrequency
+        self.moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        self.lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        self.tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
     }
     
     /// editing the pott another way
@@ -157,7 +177,11 @@ class Pot: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.automaticWatering = automaticWatering
         self.lastWatered = lastWatered
+        setLastWatered(lastWatered: lastWatered)
         self.image = image
+        self.moistureGood = ((self.curMoisture >= self.idealMoistureLow) && (self.curMoisture <= self.idealMoistureHigh))
+        self.lightGood = (self.curLight >= self.idealLightLow && self.curLight <= self.idealLightHigh)
+        self.tempGood = (self.curTemp >= self.idealTempLow && self.curTemp <= self.idealTempHigh)
     }
     
     
@@ -260,6 +284,65 @@ class Pot: ObservableObject, Identifiable {
         }
         return [(high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0), (high: 0, avg: 0, low: 0)]
     }
+    
+    /// function to get last watered in days
+    ///
+    /// - Parameters
+    ///     - lastWatered //the date of the last watering
+    ///
+    func setLastWatered(lastWatered: Date) {
+        
+        //set last watered
+        self.lastWatered = lastWatered
+        
+        //get last watered
+        let date1 = lastWatered
+        //get todays date
+        let date2 = Date()
+        
+        //get difference in days
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //optional if same day
+        let days = diffs.day ?? 0
+        
+        //special case for 1 day
+        if days == 1 {
+            self.lastWateredDays = String(days) +  " day ago"
+        }
+        //return multiple days
+        self.lastWateredDays = String(days) + " days ago"
+    }
+    
+    /// function to get last filled in days
+    ///
+    /// - Parameters:
+    ///     - lastFilled: the last time the pot was filled
+    ///
+    func setLastFilled(lastFilled: Date) {
+        
+        //set last filled
+        self.lastFilled = lastFilled
+        
+        //get last watered
+        let date1 = lastFilled
+        //get todays date
+        let date2 = Date()
+        
+        //get difference in days
+        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        
+        //optional if same day
+        let days = diffs.day ?? 0
+        
+        //special case for 1 day
+        if days == 1 {
+            lastFilledDays = String(days) +  " day ago"
+        }
+        //return multiple days
+        lastFilledDays = String(days) + " days ago"
+    }
+    
 }
 
 

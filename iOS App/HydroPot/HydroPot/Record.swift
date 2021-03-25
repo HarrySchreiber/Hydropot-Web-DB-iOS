@@ -10,7 +10,7 @@ import Foundation
 /*
     codable to store JSON records from the db
  */
-struct codeRecord: Codable {
+struct CodeRecord: Codable {
     let dateRecorded: String //date the record was recorded
     let light: Int //light value of record
     let moisture: Int //moisture value of record

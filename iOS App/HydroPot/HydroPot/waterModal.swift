@@ -167,6 +167,8 @@ struct waterModal: View {
             //water 90ML (db call)
             user.waterPot(pot: pot, waterAmount: 3)
         }
+        //set the days correctly
+        pot.setLastWatered(lastWatered: Date())
     }
 }
 

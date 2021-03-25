@@ -7,10 +7,17 @@ struct HydroPotApp: App {
     //allows for app delegate use
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    /// initializaes the upon content view
+    init() {
+        //removes padding from pickers
+         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
+         UITableView.appearance().tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
+    }
+    
     var body: some Scene {
         WindowGroup {
-            //call the app
-            ContentView()
+            //login page
+            Login()
         }
     }
 }
