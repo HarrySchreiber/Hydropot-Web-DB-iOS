@@ -145,11 +145,11 @@ struct PlantTypeList: View {
 func filterList(filteredValues: [(Bool,Bool,Bool)], displayedList: inout [String], plants: Plants, searchedList: [String], urlList: inout [String]) {
     //setup temporary list
     var list = [String]()
-    //moisture values
+    //moisture values (lower and upper bounds for medium level moisture)
     let moistureTuple = (20,35)
-    //light values
+    //light values (lower and upper bounds for medium level light)
     let lightTuple = (2500,10000)
-    //temperature values
+    //temperature values (lower and upper bounds for medium level temperature)
     let tempTuple = (55,70)
     
     //boolean logic for if moisture, light or temperature are not selected
