@@ -11,12 +11,17 @@ struct HistoricalData: View {
     
     @ObservedObject var pot : Pot   //current pot selected
     @State private var selectedUnit = 0 //variable for storing which picker value is selected
-    var units = ["Hourly", "Daily", "Weekly"]   //3 picker values available
+    @State var units = ["Hourly", "Daily", "Weekly"]   //3 picker values available
     @State var tuples : [(high: Int, avg: Int, low: Int)]   //array of high low and average values to display
     
     @State var moistureGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for moisture (hourly, daily, weekly)
     @State var lightGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for light (hourly, daily, weekly)
     @State var tempGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for temperature (hourly, daily, weekly)
+    
+    @State var moistureBars : [GraphBar] = []  //array for moisture bar
+    @State var lightBars : [GraphBar] = []  //array for light bar
+    @State var tempBars : [GraphBar] = [] //array for temperature bar
+    
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -26,6 +31,11 @@ struct HistoricalData: View {
             get: { self.selectedUnit },
             set: { self.selectedUnit = $0
                 self.tuples = pot.getValues(unit: units[selectedUnit])
+                
+                /* TO-DO */
+                //change bar sizes/values based on unit change
+                //may need different binding array for the moisture graph vals, light graph vals, etc.
+                
             }
         )
         ScrollView {
@@ -59,23 +69,23 @@ struct HistoricalData: View {
                             .font(.system(size: UIScreen.title3TextSize))
                             .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
                         HStack {
-                            ForEach(1..<9) { month in
+                            ForEach(moistureBars) { graphBar in
                                 VStack {
                                     Spacer()
                                     //data values shown on graph
-                                    Text("\(month*10)")
+                                    Text("\(graphBar.displayValue)")
                                         .font(.system(size: UIScreen.subTextSize))
                                         .rotationEffect(.degrees(-90))
                                         .offset(y: UIScreen.textOffset)
                                         .zIndex(1)
-                                        .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
+                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
                                     
                                     // bars of the graph
                                     Rectangle()
-                                        .fill(getTextColor(bool: ((month*10 >= pot.idealMoistureLow) && (month*10 <= pot.idealMoistureHigh))))
-                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(month)) * UIScreen.graphMultiplier)
+                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
+                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
                                     // x values of bar graph
-                                    Text("\(month)")
+                                    Text("\(graphBar.xValue)")
                                         .font(.system(size: UIScreen.subTextSize))
                                         .frame(height: UIScreen.graphWidth)
                                 }
@@ -108,7 +118,7 @@ struct HistoricalData: View {
                         }
                     }
                 }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-                
+
                 //light box
                 PagesContainer(contentCount: 2) {
                     //show title and graphs
@@ -131,7 +141,7 @@ struct HistoricalData: View {
                                         .offset(y: UIScreen.textOffset)
                                         .zIndex(1)
                                         .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
-                                    
+
                                     // graph bars
                                     Rectangle()
                                         .fill(getTextColor(bool: ((month*100 >= pot.idealLightLow) && (month*100 <= pot.idealLightHigh))))
@@ -170,7 +180,7 @@ struct HistoricalData: View {
                         }
                     }
                 }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-                
+
                 //temperature box
                 PagesContainer(contentCount: 2) {
                     //1st card - shows title and graphs
@@ -194,7 +204,7 @@ struct HistoricalData: View {
                                         .offset(y: UIScreen.textOffset)
                                         .zIndex(1)
                                         .offset(y: Double(month) < 2.4 ? -UIScreen.textOffset : 0)
-                                    
+
                                     // graph bars
                                     Rectangle()
                                         .fill(getTextColor(bool: ((month*10 >= pot.idealTempLow) && (month*10 <= pot.idealTempHigh))))
@@ -244,6 +254,7 @@ struct HistoricalData: View {
                 .opacity(0.50)
         )
         .onAppear {
+            //get values for the graphs from the records
             moistureGraphArrays = pot.calculateGraphData(dataType: "moisture")
             lightGraphArrays = pot.calculateGraphData(dataType: "light")
             tempGraphArrays = pot.calculateGraphData(dataType: "temperature")
@@ -251,6 +262,9 @@ struct HistoricalData: View {
             print(moistureGraphArrays)
             print(lightGraphArrays)
             print(tempGraphArrays)
+            //convert graph values to list of general graphBars
+            //reverse list to get newest data last (for display)
+            moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.0.reversed())
         }
     }
     
@@ -261,6 +275,45 @@ struct HistoricalData: View {
             //return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
         }
         return Color.red
+    }
+    
+    //function for creating an array of moisture graphBars to display for the user
+    func getMoistureGraphBars (graphValues: [Int]) -> [GraphBar] {
+        var returnList : [GraphBar] = []
+        for index in 0..<graphValues.count {
+            let xval = getXValue(graphValue: graphValues[index], timeDisplacement: graphValues.count - index-1)
+            let barSize = getMoistureBarSize(graphValue: graphValues[index])
+            let bar = GraphBar(xValue: xval, displayValue: graphValues[index], barHeight: barSize)
+            returnList.append(bar)
+        }
+        return returnList
+    }
+    
+    //function for converting moisture historical data values into graph bar sizes
+    func getMoistureBarSize(graphValue: Int) -> Double{
+        let scaleValue = 10.0
+        return Double(graphValue) / scaleValue
+    }
+    
+    //function for getting x-values for the moisture graph
+    func getXValue(graphValue: Int, timeDisplacement: Int) -> String {
+        let formatter = DateFormatter()
+        
+        if(units[selectedUnit] == "Daily") {
+            formatter.dateFormat = "dd"
+            let tempDate = Calendar.current.date(byAdding: .day, value: -timeDisplacement, to: Date())!
+            return formatter.string(from: tempDate)
+        }
+        
+        if(units[selectedUnit] == "Weekly") {
+            formatter.dateFormat = "MM" // "a" prints "pm" or "am"
+            let tempDate = Calendar.current.date(byAdding: .weekOfMonth, value: -timeDisplacement, to: Date())!
+            return formatter.string(from: tempDate)
+        }
+        
+        formatter.dateFormat = "hh" // "a" prints "pm" or "am"
+        let tempDate = Calendar.current.date(byAdding: .hour, value: -timeDisplacement, to: Date())!
+        return formatter.string(from: tempDate)
     }
 }
 
@@ -323,3 +376,18 @@ struct PagesContainer <Content : View> : View {
  
  }
  }*/
+
+
+struct GraphBar : Identifiable {
+    var id = UUID()
+    var xValue: String
+    var displayValue: Int
+    var barHeight: Double
+    
+    init(xValue: String, displayValue: Int, barHeight: Double) {
+        self.xValue = xValue
+        self.displayValue = displayValue
+        self.barHeight = barHeight
+    }
+}
+
