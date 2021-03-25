@@ -175,6 +175,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low moisture edit
                                     TextField("Low", text: $ideals.idealMoistureLow)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -188,6 +189,7 @@ struct EditPlantPage: View {
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high moisture edit
                                     TextField("High", text: $ideals.idealMoistureHigh)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -206,6 +208,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low light to be edited
                                     TextField("Low", text: $ideals.idealLightLevelLow)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -219,6 +222,7 @@ struct EditPlantPage: View {
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high light to be edited
                                     TextField("High", text: $ideals.idealLightLevelHigh)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -235,6 +239,7 @@ struct EditPlantPage: View {
                                         .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                     //low temperature to be edited
                                     TextField("Low", text: $ideals.idealTemperatureLow)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)
@@ -248,6 +253,7 @@ struct EditPlantPage: View {
                                         .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                     //high temperature to be edited
                                     TextField("High", text: $ideals.idealTemperatureHigh)
+                                        .keyboardType(.numberPad)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)

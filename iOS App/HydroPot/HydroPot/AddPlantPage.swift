@@ -146,6 +146,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low moisture
                                         TextField("Low", text: $ideals.idealMoistureLow)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -159,6 +160,7 @@ struct AddPlantPage: View {
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high moisture
                                         TextField("High", text: $ideals.idealMoistureHigh)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -173,6 +175,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low light
                                         TextField("Low", text: $ideals.idealLightLevelLow)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -186,6 +189,7 @@ struct AddPlantPage: View {
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high to be entered
                                         TextField("High", text: $ideals.idealLightLevelHigh)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -200,6 +204,7 @@ struct AddPlantPage: View {
                                             .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
                                         //low temp to be entered
                                         TextField("Low", text: $ideals.idealTemperatureLow)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
@@ -213,6 +218,7 @@ struct AddPlantPage: View {
                                             .padding([.trailing, .leading], UIScreen.addPhotoPadding)
                                         //high temp to be entered
                                         TextField("High", text: $ideals.idealTemperatureHigh)
+                                            .keyboardType(.numberPad)
                                             //styling
                                             .font(.system(size: UIScreen.regTextSize))
                                             .padding(6)
