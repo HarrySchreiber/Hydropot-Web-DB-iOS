@@ -22,6 +22,7 @@ struct PlantResults: Codable {
  */
 class Plants: ObservableObject, Identifiable {
     @Published var plantList: [Plant] //list of individual plants
+    @Published var url: URL
     
     /// constructor for plants
     ///
@@ -29,6 +30,7 @@ class Plants: ObservableObject, Identifiable {
     ///     - plantList: list of individual plants
     init() {
         self.plantList = []
+        self.url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
     }
     
     /// allows for determining if the plant list contains a given plant
@@ -84,10 +86,7 @@ class Plants: ObservableObject, Identifiable {
         
         //serlialize our payload
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-        //url for lambda function
-        let url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/web")!
-        
+
         //make the request
         var request = URLRequest(url: url)
         
@@ -127,6 +126,7 @@ class Plants: ObservableObject, Identifiable {
                 print("Unable to parse JSON")
                 return
             }
+            
             //execute the async call
             DispatchQueue.main.async(execute: {
                 //if items were returned
@@ -136,18 +136,20 @@ class Plants: ObservableObject, Identifiable {
                         //append the new plant type to the list of plants
                         self.plantList.append(Plant(
                             plantType: plant.plantType,
-                            idealTempLow: plant.idealTempLow,
-                            idealTempHigh: plant.idealTempHigh,
-                            idealMoistureLow: plant.idealMoistureLow,
-                            idealMoistureHigh: plant.idealMoistureHigh,
-                            idealLightLow: plant.idealLightLow,
-                            idealLightHigh: plant.idealLightHigh,
-                            description: plant.description,
-                            imageURL: plant.imageURL))
+                            idealTempLow: plant.idealTempLow ?? -1,
+                            idealTempHigh: plant.idealTempHigh ?? -1,
+                            idealMoistureLow: plant.idealMoistureLow ?? -1,
+                            idealMoistureHigh: plant.idealMoistureHigh ?? -1,
+                            idealLightLow: plant.idealLightLow ?? -1,
+                            idealLightHigh: plant.idealLightHigh ?? -1,
+                            description: plant.description ?? "No description available",
+                            imageURL: plant.imageURL ?? ""))
                     }
                 }
                 //sort the plant list by type
                 self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
+
+                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1, idealTempHigh: -1, idealMoistureLow: -1, idealMoistureHigh: -1, idealLightLow: -1, idealLightHigh:  -1,description: "", imageURL: ""), at: 0)
             })
         }.resume()
     }

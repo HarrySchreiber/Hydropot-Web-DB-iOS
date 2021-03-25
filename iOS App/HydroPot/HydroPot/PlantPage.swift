@@ -16,9 +16,9 @@ struct PlantPage: View {
     @ObservedObject var user: GetUser //user to be passed into
     @ObservedObject var pot: Pot //pot that is displayed
     @ObservedObject var plants: Plants //plant type list
+    @ObservedObject var ideals: Ideals
     @State var screenChange = false //toggle thing
     @State var showingDetail = false //toggle thing
-    
     //on set
     @State var autoWatering = false {
         didSet{
@@ -30,13 +30,8 @@ struct PlantPage: View {
     }
     
     @State private var showPopUp = false //toggle boi
-    @State var moistureGood = false //is moisture in the ranges
-    @State var lightGood = true //is light in the ranges
-    @State var tempGood = true //is temperature in the ranges
-    @State var resGood = true //is res level in the ranges
-    
+
     var body: some View {
-        
         //sent to another page
         let bind = Binding<Bool>(
             //getting it
@@ -50,19 +45,7 @@ struct PlantPage: View {
             ScrollView {
                 //refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                    //reload
-                    let timer = DispatchSource.makeTimerSource()
-
-                    //timer ensures some wait for api call to be made
-                    timer.schedule(deadline: .now() + .seconds(1))
-
-                    timer.setEventHandler {
-                        //reload
-                        attemptReload()
-                    }
-
-                    //activate code
-                    timer.activate()
+                    attemptReload()
                 }
                 
                 VStack(alignment: .leading) {
@@ -113,7 +96,7 @@ struct PlantPage: View {
                     }
                     ZStack {
                         //last watered in days ago
-                        Text("Last watered: \n\(getLastWatered(pot: pot))")
+                        Text("Last watered: \n\(pot.lastWateredDays)")
                             //styling
                             .font(.system(size: UIScreen.regTextSize))
                             .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)
@@ -123,6 +106,37 @@ struct PlantPage: View {
                         Button("Water Plant") {
                             //showing modal
                             showPopUp = true
+                        }
+                        //styling
+                        .font(.system(size: UIScreen.regTextSize))
+                        .buttonStyle(BorderlessButtonStyle())
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .cornerRadius(6)
+                        .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .trailing)
+                        .padding(.trailing, UIScreen.plantTitleSide)
+                    }
+                    //styling
+                    .frame(maxWidth: UIScreen.plantBoxWidth)
+                    .background(Color.white.opacity(0.85))
+                    .cornerRadius(6)
+                    .padding([.leading, .bottom, .trailing])
+                    
+                    ZStack {
+                        //last watered in days ago
+                        Text("Last Filled: \n\(pot.lastFilledDays)")
+                            //styling
+                            .font(.system(size: UIScreen.regTextSize))
+                            .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)
+                            .foregroundColor(.black)
+                            .padding(.leading, UIScreen.plantTitleSide)
+                        //filled res button modal
+                        Button("Filled Water") {
+                            //set the last filled
+                            pot.setLastFilled(lastFilled: Date())
+                            //showing modal
+                            user.editPot(pot: pot)
                         }
                         //styling
                         .font(.system(size: UIScreen.regTextSize))
@@ -174,7 +188,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: moistureGood))
+                                    .foregroundColor(getTextColor(bool: pot.moistureGood))
                                 //display ideals for moisture
                                 Text("Ideal: \(pot.idealMoistureLow)% - \(pot.idealMoistureHigh)%")
                                     //styling
@@ -216,7 +230,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: lightGood))
+                                    .foregroundColor(getTextColor(bool: pot.lightGood))
                                 //ideals for light level of plant type
                                 Text("Ideal: \(pot.idealLightLow)lm - \(pot.idealLightHigh)lm")
                                     //styling
@@ -258,7 +272,7 @@ struct PlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.titleTextSize))
                                     .bold()
-                                    .foregroundColor(getTextColor(bool: tempGood))
+                                    .foregroundColor(getTextColor(bool: pot.tempGood))
                                 //ideal for temp of pot
                                 Text("Ideal: \(pot.idealTempLow)°F - \(pot.idealTempHigh)°F")
                                     .font(.system(size: UIScreen.regTextSize))
@@ -288,6 +302,9 @@ struct PlantPage: View {
                 Button(action: {
                     //edit button
                     if (showPopUp != true){
+                        
+                        ideals.editIdeals(idealTemperatureHigh: pot.idealTempHigh, idealTemperatureLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightLevelHigh: pot.idealLightHigh, idealLightLevelLow: pot.idealLightLow, plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
+                        
                         //display edit modal
                         self.showingDetail.toggle()
                     }
@@ -302,7 +319,7 @@ struct PlantPage: View {
                 //edit plant displayed
                 .sheet(isPresented: $showingDetail) {
                     //call edit plant page
-                    EditPlantPage(user: user, plants: plants, pot: pot, showModal: $showingDetail, moistureGood: $moistureGood, lightGood: $lightGood, tempGood: $tempGood, resGood: $resGood)
+                    EditPlantPage(user: user, plants: plants, ideals: ideals, pot: pot, showModal: $showingDetail)
                 })
             //if water modal was toggled
             if $showPopUp.wrappedValue {
@@ -310,15 +327,10 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }
+        .onAppear(perform: attemptReload)
         .onAppear {
-            //moisture in the ranges
-            moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
             
-            //light in the ranges
-            lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-            
-            //temperature in the ranges
-            tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
+            ideals.editIdeals(idealTemperatureHigh: pot.idealTempHigh, idealTemperatureLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightLevelHigh: pot.idealLightHigh, idealLightLevelLow: pot.idealLightLow, plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
             
             //auto watering is set
             autoWatering = pot.automaticWatering
@@ -331,33 +343,6 @@ struct PlantPage: View {
                 .resizable()
                 .opacity(0.50)
         )
-    }
-    /// function to encode jpeg images
-    ///
-    /// - Parameters:
-    ///     - pot: the pot to get the data from
-    ///
-    /// - Returns:
-    ///     the appropriate last watered in terms of days
-    func getLastWatered(pot: Pot) -> String {
-        
-        //get last watered
-        let date1 = pot.lastWatered
-        //get todays date
-        let date2 = Date()
-        
-        //get difference in days
-        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        
-        //optional if same day
-        let days = diffs.day ?? 0
-        
-        //special case for 1 day
-        if days == 1 {
-            return String(days) +  " day ago"
-        }
-        //return multiple days
-        return String(days) + " days ago"
     }
     
     /// function to encode jpeg images
@@ -384,18 +369,5 @@ struct PlantPage: View {
         //do the reload
         user.reload() {
         }
-        
-        
-        //moisture in the ranges
-        moistureGood = ((pot.curMoisture >= pot.idealMoistureLow) && (pot.curMoisture <= pot.idealMoistureHigh))
-        
-        //light in the ranges
-        lightGood = (pot.curLight >= pot.idealLightLow && pot.curLight <= pot.idealLightHigh)
-        
-        //temperature in the ranges
-        tempGood = (pot.curTemp >= pot.idealTempLow && pot.curTemp <= pot.idealTempHigh)
-        
-        //auto watering is set
-        autoWatering = pot.automaticWatering
     }
 }

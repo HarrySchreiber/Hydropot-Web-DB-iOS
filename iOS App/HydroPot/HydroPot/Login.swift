@@ -17,11 +17,15 @@ struct Login: View {
     @State var email: String = "" //email being used to login/signup
     @StateObject var user = GetUser() //creating default user
     @State var plants = Plants() //creating default plants
-    @State var alert = false //alert for login
-    @State var alertTwo = false //alert for comf password
+    @State var loginFail = false //alert for login
+    @State var comfFail = false //alert for comf password
     
     var body: some View {
         ZStack {
+            Color.white
+                .onTapGesture {
+                    hideKeyboard()
+                }
             VStack {
                 //if we are not logged in
                 if (!user.loggedIn) {
@@ -79,7 +83,7 @@ struct Login: View {
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             //if failed password
-                            .alert(isPresented: $alert) {
+                            .alert(isPresented: $loginFail) {
                                 //display the alert of an invalid login
                                 Alert(title: Text(""), message: Text("Invalid Login Credentials").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Try Again").font(.system(size: UIScreen.regTextSize))))
                             }
@@ -132,7 +136,7 @@ struct Login: View {
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             //present alert if passwords don't match
-                            .alert(isPresented: $alertTwo) {
+                            .alert(isPresented: $comfFail) {
                                 Alert(title: Text(""), message: Text("Passwords do not match").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -141,12 +145,12 @@ struct Login: View {
                                 //if fields are not empty
                                 if (name == "" || email == "" || password == ""){
                                     //display alert saying empty fields
-                                    alert = true
+                                    loginFail = true
                                 }
                                 //if passwords do not match
                                 else if (password != passComf){
                                     //display password not matching alert
-                                    alertTwo = true
+                                    comfFail = true
                                 }
                                 //if we are good
                                 else {
@@ -164,7 +168,7 @@ struct Login: View {
                                     .frame(maxWidth: .infinity)
                             }
                             //present alert to fill out all the fields
-                            .alert(isPresented: $alert) {
+                            .alert(isPresented: $loginFail) {
                                 Alert(title: Text(""), message: Text("Please fill out all fields").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -186,7 +190,6 @@ struct Login: View {
         .onAppear(){
             plants.getPlantsList()
         }
-        .background(Color.white)
     }
     
     /// callback for the login function designed to perform alert and load from db correctly
@@ -199,15 +202,14 @@ struct Login: View {
             // will be received at the login processed
             if user.loggedIn {
                 //don't display alert
-                alert = false
+                loginFail = false
             }
             else{
                 //do display alert
-                alert = true
+                loginFail = true
             }
         }
     }
-    
     //Evaluates to true when the login fields are not properly formatted
     var loginDisabled: Bool {
         email.isEmpty ||
@@ -249,6 +251,13 @@ struct Login: View {
         let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
         return passwordPred.evaluate(with: password)
     }
+}
+
+/*
+ function called (often with tap gesture) so that the keyboard hides when the user selects outside
+ */
+func hideKeyboard() {
+     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),to: nil, from: nil, for: nil)
 }
 
 struct Login_Previews: PreviewProvider {

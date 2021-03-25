@@ -10,14 +10,8 @@ import SwiftUI
 
 struct AddEditPlantList: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var ideals: Ideals; //ideals of the plants
     @State var plants: Plants   //list of plants
-    @Binding var plantSelected: String  //which plant was selected
-    @Binding var idealTemperatureHigh: String   //ideal temperature range's upper value
-    @Binding var idealMoistureHigh: String      //ideal moisture upper value
-    @Binding var idealLightLevelHigh: String    //ideal light level upper value
-    @Binding var idealTemperatureLow: String    //ideal temperature lower value
-    @Binding var idealMoistureLow: String       //ideal moisture lower value
-    @Binding var idealLightLevelLow: String     //ideal light level lower value
     
     @State private var searchQuery: String = "" //string searched by the user
     @State private var plantList = [String]()   //a string list of all the plants (for displaying)
@@ -26,7 +20,7 @@ struct AddEditPlantList: View {
     @State private var searching = false        //boolean for if user is searching
     @State private var filtering = false        //boolean for if user is filtering
     
-    //array of boolean tuples for low, medium and high moisture, light and temperature
+    //array of foolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
     @State var filteredValues = [(false,false,false),(false,false,false),(false,false,false)]
     @State var urlList : [String] = []  //list of urls for images (what is displayed)
@@ -77,22 +71,48 @@ struct AddEditPlantList: View {
                                 .padding()
                                 .foregroundColor(.gray)
                                 .navigationBarTitle("Notifications", displayMode: .inline)
-                        }else {
+                        }
+                        else {
                             //if the user is searching or filtering, loop through the trimmed down list of plants,
                             //otherwise show the complete list of plants
                             ForEach((searching || filtering) ? (0..<displayedList.count) : (0..<plantList.count), id: \.self) { row in
                                 //if a plant is clicked, set the plant selected and store its ideals
                                 Button(action: {
-                                    plantSelected = (filtering || searching) ? displayedList[row] : plantList[row]
-                                    
-                                    if (plants.contains(plantName: plantSelected)){
-                                        let tempPlant = plants.getPlant(plantName: plantSelected)
-                                        idealMoistureHigh = String(tempPlant.idealMoistureHigh)
-                                        idealMoistureLow = String(tempPlant.idealMoistureLow)
-                                        idealTemperatureHigh = String(tempPlant.idealTempHigh)
-                                        idealTemperatureLow = String(tempPlant.idealTempLow)
-                                        idealLightLevelLow = String(tempPlant.idealLightLow)
-                                        idealLightLevelHigh = String(tempPlant.idealLightHigh)
+                                    print("hello \(ideals.plantSelected) ")
+                                    ideals.plantSelected = (filtering || searching) ? displayedList[row] : plantList[row]
+                                    if (plants.contains(plantName: ideals.plantSelected)){
+                                        let tempPlant = plants.getPlant(plantName: ideals.plantSelected)
+                                        ideals.idealMoistureHigh = String(tempPlant.idealMoistureHigh)
+                                        ideals.idealMoistureLow = String(tempPlant.idealMoistureLow)
+                                        ideals.idealTemperatureHigh = String(tempPlant.idealTempHigh)
+                                        ideals.idealTemperatureLow = String(tempPlant.idealTempLow)
+                                        ideals.idealLightLevelLow = String(tempPlant.idealLightLow)
+                                        ideals.idealLightLevelHigh = String(tempPlant.idealLightHigh)
+                                        
+                                        //handling no ideal moist low
+                                        if (ideals.idealMoistureLow == "-1"){
+                                            ideals.idealMoistureLow = ""
+                                        }
+                                        //handling no ideal moist high
+                                        if (ideals.idealMoistureHigh == "-1"){
+                                            ideals.idealMoistureHigh = ""
+                                        }
+                                        //handling no ideal temp low
+                                        if (ideals.idealTemperatureLow == "-1"){
+                                            ideals.idealTemperatureLow = ""
+                                        }
+                                        //handling no ideal temp high
+                                        if (ideals.idealTemperatureHigh == "-1"){
+                                            ideals.idealTemperatureHigh = ""
+                                        }
+                                        //handling no ideal light low
+                                        if (ideals.idealLightLevelLow == "-1"){
+                                            ideals.idealLightLevelLow = ""
+                                        }
+                                        //handling no ideal light high
+                                        if (ideals.idealLightLevelHigh == "-1"){
+                                            ideals.idealLightLevelHigh = ""
+                                        }
                                     }
                                     
                                     self.presentationMode.wrappedValue.dismiss()
@@ -116,6 +136,9 @@ struct AddEditPlantList: View {
         .onAppear(perform: {
             listOfPlants()
             self.fullUrlList = listOfImages(plantList: plants.plantList)
+        })
+        .gesture(DragGesture().onChanged {_ in
+            hideKeyboard()
         })
     }
     

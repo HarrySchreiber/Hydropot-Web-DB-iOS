@@ -53,6 +53,8 @@ extension UIScreen{
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
     static let plantBoxHeight = homeImageSize
+    static let plantButtonWidth = screenWidth / 2 //base is 300
+    static let plantButtonHeight = homeImageSize / 2
     static let plantBoxIdealsDistance = screenWidth / 5.4 //base is 60
     static let plantTitleBottom = screenWidth / 16 //base is 20
     static let plantTitleSide = screenWidth / 10.6 //base is 30
@@ -146,18 +148,7 @@ struct HomeView: View {
                     ScrollView {
                         PullToRefresh(coordinateSpaceName: "pull") {
                             //reload
-                            let timer = DispatchSource.makeTimerSource()
-
-                            //timer ensures some wait for api call to be made
-                            timer.schedule(deadline: .now() + .seconds(1))
-
-                            timer.setEventHandler {
-                                //reload
-                                attemptReload()
-                            }
-
-                            //activate code
-                            timer.activate()
+                            attemptReload()
                         }
                         //tell the user they don't have plants
                         Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
@@ -200,8 +191,10 @@ struct HomeView: View {
                         //for every pot the user has
                         ForEach(user.pots) {
                             pot in
+                            //creating ideals to pass
+                            let ideals = Ideals(idealTemperatureHigh: String(pot.idealTempHigh), idealTemperatureLow: String(pot.idealTempLow), idealMoistureHigh: String(pot.idealMoistureHigh), idealMoistureLow: String(pot.idealMoistureLow), idealLightLevelLow: String(pot.idealLightLow), idealLightLevelHigh: String(pot.idealLightHigh), plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
                             //nav link to plant page for each pot
-                            NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants)) {
+                            NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants, ideals: ideals)) {
                                 VStack (spacing: 0){
                                     //image stack
                                     HStack(){
@@ -248,13 +241,14 @@ struct HomeView: View {
                                             Text("Temperature: \(pot.curTemp)°F")
                                                 //styling
                                                 .font(.system(size: UIScreen.subTextSize))
+                                                .foregroundColor(getTextColor(bool: pot.tempGood))
                                         }
                                         .padding(.leading)
                                     }
                                     //stack for last watered and water button
                                     HStack() {
                                         //last watered from function
-                                        Text("Last watered: \n\(getLastWatered(pot: pot))")
+                                        Text("Last watered: \n\(pot.lastWateredDays)")
                                             //styling
                                             .padding(.top, 2)
                                             .frame(maxWidth: UIScreen.lastWateredSize)
@@ -325,36 +319,6 @@ struct HomeView: View {
         }
     }
     
-    /// allows for the getting the last watered and converting it into a
-    /// format for the homescreen cards
-    ///
-    /// - Parameters:
-    ///     - pot: the pot that we want to get the last watered date from
-    /// - Returns:
-    ///     - the string that we want to display
-    ///
-    func getLastWatered(pot: Pot) -> String {
-        
-        //date of last watered
-        let date1 = pot.lastWatered
-        
-        //todays date
-        let date2 = Date()
-        
-        //differenes between the dates
-        let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        
-        //either days or no difference and so optional
-        let days = diffs.day ?? 0
-        
-        //return if it was a singular day
-        if days == 1 {
-            return String(days) +  " day ago"
-        }
-        //return if it was multiple days
-        return String(days) + " days ago"
-    }
-    
     /// callback for the login functon designed to reload data dynamically
     /// without altering the user experience
     func attemptReload() {
@@ -362,6 +326,24 @@ struct HomeView: View {
         user.reload() {
         }
     }
+    
+    /// function to encode jpeg images
+    ///
+    /// - Parameters:
+    ///     - bool: if supposed to be red or green
+    ///
+    /// - Returns:
+    ///     the correct color of the text
+    func getTextColor(bool: Bool) -> Color{
+        //if we are supposed to be green
+        if(bool) {
+            //return green
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        //return red
+        return Color.red
+    }
+    
 }
 
 /*

@@ -277,10 +277,3 @@ struct plantTypesFilter: View {
         return Color.gray
     }
 }
-
-//
-//struct plantTypesFilter_Previews: PreviewProvider {
-//    static var previews: some View {
-//        plantTypesFilter()
-//    }
-//}

@@ -41,8 +41,11 @@ struct NotificationsPage: View {
                     //get the ordered notifications
                     ForEach(user.getOrderedNotifications()) {
                         notiePots in
+                        //creating ideals and pot to pass
+                        let tempPot = notiePots.notiesTuple.pot
+                        let ideals = Ideals(idealTemperatureHigh: String(tempPot.idealTempHigh), idealTemperatureLow: String(tempPot.idealTempLow), idealMoistureHigh: String(tempPot.idealMoistureHigh), idealMoistureLow: String(tempPot.idealMoistureLow), idealLightLevelLow: String(tempPot.idealLightLow), idealLightLevelHigh: String(tempPot.idealLightHigh), plantName: tempPot.plantName, plantSelected: tempPot.plantType, notificationFrequency: tempPot.notiFilledFrequency)
                         //each notification goes to it's specific pot
-                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)) {
                             //card
                             VStack(alignment: .leading){
                                 //get the message of the noti
@@ -85,8 +88,8 @@ struct NotificationsPage: View {
         case "just watered":
             return "Hey \(user.name)! Your plant, \(pot.plantName), was just watered by your Hydro Pot!"
         //reservoir low string
-        case "reservoir low":
-            return "Hey \(user.name)! The water reservoir on your plant, \(pot.plantName), is running low! Add some water before it runs out!"
+        case "reservoir":
+            return "Hey \(user.name)! Remember to fill up the reservoir in you plant, \(pot.plantName)!"
         //temperature low string
         case "temperature low":
             return "Hey \(user.name)! Your plant, \(pot.plantName), is too cold! Move it to a warmer location!"
@@ -114,16 +117,6 @@ struct NotificationsPage: View {
     /// callback for reload function
     func attemptReload() {
         user.reload() {
-            // will be received at the login processed
-            if user.loggedIn {
-                //for all pots
-                for (index, _) in user.pots.enumerated() {
-                    //assign temppot
-                    let tempPot = user.pots[index]
-                    //reload this views pots
-                    user.pots[index].editPlant(plantName: tempPot.plantName, plantType: tempPot.plantType, idealTempHigh: tempPot.idealTempHigh, idealTempLow: tempPot.idealTempLow, idealMoistureHigh: tempPot.idealMoistureHigh, idealMoistureLow: tempPot.idealMoistureLow, idealLightHigh: tempPot.idealLightHigh, idealLightLow: tempPot.idealLightLow, curLight: tempPot.curLight, curMoisture: tempPot.curMoisture, curTemp: tempPot.curTemp, automaticWatering: tempPot.automaticWatering, lastWatered: tempPot.lastWatered, image: tempPot.image)
-                }
-            }
         }
     }
 }
