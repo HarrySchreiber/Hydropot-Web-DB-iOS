@@ -10,11 +10,11 @@ import SwiftUI
 struct HistoricalData: View {
     
     @ObservedObject var pot : Pot   //current pot selected
-    @State private var selectedUnit = 0 //variable for storing which picker value is selected
+    @State var selectedUnit : Int = 0 //variable for storing which picker value is selected
     @State var units = ["Hourly", "Daily", "Weekly"]   //3 picker values available
     @State var tuples : [(high: Int, avg: Int, low: Int)]   //array of high low and average values to display
     
-    @State var moistureGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for moisture (hourly, daily, weekly)
+    @State var moistureGraphArrays : (hourly: [Int], daily: [Int], weekly: [Int]) = ([],[],[])  //arrays for moisture (hourly, daily, weekly)
     @State var lightGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for light (hourly, daily, weekly)
     @State var tempGraphArrays : ([Int], [Int], [Int]) = ([],[],[])  //arrays for temperature (hourly, daily, weekly)
     
@@ -32,10 +32,18 @@ struct HistoricalData: View {
             set: { self.selectedUnit = $0
                 self.tuples = pot.getValues(unit: units[selectedUnit])
                 
-                /* TO-DO */
                 //change bar sizes/values based on unit change
-                //may need different binding array for the moisture graph vals, light graph vals, etc.
-                
+                //convert graph values to list of general graphBars
+                //reverse list to get newest data last (for display)
+                if selectedUnit == 1 {
+                    moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.daily.reversed())
+                }
+                else if selectedUnit == 2 {
+                    moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.weekly.reversed())
+                }
+                else {
+                    moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.hourly.reversed())
+                }
             }
         )
         ScrollView {
@@ -83,7 +91,7 @@ struct HistoricalData: View {
                                     // bars of the graph
                                     Rectangle()
                                         .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
-                                        .frame(width: UIScreen.graphWidth, height: CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
+                                        .frame(width: UIScreen.graphWidth, height: Double(graphBar.barHeight) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
                                     // x values of bar graph
                                     Text("\(graphBar.xValue)")
                                         .font(.system(size: UIScreen.subTextSize))
@@ -264,7 +272,7 @@ struct HistoricalData: View {
             print(tempGraphArrays)
             //convert graph values to list of general graphBars
             //reverse list to get newest data last (for display)
-            moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.0.reversed())
+            moistureBars = getMoistureGraphBars(graphValues: moistureGraphArrays.hourly.reversed())
         }
     }
     
@@ -306,8 +314,8 @@ struct HistoricalData: View {
         }
         
         if(units[selectedUnit] == "Weekly") {
-            formatter.dateFormat = "MM" // "a" prints "pm" or "am"
-            let tempDate = Calendar.current.date(byAdding: .weekOfMonth, value: -timeDisplacement, to: Date())!
+            formatter.dateFormat = "dd"
+            let tempDate = Calendar.current.date(byAdding: .weekOfYear, value: -timeDisplacement, to: Date())!
             return formatter.string(from: tempDate)
         }
         
