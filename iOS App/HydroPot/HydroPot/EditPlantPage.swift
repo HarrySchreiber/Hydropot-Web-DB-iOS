@@ -24,57 +24,33 @@ struct EditPlantPage: View {
     var body: some View {
         NavigationView {
             VStack{
-                GeometryReader{ geometry in
-                    ScrollView {
-                        ZStack {
-                            Color.white
-                                .onTapGesture {
-                                    hideKeyboard()
-                                }
-                            VStack{
-                                HStack {
-                                    //button for image picker
-                                    Button(action: {
-                                        withAnimation {
-                                            //toggle the image picker
-                                            self.isShowPicker.toggle()
-                                        }
-                                    }) {
-                                        VStack {
-                                            //display url image
-                                            if (URL(string: tempURL) != nil){
-                                                VStack {
-                                                    //display the url image
-                                                    URLImage(url: URL(string: pot.image)!) { image in
-                                                        image
-                                                            //styling
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(alignment: .center)
-                                                            .font(.system(size: UIScreen.imageSelection))
-                                                            .clipShape(Circle())
-                                                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                                            .shadow(radius: 10)
-                                                    }
-                                                    //styling
-                                                    .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
-                                                    .padding(.bottom, UIScreen.addPhotoPadding)
-                                                    //text to tell the user to edit the photo
-                                                    Text("Edit Photo")
-                                                        //styling
-                                                        .font(.system(size: UIScreen.regTextSize))
-                                                        .frame(alignment: .center)
-                                                }
-                                            }
-                                            //if we don't have an image
-                                            else {
-                                                VStack {
-                                                    //display the default image
-                                                    image?
+                ScrollView {
+                    ZStack {
+                        Color.white
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                        VStack{
+                            HStack {
+                                //button for image picker
+                                Button(action: {
+                                    withAnimation {
+                                        //toggle the image picker
+                                        self.isShowPicker.toggle()
+                                    }
+                                }) {
+                                    VStack {
+                                        //display url image
+                                        if (URL(string: tempURL) != nil){
+                                            VStack {
+                                                //display the url image
+                                                URLImage(url: URL(string: pot.image)!) { image in
+                                                    image
                                                         //styling
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(alignment: .center)
+                                                        .font(.system(size: UIScreen.imageSelection))
                                                         .clipShape(Circle())
                                                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                                         .shadow(radius: 10)
@@ -82,215 +58,224 @@ struct EditPlantPage: View {
                                                 //styling
                                                 .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
                                                 .padding(.bottom, UIScreen.addPhotoPadding)
-                                                //tell the user to edit photo
+                                                //text to tell the user to edit the photo
                                                 Text("Edit Photo")
                                                     //styling
                                                     .font(.system(size: UIScreen.regTextSize))
                                                     .frame(alignment: .center)
                                             }
                                         }
-                                        
-                                    }
-                                    //styling
-                                    .foregroundColor(.black)
-                                    .padding([.top, .leading])
-                                }
-                                //styling
-                                .padding(.bottom)
-                                HStack{
-                                    //textfield to edit plant name
-                                    TextField("Plant Name", text: $ideals.plantName).onAppear() {
-                                        //auto fill plant name if there is one
-                                        if (ideals.plantName == ""){
-                                            //display plant name
-                                            ideals.plantName = pot.plantName
+                                        //if we don't have an image
+                                        else {
+                                            VStack {
+                                                //display the default image
+                                                image?
+                                                    //styling
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(alignment: .center)
+                                                    .clipShape(Circle())
+                                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                                    .shadow(radius: 10)
+                                            }
+                                            //styling
+                                            .frame(width: UIScreen.imageSelection, height:  UIScreen.imageSelection)
+                                            .padding(.bottom, UIScreen.addPhotoPadding)
+                                            //tell the user to edit photo
+                                            Text("Edit Photo")
+                                                //styling
+                                                .font(.system(size: UIScreen.regTextSize))
+                                                .frame(alignment: .center)
                                         }
                                     }
+                                    
+                                }
+                                //styling
+                                .foregroundColor(.black)
+                                .padding([.top, .leading])
+                            }
+                            .padding(.bottom, 3)
+                            HStack{
+                                //name of the plant
+                                TextField("Plant Name", text: $ideals.plantName)
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
-                                    .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                ZStack{
-                                    //if there is not a plant already selected
-                                    if (ideals.plantSelected == ""){
-                                        //display that plant
-                                        Text("\(pot.plantType)")
-                                            //styling
-                                            .font(.system(size: UIScreen.regTextSize))
-                                            .foregroundColor(.black)
-                                            .opacity(0.3)
-                                            .padding(6)
-                                            .buttonStyle(PlainButtonStyle())
-                                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                            .border(Color.black.opacity(0.5))
-                                    }
-                                    //if there is a plant selected
-                                    else {
-                                        //display new plant type
-                                        Text("\(ideals.plantSelected)")
-                                            //styling
-                                            .font(.system(size: UIScreen.regTextSize))
-                                            .foregroundColor(.black)
-                                            .padding(6)
-                                            .buttonStyle(PlainButtonStyle())
-                                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                            .border(Color.black.opacity(0.5))
-                                    }
-                                    
-                                    //nav link to the add edit plant list to select the plant type
-                                     NavigationLink(destination: AddEditPlantList(ideals: ideals, plants: plants))  {
-                                        //display the cheveron to let user know to click
-                                        Image(systemName: "chevron.right")
-                                            //styling
-                                            .foregroundColor(.black)
-                                            .padding(6)
-                                            .font(.system(size: UIScreen.title3TextSize))
-                                            .clipShape(Circle())
-                                            .padding(.leading, geometry.size.width * 0.8)
-                                    }
- 
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                HStack{
-                                    Stepper("Reservoir reminder every \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize * 0.72))
-                                        .foregroundColor(.black)
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                HStack {
-                                    //moisture to be edited
-                                    Text("Moisture (%)")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                    //low moisture edit
-                                    TextField("Low", text: $ideals.idealMoistureLow)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                    //seperator
-                                    Text("-")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                        .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                    //high moisture edit
-                                    TextField("High", text: $ideals.idealMoistureHigh)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                    
-                                    
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                HStack{
-                                    //light to be edited
-                                    Text("Light (lm)")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                    //low light to be edited
-                                    TextField("Low", text: $ideals.idealLightLevelLow)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                    //seperator
-                                    Text("-")
-                                        //padding
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                        .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                    //high light to be edited
-                                    TextField("High", text: $ideals.idealLightLevelHigh)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                HStack {
-                                    //temperature to be edited
-                                    Text("Temp (°F)")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.325, height: geometry.size.height/12, alignment: .leading)
-                                    //low temperature to be edited
-                                    TextField("Low", text: $ideals.idealTemperatureLow)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                    //seperator
-                                    Text("-")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize)).bold()
-                                        .frame(width: geometry.size.width * 0.02, height: geometry.size.height/12, alignment: .leading)
-                                        .padding([.trailing, .leading], UIScreen.addPhotoPadding)
-                                    //high temperature to be edited
-                                    TextField("High", text: $ideals.idealTemperatureHigh)
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                        .padding(6)
-                                        .frame(width: geometry.size.width * 0.22, height: geometry.size.height/12, alignment: .leading)
-                                        .border(Color.black.opacity(0.5))
-                                }
-                                //styling
-                                .padding(.leading, geometry.size.height/30)
-                                .padding(.bottom, 6)
-                            
-                                //delete button
-                                Button(action: {
-                                    //toggle delete alert
-                                    self.deletePressed.toggle()
-                                }) {
-                                    HStack {
-                                        //delete button text
-                                        Text("Delete")
-                                            //styling
-                                            .font(.system(size: UIScreen.regTextSize))
-                                    }
-                                    //styling
-                                    .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                    .multilineTextAlignment(.center)
-                                    .padding(10)
-                                }
-                                //styling
-                                .foregroundColor(.white)
-                                .background(Color.red.opacity(0.8))
-                                .cornerRadius(6)
-                                .padding()
-                                .padding(.leading)
-                                
                             }
-                            //present image picker on toggle
+                            .padding(.bottom, 3)
+                            //show the image picker when toggled
                             .sheet(isPresented: $isShowPicker) {
-                                //display image picker
                                 ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
                             }
+                            ZStack{
+                                //if defualt plant type
+                                if (ideals.plantSelected == "Plant Types"){
+                                    //display empty
+                                    Text("\(ideals.plantSelected)")
+                                        //styling
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .foregroundColor(.black)
+                                        .opacity(0.3)
+                                        .padding(6)
+                                        .buttonStyle(PlainButtonStyle())
+                                        .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                        .border(Color.black.opacity(0.5))
+                                }
+                                //if not default
+                                else {
+                                    //display actual plant type
+                                    Text("\(ideals.plantSelected)")
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .foregroundColor(.black)
+                                        .padding(6)
+                                        .buttonStyle(PlainButtonStyle())
+                                        .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                        .border(Color.black.opacity(0.5))
+                                }
+                                //link the plant type field to the adding page
+                                NavigationLink(destination: AddEditPlantList(ideals: ideals, plants: plants)){
+                                    //chev image to let user know to press
+                                    Image(systemName: "chevron.right")
+                                        //styling
+                                        .foregroundColor(.black)
+                                        .padding(6)
+                                        .font(.system(size: UIScreen.title3TextSize))
+                                        .clipShape(Circle())
+                                        .padding(.leading, UIScreen.cheveronSize)
+                                }
+                            }
                             //styling
-                            .padding(.trailing)
-                            Spacer()
+                            .padding(.bottom, 3)
+                            HStack{
+                                Stepper("Reservoir reminder every: \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
+                                    //styling
+                                    .font(.system(size: UIScreen.resFont))
+                                    .foregroundColor(.black)
+                                    .padding(6)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            //styling
+                            .padding(.bottom, 6)
+                            HStack {
+                                //moisture to be entered
+                                Text("Moisture (%)")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                //low moisture
+                                TextField("Low", text: $ideals.idealMoistureLow)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                                //seperator
+                                Text("-")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.dashSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high moisture
+                                TextField("High", text: $ideals.idealMoistureHigh)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            .padding(6)
+                            HStack{
+                                //light to be entered
+                                Text("Light (lm)")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                //low light
+                                TextField("Low", text: $ideals.idealLightLevelLow)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                                //seperator
+                                Text("-")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.dashSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high to be entered
+                                TextField("High", text: $ideals.idealLightLevelHigh)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            .padding(6)
+                            HStack {
+                                //temperature to be entered
+                                Text("Temp (°F)")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                //low temp to be entered
+                                TextField("Low", text: $ideals.idealTemperatureLow)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                                //seperator
+                                Text("-")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize)).bold()
+                                    .frame(width: UIScreen.dashSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .padding([.trailing, .leading], UIScreen.addPhotoPadding)
+                                //high temp to be entered
+                                TextField("High", text: $ideals.idealTemperatureHigh)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+                            }
+                            .padding(6)
+                        
+                            //delete button
+                            Button(action: {
+                                //toggle delete alert
+                                self.deletePressed.toggle()
+                            }) {
+                                HStack {
+                                    //delete button text
+                                    Text("Delete")
+                                        //styling
+                                        .font(.system(size: UIScreen.regTextSize))
+                                }
+                                //styling
+                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                .multilineTextAlignment(.center)
+                                .padding(10)
+                            }
+                            //styling
+                            .foregroundColor(.white)
+                            .background(Color.red.opacity(0.8))
+                            .cornerRadius(6)
+                            .padding()
+                            .padding(.leading)
+                            
                         }
+                        //present image picker on toggle
+                        .sheet(isPresented: $isShowPicker) {
+                            //display image picker
+                            ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                        }
+                        //styling
+                        .padding(.trailing)
+                        Spacer()
                     }
                 }
             }
@@ -382,7 +367,9 @@ struct EditPlantPage: View {
                 )
             }
             
-        }.onAppear() {
+        }
+        .padding(.leading, 12)
+        .onAppear() {
             //what plant type the user has selected
             ideals.plantSelected = pot.plantType
             //stringify the moisture low
