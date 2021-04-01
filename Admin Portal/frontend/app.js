@@ -4,28 +4,27 @@ var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production
 var plantTypesLocal = {};
 
 /**
- * Sends objects Json objects to the AWS lambda and performs the action function on a successful post
+ * Sends objects Json objects to the AWS lambda and returns the data from the post
  * @param {JSON} content                a json object of fields needed to be sent to the lambda
- * @param {function} actionFunction     a function to manipulate or use the data returned from the lambda
  */
-function postToLambda(content, actionFunction){
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: content
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error, perform action
-        actionFunction(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
+function postToLambda(content){
+    return new Promise(function(resolve,reject){
+        var options = { 
+            method: 'POST',
+            headers: { 'Content-Type':  'application/json' }, 
+            body: content
+        }
+        fetch(API_URL,options) 
+        .then(res => res.json())
+        .then(data => {
+            // There was not an error, perform action
+            resolve(data);
+        })
+        .catch((error) => {
+            // There was an error
+            reject(error);
+        });
     });
-
 }
 
 /**
@@ -61,29 +60,27 @@ function packageData(data){
 /**
  * Grabs the plants from the database and reloads the page with the current plants
  */
-function loadPage(){
-    postToLambda(JSON.stringify({
+async function loadPage(){
+    var data = await postToLambda(JSON.stringify({
         'operation':'getAll',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes'
-    }),
-    function(data){
-        buildHeaderBar();
-        buildSearchField();
-        buildInputFields();
-        plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
-        buildTable(plantTypesLocal);
-    });
+    }));
+    buildHeaderBar();
+    buildSearchField();
+    buildInputFields();
+    plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
+    buildTable(plantTypesLocal);
 }
 
 /**
  * Checks to see if a user is in the DB and if grants them access given the correct credentials
  */
-function authenticateUser(){
+async function authenticateUser(){
     var email = document.getElementById("email");
     var password = document.getElementById("password");
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'login',
         'userID':'',
         'tableName':'HydroPotPlantTypes',
@@ -93,17 +90,25 @@ function authenticateUser(){
                 'password':password.value
             }
         }
-    }),
-    function(data){
-        try{
-            var id = data["Items"][0]["id"];    //Grabs the user id
-            setCached("userID",id);             //Sets a cookie for the user id
-            $("#login").remove();               //Removes html for the login
-            loadPage();
-        }catch(err){
-            warningModal("No account registered with those credentials");
-        }
-    });
+    }));
+    try{
+        var id = data["Items"][0]["id"];    //Grabs the user id
+        setCached("userID",id);             //Sets a cookie for the user id
+        $("#login").remove();               //Removes html for the login
+        loadPage();
+    }catch(err){
+        warningModal("No account registered with those credentials");
+    }
+    // function(data){
+    //     try{
+    //         var id = data["Items"][0]["id"];    //Grabs the user id
+    //         setCached("userID",id);             //Sets a cookie for the user id
+    //         $("#login").remove();               //Removes html for the login
+    //         loadPage();
+    //     }catch(err){
+    //         warningModal("No account registered with those credentials");
+    //     }
+    // });
 }
 
 /**
@@ -435,8 +440,8 @@ function buildInputFields(){
  * @param {string} imageURL         the url of the image from the S3 bucket that has already been generted
  * @param {object} keyValueStore    information about the plant
  */
-function addPlant(imageURL, keyValueStore){
-    postToLambda(JSON.stringify({
+async function addPlant(imageURL, keyValueStore){
+    console.log(JSON.stringify({
         'operation':'add',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -453,11 +458,29 @@ function addPlant(imageURL, keyValueStore){
                 'imageURL':imageURL
             }
         }
-    }),
-    function(data){
-        //Reloads the page
-        loadPage();
-    });
+    }));
+    var data = await postToLambda(JSON.stringify({
+        'operation':'add',
+        'userID': checkCookie(),
+        'tableName':'HydroPotPlantTypes',
+        'payload':{
+            'Item':{
+                'plantType':keyValueStore["plantType"],
+                'idealTempHigh':keyValueStore["idealTempHigh"],
+                'idealTempLow':keyValueStore["idealTempLow"],
+                'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
+                'idealMoistureLow':keyValueStore["idealMoistureLow"],
+                'idealLightHigh':keyValueStore["idealLightHigh"],
+                'idealLightLow':keyValueStore["idealLightLow"],
+                'description':keyValueStore["description"],
+                'imageURL':imageURL
+            }
+        }
+    }));
+    console.log(data);
+    //Reloads the page
+    loadPage();
+    
 }
 
 /**
@@ -467,7 +490,7 @@ function addPlant(imageURL, keyValueStore){
  * @param {string} savedOldURL      old image url for the plant from the S3 bucket if the old image needs to be deleted
  * @param {object} keyValueStore    information about the plant
  */
-function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
+async function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
     cleanModal();   //Clears the confirmation modal
 
     var oldImageKey;
@@ -480,7 +503,7 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
         oldImageKey = oldImageKey[oldImageKey.length-1];
     }
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'edit',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -499,11 +522,9 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
                 'oldImageKey':oldImageKey
             }
         }
-    }),
-    function(data){
-        //Reload the page
-        loadPage();
-    });
+    }));
+    //Reload the page
+    loadPage();
 }
 
 
@@ -512,13 +533,13 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
  * @param {string} id           id of the plant to delete
  * @param {string} imageUrl     URL of the image to delete from S3
  */
-function deletePlant(id,imageUrl){
+async function deletePlant(id,imageUrl){
     cleanModal();   //Removes the confirmation modal
     //Parse out the image key from the URL
     var imageKey = imageUrl.split("/");
     imageKey = imageKey[imageKey.length-1];
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'delete',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -528,11 +549,9 @@ function deletePlant(id,imageUrl){
                 'imageKey':imageKey
             }
         }
-    }),
-    function(data){
-        //Reload the page
-        loadPage();
-    });
+    }));
+    //Reload the page
+    loadPage();
 }
 
 /**
@@ -736,64 +755,14 @@ function displayCurrentImage(fileUploadId, imageOutputId){
 }
 
 /**
- * Adds an image to the S3 bucket and then sends it to add or edit
- * @param {string} id               id for the plant
- * @param {string} action           action to be taken, either "add" or "edit"
- * @param {string} fileDialogueId   id for the dialogue where the image is stored
- * @param {object} keyValueStore    plant information
- * @returns                         
+ * Function for reading the image files
+ * @param {String} imageFile    File to be read
+ * @param {function} callback   Callback function to run the logic
  */
-function imageUpload(id,action,fileDialogueId,keyValueStore){
-    //This bit is just so we can delete things from S3, side effect we can use it to edit if need be
-    var savedOldURL;
-    if(action === "edit"){
-        savedOldURL = $(`#image-output-${id}`).attr('savedURL');
-    }
-
-    var image = document.getElementById(fileDialogueId);
-    //When there is no image in the file dialogue
-    if(image.files.length === 0){
-        if(action === "add"){
-            //Cant have nothing on an add
-            warningModal("You cannot add a plant without a picture.");
-            return
-        }else if(action === "edit"){
-            //On an edit we just send back the old url
-            editPlant(id, savedOldURL,"", keyValueStore);
-            return
-        }
-    }
-    
-    //Reads the image and sends it
+function readImageFile(imageFile, callback){
     var reader = new FileReader();
-    reader.onload = function(){
-        var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];    //Grabs just the file extention
-        var encodedImage = reader.result.split(",",2)[1];                                   //Parses the encoded image to just get the image content
-        postToLambda(JSON.stringify({
-            'operation':'imageUpload',
-            'userID': checkCookie(),
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'encodedImage':encodedImage,
-                    'fileExtension':fileExtension
-                }
-            }
-        }),
-        function(data){
-            //data is the url of the image in the S3 Bucket
-            if(action === "add"){
-                //Add a plant
-                addPlant(data, keyValueStore);
-            }else if(action === "edit"){
-                //Edit an existing plant
-                editPlant(id,data, savedOldURL, keyValueStore);
-            }
-        });
-    
-    };
-
-    reader.readAsDataURL(image.files[0]);
+    reader.onload = callback
+    reader.readAsDataURL(imageFile);
 }
 
 /**
@@ -905,7 +874,7 @@ function validateFieldInput(keyValueStore){
  * @param {string} action           action to be taken, either "add" or "edit"
  * @param {string} fileDialogueId   id of the file dialogue the image is stored in
  */
-function prepForDB(id,action,fileDialogueId){
+async function prepForDB(id,action,fileDialogueId){
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];  //Array of the keys
     var keyValueStore = {};
     //Gathers from all of the input fields
@@ -928,7 +897,45 @@ function prepForDB(id,action,fileDialogueId){
                 keyValueStore[key] = Number(keyValueStore[key]);
             }
         }
-        imageUpload(id,action,fileDialogueId,keyValueStore);
+
+        var image = document.getElementById(fileDialogueId);
+        console.log(image);
+        //When there is no image in the file dialogue
+        if(image.files.length === 0){
+            if(action === "add"){
+                //Cant have nothing on an add
+                warningModal("You cannot add a plant without a picture.");
+                return
+            }else if(action === "edit"){
+                //On an edit we just send back the old url
+                editPlant(id, $(`#image-output-${id}`).attr('savedURL'),"", keyValueStore);
+                return
+            }
+        }
+        
+        readImageFile(image.files[0], async function(event){
+            var fileExtension = event.target.result.split(":",2)[1].split("/",2)[1].split(";")[0];    //Grabs just the file extention
+            var encodedImage = event.target.result.split(",",2)[1];                                   //Parses the encoded image to just get the image content
+            var imageURL = await postToLambda(JSON.stringify({
+                'operation':'imageUpload',
+                'userID': checkCookie(),
+                'tableName':'HydroPotPlantTypes',
+                'payload':{
+                    'Item':{
+                        'encodedImage':encodedImage,
+                        'fileExtension':fileExtension
+                    }
+                }
+            }));
+
+            if(action === "add"){
+                //Add a plant
+                addPlant(imageURL, keyValueStore);
+            }else if(action === "edit"){
+                //Edit an existing plant
+                editPlant(id,imageURL, savedOldURL, keyValueStore);
+            }
+        });
     }
 }
 
@@ -974,16 +981,14 @@ function retrieveCached(key, ttl){
 /**
  * Checks to see if the user is already logged in
  */
-function checkLoggedIn(){
-    postToLambda(JSON.stringify({
+async function checkLoggedIn(){
+    var data = await postToLambda(JSON.stringify({
         'operation':'savedLogin',
         'userID':checkCookie()
-    }),
-    function(data){
-        //Checks to see if the user has already been logged in in the past day
-        if(data){
-            $("#login").remove();
-            loadPage();
-        }
-    });
+    }));
+    //Checks to see if the user has already been logged in in the past day
+    if(data){
+        $("#login").remove();
+        loadPage();
+    }
 }
