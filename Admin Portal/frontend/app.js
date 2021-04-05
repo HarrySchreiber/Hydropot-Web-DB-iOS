@@ -66,6 +66,7 @@ async function loadPage(){
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes'
     }));
+    console.log(data);
     buildHeaderBar();
     buildSearchField();
     buildInputFields();
@@ -798,73 +799,105 @@ function logout(){
  */
 function validateFieldInput(keyValueStore){
 
-    //Check to make sure fields have values
+    //Check to make sure plant type and description have values
     for(var key in keyValueStore){
-        if(keyValueStore[key] === ""){
-            warningModal("All fields must have values!");
-            return false
-        }
-    }
-
-    //Checks to make sure all ideal numbers are numerical
-    for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
-            if(isNaN(keyValueStore[key])){
-                warningModal("All ideals must be numerical");
+        if(key == "plantType" || key == "description"){
+            if(keyValueStore[key] === ""){
+                warningModal("Plant type and description must have values");
                 return false
             }
         }
     }
 
-    //Converts ideals to numerical for comparison
+    //Checks to make sure all ideal numbers are numerical or null
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
-            keyValueStore[key] = Number(keyValueStore[key]);
+            if(isNaN(keyValueStore[key])){
+                if((keyValueStore[key] != "")){
+                    warningModal("All ideals must be numerical or left blank");
+                    return false;
+                }
+            }
         }
     }
 
-    //Check to make sure high temperature is higher than the low
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return false
+    //Converts ideals to numerical or null for comparison
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            if(keyValueStore[key] != ""){
+                keyValueStore[key] = Number(keyValueStore[key]);
+            }else{
+                keyValueStore[key] = null;
+            }
+        }
     }
 
-    //Checks that high moisture is between 0 and 100 percent
-    if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
-        warningModal("Ideal Moisture High must be within a 0-100 range");
-        return false
+    //Validation for temperature
+    if(!(keyValueStore["idealTempHigh"] == null && keyValueStore["idealTempLow"] == null)){
+        if(keyValueStore["idealTempHigh"] != null && keyValueStore["idealTempLow"] != null){
+            //Check to make sure high temperature is higher than the low
+            if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
+                warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for temperature, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks that low moisture is between 0 and 100 percent
-    if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
-        warningModal("Ideal Moisture Low must be within a 0-100 range");
-        return false
+    //Validation for moisture
+    if(!(keyValueStore["idealMoistureHigh"] == null && keyValueStore["idealMoistureLow"] == null)){
+        if(keyValueStore["idealMoistureHigh"] != null && keyValueStore["idealMoistureLow"] != null){
+           //Checks that high moisture is between 0 and 100 percent
+            if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
+                warningModal("Ideal Moisture High must be within a 0-100 range");
+                return false;
+            }
+
+            //Checks that low moisture is between 0 and 100 percent
+            if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
+                warningModal("Ideal Moisture Low must be within a 0-100 range");
+                return false;
+            }
+
+            //Checks to make sure ideal high moisture is higher than ideal low moisture
+            if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
+                warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for moisture, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks to make sure ideal high moisture is higher than ideal low moisture
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return false
+    //Validation for light
+    if(!(keyValueStore["idealLightHigh"] == null && keyValueStore["idealLightLow"] == null)){
+        if(keyValueStore["idealLightHigh"] != null && keyValueStore["idealLightLow"] != null){
+            //Checks high light is non-negative
+            if(keyValueStore["idealLightHigh"] < 0){
+                warningModal("Ideal Light High must not be below 0");
+                return false;
+            }
+
+            //Checks low light is non-negative
+            if(keyValueStore["idealLightLow"] < 0){
+                warningModal("Ideal Light Low must not be below 0");
+                return false;
+            }
+
+            //Checks that high light is greater than low light
+            if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
+                warningModal("Ideal Light High must be greater than Ideal Light Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for light, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks high light is non-negative
-    if(keyValueStore["idealLightHigh"] < 0){
-        warningModal("Ideal Light High must not be below 0");
-        return false
-    }
-
-    //Checks low light is non-negative
-    if(keyValueStore["idealLightLow"] < 0){
-        warningModal("Ideal Light Low must not be below 0");
-        return false
-    }
-
-    //Checks that high light is greater than low light
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return false
-    }
-    
     return true;
 }
 
@@ -893,8 +926,12 @@ async function prepForDB(id,action,fileDialogueId){
     //Validates, cleans, and sends data to the image function
     if(validateFieldInput(keyValueStore)){
         for(var key in keyValueStore){
-            if(!(key == "plantType"||key == "description")){
-                keyValueStore[key] = Number(keyValueStore[key]);
+            if(!(key == "plantType" || key == "description")){
+                if(keyValueStore[key] != ""){
+                    keyValueStore[key] = Number(keyValueStore[key]);
+                }else{
+                    keyValueStore[key] = null;
+                }
             }
         }
 
