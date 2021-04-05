@@ -66,7 +66,6 @@ async function loadPage(){
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes'
     }));
-    console.log(data);
     buildHeaderBar();
     buildSearchField();
     buildInputFields();
@@ -442,24 +441,6 @@ function buildInputFields(){
  * @param {object} keyValueStore    information about the plant
  */
 async function addPlant(imageURL, keyValueStore){
-    console.log(JSON.stringify({
-        'operation':'add',
-        'userID': checkCookie(),
-        'tableName':'HydroPotPlantTypes',
-        'payload':{
-            'Item':{
-                'plantType':keyValueStore["plantType"],
-                'idealTempHigh':keyValueStore["idealTempHigh"],
-                'idealTempLow':keyValueStore["idealTempLow"],
-                'idealMoistureHigh':keyValueStore["idealMoistureHigh"],
-                'idealMoistureLow':keyValueStore["idealMoistureLow"],
-                'idealLightHigh':keyValueStore["idealLightHigh"],
-                'idealLightLow':keyValueStore["idealLightLow"],
-                'description':keyValueStore["description"],
-                'imageURL':imageURL
-            }
-        }
-    }));
     var data = await postToLambda(JSON.stringify({
         'operation':'add',
         'userID': checkCookie(),
@@ -478,7 +459,6 @@ async function addPlant(imageURL, keyValueStore){
             }
         }
     }));
-    console.log(data);
     //Reloads the page
     loadPage();
     
@@ -914,20 +894,29 @@ async function prepForDB(id,action,fileDialogueId){
     if(action === "add"){
         for(key of keyArray){
             var fieldValue = document.getElementById(`add-${key}`).value;
-            keyValueStore[key] = fieldValue;
+            if(fieldValue == ""){
+                keyValueStore[key] = "";
+            }else{
+                keyValueStore[key] = fieldValue;
+            }
         }
     }else if(action === "edit"){
         for(key of keyArray){
             var fieldValue = document.getElementById(`${key}-${id}`).value;
-            keyValueStore[key] = fieldValue;
+            if(fieldValue == ""){
+                keyValueStore[key] = "";
+            }else{
+                keyValueStore[key] = fieldValue;
+            }
         }
     }
+
 
     //Validates, cleans, and sends data to the image function
     if(validateFieldInput(keyValueStore)){
         for(var key in keyValueStore){
             if(!(key == "plantType" || key == "description")){
-                if(keyValueStore[key] != ""){
+                if(keyValueStore[key] != null){
                     keyValueStore[key] = Number(keyValueStore[key]);
                 }else{
                     keyValueStore[key] = null;
@@ -936,7 +925,6 @@ async function prepForDB(id,action,fileDialogueId){
         }
 
         var image = document.getElementById(fileDialogueId);
-        console.log(image);
         //When there is no image in the file dialogue
         if(image.files.length === 0){
             if(action === "add"){
