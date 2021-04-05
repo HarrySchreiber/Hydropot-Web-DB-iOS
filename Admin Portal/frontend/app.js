@@ -219,18 +219,20 @@ function buildTable(data){
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
-                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Plant Type",obj[key]);
                     s1Row.appendChild(input);
                 }else if(key == "description"){
-                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Description",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
-                    var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number","",obj[key]);
                     if(key == "idealTempHigh" || key == "idealTempLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealTempHigh" ? "High Temp" : "Low Temp",obj[key]);
                         s2Row.appendChild(input);
                     }else if(key == "idealMoistureHigh" || key == "idealMoistureLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealMoistureHigh" ? "High Moisture" : "Low Moisture",obj[key]);
                         s3Row.appendChild(input);
                     }else if(key == "idealLightHigh" || key == "idealLightLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealLightHigh" ? "High Light" : "Low Light",obj[key]);
                         s4Row.appendChild(input);
                     }
                         
