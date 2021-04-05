@@ -33,6 +33,7 @@ function postToLambda(content){
  * @returns             object containing cleaned plant data and other metadata 
  */
 function packageData(data){
+    console.log(data);
     var plantTypes = {}
     //Loop through all the plants
     for(var i = 0; i < data.length; i++){
@@ -41,12 +42,12 @@ function packageData(data){
 
         //Grab each value
         plantData["plantType"] = obj.plantType;
-        plantData["idealTempHigh"] = Number(obj.idealTempHigh);
-        plantData["idealTempLow"] = Number(obj.idealTempLow);
-        plantData["idealMoistureHigh"] = Number(obj.idealMoistureHigh);
-        plantData["idealMoistureLow"] = Number(obj.idealMoistureLow);
-        plantData["idealLightHigh"] = Number(obj.idealLightHigh);
-        plantData["idealLightLow"] = Number(obj.idealLightLow);
+        plantData["idealTempHigh"] = obj.idealTempHigh == null ? null : Number(obj.idealTempHigh);
+        plantData["idealTempLow"] = obj.idealTempLow == null ? null : Number(obj.idealTempLow);
+        plantData["idealMoistureHigh"] = obj.idealMoistureHigh == null ? null : Number(obj.idealMoistureHigh);
+        plantData["idealMoistureLow"] = obj.idealMoistureLow == null ? null : Number(obj.idealMoistureLow);
+        plantData["idealLightHigh"] = obj.idealLightHigh == null ? null : Number(obj.idealLightHigh);
+        plantData["idealLightLow"] =  obj.idealLightLow == null ? null : Number(obj.idealLightLow);
         plantData["description"] = obj.description;
         plantData["imageURL"] = obj.imageURL;
         plantData["display"] = "flex";  //This is for setting the display on a search
@@ -54,6 +55,7 @@ function packageData(data){
 
         plantTypes[obj.id] = plantData; //Add to the javascript object
     }
+    console.log(plantTypes);
     return plantTypes;
 }
 
