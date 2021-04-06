@@ -4,28 +4,27 @@ var API_URL = 'https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production
 var plantTypesLocal = {};
 
 /**
- * Sends objects Json objects to the AWS lambda and performs the action function on a successful post
+ * Sends objects Json objects to the AWS lambda and returns the data from the post
  * @param {JSON} content                a json object of fields needed to be sent to the lambda
- * @param {function} actionFunction     a function to manipulate or use the data returned from the lambda
  */
-function postToLambda(content, actionFunction){
-    var options = { 
-        method: 'POST',
-        headers: { 'Content-Type':  'application/json' }, 
-        body: content
-        
-    }
-    fetch(API_URL,options) 
-    .then(res => res.json())
-    .then(data => {
-        // There was not an error, perform action
-        actionFunction(data);
-    })
-    .catch((error) => {
-        // There was an error
-        console.log(error);
+function postToLambda(content){
+    return new Promise(function(resolve,reject){
+        var options = { 
+            method: 'POST',
+            headers: { 'Content-Type':  'application/json' }, 
+            body: content
+        }
+        fetch(API_URL,options) 
+        .then(res => res.json())
+        .then(data => {
+            // There was not an error, perform action
+            resolve(data);
+        })
+        .catch((error) => {
+            // There was an error
+            reject(error);
+        });
     });
-
 }
 
 /**
@@ -34,6 +33,7 @@ function postToLambda(content, actionFunction){
  * @returns             object containing cleaned plant data and other metadata 
  */
 function packageData(data){
+    console.log(data);
     var plantTypes = {}
     //Loop through all the plants
     for(var i = 0; i < data.length; i++){
@@ -42,12 +42,12 @@ function packageData(data){
 
         //Grab each value
         plantData["plantType"] = obj.plantType;
-        plantData["idealTempHigh"] = Number(obj.idealTempHigh);
-        plantData["idealTempLow"] = Number(obj.idealTempLow);
-        plantData["idealMoistureHigh"] = Number(obj.idealMoistureHigh);
-        plantData["idealMoistureLow"] = Number(obj.idealMoistureLow);
-        plantData["idealLightHigh"] = Number(obj.idealLightHigh);
-        plantData["idealLightLow"] = Number(obj.idealLightLow);
+        plantData["idealTempHigh"] = obj.idealTempHigh == null ? null : Number(obj.idealTempHigh);
+        plantData["idealTempLow"] = obj.idealTempLow == null ? null : Number(obj.idealTempLow);
+        plantData["idealMoistureHigh"] = obj.idealMoistureHigh == null ? null : Number(obj.idealMoistureHigh);
+        plantData["idealMoistureLow"] = obj.idealMoistureLow == null ? null : Number(obj.idealMoistureLow);
+        plantData["idealLightHigh"] = obj.idealLightHigh == null ? null : Number(obj.idealLightHigh);
+        plantData["idealLightLow"] =  obj.idealLightLow == null ? null : Number(obj.idealLightLow);
         plantData["description"] = obj.description;
         plantData["imageURL"] = obj.imageURL;
         plantData["display"] = "flex";  //This is for setting the display on a search
@@ -55,35 +55,34 @@ function packageData(data){
 
         plantTypes[obj.id] = plantData; //Add to the javascript object
     }
+    console.log(plantTypes);
     return plantTypes;
 }
 
 /**
  * Grabs the plants from the database and reloads the page with the current plants
  */
-function loadPage(){
-    postToLambda(JSON.stringify({
+async function loadPage(){
+    var data = await postToLambda(JSON.stringify({
         'operation':'getAll',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes'
-    }),
-    function(data){
-        buildHeaderBar();
-        buildSearchField();
-        buildInputFields();
-        plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
-        buildTable(plantTypesLocal);
-    });
+    }));
+    buildHeaderBar();
+    buildSearchField();
+    buildInputFields();
+    plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
+    buildTable(plantTypesLocal);
 }
 
 /**
  * Checks to see if a user is in the DB and if grants them access given the correct credentials
  */
-function authenticateUser(){
+async function authenticateUser(){
     var email = document.getElementById("email");
     var password = document.getElementById("password");
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'login',
         'userID':'',
         'tableName':'HydroPotPlantTypes',
@@ -93,17 +92,25 @@ function authenticateUser(){
                 'password':password.value
             }
         }
-    }),
-    function(data){
-        try{
-            var id = data["Items"][0]["id"];    //Grabs the user id
-            setCached("userID",id);             //Sets a cookie for the user id
-            $("#login").remove();               //Removes html for the login
-            loadPage();
-        }catch(err){
-            warningModal("No account registered with those credentials");
-        }
-    });
+    }));
+    try{
+        var id = data["Items"][0]["id"];    //Grabs the user id
+        setCached("userID",id);             //Sets a cookie for the user id
+        $("#login").remove();               //Removes html for the login
+        loadPage();
+    }catch(err){
+        warningModal("No account registered with those credentials");
+    }
+    // function(data){
+    //     try{
+    //         var id = data["Items"][0]["id"];    //Grabs the user id
+    //         setCached("userID",id);             //Sets a cookie for the user id
+    //         $("#login").remove();               //Removes html for the login
+    //         loadPage();
+    //     }catch(err){
+    //         warningModal("No account registered with those credentials");
+    //     }
+    // });
 }
 
 /**
@@ -212,18 +219,20 @@ function buildTable(data){
         for(var key in obj){
             if(key != "imageURL" && key != "display"){
                 if(key == "plantType"){
-                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Plant Type",obj[key]);
                     s1Row.appendChild(input);
                 }else if(key == "description"){
-                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","",obj[key]);
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Description",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
-                    var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number","",obj[key]);
                     if(key == "idealTempHigh" || key == "idealTempLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealTempHigh" ? "High Temp" : "Low Temp",obj[key]);
                         s2Row.appendChild(input);
                     }else if(key == "idealMoistureHigh" || key == "idealMoistureLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealMoistureHigh" ? "High Moisture" : "Low Moisture",obj[key]);
                         s3Row.appendChild(input);
                     }else if(key == "idealLightHigh" || key == "idealLightLow"){
+                        var input = buildField("fields col-6 no-gutters",`${key}-${id}`,"number",key == "idealLightHigh" ? "High Light" : "Low Light",obj[key]);
                         s4Row.appendChild(input);
                     }
                         
@@ -435,8 +444,8 @@ function buildInputFields(){
  * @param {string} imageURL         the url of the image from the S3 bucket that has already been generted
  * @param {object} keyValueStore    information about the plant
  */
-function addPlant(imageURL, keyValueStore){
-    postToLambda(JSON.stringify({
+async function addPlant(imageURL, keyValueStore){
+    var data = await postToLambda(JSON.stringify({
         'operation':'add',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -453,11 +462,10 @@ function addPlant(imageURL, keyValueStore){
                 'imageURL':imageURL
             }
         }
-    }),
-    function(data){
-        //Reloads the page
-        loadPage();
-    });
+    }));
+    //Reloads the page
+    loadPage();
+    
 }
 
 /**
@@ -467,7 +475,7 @@ function addPlant(imageURL, keyValueStore){
  * @param {string} savedOldURL      old image url for the plant from the S3 bucket if the old image needs to be deleted
  * @param {object} keyValueStore    information about the plant
  */
-function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
+async function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
     cleanModal();   //Clears the confirmation modal
 
     var oldImageKey;
@@ -480,7 +488,7 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
         oldImageKey = oldImageKey[oldImageKey.length-1];
     }
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'edit',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -499,11 +507,9 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
                 'oldImageKey':oldImageKey
             }
         }
-    }),
-    function(data){
-        //Reload the page
-        loadPage();
-    });
+    }));
+    //Reload the page
+    loadPage();
 }
 
 
@@ -512,13 +518,13 @@ function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
  * @param {string} id           id of the plant to delete
  * @param {string} imageUrl     URL of the image to delete from S3
  */
-function deletePlant(id,imageUrl){
+async function deletePlant(id,imageUrl){
     cleanModal();   //Removes the confirmation modal
     //Parse out the image key from the URL
     var imageKey = imageUrl.split("/");
     imageKey = imageKey[imageKey.length-1];
 
-    postToLambda(JSON.stringify({
+    var data = await postToLambda(JSON.stringify({
         'operation':'delete',
         'userID': checkCookie(),
         'tableName':'HydroPotPlantTypes',
@@ -528,11 +534,9 @@ function deletePlant(id,imageUrl){
                 'imageKey':imageKey
             }
         }
-    }),
-    function(data){
-        //Reload the page
-        loadPage();
-    });
+    }));
+    //Reload the page
+    loadPage();
 }
 
 /**
@@ -736,64 +740,14 @@ function displayCurrentImage(fileUploadId, imageOutputId){
 }
 
 /**
- * Adds an image to the S3 bucket and then sends it to add or edit
- * @param {string} id               id for the plant
- * @param {string} action           action to be taken, either "add" or "edit"
- * @param {string} fileDialogueId   id for the dialogue where the image is stored
- * @param {object} keyValueStore    plant information
- * @returns                         
+ * Function for reading the image files
+ * @param {String} imageFile    File to be read
+ * @param {function} callback   Callback function to run the logic
  */
-function imageUpload(id,action,fileDialogueId,keyValueStore){
-    //This bit is just so we can delete things from S3, side effect we can use it to edit if need be
-    var savedOldURL;
-    if(action === "edit"){
-        savedOldURL = $(`#image-output-${id}`).attr('savedURL');
-    }
-
-    var image = document.getElementById(fileDialogueId);
-    //When there is no image in the file dialogue
-    if(image.files.length === 0){
-        if(action === "add"){
-            //Cant have nothing on an add
-            warningModal("You cannot add a plant without a picture.");
-            return
-        }else if(action === "edit"){
-            //On an edit we just send back the old url
-            editPlant(id, savedOldURL,"", keyValueStore);
-            return
-        }
-    }
-    
-    //Reads the image and sends it
+function readImageFile(imageFile, callback){
     var reader = new FileReader();
-    reader.onload = function(){
-        var fileExtension = reader.result.split(":",2)[1].split("/",2)[1].split(";")[0];    //Grabs just the file extention
-        var encodedImage = reader.result.split(",",2)[1];                                   //Parses the encoded image to just get the image content
-        postToLambda(JSON.stringify({
-            'operation':'imageUpload',
-            'userID': checkCookie(),
-            'tableName':'HydroPotPlantTypes',
-            'payload':{
-                'Item':{
-                    'encodedImage':encodedImage,
-                    'fileExtension':fileExtension
-                }
-            }
-        }),
-        function(data){
-            //data is the url of the image in the S3 Bucket
-            if(action === "add"){
-                //Add a plant
-                addPlant(data, keyValueStore);
-            }else if(action === "edit"){
-                //Edit an existing plant
-                editPlant(id,data, savedOldURL, keyValueStore);
-            }
-        });
-    
-    };
-
-    reader.readAsDataURL(image.files[0]);
+    reader.onload = callback
+    reader.readAsDataURL(imageFile);
 }
 
 /**
@@ -829,73 +783,105 @@ function logout(){
  */
 function validateFieldInput(keyValueStore){
 
-    //Check to make sure fields have values
+    //Check to make sure plant type and description have values
     for(var key in keyValueStore){
-        if(keyValueStore[key] === ""){
-            warningModal("All fields must have values!");
-            return false
-        }
-    }
-
-    //Checks to make sure all ideal numbers are numerical
-    for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
-            if(isNaN(keyValueStore[key])){
-                warningModal("All ideals must be numerical");
+        if(key == "plantType" || key == "description"){
+            if(keyValueStore[key] === ""){
+                warningModal("Plant type and description must have values");
                 return false
             }
         }
     }
 
-    //Converts ideals to numerical for comparison
+    //Checks to make sure all ideal numbers are numerical or null
     for(var key in keyValueStore){
         if(!(key == "plantType"||key == "description")){
-            keyValueStore[key] = Number(keyValueStore[key]);
+            if(isNaN(keyValueStore[key])){
+                if((keyValueStore[key] != "")){
+                    warningModal("All ideals must be numerical or left blank");
+                    return false;
+                }
+            }
         }
     }
 
-    //Check to make sure high temperature is higher than the low
-    if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
-        warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
-        return false
+    //Converts ideals to numerical or null for comparison
+    for(var key in keyValueStore){
+        if(!(key == "plantType"||key == "description")){
+            if(keyValueStore[key] != ""){
+                keyValueStore[key] = Number(keyValueStore[key]);
+            }else{
+                keyValueStore[key] = null;
+            }
+        }
     }
 
-    //Checks that high moisture is between 0 and 100 percent
-    if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
-        warningModal("Ideal Moisture High must be within a 0-100 range");
-        return false
+    //Validation for temperature
+    if(!(keyValueStore["idealTempHigh"] == null && keyValueStore["idealTempLow"] == null)){
+        if(keyValueStore["idealTempHigh"] != null && keyValueStore["idealTempLow"] != null){
+            //Check to make sure high temperature is higher than the low
+            if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
+                warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for temperature, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks that low moisture is between 0 and 100 percent
-    if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
-        warningModal("Ideal Moisture Low must be within a 0-100 range");
-        return false
+    //Validation for moisture
+    if(!(keyValueStore["idealMoistureHigh"] == null && keyValueStore["idealMoistureLow"] == null)){
+        if(keyValueStore["idealMoistureHigh"] != null && keyValueStore["idealMoistureLow"] != null){
+           //Checks that high moisture is between 0 and 100 percent
+            if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
+                warningModal("Ideal Moisture High must be within a 0-100 range");
+                return false;
+            }
+
+            //Checks that low moisture is between 0 and 100 percent
+            if(keyValueStore["idealMoistureLow"] < 0 || keyValueStore["idealMoistureLow"] > 100){
+                warningModal("Ideal Moisture Low must be within a 0-100 range");
+                return false;
+            }
+
+            //Checks to make sure ideal high moisture is higher than ideal low moisture
+            if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
+                warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for moisture, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks to make sure ideal high moisture is higher than ideal low moisture
-    if(keyValueStore["idealMoistureHigh"] <= keyValueStore["idealMoistureLow"]){
-        warningModal("Ideal Moisture High must be greater than Ideal Moisture Low");
-        return false
+    //Validation for light
+    if(!(keyValueStore["idealLightHigh"] == null && keyValueStore["idealLightLow"] == null)){
+        if(keyValueStore["idealLightHigh"] != null && keyValueStore["idealLightLow"] != null){
+            //Checks high light is non-negative
+            if(keyValueStore["idealLightHigh"] < 0){
+                warningModal("Ideal Light High must not be below 0");
+                return false;
+            }
+
+            //Checks low light is non-negative
+            if(keyValueStore["idealLightLow"] < 0){
+                warningModal("Ideal Light Low must not be below 0");
+                return false;
+            }
+
+            //Checks that high light is greater than low light
+            if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
+                warningModal("Ideal Light High must be greater than Ideal Light Low");
+                return false;
+            }
+        }else{
+            warningModal("There must exist either an upper bound and lower bound for light, or neither value should be submitted.");
+            return false;
+        }
     }
 
-    //Checks high light is non-negative
-    if(keyValueStore["idealLightHigh"] < 0){
-        warningModal("Ideal Light High must not be below 0");
-        return false
-    }
-
-    //Checks low light is non-negative
-    if(keyValueStore["idealLightLow"] < 0){
-        warningModal("Ideal Light Low must not be below 0");
-        return false
-    }
-
-    //Checks that high light is greater than low light
-    if(keyValueStore["idealLightHigh"] <= keyValueStore["idealLightLow"]){
-        warningModal("Ideal Light High must be greater than Ideal Light Low");
-        return false
-    }
-    
     return true;
 }
 
@@ -905,30 +891,80 @@ function validateFieldInput(keyValueStore){
  * @param {string} action           action to be taken, either "add" or "edit"
  * @param {string} fileDialogueId   id of the file dialogue the image is stored in
  */
-function prepForDB(id,action,fileDialogueId){
+async function prepForDB(id,action,fileDialogueId){
     var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];  //Array of the keys
     var keyValueStore = {};
     //Gathers from all of the input fields
     if(action === "add"){
         for(key of keyArray){
             var fieldValue = document.getElementById(`add-${key}`).value;
-            keyValueStore[key] = fieldValue;
+            if(fieldValue == ""){
+                keyValueStore[key] = "";
+            }else{
+                keyValueStore[key] = fieldValue;
+            }
         }
     }else if(action === "edit"){
         for(key of keyArray){
             var fieldValue = document.getElementById(`${key}-${id}`).value;
-            keyValueStore[key] = fieldValue;
+            if(fieldValue == ""){
+                keyValueStore[key] = "";
+            }else{
+                keyValueStore[key] = fieldValue;
+            }
         }
     }
+
 
     //Validates, cleans, and sends data to the image function
     if(validateFieldInput(keyValueStore)){
         for(var key in keyValueStore){
-            if(!(key == "plantType"||key == "description")){
-                keyValueStore[key] = Number(keyValueStore[key]);
+            if(!(key == "plantType" || key == "description")){
+                if(keyValueStore[key] != null){
+                    keyValueStore[key] = Number(keyValueStore[key]);
+                }else{
+                    keyValueStore[key] = null;
+                }
             }
         }
-        imageUpload(id,action,fileDialogueId,keyValueStore);
+
+        var image = document.getElementById(fileDialogueId);
+        //When there is no image in the file dialogue
+        if(image.files.length === 0){
+            if(action === "add"){
+                //Cant have nothing on an add
+                warningModal("You cannot add a plant without a picture.");
+                return
+            }else if(action === "edit"){
+                //On an edit we just send back the old url
+                editPlant(id, $(`#image-output-${id}`).attr('savedURL'),"", keyValueStore);
+                return
+            }
+        }
+        
+        readImageFile(image.files[0], async function(event){
+            var fileExtension = event.target.result.split(":",2)[1].split("/",2)[1].split(";")[0];    //Grabs just the file extention
+            var encodedImage = event.target.result.split(",",2)[1];                                   //Parses the encoded image to just get the image content
+            var imageURL = await postToLambda(JSON.stringify({
+                'operation':'imageUpload',
+                'userID': checkCookie(),
+                'tableName':'HydroPotPlantTypes',
+                'payload':{
+                    'Item':{
+                        'encodedImage':encodedImage,
+                        'fileExtension':fileExtension
+                    }
+                }
+            }));
+
+            if(action === "add"){
+                //Add a plant
+                addPlant(imageURL, keyValueStore);
+            }else if(action === "edit"){
+                //Edit an existing plant
+                editPlant(id,imageURL, savedOldURL, keyValueStore);
+            }
+        });
     }
 }
 
@@ -974,16 +1010,14 @@ function retrieveCached(key, ttl){
 /**
  * Checks to see if the user is already logged in
  */
-function checkLoggedIn(){
-    postToLambda(JSON.stringify({
+async function checkLoggedIn(){
+    var data = await postToLambda(JSON.stringify({
         'operation':'savedLogin',
         'userID':checkCookie()
-    }),
-    function(data){
-        //Checks to see if the user has already been logged in in the past day
-        if(data){
-            $("#login").remove();
-            loadPage();
-        }
-    });
+    }));
+    //Checks to see if the user has already been logged in in the past day
+    if(data){
+        $("#login").remove();
+        loadPage();
+    }
 }
