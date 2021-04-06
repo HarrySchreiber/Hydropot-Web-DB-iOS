@@ -8,7 +8,7 @@
 import SwiftUI
 
 /*
-    view for the notifications page
+ view for the notifications page
  */
 struct NotificationsPage: View {
     @ObservedObject var user: GetUser //user passed
@@ -57,9 +57,9 @@ struct NotificationsPage: View {
                                     Spacer()
                                     //get the timestamp
                                     Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
-                                    //styling
-                                    .font(.system(size: UIScreen.subTextSize))
-
+                                        //styling
+                                        .font(.system(size: UIScreen.subTextSize))
+                                    
                                 }
                             }.fixedSize(horizontal: false, vertical: true)
                         }
@@ -81,6 +81,7 @@ struct NotificationsPage: View {
     /// - Returns:
     ///     - the message that goes with the given noti
     func getMessage(type: String, pot: Pot) -> String {
+        
         
         //switch on types of notis
         switch type {
@@ -122,7 +123,7 @@ struct NotificationsPage: View {
 }
 
 /*
-    preview page for notifications
+ preview page for notifications
  */
 struct NotificationsPage_Previews: PreviewProvider {
     static var previews: some View {
