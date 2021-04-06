@@ -147,6 +147,7 @@ struct AddPlantPage: View {
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                        .foregroundColor(getTextColor(bool: ideals.isMoistGood))
                                     //low moisture
                                     TextField("Low", text: $ideals.idealMoistureLow)
                                         //styling
@@ -175,6 +176,8 @@ struct AddPlantPage: View {
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                        .foregroundColor(getTextColor(bool: ideals.isLightGood))
+                                    
                                     //low light
                                     TextField("Low", text: $ideals.idealLightLevelLow)
                                         //styling
@@ -203,6 +206,7 @@ struct AddPlantPage: View {
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize)).bold()
                                         .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                        .foregroundColor(getTextColor(bool: ideals.isTempGood))
                                     //low temp to be entered
                                     TextField("Low", text: $ideals.idealTemperatureLow)
                                         //styling
@@ -314,6 +318,24 @@ struct AddPlantPage: View {
             user.addPlant(pot: pot)
         }
     }
+    
+    /// function to encode jpeg images
+    ///
+    /// - Parameters:
+    ///     - bool: if supposed to be red or green
+    ///
+    /// - Returns:
+    ///     the correct color of the text
+    func getTextColor(bool: Bool) -> Color{
+        //if we are supposed to be green
+        if(bool) {
+            //return green
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        //return red
+        return Color.red
+    }
+    
     
     /// function to encode jpeg images
     ///

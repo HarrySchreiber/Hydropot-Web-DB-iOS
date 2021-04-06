@@ -90,27 +90,27 @@ struct AddEditPlantList: View {
                                         ideals.idealLightLevelHigh = String(tempPlant.idealLightHigh)
                                         
                                         //handling no ideal moist low
-                                        if (ideals.idealMoistureLow == "-1"){
+                                        if (ideals.idealMoistureLow == "-1000"){
                                             ideals.idealMoistureLow = ""
                                         }
                                         //handling no ideal moist high
-                                        if (ideals.idealMoistureHigh == "-1"){
+                                        if (ideals.idealMoistureHigh == "-1000"){
                                             ideals.idealMoistureHigh = ""
                                         }
                                         //handling no ideal temp low
-                                        if (ideals.idealTemperatureLow == "-1"){
+                                        if (ideals.idealTemperatureLow == "-1000"){
                                             ideals.idealTemperatureLow = ""
                                         }
                                         //handling no ideal temp high
-                                        if (ideals.idealTemperatureHigh == "-1"){
+                                        if (ideals.idealTemperatureHigh == "-1000"){
                                             ideals.idealTemperatureHigh = ""
                                         }
                                         //handling no ideal light low
-                                        if (ideals.idealLightLevelLow == "-1"){
+                                        if (ideals.idealLightLevelLow == "-1000"){
                                             ideals.idealLightLevelLow = ""
                                         }
                                         //handling no ideal light high
-                                        if (ideals.idealLightLevelHigh == "-1"){
+                                        if (ideals.idealLightLevelHigh == "-1000"){
                                             ideals.idealLightLevelHigh = ""
                                         }
                                     }

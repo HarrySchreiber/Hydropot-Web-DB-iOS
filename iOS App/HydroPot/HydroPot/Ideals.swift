@@ -6,18 +6,53 @@
 //
 
 import Foundation
+import SwiftUI
+
 
 class Ideals: ObservableObject {
-    @Published var idealTemperatureHigh: String //ideal temperature high for the pot
-    @Published var idealMoistureHigh: String //ideal moisture high for the pot
-    @Published var idealLightLevelHigh: String //ideal light level high for the pot
-    @Published var idealTemperatureLow: String //ideal temperature low for the pot
-    @Published var idealMoistureLow: String //ideal moisture low for the pot
-    @Published var idealLightLevelLow: String //ideal light low for the pot
+    //ideal temperature high for the pot
+    @Published var idealTemperatureHigh: String {
+        didSet {
+            updateColors()
+        }
+    }
+    //ideal moisture high for the pot
+    @Published var idealMoistureHigh: String {
+        didSet {
+            updateColors()
+        }
+    }
+    //ideal light level high for the pot
+    @Published var idealLightLevelHigh: String {
+        didSet {
+            updateColors()
+        }
+    }
+    //ideal temperature low for the pot
+    @Published var idealTemperatureLow: String {
+        didSet {
+            updateColors()
+        }
+    }
+    //ideal moisture low for the pot
+    @Published var idealMoistureLow: String {
+        didSet {
+            updateColors()
+        }
+    }
+    //ideal light low for the pot
+    @Published var idealLightLevelLow: String {
+        didSet {
+            updateColors()
+        }
+    }
     @Published var plantSelected: String //plant selected by the user
     @Published var potID: String //id for the pot
     @Published var plantName: String //name of the plant
     @Published var notificationFrequency: Int
+    @Published var isTempGood: Bool //color for temp
+    @Published var isMoistGood: Bool //color for moist
+    @Published var isLightGood: Bool //color for light
 
 
     /// Constructor for ideals
@@ -43,6 +78,11 @@ class Ideals: ObservableObject {
         self.plantName = plantName
         self.potID = ""
         self.notificationFrequency = notificationFrequency
+        self.isTempGood = true
+        self.isMoistGood = true
+        self.isLightGood = true
+        updateColors()
+        
     }
     
     
@@ -68,5 +108,48 @@ class Ideals: ObservableObject {
         self.plantSelected = plantSelected
         self.plantName = plantName
         self.notificationFrequency = notificationFrequency
+        updateColors()
+    }
+    
+    ///function to update coloring on fields
+    func updateColors() {
+        //check for temp bounds
+        if (idealTemperatureHigh.isEmpty || idealTemperatureLow.isEmpty || !isInt(num: idealTemperatureHigh) || !isInt(num: idealTemperatureLow) || Int(idealTemperatureHigh) ?? 0 < Int(idealTemperatureLow) ?? 0 ) {
+            //set temp false
+            isTempGood = false
+        }
+        else {
+            //set temp true
+            isTempGood = true
+        }
+        //check moisture bounds
+        if (idealMoistureHigh.isEmpty || idealMoistureLow.isEmpty || !isInt(num: idealMoistureHigh) || !isInt(num: idealMoistureLow) || Int(idealMoistureHigh) ?? 0 < Int(idealMoistureLow) ?? 0 ||
+            Int(idealMoistureHigh) ?? 0 > 100 || Int(idealMoistureHigh) ?? 0 < 0 || Int(idealMoistureLow) ?? 0 > 100 || Int(idealMoistureLow) ?? 0 < 0) {
+            //set moist false
+            isMoistGood = false
+        }
+        else {
+            //set moist true
+            isMoistGood = true
+        }
+        //check light level bounds
+        if (idealLightLevelHigh.isEmpty || idealLightLevelLow.isEmpty ||
+            !isInt(num: idealLightLevelHigh) || !isInt(num: idealLightLevelLow) ||
+            Int(idealLightLevelHigh) ?? 0 < Int(idealLightLevelLow) ?? 0){
+            //set light false
+            isLightGood = false
+        }
+        else {
+            //set light true
+            isLightGood = true
+        }
+    }
+    
+    ///Evalueates if a string is an integer
+    ///
+    /// - Parameters:
+    ///     - num: String of the number to be evaluated
+    func isInt(num: String) -> Bool{
+        return Int(num) != nil
     }
 }
