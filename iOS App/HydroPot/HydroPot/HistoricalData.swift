@@ -439,18 +439,3 @@ struct PagesContainer <Content : View> : View {
  
  }
  }*/
-
-
-struct GraphBar : Identifiable {
-    var id = UUID()
-    var xValue: String
-    var displayValue: Int
-    var barHeight: Double
-    
-    init(xValue: String, displayValue: Int, barHeight: Double) {
-        self.xValue = xValue
-        self.displayValue = displayValue
-        self.barHeight = barHeight
-    }
-}
-
