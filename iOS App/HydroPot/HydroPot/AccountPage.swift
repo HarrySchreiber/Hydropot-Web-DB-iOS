@@ -47,22 +47,29 @@ struct AccountPage: View {
                                 Text("Email: ")
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
-                                    .frame(width: UIScreen.textSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            }
+                            //styling
+                            .padding(6)
+                            HStack {
                                 //email displayed to user
                                 Text(user.email)
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
-                                    .frame(width: UIScreen.loginTextBoxSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                             }
                             //styling
-                            .padding(.leading, 6)
-                            .padding(.bottom, 6)
+                            .padding(6)
                             HStack {
                                 //name for user to know to edit
                                 Text("Name: ")
                                     .font(.system(size: UIScreen.regTextSize))
-                                    .frame(width: UIScreen.textSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            }
+                            //styling
+                            .padding(6)
+                            HStack {
                                 //field for user to edit name
                                 TextField(user.name, text: $name).onAppear() {
                                     name = user.name
@@ -70,7 +77,7 @@ struct AccountPage: View {
                                 //styling
                                 .font(.system(size: UIScreen.regTextSize))
                                 .padding(6)
-                                .frame(width: UIScreen.loginTextBoxSize, height: UIScreen.textBoxHeight, alignment: .leading)
+                                .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                 .border(Color.black.opacity(0.2))
                             }
                             //styling
@@ -195,7 +202,6 @@ struct AccountPage: View {
                         }
                     }
                 }
-                .padding(.top, 100)
                 .padding(.leading, 12)
                 .navigationBarTitle("Account", displayMode: .inline)
             }

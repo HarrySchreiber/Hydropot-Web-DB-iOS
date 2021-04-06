@@ -146,7 +146,6 @@ struct EditPlantPage: View {
                                         .padding(.leading, UIScreen.cheveronSize)
                                 }
                             }
-                            //styling
                             .padding(.bottom, 3)
                             HStack{
                                 Stepper("Reservoir reminder every: \(ideals.notificationFrequency) weeks", value: $ideals.notificationFrequency, in: 1...12)
@@ -157,7 +156,6 @@ struct EditPlantPage: View {
                                     .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
                             }
-                            //styling
                             .padding(.bottom, 6)
                             HStack {
                                 //moisture to be entered
@@ -165,6 +163,7 @@ struct EditPlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .foregroundColor(getTextColor(bool: ideals.isMoistGood))
                                 //low moisture
                                 TextField("Low", text: $ideals.idealMoistureLow)
                                     //styling
@@ -172,6 +171,7 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isMoistHighGood))
                                 //seperator
                                 Text("-")
                                     //styling
@@ -185,6 +185,8 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isMoistLowGood))
+
                             }
                             .padding(6)
                             HStack{
@@ -193,6 +195,8 @@ struct EditPlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .foregroundColor(getTextColor(bool: ideals.isLightGood))
+                                
                                 //low light
                                 TextField("Low", text: $ideals.idealLightLevelLow)
                                     //styling
@@ -200,6 +204,7 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isLightLowGood))
                                 //seperator
                                 Text("-")
                                     //styling
@@ -213,6 +218,7 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isLightHighGood))
                             }
                             .padding(6)
                             HStack {
@@ -221,6 +227,7 @@ struct EditPlantPage: View {
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize)).bold()
                                     .frame(width: UIScreen.idealsTextWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .foregroundColor(getTextColor(bool: ideals.isTempGood))
                                 //low temp to be entered
                                 TextField("Low", text: $ideals.idealTemperatureLow)
                                     //styling
@@ -228,6 +235,7 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isTempLowGood))
                                 //seperator
                                 Text("-")
                                     //styling
@@ -241,40 +249,10 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+                                    .foregroundColor(getTextColor(bool: ideals.isTempHighGood))
                             }
                             .padding(6)
-                        
-                            //delete button
-                            Button(action: {
-                                //toggle delete alert
-                                self.deletePressed.toggle()
-                            }) {
-                                HStack {
-                                    //delete button text
-                                    Text("Delete")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                            }
-                            //styling
-                            .foregroundColor(.white)
-                            .background(Color.red.opacity(0.8))
-                            .cornerRadius(6)
-                            .padding()
-                            .padding(.leading)
-                            
                         }
-                        //present image picker on toggle
-                        .sheet(isPresented: $isShowPicker) {
-                            //display image picker
-                            ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
-                        }
-                        //styling
-                        .padding(.trailing)
                         Spacer()
                     }
                 }
@@ -414,6 +392,23 @@ struct EditPlantPage: View {
                 ideals.idealLightLevelHigh = ""
             }
         }
+    }
+    
+    /// function to encode jpeg images
+    ///
+    /// - Parameters:
+    ///     - bool: if supposed to be red or green
+    ///
+    /// - Returns:
+    ///     the correct color of the text
+    func getTextColor(bool: Bool) -> Color{
+        //if we are supposed to be green
+        if(bool) {
+            //return green
+            return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
+        }
+        //return red
+        return Color.red
     }
     
     /// encodes the image as a jpeg

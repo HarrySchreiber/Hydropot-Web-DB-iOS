@@ -155,6 +155,7 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isMoistHighGood))
                                     //seperator
                                     Text("-")
                                         //styling
@@ -168,6 +169,8 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isMoistLowGood))
+
                                 }
                                 .padding(6)
                                 HStack{
@@ -185,6 +188,7 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isLightLowGood))
                                     //seperator
                                     Text("-")
                                         //styling
@@ -198,6 +202,7 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isLightHighGood))
                                 }
                                 .padding(6)
                                 HStack {
@@ -214,6 +219,7 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isTempLowGood))
                                     //seperator
                                     Text("-")
                                         //styling
@@ -227,6 +233,7 @@ struct AddPlantPage: View {
                                         .padding(6)
                                         .frame(width: UIScreen.idealsValuesWidth, height: UIScreen.idealsValuesHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
+                                        .foregroundColor(getTextColor(bool: ideals.isTempHighGood))
                                 }
                                 .padding(6)
                             }
