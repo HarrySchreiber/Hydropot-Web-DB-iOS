@@ -136,12 +136,12 @@ class Plants: ObservableObject, Identifiable {
                         //append the new plant type to the list of plants
                         self.plantList.append(Plant(
                             plantType: plant.plantType,
-                            idealTempLow: plant.idealTempLow ?? -1,
-                            idealTempHigh: plant.idealTempHigh ?? -1,
-                            idealMoistureLow: plant.idealMoistureLow ?? -1,
-                            idealMoistureHigh: plant.idealMoistureHigh ?? -1,
-                            idealLightLow: plant.idealLightLow ?? -1,
-                            idealLightHigh: plant.idealLightHigh ?? -1,
+                            idealTempLow: plant.idealTempLow ?? -1000,
+                            idealTempHigh: plant.idealTempHigh ?? -1000,
+                            idealMoistureLow: plant.idealMoistureLow ?? -1000,
+                            idealMoistureHigh: plant.idealMoistureHigh ?? -1000,
+                            idealLightLow: plant.idealLightLow ?? -1000,
+                            idealLightHigh: plant.idealLightHigh ?? -1000,
                             description: plant.description ?? "No description available",
                             imageURL: plant.imageURL ?? ""))
                     }
@@ -149,7 +149,7 @@ class Plants: ObservableObject, Identifiable {
                 //sort the plant list by type
                 self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
 
-                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1, idealTempHigh: -1, idealMoistureLow: -1, idealMoistureHigh: -1, idealLightLow: -1, idealLightHigh:  -1,description: "", imageURL: ""), at: 0)
+                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1000, idealTempHigh: -1000, idealMoistureLow: -1000, idealMoistureHigh: -1000, idealLightLow: -1000, idealLightHigh: -1000,description: "", imageURL: ""), at: 0)
             })
         }.resume()
     }

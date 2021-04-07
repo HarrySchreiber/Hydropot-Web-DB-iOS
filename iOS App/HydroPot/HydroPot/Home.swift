@@ -60,7 +60,21 @@ extension UIScreen{
     static let plantTitleSide = screenWidth / 10.6 //base is 30
     static let resLevelPadding = screenWidth / 5.5  //base is ~57
     static let plantImage = screenWidth / 2
-
+    
+    //add/edit page values
+    static let textBoxWidth = screenWidth * 0.88
+    static let textBoxHeight = screenWidth / 8
+    static let idealsTextWidth = screenWidth * 0.325
+    static let idealsValuesWidth = screenWidth * 0.22
+    static let idealsValuesHeight = screenWidth / 8
+    static let dashSize = screenWidth * 0.02
+    static let resFont = screenWidth / 18.8 * 0.72
+    static let cheveronSize = screenWidth * 0.8
+    
+    //login values
+    static let textSize = screenWidth * 0.18
+    static let loginTextBoxSize = screenWidth * 0.68
+    
 }
 
 /*

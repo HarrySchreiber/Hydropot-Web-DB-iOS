@@ -13,6 +13,45 @@ import URLImage
  */
 struct PlantTypePage: View {
     @ObservedObject var plant: Plant //plant being passed
+    @ObservedObject var ideals: Ideals = Ideals(idealTemperatureHigh: "", idealTemperatureLow: "", idealMoistureHigh: "", idealMoistureLow: "", idealLightLevelLow: "", idealLightLevelHigh: "", plantName: "", plantSelected: "", notificationFrequency: 2) //default ideals
+    
+    init (plant : Plant) {
+        //set plant
+        self.plant = plant
+        
+        //setting ideals
+        ideals.idealMoistureHigh = String(plant.idealMoistureHigh)
+        ideals.idealMoistureLow = String(plant.idealMoistureLow)
+        ideals.idealTemperatureHigh = String(plant.idealTempHigh)
+        ideals.idealTemperatureLow = String(plant.idealTempLow)
+        ideals.idealLightLevelLow = String(plant.idealLightLow)
+        ideals.idealLightLevelHigh = String(plant.idealLightHigh)
+        
+        //handling no ideal moist low
+        if (ideals.idealMoistureLow == "-1000"){
+            ideals.idealMoistureLow = "NA"
+        }
+        //handling no ideal moist high
+        if (ideals.idealMoistureHigh == "-1000"){
+            ideals.idealMoistureHigh = "NA"
+        }
+        //handling no ideal temp low
+        if (ideals.idealTemperatureLow == "-1000"){
+            ideals.idealTemperatureLow = "NA"
+        }
+        //handling no ideal temp high
+        if (ideals.idealTemperatureHigh == "-1000"){
+            ideals.idealTemperatureHigh = "NA"
+        }
+        //handling no ideal light low
+        if (ideals.idealLightLevelLow == "-1000"){
+            ideals.idealLightLevelLow = "NA"
+        }
+        //handling no ideal light high
+        if (ideals.idealLightLevelHigh == "-1000"){
+            ideals.idealLightLevelHigh = "NA"
+        }
+    }
     var body: some View {
         VStack {
             //scroll view
@@ -47,7 +86,7 @@ struct PlantTypePage: View {
                 }
                 Divider()
                 //plant type of the plant
-                Text("\(plant.plantType)")
+                Text("\(ideals.plantSelected)")
                     //styling
                     .font(.system(size: UIScreen.titleTextSize))
                 Divider()
@@ -63,21 +102,21 @@ struct PlantTypePage: View {
                         .padding(.leading, 5)
                     
                     //ideal moisture values
-                    (Text("Ideal Moisture: ").bold() + Text("\(plant.idealMoistureLow) - \(plant.idealMoistureHigh)%"))
+                    (Text("Ideal Moisture: ").bold() + Text("\(ideals.idealMoistureLow) - \(ideals.idealMoistureHigh)%"))
                         .font(.system(size: UIScreen.subTextSize))
                         //styling
                         .padding(.bottom, 0.5)
                         .padding(.leading, 5)
                     
                     //ideal light values
-                    (Text("Ideal Light: ").bold() + Text("\(plant.idealLightLow) - \(plant.idealLightHigh) lm"))
+                    (Text("Ideal Light: ").bold() + Text("\(ideals.idealLightLevelLow) - \(ideals.idealLightLevelHigh) lm"))
                         //styling
                         .font(.system(size: UIScreen.subTextSize))
                         .padding(.bottom, 0.5)
                         .padding(.leading, 5)
 
                     //ideal temperature values
-                    (Text("Ideal Temperature: ").bold() + Text("\(plant.idealTempLow) - \(plant.idealTempHigh)°F"))
+                    (Text("Ideal Temperature: ").bold() + Text("\(ideals.idealTemperatureLow) - \(ideals.idealTemperatureHigh)°F"))
                         //styling
                         .font(.system(size: UIScreen.subTextSize))
                         .padding(.bottom, 0.5)
