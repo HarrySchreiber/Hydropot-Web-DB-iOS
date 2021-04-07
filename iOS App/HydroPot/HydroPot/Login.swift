@@ -80,7 +80,6 @@ struct Login: View {
                                     .padding(10)
                                     .background(loginDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
-                                    .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             //if failed password
                             .alert(isPresented: $loginFail) {
@@ -165,7 +164,6 @@ struct Login: View {
                                     .padding(10)
                                     .background(signupDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                                     .cornerRadius(6)
-                                    .frame(maxWidth: .infinity)
                             }
                             //present alert to fill out all the fields
                             .alert(isPresented: $loginFail) {
