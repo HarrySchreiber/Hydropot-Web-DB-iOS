@@ -30,6 +30,11 @@ struct PlantPage: View {
     }
     
     @State private var showPopUp = false //toggle boi
+    
+    //historical data values
+    @State var moistureGraphArrays : (hourly: [Int], daily: [Int], weekly: [Int]) = ([],[],[])  //arrays for moisture (hourly, daily, weekly)
+    @State var lightGraphArrays : (hourly: [Int], daily: [Int], weekly: [Int]) = ([],[],[])  //arrays for light (hourly, daily, weekly)
+    @State var tempGraphArrays : (hourly: [Int], daily: [Int], weekly: [Int]) = ([],[],[])  //arrays for temperature (hourly, daily, weekly)
 
     var body: some View {
         //sent to another page
@@ -172,7 +177,7 @@ struct PlantPage: View {
                     .padding([.leading, .bottom, .trailing])
                     
                     //soil moisture nav link to historical page
-                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"), moistureGraphArrays: moistureGraphArrays, lightGraphArrays: lightGraphArrays, tempGraphArrays: tempGraphArrays)) {
                         ZStack {
                             //soil moisture text
                             Text("Soil Moisture")
@@ -213,7 +218,7 @@ struct PlantPage: View {
                         .padding([.leading, .bottom, .trailing])
                     }
                     //light level nav link to historical
-                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"), moistureGraphArrays: moistureGraphArrays, lightGraphArrays: lightGraphArrays, tempGraphArrays: tempGraphArrays)) {
                         ZStack {
                             //light level text
                             Text("Light Level")
@@ -255,7 +260,7 @@ struct PlantPage: View {
                         .padding([.leading, .bottom, .trailing])
                     }
                     //temperature of plant to historical page
-                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"))) {
+                    NavigationLink(destination: HistoricalData(pot: pot, tuples: pot.getValues(unit: "Hourly"), moistureGraphArrays: moistureGraphArrays, lightGraphArrays: lightGraphArrays, tempGraphArrays: tempGraphArrays)) {
                         ZStack {
                             //temperature text
                             Text("Temperature")
@@ -334,6 +339,11 @@ struct PlantPage: View {
             
             //auto watering is set
             autoWatering = pot.automaticWatering
+            
+            //get historical data
+            moistureGraphArrays = pot.calculateGraphData(dataType: "moisture")
+            lightGraphArrays = pot.calculateGraphData(dataType: "light")
+            tempGraphArrays = pot.calculateGraphData(dataType: "temperature")
 
         }
         .background(

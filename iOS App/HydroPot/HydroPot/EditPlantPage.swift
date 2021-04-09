@@ -103,6 +103,7 @@ struct EditPlantPage: View {
                                     .padding(6)
                                     .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                     .border(Color.black.opacity(0.5))
+
                             }
                             .padding(.bottom, 3)
                             //show the image picker when toggled
