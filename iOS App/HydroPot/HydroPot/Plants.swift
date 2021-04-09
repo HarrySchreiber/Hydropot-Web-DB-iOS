@@ -70,7 +70,7 @@ class Plants: ObservableObject, Identifiable {
             }
         }
         //return garabge plant
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "")
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "", citation: "")
     }
     
     /// gets all of the plant types from the db and adds to this class' plant list
@@ -143,13 +143,14 @@ class Plants: ObservableObject, Identifiable {
                             idealLightLow: plant.idealLightLow ?? -1000,
                             idealLightHigh: plant.idealLightHigh ?? -1000,
                             description: plant.description ?? "No description available",
-                            imageURL: plant.imageURL ?? ""))
+                            imageURL: plant.imageURL ?? "",
+                            citation: ""))
                     }
                 }
                 //sort the plant list by type
                 self.plantList = self.plantList.sorted(by: { $0.plantType < $1.plantType })
 
-                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1000, idealTempHigh: -1000, idealMoistureLow: -1000, idealMoistureHigh: -1000, idealLightLow: -1000, idealLightHigh: -1000,description: "", imageURL: ""), at: 0)
+                self.plantList.insert(Plant(plantType: "Other", idealTempLow: -1000, idealTempHigh: -1000, idealMoistureLow: -1000, idealMoistureHigh: -1000, idealLightLow: -1000, idealLightHigh: -1000,description: "", imageURL: "", citation: ""), at: 0)
             })
         }.resume()
     }

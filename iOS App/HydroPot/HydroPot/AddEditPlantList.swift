@@ -165,6 +165,6 @@ struct AddEditPlantList: View {
             }
         }
         print("_-_-_-_-_-_-_-_-\nerror occured\n_-_-_-_-_-_-_-_-")
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "")
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "", citation: "")
     }
 }
