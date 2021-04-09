@@ -333,8 +333,8 @@ struct idealRanges: View {
                 //button for filtering
                 Button(action: {
                     //filter low only
-                    ideals.idealMoistureLow = "20"
-                    ideals.idealMoistureHigh = "40"
+                    ideals.idealMoistureLow = "10"
+                    ideals.idealMoistureHigh = "20"
                     tempValues[0].0 = true
                     tempValues[0].1 = false
                     tempValues[0].2 = false
@@ -354,8 +354,8 @@ struct idealRanges: View {
                 //filtering medium
                 Button(action: {
                     //only medium
-                    ideals.idealMoistureLow = "40"
-                    ideals.idealMoistureHigh = "60"
+                    ideals.idealMoistureLow = "20"
+                    ideals.idealMoistureHigh = "35"
                     tempValues[0].1 = true
                     tempValues[0].0 = false
                     tempValues[0].2 = false
@@ -375,8 +375,8 @@ struct idealRanges: View {
                 //filtering high
                 Button(action: {
                     //high filter only
-                    ideals.idealMoistureLow = "60"
-                    ideals.idealMoistureHigh = "80"
+                    ideals.idealMoistureLow = "35"
+                    ideals.idealMoistureHigh = "90"
                     tempValues[0].2 = true
                     tempValues[0].0 = false
                     tempValues[0].1 = false
@@ -446,6 +446,7 @@ struct idealRanges: View {
                     .disabled(tempValues[0].3 == false)
             }
         }
+        .padding(.bottom)
         HStack{
             //light to be entered
             Text("Light (lm)")
@@ -458,8 +459,8 @@ struct idealRanges: View {
             HStack {
                 //filter low only
                 Button(action: {
-                    ideals.idealLightLevelLow = "1000"
-                    ideals.idealLightLevelHigh = "2000"
+                    ideals.idealLightLevelLow = "500"
+                    ideals.idealLightLevelHigh = "2500"
                     tempValues[1].0 = true
                     tempValues[1].1 = false
                     tempValues[1].2 = false
@@ -479,8 +480,8 @@ struct idealRanges: View {
                 }
                 //filter medium only
                 Button(action: {
-                    ideals.idealLightLevelLow = "2000"
-                    ideals.idealLightLevelHigh = "3000"
+                    ideals.idealLightLevelLow = "2500"
+                    ideals.idealLightLevelHigh = "8000"
                     tempValues[1].1 = true
                     tempValues[1].0 = false
                     tempValues[1].2 = false
@@ -499,8 +500,8 @@ struct idealRanges: View {
                 }
                 //filter high only
                 Button(action: {
-                    ideals.idealLightLevelLow = "3000"
-                    ideals.idealLightLevelHigh = "4000"
+                    ideals.idealLightLevelLow = "8000"
+                    ideals.idealLightLevelHigh = "15000"
                     tempValues[1].2 = true
                     tempValues[1].0 = false
                     tempValues[1].1 = false
@@ -568,6 +569,7 @@ struct idealRanges: View {
                 .disabled(tempValues[1].3 == false)
             }
         }
+        .padding(.bottom)
         HStack {
             //temperature to be entered
             Text("Temp (°F)")
@@ -578,8 +580,8 @@ struct idealRanges: View {
         Group {
             HStack {
                 Button(action: {
-                    ideals.idealTemperatureLow = "40"
-                    ideals.idealTemperatureHigh = "60"
+                    ideals.idealTemperatureLow = "45"
+                    ideals.idealTemperatureHigh = "55"
                     //filter low only
                     tempValues[2].0 = true
                     tempValues[2].1 = false
@@ -598,8 +600,8 @@ struct idealRanges: View {
                         )
                 }
                 Button(action: {
-                    ideals.idealTemperatureLow = "60"
-                    ideals.idealTemperatureHigh = "80"
+                    ideals.idealTemperatureLow = "55"
+                    ideals.idealTemperatureHigh = "70"
                     //medium filter only
                     tempValues[2].1 = true
                     tempValues[2].0 = false
@@ -618,8 +620,8 @@ struct idealRanges: View {
                         )
                 }
                 Button(action: {
-                    ideals.idealTemperatureLow = "80"
-                    ideals.idealTemperatureHigh = "100"
+                    ideals.idealTemperatureLow = "70"
+                    ideals.idealTemperatureHigh = "90"
                     //filter high only
                     tempValues[2].2 = true
                     tempValues[2].0 = false
@@ -688,6 +690,7 @@ struct idealRanges: View {
                 .foregroundColor(getTextColor(bool: ideals.isTempHighGood))
                 .disabled(tempValues[2].3 == false)
         }
+        .padding(.bottom)
     }
 
     /// function to encode jpeg images
