@@ -19,6 +19,8 @@ struct AddEditPlantList: View {
     @State private var displayedList = [String]()       //list of plants that match search and filter - what is displayed
     @State private var searching = false        //boolean for if user is searching
     @State private var filtering = false        //boolean for if user is filtering
+    @Binding var tempValues: [(Bool, Bool, Bool, Bool)]
+
     
     //array of foolean tuples for low, medium and high moisture, light and temperature
     //(moisture low, medium high), then (light l, m, h), then (temperature l,m,h)
@@ -113,6 +115,27 @@ struct AddEditPlantList: View {
                                         if (ideals.idealLightLevelHigh == "-1000"){
                                             ideals.idealLightLevelHigh = ""
                                         }
+                                    }
+                                    
+                                    //if we have selected a plant
+                                    if (ideals.plantSelected != "Other" ||  ideals.plantSelected == ""){
+                                        //temp values moist custom
+                                        tempValues[0].3 = true
+                                        tempValues[0].1 = false
+                                        tempValues[0].2 = false
+                                        tempValues[0].0 = false
+                                        
+                                        //temp values light custom
+                                        tempValues[1].3 = true
+                                        tempValues[1].1 = false
+                                        tempValues[1].2 = false
+                                        tempValues[1].0 = false
+                                        
+                                        //temp values temp custom
+                                        tempValues[2].3 = true
+                                        tempValues[2].1 = false
+                                        tempValues[2].2 = false
+                                        tempValues[2].0 = false
                                     }
                                     
                                     self.presentationMode.wrappedValue.dismiss()
