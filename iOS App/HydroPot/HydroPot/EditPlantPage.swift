@@ -102,7 +102,10 @@ struct EditPlantPage: View {
                                     TextField("Plant Name", text: $ideals.plantName)
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
+                                        .foregroundColor(.black)
+                                        .opacity(0.3)
                                         .padding(6)
+                                        .buttonStyle(PlainButtonStyle())
                                         .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
 
