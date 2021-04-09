@@ -33,7 +33,6 @@ function postToLambda(content){
  * @returns             object containing cleaned plant data and other metadata 
  */
 function packageData(data){
-    console.log(data);
     var plantTypes = {}
     //Loop through all the plants
     for(var i = 0; i < data.length; i++){
@@ -50,12 +49,12 @@ function packageData(data){
         plantData["idealLightLow"] =  obj.idealLightLow == null ? null : Number(obj.idealLightLow);
         plantData["description"] = obj.description;
         plantData["imageURL"] = obj.imageURL;
+        plantData["citation"] = obj.citation == null ? null : obj.citation;
         plantData["display"] = "flex";  //This is for setting the display on a search
 
 
         plantTypes[obj.id] = plantData; //Add to the javascript object
     }
-    console.log(plantTypes);
     return plantTypes;
 }
 
@@ -214,6 +213,8 @@ function buildTable(data){
         s4Col.appendChild(s4Row);
 
 
+        var midRow = document.createElement("div");
+        midRow.setAttribute("class","row no-gutters bottom-row");
         var bottomRow = document.createElement("div");
         bottomRow.setAttribute("class","row no-gutters bottom-row");
         for(var key in obj){
@@ -223,6 +224,9 @@ function buildTable(data){
                     s1Row.appendChild(input);
                 }else if(key == "description"){
                     var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Description",obj[key]);
+                    midRow.appendChild(input);
+                }else if(key == "citation"){
+                    var input = buildField("fields col-12 no-gutters",`${key}-${id}`,"text","Citation",obj[key]);
                     bottomRow.appendChild(input);
                 }else{
                     if(key == "idealTempHigh" || key == "idealTempLow"){
@@ -246,6 +250,7 @@ function buildTable(data){
         topRow.appendChild(s4Col);
 
         contentCol.appendChild(topRow);
+        contentCol.appendChild(midRow);
         contentCol.appendChild(bottomRow);
 
         //Buttons Cols
@@ -411,12 +416,18 @@ function buildInputFields(){
 
     
 
+    var midRow = document.createElement("div");
+    midRow.setAttribute("class","row no-gutters");
+
+    midRow.appendChild(buildField("fields col-12 no-gutters","add-description","text","Description",""));
+
     var bottomRow = document.createElement("div");
     bottomRow.setAttribute("class","row no-gutters");
 
-    bottomRow.appendChild(buildField("fields col-12 no-gutters","add-description","text","Description",""));
+    bottomRow.appendChild(buildField("fields col-12 no-gutters","add-citation","text","Citation",""));
 
     contentCol.appendChild(topRow);
+    contentCol.appendChild(midRow);
     contentCol.appendChild(bottomRow);
 
 
@@ -445,6 +456,7 @@ function buildInputFields(){
  * @param {object} keyValueStore    information about the plant
  */
 async function addPlant(imageURL, keyValueStore){
+    console.log(keyValueStore['description']);
     var data = await postToLambda(JSON.stringify({
         'operation':'add',
         'userID': checkCookie(),
@@ -459,7 +471,8 @@ async function addPlant(imageURL, keyValueStore){
                 'idealLightHigh':keyValueStore["idealLightHigh"],
                 'idealLightLow':keyValueStore["idealLightLow"],
                 'description':keyValueStore["description"],
-                'imageURL':imageURL
+                'imageURL':imageURL,
+                'citation':keyValueStore['citation']
             }
         }
     }));
@@ -504,7 +517,8 @@ async function editPlant(id, imageURL, savedOldURL = "", keyValueStore){
                 'idealLightHigh':keyValueStore['idealLightHigh'],
                 'description':keyValueStore['description'],
                 'imageURL':imageURL,
-                'oldImageKey':oldImageKey
+                'oldImageKey':oldImageKey,
+                'citation':keyValueStore['citation']
             }
         }
     }));
@@ -795,7 +809,7 @@ function validateFieldInput(keyValueStore){
 
     //Checks to make sure all ideal numbers are numerical or null
     for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
+        if(!(key == "plantType"||key == "description"||key == "citation")){
             if(isNaN(keyValueStore[key])){
                 if((keyValueStore[key] != "")){
                     warningModal("All ideals must be numerical or left blank");
@@ -807,7 +821,7 @@ function validateFieldInput(keyValueStore){
 
     //Converts ideals to numerical or null for comparison
     for(var key in keyValueStore){
-        if(!(key == "plantType"||key == "description")){
+        if(!(key == "plantType" || key == "description" || key == "citation")){
             if(keyValueStore[key] != ""){
                 keyValueStore[key] = Number(keyValueStore[key]);
             }else{
@@ -892,7 +906,7 @@ function validateFieldInput(keyValueStore){
  * @param {string} fileDialogueId   id of the file dialogue the image is stored in
  */
 async function prepForDB(id,action,fileDialogueId){
-    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description"];  //Array of the keys
+    var keyArray = ["plantType","idealTempHigh","idealTempLow","idealMoistureHigh","idealMoistureLow","idealLightHigh","idealLightLow","description", "citation"];  //Array of the keys
     var keyValueStore = {};
     //Gathers from all of the input fields
     if(action === "add"){
@@ -915,11 +929,10 @@ async function prepForDB(id,action,fileDialogueId){
         }
     }
 
-
     //Validates, cleans, and sends data to the image function
     if(validateFieldInput(keyValueStore)){
         for(var key in keyValueStore){
-            if(!(key == "plantType" || key == "description")){
+            if(!(key == "plantType" || key == "description" || key == "citation")){
                 if(keyValueStore[key] != null){
                     keyValueStore[key] = Number(keyValueStore[key]);
                 }else{
