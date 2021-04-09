@@ -135,8 +135,8 @@ struct PlantTypeList: View {
                 return plant
             }
         }
-        print("----- error occured selecting plant type ----")
-        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "") 
+        print("----- error occured selecting plant type -----")
+        return Plant(plantType: "Non-existent plant", idealTempLow: 0, idealTempHigh: 0, idealMoistureLow: 0, idealMoistureHigh: 0, idealLightLow: 0, idealLightHigh: 0, description: "This plant should never show up", imageURL: "", citation: "") 
     }
     
 }
@@ -148,7 +148,7 @@ func filterList(filteredValues: [(low:Bool, med: Bool, high:Bool)], displayedLis
     //moisture values (lower and upper bounds for medium level moisture)
     let moistureTuple = (20,35)
     //light values (lower and upper bounds for medium level light)
-    let lightTuple = (2500,10000)
+    let lightTuple = (2500,8000)
     //temperature values (lower and upper bounds for medium level temperature)
     let tempTuple = (55,70)
     
