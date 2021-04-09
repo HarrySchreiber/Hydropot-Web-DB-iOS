@@ -160,17 +160,17 @@ func filterList(filteredValues: [(low:Bool, med: Bool, high:Bool)], displayedLis
     //loop through each plant
     for plant in plants.plantList {
         //true if plant is in the selected moisture range(s)
-        let lowMoisture = (filteredValues[0].low && plant.idealMoistureHigh <= moistureTuple.0 && plant.idealMoistureHigh != -1)
+        let lowMoisture = (filteredValues[0].low && plant.idealMoistureHigh <= moistureTuple.0 && plant.idealMoistureHigh != -1000)
         let medMoisture = (filteredValues[0].med && (plant.idealMoistureHigh <= moistureTuple.1 && plant.idealMoistureHigh > moistureTuple.0))
         let highMoisture = (filteredValues[0].high && plant.idealMoistureHigh > moistureTuple.1)
         
         //true if plant is in the selected light range(s)
-        let lowLight = (filteredValues[1].low && plant.idealLightHigh <= lightTuple.0 && plant.idealMoistureHigh != -1)
+        let lowLight = (filteredValues[1].low && plant.idealLightHigh <= lightTuple.0 && plant.idealMoistureHigh != -1000)
         let medLight = (filteredValues[1].med && (plant.idealLightHigh <= lightTuple.1 && plant.idealLightHigh > lightTuple.0))
         let highLight = (filteredValues[1].high && plant.idealLightHigh > lightTuple.1)
         
         //true if plant is in the selected temperature range(s)
-        let lowTemp = (filteredValues[2].low && plant.idealTempHigh <= tempTuple.0 && plant.idealMoistureHigh != -1)
+        let lowTemp = (filteredValues[2].low && plant.idealTempHigh <= tempTuple.0 && plant.idealMoistureHigh != -1000)
         let medTemp = (filteredValues[2].med && (plant.idealTempHigh <= tempTuple.1 && plant.idealTempHigh > tempTuple.0))
         let highTemp = (filteredValues[2].high && plant.idealTempHigh > tempTuple.1)
         
