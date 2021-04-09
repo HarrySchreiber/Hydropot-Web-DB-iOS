@@ -27,6 +27,8 @@
 		3949FCD625C202FC00AC8D09 /* AddPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */; };
 		3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */; };
 		3949FCEA25C2037C00AC8D09 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */; };
+		39ABDF21261CCE9300A911BC /* GraphBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ABDF20261CCE9300A911BC /* GraphBar.swift */; };
+		39ABDF2C261CE0EF00A911BC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ABDF2B261CE0EF00A911BC /* SearchBar.swift */; };
 		3FCDB1680DD682719D432297 /* Pods_HydroPot_HydroPotUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F8D019A83CA44D00E97D19 /* Pods_HydroPot_HydroPotUITests.framework */; };
 		58A777692081496286F9BB53 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A6961A7C78D4EE8B947BDD6 /* awsconfiguration.json */; };
 		7F171D5625F936E200372249 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F171D5525F936E200372249 /* Plant.swift */; };
@@ -85,6 +87,8 @@
 		3949FCD525C202FC00AC8D09 /* AddPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantPage.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		3949FCDA25C2030E00AC8D09 /* EditPlantPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantPage.swift; sourceTree = "<group>"; };
 		3949FCE925C2037C00AC8D09 /* NotificationsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		39ABDF20261CCE9300A911BC /* GraphBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBar.swift; sourceTree = "<group>"; };
+		39ABDF2B261CE0EF00A911BC /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		43371255A2354319D80E0EC3 /* Pods-HydroPot-HydroPotUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.release.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.release.xcconfig"; sourceTree = "<group>"; };
 		43ABBFEABD40FF5F60AAC9D6 /* Pods_HydroPot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydroPot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EB8E44D2AC18223C4DA92F /* Pods-HydroPot-HydroPotUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydroPot-HydroPotUITests.debug.xcconfig"; path = "Target Support Files/Pods-HydroPot-HydroPotUITests/Pods-HydroPot-HydroPotUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -186,8 +190,10 @@
 				7FFBBC9625D6F1EE0020CF3E /* waterModal.swift */,
 				3949FCBC25C2028500AC8D09 /* PlantPage.swift */,
 				3949FCC125C2029F00AC8D09 /* HistoricalData.swift */,
+				39ABDF20261CCE9300A911BC /* GraphBar.swift */,
 				3949FCC625C202B100AC8D09 /* PlantTypePage.swift */,
 				3949FCCB25C202CE00AC8D09 /* PlantTypeList.swift */,
+				39ABDF2B261CE0EF00A911BC /* SearchBar.swift */,
 				7FA929EB25CB128C003F967C /* AddEditPlantList.swift */,
 				3949FCD025C202E700AC8D09 /* AccountPage.swift */,
 				3913ED9025D4A9F600BE3B51 /* ChangePWPage.swift */,
@@ -499,6 +505,7 @@
 				3941EAA625D6D33300E37724 /* plantTypesFilter.swift in Sources */,
 				7F171D5625F936E200372249 /* Plant.swift in Sources */,
 				7FA929DF25C89F18003F967C /* Notification.swift in Sources */,
+				39ABDF2C261CE0EF00A911BC /* SearchBar.swift in Sources */,
 				3913ED9125D4A9F600BE3B51 /* ChangePWPage.swift in Sources */,
 				3949FCCC25C202CE00AC8D09 /* PlantTypeList.swift in Sources */,
 				3906C9AD25C5DE3C005FEF79 /* Plants.swift in Sources */,
@@ -511,6 +518,7 @@
 				3949FCD125C202E700AC8D09 /* AccountPage.swift in Sources */,
 				3949FCDB25C2030E00AC8D09 /* EditPlantPage.swift in Sources */,
 				3949FCBD25C2028500AC8D09 /* PlantPage.swift in Sources */,
+				39ABDF21261CCE9300A911BC /* GraphBar.swift in Sources */,
 				3949FC7525C200DE00AC8D09 /* HydroPotApp.swift in Sources */,
 				7FA929EC25CB128C003F967C /* AddEditPlantList.swift in Sources */,
 				7FA929DA25C89F04003F967C /* Record.swift in Sources */,

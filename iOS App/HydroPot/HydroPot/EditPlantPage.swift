@@ -96,10 +96,26 @@ struct EditPlantPage: View {
                                 .padding([.top, .leading])
                             }
                             .padding(.bottom, 3)
-                            VStack (alignment: .leading){
-                                HStack{
-                                    //name of the plant
-                                    TextField("Plant Name", text: $ideals.plantName)
+                            HStack{
+                                //name of the plant
+                                TextField("Plant Name", text: $ideals.plantName)
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(6)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                                    .border(Color.black.opacity(0.5))
+
+                            }
+                            .padding(.bottom, 3)
+                            //show the image picker when toggled
+                            .sheet(isPresented: $isShowPicker) {
+                                ImagePicker(image: self.$image, tempURL: self.$tempURL, userIntefaceImage: self.$userIntefaceImage)
+                            }
+                            ZStack{
+                                //if defualt plant type
+                                if (ideals.plantSelected == "Plant Types"){
+                                    //display empty
+                                    Text("\(ideals.plantSelected)")
                                         //styling
                                         .font(.system(size: UIScreen.regTextSize))
                                         .padding(6)

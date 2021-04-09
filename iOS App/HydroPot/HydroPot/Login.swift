@@ -45,6 +45,7 @@ struct Login: View {
                             //email stack
                             HStack {
                                 TextField("Email", text: $email)
+                                    .keyboardType(.emailAddress)
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
@@ -106,6 +107,7 @@ struct Login: View {
                             HStack {
                                 //email field
                                 TextField("Email", text: $email)
+                                    .keyboardType(.emailAddress)
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
