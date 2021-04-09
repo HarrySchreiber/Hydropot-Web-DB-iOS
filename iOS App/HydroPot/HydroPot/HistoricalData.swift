@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+extension View {
+    func ifTrue(_ condition:Bool, apply:(AnyView) -> (AnyView)) -> AnyView {
+        if condition {
+            return apply(AnyView(self))
+        }
+        else {
+            return AnyView(self)
+        }
+    }
+}
+
 struct HistoricalData: View {
     
     @ObservedObject var pot : Pot   //current pot selected
@@ -151,15 +162,18 @@ struct HistoricalData: View {
                                     Spacer()
                                     //data values shown on graph
                                     Text("\(graphBar.displayValue)")
+                                        .lineLimit(1)
                                         .font(.system(size: UIScreen.subTextSize))
                                         .rotationEffect(.degrees(-90))
                                         .offset(y: UIScreen.textOffset)
                                         .zIndex(1)
-                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
+                                        //have a larger offset for the larger light values
+                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.lightTextOffset : 0)
+                                    
                                     
                                     // bars of the graph
                                     Rectangle()
-                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
+                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealLightLow) && (graphBar.displayValue <= pot.idealLightHigh))))
                                         .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
                                     // x values of bar graph
                                     Text("\(graphBar.xValue)")
@@ -167,7 +181,13 @@ struct HistoricalData: View {
                                         .frame(height: UIScreen.graphWidth)
                                 }
                                 .padding(.bottom)
-                                .padding(.trailing, UIScreen.graphPadding)
+                                .ifTrue(graphBar.displayValue < 1000){
+                                    AnyView($0.padding(.trailing, UIScreen.graphPadding))
+                                }
+                                .ifTrue(graphBar.displayValue >= 1000){
+                                    AnyView($0.padding(.trailing, -UIScreen.graphPadding))
+                                }
+                                
                             }
                         }
                     }
@@ -222,7 +242,7 @@ struct HistoricalData: View {
                                     
                                     // bars of the graph
                                     Rectangle()
-                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
+                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealTempLow) && (graphBar.displayValue <= pot.idealTempHigh))))
                                         .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
                                     // x values of bar graph
                                     Text("\(graphBar.xValue)")
@@ -431,11 +451,3 @@ struct PagesContainer <Content : View> : View {
         }
     }
 }
-
-/*
- struct HistoricalData_Previews: PreviewProvider {
- static var previews: some View {
- HistoricalData(pot: Pot(plantName: "bob", plantType: "type", idealTempHigh: 80, idealTempLow: 20, idealMoistureHigh: 30, idealMoistureLow: 20, idealLightHigh: 3200, idealLightLow: 2300, lastWatered: Date(), records: [], notifications: []), tuples: [(high: 0, avg: 2, low: 0),(high: 1, avg: 2, low: 3),(high: 1, avg: 2, low: 3)])
- 
- }
- }*/
