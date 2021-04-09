@@ -20,6 +20,7 @@ class Plant: ObservableObject, Identifiable {
     @Published var idealLightHigh: Int //ideal light high of the plant
     @Published var description: String //description of the plant type
     @Published var imageURL: String //image string (s3) of the plant type
+    @Published var citation: String //url as a citation for the plant image and details
     
     /// constructor for plant
     ///
@@ -34,7 +35,7 @@ class Plant: ObservableObject, Identifiable {
     ///     - description: Description of the plant type
     ///     - imageURL: Image string (s3) of the plant type
     init(plantType: String, idealTempLow: Int, idealTempHigh: Int, idealMoistureLow: Int, idealMoistureHigh: Int,
-         idealLightLow: Int, idealLightHigh: Int, description: String, imageURL: String) {
+         idealLightLow: Int, idealLightHigh: Int, description: String, imageURL: String, citation: String) {
         self.plantType = plantType
         self.idealTempLow = idealTempLow
         self.idealTempHigh = idealTempHigh
@@ -44,6 +45,7 @@ class Plant: ObservableObject, Identifiable {
         self.idealLightHigh = idealLightHigh
         self.description = description
         self.imageURL = imageURL
+        self.citation = citation
     }
     
 }
@@ -62,11 +64,12 @@ struct codePlant: Codable, Identifiable {
     let idealLightHigh: Int? //ideal light high of the plant
     let description: String? //description of the plant type
     let imageURL: String? //image string (s3) of the plant type
+    let citation: String? //url as a citation for the plant image and info
     
     //to conform to codable
     enum CodingKeys: String, CodingKey {
         case id, description, idealLightHigh, idealLightLow, idealMoistureHigh, idealMoistureLow,
-             idealTempHigh, idealTempLow, plantType, imageURL
+             idealTempHigh, idealTempLow, plantType, imageURL, citation
     }
 }
 
