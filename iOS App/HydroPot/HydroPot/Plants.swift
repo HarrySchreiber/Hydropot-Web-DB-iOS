@@ -144,7 +144,7 @@ class Plants: ObservableObject, Identifiable {
                             idealLightHigh: plant.idealLightHigh ?? -1000,
                             description: plant.description ?? "No description available",
                             imageURL: plant.imageURL ?? "",
-                            citation: ""))
+                            citation: plant.citation ?? ""))
                     }
                 }
                 //sort the plant list by type

@@ -124,10 +124,10 @@ struct PlantTypePage: View {
                                 .padding(.leading, 5)
                         }
                     }
-                    Text("\(plant.citation)")
+                    Text("Source: \(plant.citation)")
                         //styling
                         .font(.system(size: UIScreen.subTextSize))
-                        .padding(.bottom, 0.5)
+                        .padding(.top)
                 }
             }
             Spacer()
