@@ -124,6 +124,7 @@ struct PlantTypePage: View {
                                 .padding(.leading, 5)
                         }
                     }
+                    //show citation for plant information
                     Text("Source: \(plant.citation)")
                         //styling
                         .font(.system(size: UIScreen.subTextSize))
