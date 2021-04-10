@@ -791,9 +791,9 @@ function validateFieldInput(keyValueStore){
 
     //Check to make sure plant type and description have values
     for(var key in keyValueStore){
-        if(key == "plantType" || key == "description"){
+        if(key == "plantType" || key == "description" || key == "citation"){
             if(keyValueStore[key] === ""){
-                warningModal("Plant type and description must have values");
+                warningModal("Plant type, description, and citation must have values");
                 return false
             }
         }
