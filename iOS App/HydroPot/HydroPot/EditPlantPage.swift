@@ -160,12 +160,57 @@ struct EditPlantPage: View {
                                         .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
                                 }
+                                //if delete has been pressed/toggled
+                               .alert(isPresented:$deletePressed) {
+                                   Alert(
+                                       //inform user about the deletion
+                                       title: Text("Your plant, \(pot.plantName), is about to be deleted"),
+                                       //inform big boo-boo if mistake
+                                       message: Text("There is no undo"),
+                                       //delete button
+                                       primaryButton: .destructive(Text("Delete")) {
+                                           //delete the pot
+                                           print("Deleting \(pot.plantName)")
+                                           deletePot(pot: pot)
+                                           //dismiss the modal
+                                           self.showModal.toggle()
+                                       },
+                                       //cancel button
+                                       secondaryButton: .cancel() {
+                                       }
+                                   )
+                               }
+
                                 .padding(.bottom, 6)
                                 idealRanges(ideals: ideals, tempValues: $tempValues)
+                            
+                                HStack {
+                                    //delete button
+                                    Button(action: {
+                                        //toggle delete alert
+                                        self.deletePressed.toggle()
+                                    }) {
+                                        HStack {
+                                            //delete button text
+                                            Text("Delete Pot")
+                                                //styling
+                                                .font(.system(size: UIScreen.regTextSize))
+                                        }
+                                        //styling
+                                        .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                                        .multilineTextAlignment(.center)
+                                        .padding(10)
+                                    }
+                                    //styling
+                                    .foregroundColor(.white)
+                                    .background(Color.red.opacity(0.8))
+                                    .cornerRadius(6)
+                                    .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .center)
+                                }
                             }
-                            Spacer()
                         }
                     }
+                    Spacer()
                 }
             }
             //nav bar stuff
@@ -337,6 +382,22 @@ struct EditPlantPage: View {
         return imageData.base64EncodedString()
         
     }
+
+   /// deleting a pot on the db side and client side
+   ///
+   /// - Parameters:
+   ///     - pot: pot to be deleted
+   func deletePot(pot: Pot) {
+       //for each pot
+       for i in 0...user.pots.count {
+           //if we found our pot
+           if (user.pots[i].id == pot.id) {
+               //delete the pot
+               user.deletePot(Index: i)
+               break
+           }
+       }
+   }
     
     /// add image to the database
     ///
@@ -360,22 +421,6 @@ struct EditPlantPage: View {
             if user.loggedIn {
                 //edit the pot
                 user.editPot(pot: pot)
-            }
-        }
-    }
-    
-    /// deleting a pot on the db side and client side
-    ///
-    /// - Parameters:
-    ///     - pot: pot to be deleted
-    func deletePot(pot: Pot) {
-        //for each pot
-        for i in 0...user.pots.count {
-            //if we found our pot
-            if (user.pots[i].id == pot.id) {
-                //delete the pot
-                user.deletePot(Index: i)
-                break
             }
         }
     }

@@ -68,7 +68,7 @@ class GetUser: ObservableObject {
     init() {
         self.userId = ""
         self.loggedIn = false
-        self.name = "Spencer The Cool"
+        self.name = ""
         self.email = ""
         self.password = ""
         self.pots = []
@@ -889,6 +889,47 @@ class GetUser: ObservableObject {
 
     }
     
+    /// deletes the ccount and signs them out
+    ///
+    func deleteAccount() {
+        
+        //json payload to send to aws lambda
+        let json: [String: Any] = ["operation": "deleteAccount", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId]]]
+        
+        //jsonify the data
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        //make request
+        var request = URLRequest(url: url)
+        
+        //post request
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        //configure and submit the request
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        //error response
+        session.dataTask(with: request) { data, response, error in }.resume()
+        
+        self.userId = ""
+        self.loggedIn = false
+        self.name = ""
+        self.email = ""
+        self.password = ""
+        self.pots = []
+        self.notifications = true
+        self.deviceToken =   UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+        self.url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+
+    }
+    
     /// water the pot server side
     ///
     /// - Parameters:
@@ -1003,6 +1044,7 @@ class GetUser: ObservableObject {
         
         //error response
         session.dataTask(with: request) { data, response, error in}.resume()
+        
         
     }
     
