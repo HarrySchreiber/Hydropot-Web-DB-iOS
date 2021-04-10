@@ -72,6 +72,7 @@ async function loadPage(){
     buildInputFields();
     plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
     buildTable(plantTypesLocal);
+    buildTotalPlantsField();
 }
 
 /**
@@ -100,16 +101,6 @@ async function authenticateUser(){
     }catch(err){
         warningModal("No account registered with those credentials");
     }
-    // function(data){
-    //     try{
-    //         var id = data["Items"][0]["id"];    //Grabs the user id
-    //         setCached("userID",id);             //Sets a cookie for the user id
-    //         $("#login").remove();               //Removes html for the login
-    //         loadPage();
-    //     }catch(err){
-    //         warningModal("No account registered with those credentials");
-    //     }
-    // });
 }
 
 /**
@@ -780,6 +771,7 @@ function runSearchQuery(){
     }
 
     buildTable(plantTypesLocal);
+    buildTotalPlantsField();
 }
 
 /**
@@ -821,7 +813,7 @@ function validateFieldInput(keyValueStore){
 
     //Converts ideals to numerical or null for comparison
     for(var key in keyValueStore){
-        if(!(key == "plantType" || key == "description" || key == "citation")){
+        if(!(key == "plantType"||key == "description"||key == "citation")){
             if(keyValueStore[key] != ""){
                 keyValueStore[key] = Number(keyValueStore[key]);
             }else{
@@ -1033,4 +1025,33 @@ async function checkLoggedIn(){
         $("#login").remove();
         loadPage();
     }
+}
+
+/**
+ * Builds the field for communicating the total number of plants in the db
+ */
+function buildTotalPlantsField(){
+    $("#total-plants-field").empty();  //Clears the old plant table
+    var div = document.createElement("div");
+    div.setAttribute("class","row no-gutters");
+
+    var count = 0;
+    for(var key in plantTypesLocal){
+        var obj = plantTypesLocal[key];
+        if(obj.display == "flex"){
+            count++;
+        }
+    }
+    
+    var paragraph = document.createElement("p");
+    paragraph.setAttribute("style","margin:0");
+    paragraph.append("Showing Results for ");
+    var boldSection = document.createElement("b");
+    boldSection.append(count);
+    paragraph.append(boldSection);
+    paragraph.append(" Plants");
+
+    div.appendChild(paragraph);
+
+    $("#total-plants-field").append(div);
 }
