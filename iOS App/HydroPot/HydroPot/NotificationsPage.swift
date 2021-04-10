@@ -45,23 +45,30 @@ struct NotificationsPage: View {
                         let tempPot = notiePots.notiesTuple.pot
                         let ideals = Ideals(idealTemperatureHigh: String(tempPot.idealTempHigh), idealTemperatureLow: String(tempPot.idealTempLow), idealMoistureHigh: String(tempPot.idealMoistureHigh), idealMoistureLow: String(tempPot.idealMoistureLow), idealLightLevelLow: String(tempPot.idealLightLow), idealLightLevelHigh: String(tempPot.idealLightHigh), plantName: tempPot.plantName, plantSelected: tempPot.plantType, notificationFrequency: tempPot.notiFilledFrequency)
                         //each notification goes to it's specific pot
-                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)) {
+                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)
+                            .onAppear(){
+                                    notiePots.notiesTuple.notification.read = true
+                                    user.editPot(pot: notiePots.notiesTuple.pot)
+                        }){
                             //card
                             VStack(alignment: .leading){
                                 //get the message of the noti
                                 Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
                                     .padding(.top, 5)
                                 HStack {
                                     Spacer()
                                     //get the timestamp
                                     Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
+                                        .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
                                         //styling
                                         .font(.system(size: UIScreen.subTextSize))
                                     
                                 }
-                            }.fixedSize(horizontal: false, vertical: true)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }
@@ -119,6 +126,23 @@ struct NotificationsPage: View {
     func attemptReload() {
         user.reload() {
         }
+    }
+    
+    /// function to encode jpeg images
+    ///
+    /// - Parameters:
+    ///     - bool: if supposed to be red or green
+    ///
+    /// - Returns:
+    ///     the correct color of the text
+    func getTextColor(bool: Bool) -> Color{
+        //if we are supposed to be green
+        if(bool) {
+            //return green
+            return Color.gray
+        }
+        //return red
+        return Color.black
     }
 }
 

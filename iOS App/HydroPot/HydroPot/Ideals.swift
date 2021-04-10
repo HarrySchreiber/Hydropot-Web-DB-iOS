@@ -12,66 +12,91 @@ import SwiftUI
 class Ideals: ObservableObject {
     //ideal temperature high for the pot
     @Published var idealTemperatureHigh: String {
+        
         didSet {
-            //upper bound 90
-            if (Int(idealTemperatureHigh)! >= 90) {
+            //upper for temp 90
+            if (Int(idealTemperatureHigh) ?? -1 > 90) {
                 idealTemperatureHigh = "90"
             }
-
+            //lower for temp is 45
+            else if (Int(idealTemperatureHigh) ?? -1 < 45){
+                idealTemperatureHigh = "45"
+            }
             updateColors()
         }
     }
     //ideal moisture high for the pot
     @Published var idealMoistureHigh: String {
+        
         didSet {
-            //upper for moisture 100
-            if (Int(idealMoistureHigh)! >= 100) {
+            //upper for moist 100
+            if (Int(idealMoistureHigh) ?? 0 > 100) {
                 idealMoistureHigh = "100"
             }
-
+            //lower for moisture is 0
+            else if (Int(idealMoistureHigh) ?? 0 < 0){
+                idealMoistureHigh = "0"
+            }
             updateColors()
         }
     }
     //ideal light level high for the pot
     @Published var idealLightLevelHigh: String {
+        
         didSet {
-            //upper for light is 15k
-            if (Int(idealLightLevelHigh)! >= 15000) {
+            //upper for light 15000
+            if (Int(idealLightLevelHigh) ?? 0 > 15000) {
                 idealLightLevelHigh = "15000"
+            }
+            //lower for light is 500
+            else if (Int(idealLightLevelHigh) ?? 0 < 0){
+                idealLightLevelHigh = "500"
             }
             updateColors()
         }
     }
     //ideal temperature low for the pot
     @Published var idealTemperatureLow: String {
+        
         didSet {
-            //45
-            if (Int(idealTemperatureHigh)! >= 45) {
-                idealTemperatureHigh = "45"
+            //upper for temp 90
+            if (Int(idealTemperatureLow) ?? 90 > 90) {
+                idealTemperatureLow = "90"
             }
-            
-            updateColors()
+            //lower for temp is 45
+            else if (Int(idealTemperatureLow) ?? 45 < 45){
+                idealTemperatureLow = "45"
+            }
+
         }
     }
     //ideal moisture low for the pot
     @Published var idealMoistureLow: String {
+        
         didSet {
-            //ideal moist low 10
-            if (Int(idealMoistureHigh)! >= 10) {
-                idealMoistureHigh = "10"
+            //upper for moist 100
+            if (Int(idealMoistureLow) ?? 0 > 100) {
+                idealMoistureLow = "100"
             }
-            
+            //lower for moisture is 0
+            else if (Int(idealMoistureLow) ?? 0 < 0){
+                idealMoistureLow = "0"
+            }
             updateColors()
         }
     }
     //ideal light low for the pot
     @Published var idealLightLevelLow: String {
+       
         didSet {
-            //ideal light low 500
-            if (Int(idealLightLevelHigh)! >= 500) {
-                idealLightLevelHigh = "500"
+            //upper for light 15000
+            if (Int(idealLightLevelLow) ?? 0 > 15000) {
+                idealLightLevelLow = "15000"
             }
-            
+            //lower on light is 500
+            else if (Int(idealLightLevelLow) ?? 0 < 0){
+                idealLightLevelLow = "500"
+            }
             updateColors()
         }
     }

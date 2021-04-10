@@ -100,15 +100,13 @@ struct EditPlantPage: View {
                                 HStack{
                                     //name of the plant
                                     TextField("Plant Name", text: $ideals.plantName)
-                                        //styling
+                                        //plant name
                                         .font(.system(size: UIScreen.regTextSize))
                                         .foregroundColor(.black)
-                                        .opacity(0.3)
                                         .padding(6)
                                         .buttonStyle(PlainButtonStyle())
                                         .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                         .border(Color.black.opacity(0.5))
-
                                 }
                                 .padding(.bottom, 3)
                                 //show the image picker when toggled

@@ -18,6 +18,7 @@ struct Login: View {
     @StateObject var user = GetUser() //creating default user
     @State var plants = Plants() //creating default plants
     @State var loginFail = false //alert for login
+    @State var signupFail = false //alert for signup
     @State var comfFail = false //alert for comf password
     
     var body: some View {
@@ -114,6 +115,10 @@ struct Login: View {
                                     .border(Color.black.opacity(0.2))
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
+                            //present alert to fill out all the fields
+                            .alert(isPresented: $signupFail) {
+                                Alert(title: Text(""), message: Text("This email has already been taken").font(.system(size: UIScreen.regTextSize)), dismissButton: .default(Text("Got it!").font(.system(size: UIScreen.regTextSize))))
+                            }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
                             //stack for password
                             HStack {
@@ -156,7 +161,7 @@ struct Login: View {
                                 //if we are good
                                 else {
                                     //signup
-                                    user.signup(name: name, email: email, password: password)
+                                    attemptSignup(name: name, email: email, password: password)
                                 }
                             }) {
                                 //label for button and styling
@@ -193,6 +198,26 @@ struct Login: View {
     }
     
     /// callback for the login function designed to perform alert and load from db correctly
+    ///
+    /// - Parameters:
+    ///     - email: The email of the signup attempt
+    ///     - name: the name of the signup attempt
+    ///     - password: The password of the signup attempt
+    func attemptSignup(name: String, email: String, password: String) {
+        user.signup(name: name, email: email, password: password) {
+            // will be received at the login processed
+            if user.loggedIn {
+                //don't display alert
+                signupFail = false
+            }
+            else{
+                //do display alert
+                signupFail = true
+            }
+        }
+    }
+    
+    /// callback for the singup function designed to perform alert and load from db correctly
     ///
     /// - Parameters:
     ///     - email: The email of the login attempt

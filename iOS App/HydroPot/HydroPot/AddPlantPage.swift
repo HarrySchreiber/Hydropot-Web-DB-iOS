@@ -23,6 +23,7 @@ struct AddPlantPage: View {
     @State var image: Image? = Image(systemName: "camera.circle") //default image
     @State var userIntefaceImage: UIImage? = UIImage(systemName: "camera.circle") //other default user image
     @State var tempURL = "" //temp url to know if the image has been selected by user
+    @State var addFailed = false //failed boolean for displaying id fail
     var body: some View {
         NavigationView {
             ZStack {
@@ -96,6 +97,11 @@ struct AddPlantPage: View {
                                             .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                                             .border(Color.black.opacity(0.5))
                                     }
+                                    //present alert if toggled
+                                    .alert(isPresented: $addFailed) {
+                                        //alert
+                                        Alert(title: Text(""), message: Text("This pot ID has already been claimed"), dismissButton: .default(Text("Got it!")))
+                                    }
                                     .padding(.bottom, 3)
                                     ZStack{
                                         //if defualt plant type
@@ -157,7 +163,6 @@ struct AddPlantPage: View {
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading:
                     Button(action: {
-                        //dismiss the modal
                         self.showModal.toggle()
                     }) {
                         HStack {
@@ -176,9 +181,7 @@ struct AddPlantPage: View {
                                 
                                 //add the image
                                 addImage(encodedImage: encoding, ext: "jpeg")
-                                
-                                //dismiss the modal
-                                self.showModal.toggle()
+                            
                             }
                             //else
                             else {
@@ -226,16 +229,35 @@ struct AddPlantPage: View {
             user.uploadImage(encoding: encodedImage, ext: ext, pot: pot) {
                 if user.loggedIn {
                     //add the new plant
-                    user.addPlant(pot: pot)
+                    attemptAddPot(pot: pot)
+    
                 }
             }
         }
         //if we don't have a image
         else {
-            //add a new plant
-            user.addPlant(pot: pot)
+            attemptAddPot(pot: pot)
         }
     }
+    
+    /// callback for the login function designed to perform alert and load from db correctly
+    ///
+    /// - Parameters:
+    ///     - pot: the pot to add
+    func attemptAddPot(pot: Pot) {
+        let count = user.pots.count
+        //add a new plant
+        user.addPlant(pot: pot) {
+            if (count + 1 == user.pots.count){
+                //dismiss the modal
+                self.showModal.toggle()
+            }
+            else {
+                addFailed = true
+            }
+        }
+    }
+    
     
     
     /// function to encode jpeg images
