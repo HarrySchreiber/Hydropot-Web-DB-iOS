@@ -248,12 +248,14 @@ function buildTable(data){
         //Save the edited information 
         var saveButton = document.createElement("input");
         saveButton.setAttribute("type","button");
+        saveButton.setAttribute("class","btn btn-primary");
         saveButton.setAttribute("style","width: 50%; height: 100%");
         saveButton.setAttribute("onclick",`confirmActionModal("${id}","${obj['imageURL']}","${obj['plantType']}","edit")`);
         saveButton.value = "💾";    //TODO: Probably replace the emoji with a picture at some point
         //Delete the plant from the DB
         var deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","button");
+        deleteButton.setAttribute("class","btn btn-danger");
         deleteButton.setAttribute("style","width: 50%; height: 100%");
         deleteButton.setAttribute("onclick",`confirmActionModal("${id}","${obj['imageURL']}","${obj['plantType']}","delete")`);
         deleteButton.value = "🗑";  //TODO: Probably replace the emoji with a picture at some point
@@ -431,6 +433,7 @@ function buildInputFields(){
     addButton.setAttribute("onclick",`prepForDB('','add','addImageButton')`);
     addButton.value = "➕"; //TODO: Probably replace emojis with images at some point
     addButton.setAttribute("type","button");
+    addButton.setAttribute("class","btn btn-primary");
     addButton.setAttribute("style","width: 100%; height: 100%;");
     buttonsCol.appendChild(addButton);
 
