@@ -13,11 +13,12 @@ import Foundation
 struct CodeNotifications: Codable {
 
     let type: String //type of notification
+    let read: Bool //if the notification has been read
     let timeStamp: String //when notification occured
     
     //required for codable
     enum CodingKeys: String, CodingKey {
-        case type, timeStamp
+        case type, read, timeStamp
     }
 }
 
@@ -26,15 +27,18 @@ struct CodeNotifications: Codable {
  */
 class Notification: ObservableObject, Identifiable {
     @Published var type: String //type of notification
+    @Published var read: Bool // if the noti has been read
     @Published var timeStamp: Date //when notification occured
     
     /// constructor for notifications
     ///
     /// - Parameters:
     ///     - type: What type of notification is it
+    ///     - read: If the notification has been read
     ///     - timeStamp: When the notification occured
-    init(type: String, timeStamp: Date) {
+    init(type: String, read: Bool, timeStamp: Date) {
         self.type = type
+        self.read = read
         self.timeStamp = timeStamp
     }
 }

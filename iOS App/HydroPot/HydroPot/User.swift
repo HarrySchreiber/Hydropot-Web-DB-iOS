@@ -17,6 +17,12 @@ struct UserResults: Codable {
 }
 
 /*
+    Codable to hold results from aws api call
+ */
+struct addResults: Codable {
+    let result: Bool //if we added or nah
+}
+/*
     Codable to convert user json into struct to place in class
  */
 struct User: Codable, Identifiable {
@@ -62,7 +68,7 @@ class GetUser: ObservableObject {
     init() {
         self.userId = ""
         self.loggedIn = false
-        self.name = "Spencer The Cool"
+        self.name = ""
         self.email = ""
         self.password = ""
         self.pots = []
@@ -168,7 +174,7 @@ class GetUser: ObservableObject {
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
                                 //make notification
-                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
+                                let notification = Notification(type: notie.type, read: notie.read, timeStamp: date ?? Date())
                                 //append noti
                                 notifications.append(notification)
                             }
@@ -309,7 +315,7 @@ class GetUser: ObservableObject {
                                 let date = dateFormatter.date(from: notie.timeStamp)
                                 
                                 //make notification
-                                let notification = Notification(type: notie.type, timeStamp: date ?? Date())
+                                let notification = Notification(type: notie.type, read: notie.read, timeStamp: date ?? Date())
                                 //append noti
                                 notifications.append(notification)
                             }
@@ -375,7 +381,7 @@ class GetUser: ObservableObject {
     ///     - name: Name of the user
     ///     - email: Email of the user
     ///     - password: Password of the user
-    func signup(name: String, email: String, password: String) {
+    func signup(name: String, email: String, password: String, onEnded: @escaping () -> ()) {
         
         //create the users ID
         let tempID = UUID()
@@ -402,14 +408,50 @@ class GetUser: ObservableObject {
         let session = URLSession(configuration: config)
         
         //error response
-        session.dataTask(with: request) { data, response, error in }.resume()
+        session.dataTask(with: request) { data, response, error in
+            
+            // make sure data is not nil
+            guard let d = data else {
+                print("Unable to load data")
+                return
+            }
+            
+            // decode the returned data to codable
+            let results: UserResults?
+            do {
+                //decoding the data
+                let decoder = JSONDecoder()
+                //try to decode into our codable
+                results = try decoder.decode(UserResults.self, from: d)
+            } catch {
+                //if we failed
+                results = nil
+            }
+            //if we could not decode
+            guard let r = results else {
+                //not able to decode
+                print("Unable to parse user login JSON")
+                return
+            }
+            //execute asynch function
+            DispatchQueue.main.async(execute: {
+                //if we have a user
+                if ((r.Items.count) == 0) {
+                    self.userId = tempID.uuidString //user id
+                    self.loggedIn = true //logged in
+                    self.name = name //user name
+                    self.email = email //user email
+                    self.password = password //user password
+                    self.pots = [] //user has no pots
+                    //permanent login for leaving app
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                }
+                //return to callback
+                onEnded()
+            })
+                    
+        }.resume()
         
-        self.userId = tempID.uuidString //user id
-        self.loggedIn = true //logged in
-        self.name = name //user name
-        self.email = email //user email
-        self.password = password //user password
-        self.pots = [] //user has no pots
 
     }
     
@@ -417,14 +459,11 @@ class GetUser: ObservableObject {
     ///
     /// - Parameters:
     ///     - pot: The user's pot to be added
-    func addPlant(pot: Pot) {
+    func addPlant(pot: Pot, onEnded: @escaping () -> ()) {
         
         //date formatter for various dates
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        
-        //append the pot client side
-        pots.append(pot)
 
         //payload to send to aws lambda
         let json: [String: Any] =
@@ -476,7 +515,42 @@ class GetUser: ObservableObject {
         let session = URLSession(configuration: config)
         
         //error response
-        session.dataTask(with: request) { data, response, error in}.resume()
+        session.dataTask(with: request) { data, response, error in
+            // make sure data is not nil
+            guard let d = data else {
+                print("Unable to load data")
+                return
+            }
+            
+            // decode the returned data to codable
+            let results: addResults?
+            do {
+                //decoding the data
+                let decoder = JSONDecoder()
+                //try to decode into our codable
+                results = try decoder.decode(addResults.self, from: d)
+            } catch {
+                //if we failed
+                results = nil
+            }
+            //if we could not decode
+            guard let r = results else {
+                //not able to decode
+                print("Unable to parse user login JSON")
+                return
+            }
+            //execute asynch function
+            DispatchQueue.main.async(execute: {
+                //if we don't have a pot
+                if ((r.result) == true) {
+                    //append the pot client side
+                    self.pots.append(pot)
+                }
+                //return to callback
+                onEnded()
+            })
+            
+        }.resume()
     }
     
     /// replacing the pot client side
@@ -493,8 +567,7 @@ class GetUser: ObservableObject {
             }
         }
     }
-    
-    
+
     /// deleting a pot at a given index
     ///
     /// - Parameters:
@@ -563,12 +636,13 @@ class GetUser: ObservableObject {
         //for every noti
         for notification in pot.notifications {
             //make noti dict
-            var notieDict : [String: String] = [:]
+            var notieDict : [String: Any] = [:]
             //format timestamp
             let dateString = dateFormatter.string(from: notification.timeStamp)
             
             //our values
             notieDict["timeStamp"] = dateString
+            notieDict["read"] = notification.read
             notieDict["type"] = notification.type
             
             //append json to noti array
@@ -815,6 +889,47 @@ class GetUser: ObservableObject {
 
     }
     
+    /// deletes the ccount and signs them out
+    ///
+    func deleteAccount() {
+        
+        //json payload to send to aws lambda
+        let json: [String: Any] = ["operation": "deleteAccount", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId]]]
+        
+        //jsonify the data
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        //make request
+        var request = URLRequest(url: url)
+        
+        //post request
+        request.httpMethod = "POST"
+        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+        request.httpBody = jsonData
+
+        //configure and submit the request
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Accept": "Application/json"]
+        let session = URLSession(configuration: config)
+        
+        //error response
+        session.dataTask(with: request) { data, response, error in }.resume()
+        
+        self.userId = ""
+        self.loggedIn = false
+        self.name = ""
+        self.email = ""
+        self.password = ""
+        self.pots = []
+        self.notifications = true
+        self.deviceToken =   UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+        self.url = URL(string: "https://695jarfi2h.execute-api.us-east-1.amazonaws.com/production/mobile")!
+
+    }
+    
     /// water the pot server side
     ///
     /// - Parameters:
@@ -848,12 +963,13 @@ class GetUser: ObservableObject {
         //for every noti
         for notification in pot.notifications {
             //make noti dict
-            var notieDict : [String: String] = [:]
+            var notieDict : [String: Any] = [:]
             //format timestamp
             let dateString = dateFormatter.string(from: notification.timeStamp)
             
             //our values
             notieDict["timeStamp"] = dateString
+            notieDict["read"] = notification.read
             notieDict["type"] = notification.type
             
             //append json to noti array
@@ -928,6 +1044,7 @@ class GetUser: ObservableObject {
         
         //error response
         session.dataTask(with: request) { data, response, error in}.resume()
+        
         
     }
     
