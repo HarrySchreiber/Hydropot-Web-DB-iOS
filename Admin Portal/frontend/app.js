@@ -154,7 +154,7 @@ function buildTable(data){
         image.setAttribute("src",obj['imageURL']);  //Set the image source from S3
         image.setAttribute("savedURL",obj['imageURL']);
         image.setAttribute("alt",`Picture of ${obj['plantType']}`);
-        image.setAttribute("style","position: relative; top:0; left:0; width:75px; height:75px;");  //Set the width and height of the picture to display
+        image.setAttribute("style","position: relative; top:0; left:0; width:85px; height:85px;");  //Set the width and height of the picture to display
         
         //Input dialogue for file upload (overlays on the image)
         var imageUploadDialogue = document.createElement("input");
@@ -170,7 +170,7 @@ function buildTable(data){
         imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
         imageOverlay.setAttribute("alt","image overlay");
         imageOverlay.setAttribute("onclick",`document.getElementById('image-button-${id}').click()`);
-        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 75px; height: 75px; cursor:pointer;");
+        imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; width: 85px; height: 85px; cursor:pointer;");
 
         
         pictureCol.appendChild(image);
@@ -340,8 +340,8 @@ function buildInputFields(){
     //Empty image to be filled when the user selects an image
     var addImageOutput = document.createElement("img");
     addImageOutput.setAttribute("id","add-image-output");
-    addImageOutput.setAttribute("width","75px");
-    addImageOutput.setAttribute("height","75px");
+    addImageOutput.setAttribute("width","85px");
+    addImageOutput.setAttribute("height","85px");
     pictureCol.appendChild(addImageOutput);
 
     //File input overlayed on the image
@@ -358,7 +358,7 @@ function buildInputFields(){
     imageOverlay.setAttribute("src","https://s3.us-east-2.amazonaws.com/hydropot.com/imageUploadOverlay.png");
     imageOverlay.setAttribute("alt","image overlay");
     imageOverlay.setAttribute("id","add-image-overlay");
-    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 75px; width:75px;");
+    imageOverlay.setAttribute("style","position: absolute; top: 0; left: 0; cursor:pointer; height: 85px; width:85px;");
     imageOverlay.setAttribute("onclick","document.getElementById('addImageButton').click()");
     pictureCol.appendChild(imageOverlay);
 
@@ -970,6 +970,12 @@ async function prepForDB(id,action,fileDialogueId){
                 }
             }));
 
+            //Checks to make sure there are no errors on image uploads
+            if(imageURL['errorMessage'] != undefined){
+                warningModal("There was an error uploading your image, try again, or upload a different one.")
+                return
+            }
+
             if(action === "add"){
                 //Add a plant
                 addPlant(imageURL, keyValueStore);
@@ -1043,6 +1049,7 @@ function buildTotalPlantsField(){
     var div = document.createElement("div");
     div.setAttribute("class","row no-gutters");
 
+    //Count the number of plants that are visable to the user
     var count = 0;
     for(var key in plantTypesLocal){
         var obj = plantTypesLocal[key];
