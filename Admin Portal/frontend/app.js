@@ -72,6 +72,7 @@ async function loadPage(){
     buildInputFields();
     plantTypesLocal = packageData(data['Items']);   //Set plantTypes array to current data
     buildTable(plantTypesLocal);
+    buildTotalPlantsField();
 }
 
 /**
@@ -100,16 +101,6 @@ async function authenticateUser(){
     }catch(err){
         warningModal("No account registered with those credentials");
     }
-    // function(data){
-    //     try{
-    //         var id = data["Items"][0]["id"];    //Grabs the user id
-    //         setCached("userID",id);             //Sets a cookie for the user id
-    //         $("#login").remove();               //Removes html for the login
-    //         loadPage();
-    //     }catch(err){
-    //         warningModal("No account registered with those credentials");
-    //     }
-    // });
 }
 
 /**
@@ -456,7 +447,6 @@ function buildInputFields(){
  * @param {object} keyValueStore    information about the plant
  */
 async function addPlant(imageURL, keyValueStore){
-    console.log(keyValueStore['description']);
     var data = await postToLambda(JSON.stringify({
         'operation':'add',
         'userID': checkCookie(),
@@ -780,6 +770,7 @@ function runSearchQuery(){
     }
 
     buildTable(plantTypesLocal);
+    buildTotalPlantsField();
 }
 
 /**
@@ -799,9 +790,9 @@ function validateFieldInput(keyValueStore){
 
     //Check to make sure plant type and description have values
     for(var key in keyValueStore){
-        if(key == "plantType" || key == "description"){
+        if(key == "plantType" || key == "description" || key == "citation"){
             if(keyValueStore[key] === ""){
-                warningModal("Plant type and description must have values");
+                warningModal("Plant type, description, and citation must have values");
                 return false
             }
         }
@@ -821,7 +812,7 @@ function validateFieldInput(keyValueStore){
 
     //Converts ideals to numerical or null for comparison
     for(var key in keyValueStore){
-        if(!(key == "plantType" || key == "description" || key == "citation")){
+        if(!(key == "plantType"||key == "description"||key == "citation")){
             if(keyValueStore[key] != ""){
                 keyValueStore[key] = Number(keyValueStore[key]);
             }else{
@@ -833,6 +824,16 @@ function validateFieldInput(keyValueStore){
     //Validation for temperature
     if(!(keyValueStore["idealTempHigh"] == null && keyValueStore["idealTempLow"] == null)){
         if(keyValueStore["idealTempHigh"] != null && keyValueStore["idealTempLow"] != null){
+            //Makes sure high temp is limited to a range of 0 to 100
+            if(keyValueStore["idealTempHigh"] < 0 || keyValueStore["idealTempHigh"] > 100){
+                warningModal("Ideal Temperature High must be between 0-100 Fahrenheit");
+                return false;
+            }
+            //Makes sure low temp is limited to a range of 0 to 100
+            if(keyValueStore["idealTempLow"] < 0 || keyValueStore["idealTempLow"] > 100){
+                warningModal("Ideal Temperature Low must be between 0-100 Fahrenheit");
+                return false;
+            }
             //Check to make sure high temperature is higher than the low
             if(keyValueStore["idealTempHigh"] <= keyValueStore["idealTempLow"]){
                 warningModal("Ideal Temperature High must be greater than Ideal Temperature Low");
@@ -847,7 +848,7 @@ function validateFieldInput(keyValueStore){
     //Validation for moisture
     if(!(keyValueStore["idealMoistureHigh"] == null && keyValueStore["idealMoistureLow"] == null)){
         if(keyValueStore["idealMoistureHigh"] != null && keyValueStore["idealMoistureLow"] != null){
-           //Checks that high moisture is between 0 and 100 percent
+            //Checks that high moisture is between 0 and 100 percent
             if(keyValueStore["idealMoistureHigh"] < 0 || keyValueStore["idealMoistureHigh"] > 100){
                 warningModal("Ideal Moisture High must be within a 0-100 range");
                 return false;
@@ -873,15 +874,14 @@ function validateFieldInput(keyValueStore){
     //Validation for light
     if(!(keyValueStore["idealLightHigh"] == null && keyValueStore["idealLightLow"] == null)){
         if(keyValueStore["idealLightHigh"] != null && keyValueStore["idealLightLow"] != null){
-            //Checks high light is non-negative
-            if(keyValueStore["idealLightHigh"] < 0){
-                warningModal("Ideal Light High must not be below 0");
+            //Makes sure high light is limited to a range of 0 to 15000 lumins
+            if(keyValueStore["idealLightHigh"] < 0 || keyValueStore["idealLightHigh"] > 15000){
+                warningModal("Ideal Light High must be between 0-15000 Lumins");
                 return false;
             }
-
-            //Checks low light is non-negative
-            if(keyValueStore["idealLightLow"] < 0){
-                warningModal("Ideal Light Low must not be below 0");
+            //Makes sure low light is limited to a range of 0 to 15000 lumins
+            if(keyValueStore["idealLightLow"] < 0 || keyValueStore["idealLightLow"] > 15000){
+                warningModal("Ideal Light Low must be between 0-15000 Lumins");
                 return false;
             }
 
@@ -1033,4 +1033,33 @@ async function checkLoggedIn(){
         $("#login").remove();
         loadPage();
     }
+}
+
+/**
+ * Builds the field for communicating the total number of plants in the db
+ */
+function buildTotalPlantsField(){
+    $("#total-plants-field").empty();  //Clears the old plant table
+    var div = document.createElement("div");
+    div.setAttribute("class","row no-gutters");
+
+    var count = 0;
+    for(var key in plantTypesLocal){
+        var obj = plantTypesLocal[key];
+        if(obj.display == "flex"){
+            count++;
+        }
+    }
+    
+    var paragraph = document.createElement("p");
+    paragraph.setAttribute("style","margin:0");
+    paragraph.append("Showing Results for ");
+    var boldSection = document.createElement("b");
+    boldSection.append(count);
+    paragraph.append(boldSection);
+    paragraph.append(" Plants");
+
+    div.appendChild(paragraph);
+
+    $("#total-plants-field").append(div);
 }
