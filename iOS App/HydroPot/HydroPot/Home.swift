@@ -25,6 +25,8 @@ extension UIScreen{
     
     //login values
     static let modalWidth = screenWidth / 1.14 //base is 280
+    static let textSize = screenWidth * 0.18
+    static let loginTextBoxSize = screenWidth * 0.68
     
     //plant type page values
     static let titleTextSize = screenWidth / 11.4  //base is 28
@@ -47,9 +49,17 @@ extension UIScreen{
     static let graphMultiplier = screenWidth / 22.9 //base is 14
     static let graphPadding = screenWidth / 64 //base is 5
     
-    //add edit value
+    //add edit values
     static let imageSelection = screenWidth / 3
     static let addPhotoPadding = screenWidth / 100
+    static let textBoxWidth = screenWidth * 0.88
+    static let textBoxHeight = screenWidth / 8
+    static let idealsTextWidth = screenWidth * 0.325
+    static let idealsValuesWidth = screenWidth * 0.22
+    static let idealsValuesHeight = screenWidth / 8
+    static let dashSize = screenWidth * 0.02
+    static let resFont = screenWidth / 18.8 * 0.72
+    static let cheveronSize = screenWidth * 0.8
     
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
@@ -62,19 +72,6 @@ extension UIScreen{
     static let resLevelPadding = screenWidth / 5.5  //base is ~57
     static let plantImage = screenWidth / 2
     
-    //add/edit page values
-    static let textBoxWidth = screenWidth * 0.88
-    static let textBoxHeight = screenWidth / 8
-    static let idealsTextWidth = screenWidth * 0.325
-    static let idealsValuesWidth = screenWidth * 0.22
-    static let idealsValuesHeight = screenWidth / 8
-    static let dashSize = screenWidth * 0.02
-    static let resFont = screenWidth / 18.8 * 0.72
-    static let cheveronSize = screenWidth * 0.8
-    
-    //login values
-    static let textSize = screenWidth * 0.18
-    static let loginTextBoxSize = screenWidth * 0.68
     
 }
 
