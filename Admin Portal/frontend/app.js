@@ -970,6 +970,12 @@ async function prepForDB(id,action,fileDialogueId){
                 }
             }));
 
+            //Checks to make sure there are no errors on image uploads
+            if(imageURL['errorMessage'] != undefined){
+                warningModal("There was an error uploading your image, try again, or upload a different one.")
+                return
+            }
+
             if(action === "add"){
                 //Add a plant
                 addPlant(imageURL, keyValueStore);
@@ -1043,6 +1049,7 @@ function buildTotalPlantsField(){
     var div = document.createElement("div");
     div.setAttribute("class","row no-gutters");
 
+    //Count the number of plants that are visable to the user
     var count = 0;
     for(var key in plantTypesLocal){
         var obj = plantTypesLocal[key];
