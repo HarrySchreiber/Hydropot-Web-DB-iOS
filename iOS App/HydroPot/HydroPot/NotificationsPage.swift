@@ -47,8 +47,9 @@ struct NotificationsPage: View {
                         //each notification goes to it's specific pot
                         NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)
                             .onAppear(){
-                                    notiePots.notiesTuple.notification.read = true
-                                    user.editPot(pot: notiePots.notiesTuple.pot)
+                                notiePots.notiesTuple.notification.read = true
+                                user.editPot(pot: notiePots.notiesTuple.pot)
+                                notiePots.notiesTuple.notification.read = true
                         }){
                             //card
                             VStack(alignment: .leading){

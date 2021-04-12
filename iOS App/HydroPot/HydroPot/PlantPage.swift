@@ -332,7 +332,6 @@ struct PlantPage: View {
                 waterModal(showPopUp: $showPopUp, pot: pot, user: user)
             }
         }
-        .onAppear(perform: attemptReload)
         .onAppear {
             
             ideals.editIdeals(idealTemperatureHigh: pot.idealTempHigh, idealTemperatureLow: pot.idealTempLow, idealMoistureHigh: pot.idealMoistureHigh, idealMoistureLow: pot.idealMoistureLow, idealLightLevelHigh: pot.idealLightHigh, idealLightLevelLow: pot.idealLightLow, plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)

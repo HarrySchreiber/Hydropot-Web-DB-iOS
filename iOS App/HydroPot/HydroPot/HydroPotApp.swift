@@ -91,17 +91,6 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         recieving remote notifications from pinpoint
      */
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // if the app is in the foreground, create an alert modal with the contents
-        if application.applicationState == .active {
-            let alert = UIAlertController(title: "Notification Received",
-                                          message: userInfo.description,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-
-            UIApplication.shared.keyWindow?.rootViewController?.present(
-                alert, animated: true, completion: nil
-            )
-        }
 
         // Pass this remote notification event to pinpoint SDK to keep track of notifications produced by AWS Pinpoint campaigns.
         pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(

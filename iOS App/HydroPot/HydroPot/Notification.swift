@@ -41,6 +41,19 @@ class Notification: ObservableObject, Identifiable {
         self.read = read
         self.timeStamp = timeStamp
     }
+    
+    /// comparison for notifications
+    ///
+    /// - Parameters:
+    ///     - notification: the noti to compare against
+    func compareNoti(notification: Notification) -> Bool {
+        if (notification.timeStamp == self.timeStamp && notification.read == self.read && notification.type == self.type){
+            return true
+        }
+        else {
+            return false
+        }
+    }
 }
 
 /*
