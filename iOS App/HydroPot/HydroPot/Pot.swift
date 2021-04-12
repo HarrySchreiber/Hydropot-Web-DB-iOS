@@ -303,7 +303,9 @@ class Pot: ObservableObject, Identifiable {
                 $0.dateRecorded.compare($1.dateRecorded) == .orderedDescending
             })
             
+            //loop through records
             for record in recordsList {
+                //set input the the value of the correct data type
                 var input = record.light
                 if dataType == "temperature" {
                     input = record.temperature
@@ -311,9 +313,9 @@ class Pot: ObservableObject, Identifiable {
                 if dataType == "moisture" {
                     input = record.moisture
                 }
+                //get the current date and date of record to determine how long ago
                 let date1 = record.dateRecorded
                 let date2 = Date()
-                
                 let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
                 let days = diffs.day ?? 0
                 let hours = diffs.hour ?? 0
@@ -347,6 +349,7 @@ class Pot: ObservableObject, Identifiable {
                     dailySums[days] += input
                     dailyRecordCount[days] += 1
                 }
+                //if in hour range, add to hourly list
                 if days == 0 && hours < 8 {
                     hourlySums[hours] += input
                     hourlyRecordCount[hours] += 1

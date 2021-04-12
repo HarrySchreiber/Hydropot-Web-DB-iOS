@@ -398,7 +398,7 @@ struct idealRanges: View {
                 Button(action: {
                     //high filter only
                     ideals.idealMoistureLow = "35"
-                    ideals.idealMoistureHigh = "90"
+                    ideals.idealMoistureHigh = "50"
                     tempValues[0].2 = true
                     tempValues[0].0 = false
                     tempValues[0].1 = false
