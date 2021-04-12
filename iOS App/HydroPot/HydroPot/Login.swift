@@ -50,7 +50,7 @@ struct Login: View {
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
-                                    .border(Color.black.opacity(0.2))
+                                    .border((isValidEmail(email: email) || email == "") ? Color.black.opacity(0.2) : Color.red)
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 15, trailing: 25))
@@ -112,7 +112,7 @@ struct Login: View {
                                     //styling
                                     .font(.system(size: UIScreen.regTextSize))
                                     .padding(6)
-                                    .border(Color.black.opacity(0.2))
+                                    .border((isValidEmail(email: email) || email == "") ? Color.black.opacity(0.2) : Color.red)
                                     .frame(minWidth: 0, maxWidth: .infinity)
                             }
                             //present alert to fill out all the fields

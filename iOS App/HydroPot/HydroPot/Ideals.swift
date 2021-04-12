@@ -102,7 +102,14 @@ class Ideals: ObservableObject {
     }
     @Published var plantSelected: String //plant selected by the user
     @Published var potID: String //id for the pot
-    @Published var plantName: String //name of the plant
+    @Published var plantName: String {//name of the plant
+        didSet {
+            if plantName.count > 10 {
+                plantName = String(plantName.prefix(10))
+            } else {
+            }
+        }
+    }
     @Published var notificationFrequency: Int
     @Published var isTempGood: Bool //color for temp
     @Published var isMoistGood: Bool //color for moist
