@@ -298,19 +298,23 @@ struct HistoricalData: View {
     }
     
     //return the corresponding color for if the value was in the pot's ideal range
+    // given a boolean value - if true set to green, false set to red
     func getTextColor(bool: Bool) -> Color{
         if(bool) {
             return Color.green
-            //return Color(red: 41.0/255.0, green: 110.0/255.0, blue: 25.0/255.0)
         }
         return Color.red
     }
     
     //function for creating an array of moisture graphBars to display for the user
+    //pass an array of ints containing the moisture record values
     func getMoistureGraphBars (graphValues: [Int]) -> [GraphBar] {
         var returnList : [GraphBar] = []
+        //loop through the array of ints
         for index in 0..<graphValues.count {
-            let xval = getXValue(graphValue: graphValues[index], timeDisplacement: graphValues.count - index-1)
+            //set the x-axis value
+            let xval = getXValue(timeDisplacement: graphValues.count - index-1)
+            //set the size of the bar
             let barSize = getMoistureBarSize(graphValue: graphValues[index])
             let bar = GraphBar(xValue: xval, displayValue: graphValues[index], barHeight: barSize)
             returnList.append(bar)
@@ -318,10 +322,14 @@ struct HistoricalData: View {
         return returnList
     }
     //function for creating an array of light graphBars to display for the user
+    //pass an array of ints containing the light record values
     func getLightGraphBars (graphValues: [Int]) -> [GraphBar] {
         var returnList : [GraphBar] = []
+        //loop through the array of ints
         for index in 0..<graphValues.count {
-            let xval = getXValue(graphValue: graphValues[index], timeDisplacement: graphValues.count - index-1)
+            //set the x-axis value
+            let xval = getXValue(timeDisplacement: graphValues.count - index-1)
+            //set the size of the bar
             let barSize = getLightBarSize(graphValue: graphValues[index])
             let bar = GraphBar(xValue: xval, displayValue: graphValues[index], barHeight: barSize)
             returnList.append(bar)
@@ -330,10 +338,14 @@ struct HistoricalData: View {
     }
     
     //function for creating an array of temperature graphBars to display for the user
+    //pass an array of ints containing the temperature record values
     func getTempGraphBars (graphValues: [Int]) -> [GraphBar] {
         var returnList : [GraphBar] = []
+        //loop through the array of ints
         for index in 0..<graphValues.count {
-            let xval = getXValue(graphValue: graphValues[index], timeDisplacement: graphValues.count - index-1)
+            //set the x-axis value
+            let xval = getXValue(timeDisplacement: graphValues.count - index-1)
+            //set the size of the bar
             let barSize = getTempBarSize(graphValue: graphValues[index])
             let bar = GraphBar(xValue: xval, displayValue: graphValues[index], barHeight: barSize)
             returnList.append(bar)
@@ -343,57 +355,68 @@ struct HistoricalData: View {
     
     //function for converting moisture historical data values into graph bar sizes
     func getMoistureBarSize(graphValue: Int) -> Double{
+        //set the min and max for moisture so the graph scales appropriately
         let maxMoisture = 60
         let minMoisture = 0
         let graphMin = 1
         let graphMax = 8
         
+        //convert moisture scale to graph scale/range
         let oldRange = (maxMoisture - minMoisture)
         let newRange = (graphMax - graphMin)
-        let newValue = Double(((graphValue - minMoisture) * newRange) / oldRange) + Double(graphMin)
+        let newValue = (Double((graphValue - minMoisture) * newRange) / Double(oldRange)) + Double(graphMin)
         return newValue
     }
     //function for converting light historical data values into graph bar sizes
     func getLightBarSize(graphValue: Int) -> Double{
+        //set the min and max for light so the graph scales appropriately
         let maxLight = 15000
         let minLight = 100
         let graphMin = 1
         let graphMax = 8
         
+        //convert light scale to graph scale
         let oldRange = (maxLight - minLight)
         let newRange = (graphMax - graphMin)
-        let newValue = Double(((graphValue - minLight) * newRange) / oldRange) + Double(graphMin)
+        let newValue = (Double((graphValue - minLight) * newRange) / Double(oldRange)) + Double(graphMin)
         return newValue
     }
     //function for converting temperature historical data values into graph bar sizes
     func getTempBarSize(graphValue: Int) -> Double{
+        //set the min and max for temperature so the graph scales appropriately
         let maxTemp = 90
         let minTemp = 40
         let graphMin = 1
         let graphMax = 8
         
+        //convert temp scale to graph scale/range
         let oldRange = (maxTemp - minTemp)
         let newRange = (graphMax - graphMin)
-        let newValue = Double(((graphValue - minTemp) * newRange) / oldRange) + Double(graphMin)
+        let newValue = (Double((graphValue - minTemp) * newRange) / Double(oldRange)) + Double(graphMin)
         return newValue
     }
     
     //function for getting x-values for any graph
-    func getXValue(graphValue: Int, timeDisplacement: Int) -> String {
+    //passed timeDisplacement which is the time between the record's send date and now
+    func getXValue(timeDisplacement: Int) -> String {
         let formatter = DateFormatter()
         
+        //determine which units the user is looking under and format the x-value accordingly
         if(units[selectedUnit] == "Daily") {
+            //set the x value to the day incrementing by day
             formatter.dateFormat = "dd"
             let tempDate = Calendar.current.date(byAdding: .day, value: -timeDisplacement, to: Date())!
             return formatter.string(from: tempDate)
         }
         
         if(units[selectedUnit] == "Weekly") {
+            //set the x-value to the day incrementing by week
             formatter.dateFormat = "dd"
             let tempDate = Calendar.current.date(byAdding: .weekOfYear, value: -timeDisplacement, to: Date())!
             return formatter.string(from: tempDate)
         }
         
+        //set the x value to hour incrementing by hour
         formatter.dateFormat = "hh" // "a" prints "pm" or "am"
         let tempDate = Calendar.current.date(byAdding: .hour, value: -timeDisplacement, to: Date())!
         return formatter.string(from: tempDate)
