@@ -136,12 +136,12 @@ class Plants: ObservableObject, Identifiable {
                         //append the new plant type to the list of plants
                         self.plantList.append(Plant(
                             plantType: plant.plantType,
-                            idealTempLow: plant.idealTempLow ?? -1000,
-                            idealTempHigh: plant.idealTempHigh ?? -1000,
-                            idealMoistureLow: plant.idealMoistureLow ?? -1000,
-                            idealMoistureHigh: plant.idealMoistureHigh ?? -1000,
-                            idealLightLow: plant.idealLightLow ?? -1000,
-                            idealLightHigh: plant.idealLightHigh ?? -1000,
+                            idealTempLow: plant.idealTempLow ?? -10000,
+                            idealTempHigh: plant.idealTempHigh ?? -10000,
+                            idealMoistureLow: plant.idealMoistureLow ?? -10000,
+                            idealMoistureHigh: plant.idealMoistureHigh ?? -10000,
+                            idealLightLow: plant.idealLightLow ?? -10000,
+                            idealLightHigh: plant.idealLightHigh ?? -10000,
                             description: plant.description ?? "No description available",
                             imageURL: plant.imageURL ?? "",
                             citation: plant.citation ?? ""))

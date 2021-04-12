@@ -14,12 +14,16 @@ class Ideals: ObservableObject {
     @Published var idealTemperatureHigh: String {
         
         didSet {
+            //if null
+            if (Int(idealTemperatureHigh) ?? 0 == -10000) {
+                idealTemperatureHigh = ""
+            }
             //upper for temp 90
-            if (Int(idealTemperatureHigh) ?? -1 > 90) {
+            else if (Int(idealTemperatureHigh) ?? 0 > 90) {
                 idealTemperatureHigh = "90"
             }
             //lower for temp is 45
-            else if (Int(idealTemperatureHigh) ?? -1 < 45){
+            else if (Int(idealTemperatureHigh) ?? 45 < 45){
                 idealTemperatureHigh = "45"
             }
             updateColors()
@@ -29,6 +33,10 @@ class Ideals: ObservableObject {
     @Published var idealMoistureHigh: String {
         
         didSet {
+            //if null
+            if (Int(idealMoistureHigh) ?? 0 == -10000) {
+                idealMoistureHigh = ""
+            }
             //upper for moist 100
             if (Int(idealMoistureHigh) ?? 0 > 100) {
                 idealMoistureHigh = "100"
@@ -44,12 +52,16 @@ class Ideals: ObservableObject {
     @Published var idealLightLevelHigh: String {
         
         didSet {
+            //if null
+            if (Int(idealLightLevelHigh) ?? 0 == -10000) {
+                idealLightLevelHigh = ""
+            }
             //upper for light 15000
             if (Int(idealLightLevelHigh) ?? 0 > 15000) {
                 idealLightLevelHigh = "15000"
             }
             //lower for light is 500
-            else if (Int(idealLightLevelHigh) ?? 0 < 0){
+            else if (Int(idealLightLevelHigh) ?? 500 < 500){
                 idealLightLevelHigh = "500"
             }
             updateColors()
@@ -59,6 +71,10 @@ class Ideals: ObservableObject {
     @Published var idealTemperatureLow: String {
         
         didSet {
+            //if null
+            if (Int(idealTemperatureLow) ?? 0 == -10000) {
+                idealTemperatureLow = ""
+            }
             //upper for temp 90
             if (Int(idealTemperatureLow) ?? 90 > 90) {
                 idealTemperatureLow = "90"
@@ -74,6 +90,10 @@ class Ideals: ObservableObject {
     @Published var idealMoistureLow: String {
         
         didSet {
+            //if null
+            if (Int(idealMoistureLow) ?? -1 == -10000) {
+                idealMoistureLow = ""
+            }
             //upper for moist 100
             if (Int(idealMoistureLow) ?? 0 > 100) {
                 idealMoistureLow = "100"
@@ -89,12 +109,16 @@ class Ideals: ObservableObject {
     @Published var idealLightLevelLow: String {
        
         didSet {
+            //if null
+            if (Int(idealLightLevelLow) ?? -1 == -10000) {
+                idealLightLevelLow = ""
+            }
             //upper for light 15000
             if (Int(idealLightLevelLow) ?? 0 > 15000) {
                 idealLightLevelLow = "15000"
             }
             //lower on light is 500
-            else if (Int(idealLightLevelLow) ?? 0 < 0){
+            else if (Int(idealLightLevelLow) ?? 500 < 500){
                 idealLightLevelLow = "500"
             }
             updateColors()
