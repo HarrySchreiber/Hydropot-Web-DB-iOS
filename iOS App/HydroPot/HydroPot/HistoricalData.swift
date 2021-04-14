@@ -356,7 +356,7 @@ struct HistoricalData: View {
     //function for converting moisture historical data values into graph bar sizes
     func getMoistureBarSize(graphValue: Int) -> Double{
         //set the min and max for moisture so the graph scales appropriately
-        let maxMoisture = 60
+        let maxMoisture = 100
         let minMoisture = 0
         let graphMin = 1
         let graphMax = 8

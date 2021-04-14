@@ -157,8 +157,15 @@ class GetUser: ObservableObject {
                                 //format date
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-                                let date = dateFormatter.date(from: rec.dateRecorded)
+                                dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
                                 
+                                let date = dateFormatter.date(from: rec.dateRecorded)
+
+                                print("current date: \(Date())")
+                                if (pot.plantName == "Jeff"){
+                                    print("here: \(date!)")
+                                }
+
                                 //make record
                                 let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, watering: rec.watering)
                                 //append record
@@ -298,6 +305,8 @@ class GetUser: ObservableObject {
                                 //format date
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                                dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+                                
                                 let date = dateFormatter.date(from: rec.dateRecorded)
                                 
                                 //make record
@@ -655,8 +664,11 @@ class GetUser: ObservableObject {
         for record in pot.records {
             //make new records dict
             var recDict : [String: Any] = [:]
+            
+            let tempDate = Calendar.current.date(byAdding: .hour, value: 4, to: record.dateRecorded)!
             //for date on record
-            let dateString = dateFormatter.string(from: record.dateRecorded)
+            let dateString = dateFormatter.string(from: tempDate)
+
             
             //values for the records
             recDict["dateRecorded"] = dateString //date recorded
@@ -943,7 +955,6 @@ class GetUser: ObservableObject {
         //if we have records then update the last record to let pot know
         if (pot.records.count != 0){
             pot.records[pot.records.count-1].watering = waterAmount
-            pot.records[pot.records.count-1].dateRecorded = Date()
             pot.setLastWatered(lastWatered: Date())
             
         }
@@ -955,7 +966,6 @@ class GetUser: ObservableObject {
        //format for dates
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        
         
         //making array for notis json
         var notieJsonArray : [Dictionary<String, Any>] = []
@@ -982,8 +992,11 @@ class GetUser: ObservableObject {
         for record in pot.records {
             //make new records dict
             var recDict : [String: Any] = [:]
+            
+            var tempDate = Calendar.current.date(byAdding: .hour, value: 4, to: record.dateRecorded)!
             //for date on record
-            let dateString = dateFormatter.string(from: record.dateRecorded)
+            let dateString = dateFormatter.string(from: tempDate)
+            
             
             recDict["dateRecorded"] = dateString //date recorded
             recDict["light"] = record.light //light of record

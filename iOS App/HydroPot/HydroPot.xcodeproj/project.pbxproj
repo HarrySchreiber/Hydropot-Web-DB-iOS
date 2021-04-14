@@ -97,7 +97,7 @@
 		7F171D5525F936E200372249 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		7F401A6A25C3435E00624B09 /* Pot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pot.swift; sourceTree = "<group>"; };
 		7F6BA6682608F5FB00B770B1 /* Ideals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ideals.swift; sourceTree = "<group>"; };
-		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7F8E298C25C228E8004EBC61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		7FA929D925C89F04003F967C /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7FA929DE25C89F18003F967C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		7FA929EB25CB128C003F967C /* AddEditPlantList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantList.swift; sourceTree = "<group>"; };

@@ -244,8 +244,8 @@ struct AccountPage: View {
                             //styling
                             .padding(.leading, 6)
                         }
+                        Spacer()
                     }
-                    .padding(.leading, 12)
                     .navigationBarTitle("Account", displayMode: .inline)
                 }
             }.onAppear {

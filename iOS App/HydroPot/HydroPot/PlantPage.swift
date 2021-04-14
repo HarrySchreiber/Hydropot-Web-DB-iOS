@@ -130,7 +130,7 @@ struct PlantPage: View {
                     
                     ZStack {
                         //last watered in days ago
-                        Text("Last Filled: \n\(pot.lastFilledDays)")
+                        Text("Last filled: \n\(pot.lastFilledDays)")
                             //styling
                             .font(.system(size: UIScreen.regTextSize))
                             .frame(width: UIScreen.plantBoxWidth, height: UIScreen.plantBoxHeight, alignment: .leading)

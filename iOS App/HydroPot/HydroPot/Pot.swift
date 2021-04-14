@@ -50,13 +50,55 @@ class Pot: ObservableObject, Identifiable {
     @Published var curLight: Int //the current light of the pot
     @Published var id: String //id of the pot
     @Published var automaticWatering: Bool //automatic watering bool for the pot
-    @Published var lastWatered: Date //the last date the pot was waterd
+    //the last date the pot was waterd
+    @Published var lastWatered: Date {
+        didSet {
+            //get last watered
+            let date1 = self.lastWatered
+            //get todays date
+            let date2 = Date()
+            
+            //get difference in days
+            let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+            
+            //optional if same day
+            let days = diffs.day ?? 0
+            
+            //special case for 1 day
+            if days == 1 {
+                self.lastWateredDays = String(days) +  " day ago"
+            }
+            //return multiple days
+            self.lastWateredDays = String(days) + " days ago"
+        }
+    }
     @Published var plantName: String //name of the pot
     @Published var records: [Record] //records for the pot
     @Published var notifications: [Notification] //notifications for the pot
-    @Published var lastFilled: Date //last time the pot recieved a notification
+    //last time the pot recieved a notification
+    @Published var lastFilled: Date {
+        didSet {
+            //get last watered
+            let date1 = lastFilled
+            //get todays date
+            let date2 = Date()
+            
+            //get difference in days
+            let diffs = Calendar.current.dateComponents([.day], from: date1, to: date2)
+            
+            //optional if same day
+            let days = diffs.day ?? 0
+            
+            //special case for 1 day
+            if days == 1 {
+                self.lastFilledDays = String(days) +  " day ago"
+            }
+            //return multiple days
+            self.lastFilledDays = String(days) + " days ago"
+        }
+    }
     @Published var lastFilledDays: String //last time the pot was filled in days
-    @Published var lastWateredDays: String //last time the pot was watered in days
+    @Published var lastWateredDays: String //last time the pot was watered in days 
     @Published var notiFilledFrequency: Int //the frequency of the notifications (1 week/2 weeks /3 weeks /4 weeks)
     @Published var moistureGood: Bool //is moisture in the ranges
     @Published var lightGood: Bool //is light in the ranges
@@ -316,6 +358,8 @@ class Pot: ObservableObject, Identifiable {
                 //get the current date and date of record to determine how long ago
                 let date1 = record.dateRecorded
                 let date2 = Date()
+                print(date1)
+                print(date2)
                 let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
                 let days = diffs.day ?? 0
                 let hours = diffs.hour ?? 0
@@ -424,10 +468,10 @@ class Pot: ObservableObject, Identifiable {
         
         //special case for 1 day
         if days == 1 {
-            lastFilledDays = String(days) +  " day ago"
+            self.lastFilledDays = String(days) +  " day ago"
         }
         //return multiple days
-        lastFilledDays = String(days) + " days ago"
+        self.lastFilledDays = String(days) + " days ago"
     }
     
 }
