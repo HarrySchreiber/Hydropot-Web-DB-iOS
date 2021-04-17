@@ -85,7 +85,7 @@ class GetUser: ObservableObject {
     ///     - password: Password of the user
     ///     - onEnded: Callback to function
     func login (email: String, password: String, onEnded: @escaping () -> ()) {
-        
+
         //payload to send to aws
         let json: [String: Any] =
             ["operation": "login", "tableName": "HydroPotUsers", "payload": ["Item": ["email": email, "password": password]]]

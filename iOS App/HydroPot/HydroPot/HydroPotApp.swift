@@ -81,6 +81,7 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         let token = tokenParts.joined()
         
         UserDefaults.standard.set(token, forKey: "deviceToken")
+        print(token)
         
         // Register the device token with Pinpoint as the endpoint for this user
         pinpoint?.notificationManager
