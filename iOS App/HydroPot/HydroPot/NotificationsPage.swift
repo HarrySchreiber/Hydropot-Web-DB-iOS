@@ -77,7 +77,11 @@ struct NotificationsPage: View {
             }
         }
         //reload on the appearence of the page
-        .onAppear(perform: attemptReload)
+        .onAppear() {
+            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+                attemptReload()
+            }
+        }
     }
     
     /// function to get the message behind a given noti

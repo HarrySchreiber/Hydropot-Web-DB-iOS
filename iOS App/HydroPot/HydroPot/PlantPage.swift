@@ -342,6 +342,10 @@ struct PlantPage: View {
             moistureGraphArrays = pot.calculateGraphData(dataType: "moisture")
             lightGraphArrays = pot.calculateGraphData(dataType: "light")
             tempGraphArrays = pot.calculateGraphData(dataType: "temperature")
+            
+            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+                attemptReload()
+            }
 
         }
         .background(

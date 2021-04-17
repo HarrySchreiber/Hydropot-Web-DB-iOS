@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
         }
     }
     
+    
     /*
         getting device token if registered for notifications
      */
@@ -105,8 +106,14 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
          // Handle foreground push notifications
          pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(notification.request.content.userInfo)
+        
+         let userInfo = notification.request.content.userInfo
+        
+         // the payload that is attached to the push notification
+         // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
+         completionHandler([.alert,.sound])
 
-         completionHandler(.badge)
+        
       }
 
      /*
@@ -115,7 +122,7 @@ class AppDelegate: UIResponder, ObservableObject, UIApplicationDelegate, UNUserN
      func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void)  {
          // Handle background and closed push notifications
          pinpoint?.notificationManager.interceptDidReceiveRemoteNotification(response.notification.request.content.userInfo)
-
+        
          completionHandler()
      }
 
