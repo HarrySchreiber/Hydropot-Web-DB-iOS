@@ -1,61 +1,59 @@
 {
   "images" : [
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM.png",
+      "filename" : "logo.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-1.png",
+      "filename" : "logo-1.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-2.png",
+      "filename" : "logo-2.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-3.png",
+      "filename" : "logo-3.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-4.png",
+      "filename" : "logo-4.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-5.png",
+      "filename" : "logo-5.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-6.png",
+      "filename" : "logo-6.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-7.png",
+      "filename" : "logo-7.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-8.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "20x20"
     },
     {
-      "filename" : "Screen Shot 2021-03-09 at 7.14.47 PM-9.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
@@ -96,6 +94,7 @@
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "logo-8.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
