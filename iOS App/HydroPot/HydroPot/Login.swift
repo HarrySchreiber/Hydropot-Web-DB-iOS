@@ -69,11 +69,6 @@ struct Login: View {
                             Button(action: {
                                 //call callback and attempt to login
                                 attemptLogin(email: email, password: password)
-                                //if we are not on a simulator
-                                if (user.deviceToken != ""){
-                                    //change the device token to the current device (for notifications
-                                    user.changeDeviceToken()
-                                }
                             }) {
                                 //title of button and styling
                                 Text("Login")

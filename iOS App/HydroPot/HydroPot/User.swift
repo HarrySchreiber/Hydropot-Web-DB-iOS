@@ -161,11 +161,6 @@ class GetUser: ObservableObject {
                                 
                                 let date = dateFormatter.date(from: rec.dateRecorded)
 
-                                print("current date: \(Date())")
-                                if (pot.plantName == "Jeff"){
-                                    print("here: \(date!)")
-                                }
-
                                 //make record
                                 let record = Record(dateRecorded: date ?? Date(), moisture: rec.moisture, temperature: rec.temperature, light: rec.light, watering: rec.watering)
                                 //append record
@@ -836,7 +831,7 @@ class GetUser: ObservableObject {
     func changeDeviceToken() {
                 
         //payload to send to aws lambda
-        let json: [String: Any] = ["operation": "changeName", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId, "deviceToken": self.deviceToken]]]
+        let json: [String: Any] = ["operation": "changeDeviceToken", "tableName": "HydroPotUsers", "payload": ["Item": ["email": self.email, "id": self.userId, "deviceToken": self.deviceToken]]]
         
         //jsonify the data
         let jsonData = try? JSONSerialization.data(withJSONObject: json)

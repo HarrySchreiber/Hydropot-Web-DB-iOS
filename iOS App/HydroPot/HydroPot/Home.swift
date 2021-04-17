@@ -328,6 +328,13 @@ struct HomeView: View {
             )
             //when page is presented
             .onAppear(perform: attemptReload)
+            .onAppear(){
+                //if we are not on a simulator
+                if (user.deviceToken != ""){
+                    //change the device token to the current device (for notifications
+                    user.changeDeviceToken()
+                }
+            }
         }
     }
     
