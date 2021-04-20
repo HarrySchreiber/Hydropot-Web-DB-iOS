@@ -26,6 +26,7 @@ struct PlantTypePage: View {
         ideals.idealTemperatureLow = String(plant.idealTempLow)
         ideals.idealLightLevelLow = String(plant.idealLightLow)
         ideals.idealLightLevelHigh = String(plant.idealLightHigh)
+        ideals.plantSelected = plant.plantType
         
        
     }
@@ -80,7 +81,7 @@ struct PlantTypePage: View {
                             .padding(.leading, 5)
                         
                         //ideal moisture values
-                        if (ideals.idealMoistureHigh != "-1000" || ideals.idealMoistureLow != "-1000"){
+                        if (ideals.idealMoistureHigh != "" || ideals.idealMoistureLow != ""){
                         (Text("Ideal Moisture: ").bold() + Text("\(ideals.idealMoistureLow) - \(ideals.idealMoistureHigh)%"))
                             .font(.system(size: UIScreen.subTextSize))
                             //styling
@@ -95,7 +96,7 @@ struct PlantTypePage: View {
                         }
                         
                         //ideal light values
-                        if (ideals.idealLightLevelHigh != "-1000" || ideals.idealLightLevelLow != "-1000"){
+                        if (ideals.idealLightLevelHigh != "" || ideals.idealLightLevelLow != ""){
                         (Text("Ideal Light: ").bold() + Text("\(ideals.idealLightLevelLow) - \(ideals.idealLightLevelHigh) lm"))
                             //styling
                             .font(.system(size: UIScreen.subTextSize))
@@ -110,7 +111,7 @@ struct PlantTypePage: View {
                         }
                         
                         //ideal temperature values
-                        if (ideals.idealTemperatureHigh != "-1000" || ideals.idealTemperatureLow != "-1000"){
+                        if (ideals.idealTemperatureHigh != "" || ideals.idealTemperatureLow != ""){
                         (Text("Ideal Temperature: ").bold() + Text("\(ideals.idealTemperatureLow) - \(ideals.idealTemperatureHigh)°F"))
                             //styling
                             .font(.system(size: UIScreen.subTextSize))
