@@ -84,202 +84,204 @@ struct HistoricalData: View {
                         .padding()
                         .foregroundColor(.gray)
                 }
-                //moisture box
-                PagesContainer(contentCount: 2) {
-                    //show title and graph
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        Text("Soil Moisture")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        HStack {
-                            ForEach(moistureBars) { graphBar in
-                                VStack {
-                                    Spacer()
-                                    //data values shown on graph
-                                    Text("\(graphBar.displayValue)")
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .rotationEffect(.degrees(-90))
-                                        .offset(y: UIScreen.textOffset)
-                                        .zIndex(1)
-                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
-                                    
-                                    // bars of the graph
-                                    Rectangle()
-                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
-                                        .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
-                                    // x values of bar graph
-                                    Text("\(graphBar.xValue)")
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .frame(height: UIScreen.graphWidth)
+                else {
+                    //moisture box
+                    PagesContainer(contentCount: 2) {
+                        //show title and graph
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            Text("Soil Moisture")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            HStack {
+                                ForEach(moistureBars) { graphBar in
+                                    VStack {
+                                        Spacer()
+                                        //data values shown on graph
+                                        Text("\(graphBar.displayValue)")
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .rotationEffect(.degrees(-90))
+                                            .offset(y: UIScreen.textOffset)
+                                            .zIndex(1)
+                                            .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
+                                        
+                                        // bars of the graph
+                                        Rectangle()
+                                            .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealMoistureLow) && (graphBar.displayValue <= pot.idealMoistureHigh))))
+                                            .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
+                                        // x values of bar graph
+                                        Text("\(graphBar.xValue)")
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .frame(height: UIScreen.graphWidth)
+                                    }
+                                    .padding(.bottom)
+                                    .padding(.trailing, UIScreen.graphPadding)
                                 }
-                                .padding(.bottom)
-                                .padding(.trailing, UIScreen.graphPadding)
+                            }
+                        }
+                        //2nd card, showing high, average, and low values
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            //cards's title
+                            Text("Soil Moisture")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            VStack {
+                                Text("High: \(tuples[0].high)%")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.vertical)
+                                    .foregroundColor(Color.gray)
+                                Text("Average: \(tuples[0].avg)%")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.bottom)
+                                    .foregroundColor(Color.gray)
+                                Text("Low: \(tuples[0].low)%")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(Color.gray)
+                            }
+                        }
+                    }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
+                    
+                    //light box
+                    PagesContainer(contentCount: 2) {
+                        //show title and graphs
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            Text("Light Level")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            //graph
+                            HStack {
+                                ForEach(lightBars) { graphBar in
+                                    VStack {
+                                        Spacer()
+                                        //data values shown on graph
+                                        Text("\(graphBar.displayValue)")
+                                            .lineLimit(1)
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .rotationEffect(.degrees(-90))
+                                            .offset(y: UIScreen.textOffset)
+                                            .zIndex(1)
+                                            //have a larger offset for the larger light values
+                                            .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.lightTextOffset : 0)
+                                        
+                                        
+                                        // bars of the graph
+                                        Rectangle()
+                                            .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealLightLow) && (graphBar.displayValue <= pot.idealLightHigh))))
+                                            .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
+                                        // x values of bar graph
+                                        Text("\(graphBar.xValue)")
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .frame(height: UIScreen.graphWidth)
+                                    }
+                                    .padding(.bottom)
+                                    .ifTrue(graphBar.displayValue < 1000){
+                                        AnyView($0.padding(.trailing, UIScreen.graphPadding))
+                                    }
+                                    .ifTrue(graphBar.displayValue >= 1000){
+                                        AnyView($0.padding(.trailing, -UIScreen.graphPadding))
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        //2nd card - shows high, average, and low values
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            //title
+                            Text("Light Level")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            VStack {
+                                Text("High: \(tuples[1].high)")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.vertical)
+                                    .foregroundColor(Color.gray)
+                                Text("Average: \(tuples[1].avg)")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.bottom)
+                                    .foregroundColor(Color.gray)
+                                Text("Low: \(tuples[1].low)")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(Color.gray)
+                            }
+                        }
+                    }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
+                    
+                    //temperature box
+                    PagesContainer(contentCount: 2) {
+                        //1st card - shows title and graphs
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            //title
+                            Text("Temperature")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            //graph
+                            HStack {
+                                ForEach(tempBars) { graphBar in
+                                    VStack {
+                                        Spacer()
+                                        //data values shown on graph
+                                        Text("\(graphBar.displayValue)")
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .rotationEffect(.degrees(-90))
+                                            .offset(y: UIScreen.textOffset)
+                                            .zIndex(1)
+                                            .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
+                                        
+                                        // bars of the graph
+                                        Rectangle()
+                                            .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealTempLow) && (graphBar.displayValue <= pot.idealTempHigh))))
+                                            .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
+                                        // x values of bar graph
+                                        Text("\(graphBar.xValue)")
+                                            .font(.system(size: UIScreen.subTextSize))
+                                            .frame(height: UIScreen.graphWidth)
+                                    }
+                                    .padding(.bottom)
+                                    .padding(.trailing, UIScreen.graphPadding)
+                                }
+                            }
+                        }
+                        //2nd card - show high, low, and average values
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white.opacity(0.9))
+                                .padding()
+                            //title
+                            Text("Temperature")
+                                .font(.system(size: UIScreen.title3TextSize))
+                                .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
+                            VStack {
+                                Text("High: \(tuples[2].high)°F")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.vertical)
+                                    .foregroundColor(Color.gray)
+                                Text("Average: \(tuples[2].avg)°F")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .padding(.bottom)
+                                    .foregroundColor(Color.gray)
+                                Text("Low: \(tuples[2].low)°F")
+                                    .font(.system(size: UIScreen.regTextSize))
+                                    .foregroundColor(Color.gray)
                             }
                         }
                     }
-                    //2nd card, showing high, average, and low values
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        //cards's title
-                        Text("Soil Moisture")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        VStack {
-                            Text("High: \(tuples[0].high)%")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.vertical)
-                                .foregroundColor(Color.gray)
-                            Text("Average: \(tuples[0].avg)%")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.bottom)
-                                .foregroundColor(Color.gray)
-                            Text("Low: \(tuples[0].low)%")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .foregroundColor(Color.gray)
-                        }
-                    }
-                }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-
-                //light box
-                PagesContainer(contentCount: 2) {
-                    //show title and graphs
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        Text("Light Level")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        //graph
-                        HStack {
-                            ForEach(lightBars) { graphBar in
-                                VStack {
-                                    Spacer()
-                                    //data values shown on graph
-                                    Text("\(graphBar.displayValue)")
-                                        .lineLimit(1)
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .rotationEffect(.degrees(-90))
-                                        .offset(y: UIScreen.textOffset)
-                                        .zIndex(1)
-                                        //have a larger offset for the larger light values
-                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.lightTextOffset : 0)
-                                    
-                                    
-                                    // bars of the graph
-                                    Rectangle()
-                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealLightLow) && (graphBar.displayValue <= pot.idealLightHigh))))
-                                        .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
-                                    // x values of bar graph
-                                    Text("\(graphBar.xValue)")
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .frame(height: UIScreen.graphWidth)
-                                }
-                                .padding(.bottom)
-                                .ifTrue(graphBar.displayValue < 1000){
-                                    AnyView($0.padding(.trailing, UIScreen.graphPadding))
-                                }
-                                .ifTrue(graphBar.displayValue >= 1000){
-                                    AnyView($0.padding(.trailing, -UIScreen.graphPadding))
-                                }
-                                
-                            }
-                        }
-                    }
-                    //2nd card - shows high, average, and low values
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        //title
-                        Text("Light Level")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        VStack {
-                            Text("High: \(tuples[1].high)")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.vertical)
-                                .foregroundColor(Color.gray)
-                            Text("Average: \(tuples[1].avg)")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.bottom)
-                                .foregroundColor(Color.gray)
-                            Text("Low: \(tuples[1].low)")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .foregroundColor(Color.gray)
-                        }
-                    }
-                }.frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-
-                //temperature box
-                PagesContainer(contentCount: 2) {
-                    //1st card - shows title and graphs
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        //title
-                        Text("Temperature")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        //graph
-                        HStack {
-                            ForEach(tempBars) { graphBar in
-                                VStack {
-                                    Spacer()
-                                    //data values shown on graph
-                                    Text("\(graphBar.displayValue)")
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .rotationEffect(.degrees(-90))
-                                        .offset(y: UIScreen.textOffset)
-                                        .zIndex(1)
-                                        .offset(y: Double(graphBar.barHeight) < 2.4 ? -UIScreen.textOffset : 0)
-                                    
-                                    // bars of the graph
-                                    Rectangle()
-                                        .fill(getTextColor(bool: ((graphBar.displayValue >= pot.idealTempLow) && (graphBar.displayValue <= pot.idealTempHigh))))
-                                        .frame(width: UIScreen.graphWidth, height: Double(graphBar.displayValue) == 0 ? CGFloat(5) : CGFloat(Double(graphBar.barHeight)) * UIScreen.graphMultiplier)
-                                    // x values of bar graph
-                                    Text("\(graphBar.xValue)")
-                                        .font(.system(size: UIScreen.subTextSize))
-                                        .frame(height: UIScreen.graphWidth)
-                                }
-                                .padding(.bottom)
-                                .padding(.trailing, UIScreen.graphPadding)
-                            }
-                        }
-                    }
-                    //2nd card - show high, low, and average values
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white.opacity(0.9))
-                            .padding()
-                        //title
-                        Text("Temperature")
-                            .font(.system(size: UIScreen.title3TextSize))
-                            .frame(width: UIScreen.zStackWidth, height: UIScreen.zStackHeight, alignment: .topLeading)
-                        VStack {
-                            Text("High: \(tuples[2].high)°F")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.vertical)
-                                .foregroundColor(Color.gray)
-                            Text("Average: \(tuples[2].avg)°F")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(.bottom)
-                                .foregroundColor(Color.gray)
-                            Text("Low: \(tuples[2].low)°F")
-                                .font(.system(size: UIScreen.regTextSize))
-                                .foregroundColor(Color.gray)
-                        }
-                    }
+                    .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
+                    //setup the header (back button)
                 }
-                .frame(width: UIScreen.panelWidth, height: UIScreen.panelHeight)
-                //setup the header (back button)
             }
         }
         //background image for the home page
