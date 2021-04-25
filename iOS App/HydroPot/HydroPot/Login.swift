@@ -234,9 +234,9 @@ struct Login: View {
     var loginDisabled: Bool {
         email.isEmpty ||
         !isValidEmail(email: email) ||
-        password.isEmpty ||
-        password.count < 5 ||
-        !isValidPassword(password: password)
+        password.isEmpty //||
+        //password.count < 5 ||
+        //!isValidPassword(password: password)
     }
     
     //Evaluates to true when the sign up fields are not properly formatted
@@ -246,6 +246,7 @@ struct Login: View {
         !isValidEmail(email: email) ||
         password.isEmpty ||
         passComf.isEmpty ||
+        password.count < 5 ||
         !isValidPassword(password: password) ||
         !isValidPassword(password: passComf)
     }

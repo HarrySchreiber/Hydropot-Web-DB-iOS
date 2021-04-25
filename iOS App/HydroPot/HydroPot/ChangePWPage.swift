@@ -92,15 +92,15 @@ struct ChangePWPage: View {
                                 Spacer()
                             }
                             //styling
-                            .foregroundColor(Color(red: 1, green: 1, blue: 1))
                             .multilineTextAlignment(.center)
                             .padding(10)
                             .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            .disabled(confirmPasswordDisabled)
                         }
                         //styling
                         .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
                         .foregroundColor(.white)
-                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .background(confirmPasswordDisabled ? Color(red: 70/255, green: 80/255, blue: 114/255) : Color(red: 24/255, green: 57/255, blue: 163/255))
                         .cornerRadius(6)
                         .padding(3)
                     }
@@ -144,11 +144,15 @@ struct ChangePWPage: View {
     var confirmPasswordDisabled: Bool{
         oldPW.isEmpty ||
         newPW.isEmpty ||
+        newPW.count < 5 ||
         newConfPW.isEmpty ||
         !isValidPassword(password: oldPW) ||
         !isValidPassword(password: newPW) ||
-        !isValidPassword(password: newConfPW)
+        !isValidPassword(password: newConfPW) ||
+        newPW != newConfPW ||
+        oldPW != user.password
     }
+    
     
     /// Function to evaluate passwords against regex's
     ///
