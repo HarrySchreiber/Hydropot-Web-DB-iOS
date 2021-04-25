@@ -24,120 +24,117 @@ struct ChangePWPage: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
-            VStack{
-                GeometryReader{ geometry in
-                    VStack{
-                        //change password text
-                        Text("Change Password")
+        VStack{
+                VStack{
+                    //change password text
+                    Text("Change Password")
+                        //styling
+                        .font(.system(size: UIScreen.titleTextSize))
+                        .foregroundColor(Color.black)
+                        .padding(.top, 32)
+                    Spacer()
+                    HStack {
+                        //secure password for user current password
+                        SecureField("Current Password", text: $oldPW)
                             //styling
-                            .font(.system(size: UIScreen.titleTextSize))
+                            .font(.system(size: UIScreen.regTextSize))
+                            .padding(6)
+                            .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            .border(Color.black.opacity(0.2))
                             .foregroundColor(Color.black)
-                            .padding(.top, 32)
-                        Spacer()
-                        HStack {
-                            //secure password for user current password
-                            SecureField("Current Password", text: $oldPW)
-                                //styling
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.2))
-                                .foregroundColor(Color.black)
-                        }
-                        //syling
-                        .padding(.leading, geometry.size.height/30)
-                        .padding(.bottom)
-                        HStack {
-                            //secure password for user new password
-                            SecureField("New Password", text: $newPW)
-                                //styling
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.2))
-                                .foregroundColor(Color.black)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        .padding(.bottom)
-                        HStack {
-                            //confirm field for the new password
-                            SecureField("Confirm New Password", text: $newConfPW)
-                                //styling
-                                .font(.system(size: UIScreen.regTextSize))
-                                .padding(6)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                                .border(Color.black.opacity(0.2))
-                                .foregroundColor(Color.black)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        .padding(.bottom, 32)
-                        
-                        HStack {
-                            //button submits the request
-                            Button(action: {
-                                //if everything checks our password wise
-                                if ((newPW == newConfPW) && (oldPW == user.password) && (oldPW != newPW)){
-                                    //change the password db side
-                                    user.changePass(password: newConfPW)
-                                    //dismiss the modal
-                                    self.showModal.toggle()
-                                }
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    //confirm text
-                                    Text("Confirm")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                    Spacer()
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            }
-                            //styling
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .foregroundColor(.white)
-                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                            .cornerRadius(6)
-                            .padding(3)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        HStack {
-                            Button(action: {
-                                //dismiss the button
-                                self.showModal.toggle()
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    //cancel text for button
-                                    Text("Cancel")
-                                        //styling
-                                        .font(.system(size: UIScreen.regTextSize))
-                                    Spacer()
-                                }
-                                //styling
-                                .foregroundColor(Color(red: 1, green: 1, blue: 1))
-                                .multilineTextAlignment(.center)
-                                .padding(10)
-                                .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            }
-                            //styling
-                            .frame(width: geometry.size.width * 0.88, height: geometry.size.height/12, alignment: .leading)
-                            .foregroundColor(.white)
-                            .background(Color.red.opacity(0.8))
-                            .cornerRadius(6)
-                            .padding(3)
-                        }
-                        //styling
-                        .padding(.leading, geometry.size.height/30)
-                        Spacer()
                     }
+                    //styling
+                    .padding(.leading, UIScreen.padding)
+                    .padding(.bottom)
+                    HStack {
+                        //secure password for user new password
+                        SecureField("New Password", text: $newPW)
+                            //styling
+                            .font(.system(size: UIScreen.regTextSize))
+                            .padding(6)
+                            .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            .border(Color.black.opacity(0.2))
+                            .foregroundColor(Color.black)
+                    }
+                    //styling
+                    .padding(.leading, UIScreen.padding)
+                    .padding(.bottom)
+                    HStack {
+                        //confirm field for the new password
+                        SecureField("Confirm New Password", text: $newConfPW)
+                            //styling
+                            .font(.system(size: UIScreen.regTextSize))
+                            .padding(6)
+                            .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                            .border(Color.black.opacity(0.2))
+                            .foregroundColor(Color.black)
+                    }
+                    //styling
+                    .padding(.leading, UIScreen.padding)
+                    .padding(.bottom, 32)
+                    HStack {
+                        //button submits the request
+                        Button(action: {
+                            //if everything checks our password wise
+                            if ((newPW == newConfPW) && (oldPW == user.password) && (oldPW != newPW)){
+                                //change the password db side
+                                user.changePass(password: newConfPW)
+                                //dismiss the modal
+                                self.showModal.toggle()
+                            }
+                        }) {
+                            HStack {
+                                Spacer()
+                                //confirm text
+                                Text("Confirm")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                Spacer()
+                            }
+                            //styling
+                            .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                            .multilineTextAlignment(.center)
+                            .padding(10)
+                            .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                        }
+                        //styling
+                        .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                        .foregroundColor(.white)
+                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                        .cornerRadius(6)
+                        .padding(3)
+                    }
+                    //styling
+                    .padding(.leading, UIScreen.padding)
+                    HStack {
+                        Button(action: {
+                            //dismiss the button
+                            self.showModal.toggle()
+                        }) {
+                            HStack {
+                                Spacer()
+                                //cancel text for button
+                                Text("Cancel")
+                                    //styling
+                                    .font(.system(size: UIScreen.regTextSize))
+                                Spacer()
+                            }
+                            //styling
+                            .foregroundColor(Color(red: 1, green: 1, blue: 1))
+                            .multilineTextAlignment(.center)
+                            .padding(10)
+                            .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                        }
+                        //styling
+                        .frame(width: UIScreen.textBoxWidth, height: UIScreen.textBoxHeight, alignment: .leading)
+                        .foregroundColor(.white)
+                        .background(Color.red.opacity(0.8))
+                        .cornerRadius(6)
+                        .padding(3)
+                    }
+                    //styling
+                    .padding(.leading, UIScreen.padding)
+                    Spacer()
                 }
             }
         }

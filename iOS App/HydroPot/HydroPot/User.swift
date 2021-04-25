@@ -950,6 +950,7 @@ class GetUser: ObservableObject {
         //if we have records then update the last record to let pot know
         if (pot.records.count != 0){
             pot.records[pot.records.count-1].watering = waterAmount
+            pot.records[pot.records.count-1].dateRecorded = Date()
             pot.setLastWatered(lastWatered: Date())
             
         }

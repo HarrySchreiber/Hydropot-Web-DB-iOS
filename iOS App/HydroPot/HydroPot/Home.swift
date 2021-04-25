@@ -60,6 +60,7 @@ extension UIScreen{
     static let dashSize = screenWidth * 0.02
     static let resFont = screenWidth / 18.8 * 0.72
     static let cheveronSize = screenWidth * 0.8
+    static let padding = screenWidth/60
     
     //plant page values
     static let plantBoxWidth = screenWidth / 1.06 //base is 300
@@ -327,7 +328,11 @@ struct HomeView: View {
                     .opacity(0.50)
             )
             //when page is presented
-            .onAppear(perform: attemptReload)
+            .onAppear(){
+                DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+                    attemptReload()
+                }
+            }
             .onAppear(){
                 //if we are not on a simulator
                 if (user.deviceToken != ""){
