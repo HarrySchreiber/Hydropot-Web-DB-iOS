@@ -346,8 +346,8 @@ struct HomeView: View {
     /// callback for the login functon designed to reload data dynamically
     /// without altering the user experience
     func attemptReload() {
-        //call reaload function
-        user.reload() {
+        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+            attemptReload()
         }
     }
     

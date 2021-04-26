@@ -129,7 +129,8 @@ struct NotificationsPage: View {
     
     /// callback for reload function
     func attemptReload() {
-        user.reload() {
+        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+            attemptReload()
         }
     }
     
