@@ -372,11 +372,11 @@ class GetUser: ObservableObject {
     /// Logout function to reset the user
     func logout() {
         self.userId = ""
-        self.loggedIn = false
         self.name = ""
         self.email = ""
         self.password = ""
         self.pots = []
+        self.loggedIn = false
     }
     
     /// Signing up the user to aws
