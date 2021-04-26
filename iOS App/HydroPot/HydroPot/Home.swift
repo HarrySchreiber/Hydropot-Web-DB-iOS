@@ -346,7 +346,7 @@ struct HomeView: View {
         }
         else {
             //go to home page
-            Login(user: user, plants: plants)
+            Login()
         }
     }
     

@@ -73,7 +73,8 @@ struct NotificationsPage: View {
                                 .fixedSize(horizontal: false, vertical: true)
                             }
                         }
-                    }
+
+}
                     .navigationBarTitle("Notifications", displayMode: .inline)
                 }
             }
