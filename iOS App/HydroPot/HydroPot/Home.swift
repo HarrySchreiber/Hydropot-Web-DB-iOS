@@ -153,193 +153,200 @@ struct HomeView: View {
     }()
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                //if the user has no plants
-                if(user.pots.count == 0) {
-                    //scroll view for updated
-                    ScrollView {
-                        PullToRefresh(coordinateSpaceName: "pull") {
-                            //reload
-                            attemptReload()
-                        }
-                        //tell the user they don't have plants
-                        Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
-                            //styling
-                            .font(.system(size: UIScreen.regTextSize))
-                            .bold()
-                            .italic()
-                            .padding()
-                            .foregroundColor(.gray)
-                            .navigationBarTitle("Hydro Pot", displayMode: .inline)
-                            //nav bar item (only contains add plants button)
-                            .navigationBarItems(trailing:
-                            Button(action: {
-                                //toggles the add plant modal
-                                self.showingDetail.toggle()
-                            }) {
-                                //image for adding
-                                Image(systemName: "plus")
-                                    //styling
-                                    .resizable()
-                                    .padding(6)
-                                    .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize)
-                                    .clipShape(Circle())
-                                    .foregroundColor(.white)
-                            //if we have toggled the add plants button
-                            }.sheet(isPresented: $showingDetail) {
-                                //present modal
-                                AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                            })
-                    }.coordinateSpace(name: "pull")
-                }
-                //if the user has more than 0 plants
-                else {
-                    //scroll view for updates
-                    ScrollView {
-                        //allows db updates for plants
-                        PullToRefresh(coordinateSpaceName: "pullRefresh") {
-                            attemptReload()
-                        }
-                        //for every pot the user has
-                        ForEach(user.pots) {
-                            pot in
-                            //creating ideals to pass
-                            let ideals = Ideals(idealTemperatureHigh: String(pot.idealTempHigh), idealTemperatureLow: String(pot.idealTempLow), idealMoistureHigh: String(pot.idealMoistureHigh), idealMoistureLow: String(pot.idealMoistureLow), idealLightLevelLow: String(pot.idealLightLow), idealLightLevelHigh: String(pot.idealLightHigh), plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
-                            //nav link to plant page for each pot
-                            NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants, ideals: ideals)) {
-                                VStack (spacing: 0){
-                                    //image stack
-                                    HStack(){
-                                        //if we have a db image
-                                        if (URL(string: pot.image) != nil){
-                                            //make the image from the s3 url
-                                            URLImage(url: URL(string: pot.image)!) { image in
-                                                //other stack for image
+        //if we are not logged in
+        if (user.loggedIn) {
+            NavigationView {
+                ZStack {
+                    //if the user has no plants
+                    if(user.pots.count == 0) {
+                        //scroll view for updated
+                        ScrollView {
+                            PullToRefresh(coordinateSpaceName: "pull") {
+                                //reload
+                                attemptReload()
+                            }
+                            //tell the user they don't have plants
+                            Text("You have no plants added.\nTry adding a plant by selecting the plus icon in the top right")
+                                //styling
+                                .font(.system(size: UIScreen.regTextSize))
+                                .bold()
+                                .italic()
+                                .padding()
+                                .foregroundColor(.gray)
+                                .navigationBarTitle("Hydro Pot", displayMode: .inline)
+                                //nav bar item (only contains add plants button)
+                                .navigationBarItems(trailing:
+                                Button(action: {
+                                    //toggles the add plant modal
+                                    self.showingDetail.toggle()
+                                }) {
+                                    //image for adding
+                                    Image(systemName: "plus")
+                                        //styling
+                                        .resizable()
+                                        .padding(6)
+                                        .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize)
+                                        .clipShape(Circle())
+                                        .foregroundColor(.white)
+                                //if we have toggled the add plants button
+                                }.sheet(isPresented: $showingDetail) {
+                                    //present modal
+                                    AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                                })
+                        }.coordinateSpace(name: "pull")
+                    }
+                    //if the user has more than 0 plants
+                    else {
+                        //scroll view for updates
+                        ScrollView {
+                            //allows db updates for plants
+                            PullToRefresh(coordinateSpaceName: "pullRefresh") {
+                                attemptReload()
+                            }
+                            //for every pot the user has
+                            ForEach(user.pots) {
+                                pot in
+                                //creating ideals to pass
+                                let ideals = Ideals(idealTemperatureHigh: String(pot.idealTempHigh), idealTemperatureLow: String(pot.idealTempLow), idealMoistureHigh: String(pot.idealMoistureHigh), idealMoistureLow: String(pot.idealMoistureLow), idealLightLevelLow: String(pot.idealLightLow), idealLightLevelHigh: String(pot.idealLightHigh), plantName: pot.plantName, plantSelected: pot.plantType, notificationFrequency: pot.notiFilledFrequency)
+                                //nav link to plant page for each pot
+                                NavigationLink(destination: PlantPage(user: user, pot: pot, plants: plants, ideals: ideals)) {
+                                    VStack (spacing: 0){
+                                        //image stack
+                                        HStack(){
+                                            //if we have a db image
+                                            if (URL(string: pot.image) != nil){
+                                                //make the image from the s3 url
+                                                URLImage(url: URL(string: pot.image)!) { image in
+                                                    //other stack for image
+                                                    VStack {
+                                                        image
+                                                            //styling for image
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .clipShape(Circle())
+                                                            .shadow(radius: 10)
+                                                    }
+                                                    //set frame of the image
+                                                    .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
+                                                }
+                                            }
+                                            //if we don't have a db image
+                                            else {
                                                 VStack {
-                                                    image
+                                                    //default leaf image
+                                                    Image(systemName: "leaf.fill")
                                                         //styling for image
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .clipShape(Circle())
+                                                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                                         .shadow(radius: 10)
                                                 }
                                                 //set frame of the image
                                                 .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
                                             }
-                                        }
-                                        //if we don't have a db image
-                                        else {
-                                            VStack {
-                                                //default leaf image
-                                                Image(systemName: "leaf.fill")
-                                                    //styling for image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .clipShape(Circle())
-                                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                                    .shadow(radius: 10)
+                                            //plant name and temp stack
+                                            VStack(alignment: .leading) {
+                                                //name
+                                                Text(pot.plantName)
+                                                    //styling
+                                                    .fontWeight(.bold)
+                                                    .font(.system(size: UIScreen.title2TextSize))
+                                                //temp
+                                                Text("Temperature: \(pot.curTemp)°F")
+                                                    //styling
+                                                    .font(.system(size: UIScreen.subTextSize))
+                                                    .foregroundColor(getTextColor(bool: pot.tempGood))
                                             }
-                                            //set frame of the image
-                                            .frame(width: UIScreen.homeImageSize, height:  UIScreen.homeImageSize)
+                                            .padding(.leading)
                                         }
-                                        //plant name and temp stack
-                                        VStack(alignment: .leading) {
-                                            //name
-                                            Text(pot.plantName)
+                                        //stack for last watered and water button
+                                        HStack() {
+                                            //last watered from function
+                                            Text("Last watered: \n\(pot.lastWateredDays)")
                                                 //styling
-                                                .fontWeight(.bold)
-                                                .font(.system(size: UIScreen.title2TextSize))
-                                            //temp
-                                            Text("Temperature: \(pot.curTemp)°F")
-                                                //styling
-                                                .font(.system(size: UIScreen.subTextSize))
-                                                .foregroundColor(getTextColor(bool: pot.tempGood))
-                                        }
-                                        .padding(.leading)
-                                    }
-                                    //stack for last watered and water button
-                                    HStack() {
-                                        //last watered from function
-                                        Text("Last watered: \n\(pot.lastWateredDays)")
-                                            //styling
-                                            .padding(.top, 2)
-                                            .frame(maxWidth: UIScreen.lastWateredSize)
+                                                .padding(.top, 2)
+                                                .frame(maxWidth: UIScreen.lastWateredSize)
+                                                .font(.system(size: UIScreen.regTextSize))
+                                            //water plant button
+                                            Button("Water Plant") {
+                                                //show the pop up to water the plant
+                                                potSelected = pot
+                                                showPopUp = true
+                                            }
+                                            //styling (high prio because of nav link)
+                                            .buttonStyle(HighPriorityButtonStyle())
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(Color(red: 24/255, green: 57/255, blue: 163/255))
+                                            .cornerRadius(6)
                                             .font(.system(size: UIScreen.regTextSize))
-                                        //water plant button
-                                        Button("Water Plant") {
-                                            //show the pop up to water the plant
-                                            potSelected = pot
-                                            showPopUp = true
                                         }
-                                        //styling (high prio because of nav link)
-                                        .buttonStyle(HighPriorityButtonStyle())
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color(red: 24/255, green: 57/255, blue: 163/255))
-                                        .cornerRadius(6)
-                                        .font(.system(size: UIScreen.regTextSize))
                                     }
+                                    //styling
+                                    .foregroundColor(.black)
+                                    .padding(20)
+                                    .background(Color.white)
+                                    .cornerRadius(6)
+                                    .padding([.leading, .top, .trailing],UIScreen.homeCardsSize)
                                 }
-                                //styling
-                                .foregroundColor(.black)
-                                .padding(20)
-                                .background(Color.white)
-                                .cornerRadius(6)
-                                .padding([.leading, .top, .trailing],UIScreen.homeCardsSize)
                             }
                         }
+                        //styling and aspects for the home view
+                        .coordinateSpace(name: "pullRefresh")
+                        .allowsHitTesting(!showPopUp)
+                        .navigationBarTitle("Hydro Pot", displayMode: .inline)
+                        //button for nav bar
+                        .navigationBarItems(trailing:
+                            Button(action: {
+                                //add plant pressed so toggle modal
+                                self.showingDetail.toggle()
+                                    if (showPopUp == true){
+                                        //display add plant page
+                                        self.showingDetail.toggle()
+                                    }
+                            }) {
+                                //image is plus for adding
+                                Image(systemName: "plus")
+                                    //styling
+                                    .resizable()
+                                    .padding(6)
+                                    .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }.sheet(isPresented: $showingDetail) {
+                                //present the add plant modal
+                                AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
+                            })
                     }
-                    //styling and aspects for the home view
-                    .coordinateSpace(name: "pullRefresh")
-                    .allowsHitTesting(!showPopUp)
-                    .navigationBarTitle("Hydro Pot", displayMode: .inline)
-                    //button for nav bar
-                    .navigationBarItems(trailing:
-                        Button(action: {
-                            //add plant pressed so toggle modal
-                            self.showingDetail.toggle()
-                                if (showPopUp == true){
-                                    //display add plant page
-                                    self.showingDetail.toggle()
-                                }
-                        }) {
-                            //image is plus for adding
-                            Image(systemName: "plus")
-                                //styling
-                                .resizable()
-                                .padding(6)
-                                .frame(width: UIScreen.plusImageSize, height: UIScreen.plusImageSize) .clipShape(Circle())
-                                .foregroundColor(.white)
-                        }.sheet(isPresented: $showingDetail) {
-                            //present the add plant modal
-                            AddPlantPage(user: user, plants: plants, showModal: $showingDetail)
-                        })
+                    //if watering was pressed display watering modal
+                    if $showPopUp.wrappedValue {
+                        waterModal(showPopUp: $showPopUp, pot: potSelected, user: user)
+                    }
                 }
-                //if watering was pressed display watering modal
-                if $showPopUp.wrappedValue {
-                    waterModal(showPopUp: $showPopUp, pot: potSelected, user: user)
+                //background image for the home page
+                .background(
+                    Image("plant2")
+                        .resizable()
+                        .opacity(0.50)
+                )
+                //when page is presented
+                .onAppear(){
+                    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
+                        attemptReload()
+                    }
+                }
+                .onAppear(){
+                    //if we are not on a simulator
+                    if (user.deviceToken != ""){
+                        //change the device token to the current device (for notifications
+                        user.changeDeviceToken()
+                    }
                 }
             }
-            //background image for the home page
-            .background(
-                Image("plant2")
-                    .resizable()
-                    .opacity(0.50)
-            )
-            //when page is presented
-            .onAppear(){
-                DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) {
-                    attemptReload()
-                }
-            }
-            .onAppear(){
-                //if we are not on a simulator
-                if (user.deviceToken != ""){
-                    //change the device token to the current device (for notifications
-                    user.changeDeviceToken()
-                }
-            }
+        }
+        else {
+            //go to home page
+            Login(user: user, plants: plants)
         }
     }
     
