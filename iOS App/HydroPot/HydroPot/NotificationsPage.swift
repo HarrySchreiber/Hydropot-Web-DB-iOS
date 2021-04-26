@@ -23,57 +23,59 @@ struct NotificationsPage: View {
     
     var body: some View {
         NavigationView {
-            //if user does not have notfications
-            if(user.getOrderedNotifications().count == 0) {
-                //alert them they don't
-                Text("You have not received any notifications. \nBe sure you have notifications turned on in the Account tab")
-                    //styling
-                    .font(.system(size: UIScreen.regTextSize))
-                    .bold()
-                    .italic()
-                    .padding()
-                    .foregroundColor(.gray)
-                    .navigationBarTitle("Notifications", displayMode: .inline)
-            }
-            //if the user does have notifications
-            else {
-                List {
-                    //get the ordered notifications
-                    ForEach(user.getOrderedNotifications()) {
-                        notiePots in
-                        //creating ideals and pot to pass
-                        let tempPot = notiePots.notiesTuple.pot
-                        let ideals = Ideals(idealTemperatureHigh: String(tempPot.idealTempHigh), idealTemperatureLow: String(tempPot.idealTempLow), idealMoistureHigh: String(tempPot.idealMoistureHigh), idealMoistureLow: String(tempPot.idealMoistureLow), idealLightLevelLow: String(tempPot.idealLightLow), idealLightLevelHigh: String(tempPot.idealLightHigh), plantName: tempPot.plantName, plantSelected: tempPot.plantType, notificationFrequency: tempPot.notiFilledFrequency)
-                        //each notification goes to it's specific pot
-                        NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)
-                            .onAppear(){
-                                notiePots.notiesTuple.notification.read = true
-                                user.editPot(pot: notiePots.notiesTuple.pot)
-                                notiePots.notiesTuple.notification.read = true
-                        }){
-                            //card
-                            VStack(alignment: .leading){
-                                //get the message of the noti
-                                Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
-                                    //styling
-                                    .font(.system(size: UIScreen.regTextSize))
-                                    .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
-                                    .padding(.top, 5)
-                                HStack {
-                                    Spacer()
-                                    //get the timestamp
-                                    Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
-                                        .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
+            ZStack {
+                //if user does not have notfications
+                if(user.getOrderedNotifications().count == 0) {
+                    //alert them they don't
+                    Text("You have not received any notifications. \nBe sure you have notifications turned on in the Account tab")
+                        //styling
+                        .font(.system(size: UIScreen.regTextSize))
+                        .bold()
+                        .italic()
+                        .padding()
+                        .foregroundColor(.gray)
+                        .navigationBarTitle("Notifications", displayMode: .inline)
+                }
+                //if the user does have notifications
+                else {
+                    List {
+                        //get the ordered notifications
+                        ForEach(user.getOrderedNotifications()) {
+                            notiePots in
+                            //creating ideals and pot to pass
+                            let tempPot = notiePots.notiesTuple.pot
+                            let ideals = Ideals(idealTemperatureHigh: String(tempPot.idealTempHigh), idealTemperatureLow: String(tempPot.idealTempLow), idealMoistureHigh: String(tempPot.idealMoistureHigh), idealMoistureLow: String(tempPot.idealMoistureLow), idealLightLevelLow: String(tempPot.idealLightLow), idealLightLevelHigh: String(tempPot.idealLightHigh), plantName: tempPot.plantName, plantSelected: tempPot.plantType, notificationFrequency: tempPot.notiFilledFrequency)
+                            //each notification goes to it's specific pot
+                            NavigationLink(destination: PlantPage(user: user, pot: notiePots.notiesTuple.pot, plants: plants, ideals: ideals)
+                                            .onAppear(){
+                                                notiePots.notiesTuple.notification.read = true
+                                                user.editPot(pot: notiePots.notiesTuple.pot)
+                                                notiePots.notiesTuple.notification.read = true
+                                            }){
+                                //card
+                                VStack(alignment: .leading){
+                                    //get the message of the noti
+                                    Text(getMessage(type: notiePots.notiesTuple.notification.type, pot: notiePots.notiesTuple.pot))
                                         //styling
-                                        .font(.system(size: UIScreen.subTextSize))
-                                    
+                                        .font(.system(size: UIScreen.regTextSize))
+                                        .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
+                                        .padding(.top, 5)
+                                    HStack {
+                                        Spacer()
+                                        //get the timestamp
+                                        Text("\(notiePots.notiesTuple.notification.timeStamp, formatter: Self.taskDateFormat)")
+                                            .foregroundColor(getTextColor(bool: notiePots.notiesTuple.notification.read))
+                                            //styling
+                                            .font(.system(size: UIScreen.subTextSize))
+                                        
+                                    }
                                 }
+                                .fixedSize(horizontal: false, vertical: true)
                             }
-                            .fixedSize(horizontal: false, vertical: true)
                         }
                     }
+                    .navigationBarTitle("Notifications", displayMode: .inline)
                 }
-                .navigationBarTitle("Notifications", displayMode: .inline)
             }
         }
         //reload on the appearence of the page
