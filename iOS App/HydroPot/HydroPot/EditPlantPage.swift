@@ -170,7 +170,6 @@ struct EditPlantPage: View {
                                        //delete button
                                        primaryButton: .destructive(Text("Delete")) {
                                            //delete the pot
-                                           print("Deleting \(pot.plantName)")
                                            deletePot(pot: pot)
                                            //dismiss the modal
                                            self.showModal.toggle()
@@ -290,7 +289,6 @@ struct EditPlantPage: View {
                     //delete button
                     primaryButton: .destructive(Text("Delete")) {
                         //delete the pot
-                        print("Deleting \(pot.plantName)")
                         deletePot(pot: pot)
                         //dismiss the modal
                         self.showModal.toggle()

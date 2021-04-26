@@ -358,8 +358,7 @@ class Pot: ObservableObject, Identifiable {
                 //get the current date and date of record to determine how long ago
                 let date1 = record.dateRecorded
                 let date2 = Date()
-                print(date1)
-                print(date2)
+                
                 let diffs = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
                 let days = diffs.day ?? 0
                 let hours = diffs.hour ?? 0
