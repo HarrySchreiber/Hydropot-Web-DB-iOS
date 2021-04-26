@@ -157,6 +157,9 @@ struct AccountPage: View {
                                 //button to let user logout
                                 Button(action: {
                                     //logout
+                                    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1)) {
+                                        user.logout()
+                                    }
                                     user.logout()
                                 }) {
                                     HStack {
