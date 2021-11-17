@@ -4,7 +4,7 @@
 
 C section
 
-- note if you would like to compile this section you would need the pot to run it, a psoc creator, and tera term
+- note if you would like to compile and run this section you will need the pot to run it on
 
 Swift section
 
