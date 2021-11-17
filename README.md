@@ -1,4 +1,7 @@
 # Hydropot-Web-DB-iOS
+Computer Science Senior Capstone Project
+An iOS application and IoT plant pot that allows users to easily monitor and water their plants.
+
 C section
 
 - note if you would like to compile you would need the pot to run it, you also would to clone it, you would need psoc creator, and you would ned tera term
