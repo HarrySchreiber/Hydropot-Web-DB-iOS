@@ -1,7 +1,6 @@
-# Computer Science Senior Capstone Project
-###### by David Dray, Ethan Harvey, Harry Screiber, and Spencer Lisle
-
+# Hydropot-Web-DB-iOS
 ### An iOS application and IoT plant pot that allows users to easily monitor and water their plants.
+###### by David Dray, Ethan Harvey, Harry Screiber, and Spencer Lisle
 
 C section
 
