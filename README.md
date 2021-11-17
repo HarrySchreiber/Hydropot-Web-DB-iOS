@@ -1,6 +1,5 @@
-# Hydropot-Web-DB-iOS
-
-Computer Science Senior Capstone Project
+# Computer Science Senior Capstone Project
+by David Dray, Ethan Harvey, Harry Screiber, and Spencer Lisle
 
 An iOS application and IoT plant pot that allows users to easily monitor and water their plants.
 
