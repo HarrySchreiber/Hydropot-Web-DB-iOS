@@ -1,5 +1,7 @@
 # Hydropot-Web-DB-iOS
+
 Computer Science Senior Capstone Project
+
 An iOS application and IoT plant pot that allows users to easily monitor and water their plants.
 
 C section
